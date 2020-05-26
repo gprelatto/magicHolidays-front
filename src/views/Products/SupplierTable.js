@@ -13,6 +13,7 @@ import Check from "@material-ui/icons/Check";
 import Remove from "@material-ui/icons/Remove";
 import Add from "@material-ui/icons/Add";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import MailOutline from "@material-ui/icons/MailOutline";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -23,6 +24,7 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
+import CustomInput from "components/CustomInput/CustomInput.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 
@@ -33,11 +35,19 @@ import product3 from "assets/img/product3.jpg";
 import Dvr from "@material-ui/icons/Dvr";
 import Favorite from "@material-ui/icons/Favorite";
 import { createImportSpecifier } from "typescript";
+import { Hidden } from "@material-ui/core";
 
 const useStyles = makeStyles(styles);
 
 export default function SupplierTable() {
   const classes = useStyles();
+
+  const [showEdit, setShowEdit] = React.useState(false);
+  const [supplier, setSupplier] = React.useState({});
+
+  const submitClick = () => {
+    console.log(supplier);
+  }
 
   const [demoData, setDemoData] = React.useState(
         [
@@ -80,7 +90,14 @@ export default function SupplierTable() {
                             key={key}
                             onClick={() => {
                                 let sup = demoData.find(f => f.id === prop.id)
-                                console.log(sup)
+                                if (sup != null) {
+                                  console.log(sup);
+                                  setSupplier({
+                                    id: sup.id,
+                                    description: sup.description
+                                  });
+                                  setShowEdit(true);
+                                }
                             }}
                         >
                             <Edit />
@@ -132,52 +149,92 @@ export default function SupplierTable() {
       </Button>
     );
   });
+
   return (
     <GridContainer>
-      <GridItem xs={12}>
-        <Card>
-          <CardHeader color="rose" icon>
-            <CardIcon color="rose">
-              <Assignment />
-            </CardIcon>
-            <h4 className={classes.cardIconTitle}>Suppliers</h4>
-          </CardHeader>
-          <CardBody>
-          <ReactTable
-              data={demoData}
-              filterable
-              columns={[
-                {
-                  Header: "ID",
-                  accessor: "id"
-                },
-                {
-                  Header: "Description",
-                  accessor: "description"
-                },
-                {
-                  Header: "Actions",
-                  accessor: "actions",
-                  sortable: false,
-                  filterable: false
-                }
-              ]}
-              defaultPageSize={10}
-              showPaginationTop
-              showPaginationBottom={false}
-              className="-striped -highlight"
-              customCellClasses={[classes.center, classes.right, classes.right]}
-              customClassesForCells={[0, 4, 5]}
-              customHeadCellClasses={[
-                classes.center,
-                classes.right,
-                classes.right
-              ]}
-              customHeadClassesForCells={[0, 4, 5]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
+      { !showEdit ?
+          <GridItem xs={12}>
+            <Card>
+              <CardHeader color="rose" icon>
+                <CardIcon color="rose">
+                  <Assignment />
+                </CardIcon>
+                <h4 className={classes.cardIconTitle}>Suppliers</h4>
+              </CardHeader>
+              <CardBody>
+              <ReactTable
+                  data={demoData}
+                  filterable
+                  columns={[
+                    {
+                      Header: "ID",
+                      accessor: "id"
+                    },
+                    {
+                      Header: "Description",
+                      accessor: "description"
+                    },
+                    {
+                      Header: "Actions",
+                      accessor: "actions",
+                      sortable: false,
+                      filterable: false
+                    }
+                  ]}
+                  defaultPageSize={10}
+                  showPaginationTop
+                  showPaginationBottom={false}
+                  className="-striped -highlight"
+                  customCellClasses={[classes.center, classes.right, classes.right]}
+                  customClassesForCells={[0, 4, 5]}
+                  customHeadCellClasses={[
+                    classes.center,
+                    classes.right,
+                    classes.right
+                  ]}
+                  customHeadClassesForCells={[0, 4, 5]}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+          : 
+          <GridItem xs={12} sm={12} md={6}>
+            <Card>
+              <CardHeader color="rose" icon>
+                <CardIcon color="rose">
+                  <MailOutline />
+                </CardIcon>
+                <h4 className={classes.cardIconTitle}>Edit Supplier</h4>
+              </CardHeader>
+              <CardBody>
+                <form>
+                  <CustomInput
+                    labelText="Supplier Name"
+                    id="description"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      type: "text",
+                      onChange: event => {
+                        setSupplier({
+                            id: supplier.id,
+                            description: event.target.value
+                        })
+                      },
+                      value: supplier.description
+                    }}
+                  />
+                  <Button 
+                    color="rose"
+                    onClick={submitClick}
+                  > Submit
+                  </Button>
+                </form>
+              </CardBody>
+            </Card>
+        </GridItem>
+      }
     </GridContainer>
   );
 }
