@@ -16,36 +16,52 @@ import CardBody from "components/Card/CardBody.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
+import { postRequest } from "common/Request/Requests.js";
+
 const useStyles = makeStyles(styles);
 
 export default function SupplierForm() {
-    const classes = useStyles();
+  const [supplier, setSupplier] = React.useState('');
 
-    return (
-        <GridItem xs={12} sm={12} md={6}>
-        <Card>
-          <CardHeader color="rose" icon>
-            <CardIcon color="rose">
-              <MailOutline />
-            </CardIcon>
-            <h4 className={classes.cardIconTitle}>Add Supplier</h4>
-          </CardHeader>
-          <CardBody>
-            <form>
-              <CustomInput
-                labelText="Supplier Name"
-                id="description"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "text"
-                }}
-              />
-              <Button color="rose">Submit</Button>
-            </form>
-          </CardBody>
-        </Card>
-      </GridItem>
-    );
+  const classes = useStyles();
+
+  const submitButton = () => {
+    postRequest(supplier);
+  }
+
+  return (
+      <GridItem xs={12} sm={12} md={6}>
+      <Card>
+        <CardHeader color="rose" icon>
+          <CardIcon color="rose">
+            <MailOutline />
+          </CardIcon>
+          <h4 className={classes.cardIconTitle}>Add Supplier</h4>
+        </CardHeader>
+        <CardBody>
+          <form>
+            <CustomInput
+              labelText='Supplier Name'
+              id='description'
+              formControlProps={{
+                fullWidth: true
+              }}
+              inputProps={{
+                type: 'text',
+                onChange: event => {
+                  setSupplier(event.target.value)
+                },
+                value: supplier
+              }}
+            />
+            <Button 
+              color="rose"
+              onClick={submitButton}>
+                Submit
+              </Button>
+          </form>
+        </CardBody>
+      </Card>
+    </GridItem>
+  );
 }
