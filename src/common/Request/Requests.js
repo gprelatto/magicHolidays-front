@@ -27,4 +27,12 @@ export const postProductCategory = (data) => {
     }, options)
 }
 
+export const postProduct = (data) => {
+    return axios.post('https://magicholidays-api.herokuapp.com/products/',
+    {
+        product_category: data.product_category.toString(),
+        description: data.description
+    }, options)
+}
+
 export default getRequest;
