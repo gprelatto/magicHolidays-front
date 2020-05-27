@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ReactTable from "react-table";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 // material-ui icons
 import Assignment from "@material-ui/icons/Assignment";
@@ -21,24 +22,90 @@ import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
+import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest } from 'common/Request/Requests.js'
+import { getRequest, editSupplier, deleteSupplier } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
+const useAlertStyles = makeStyles(alertStyles);
 
 export default function SupplierTable() {
   const classes = useStyles();
+  const alertClasses = useAlertStyles();
 
   const [tableData, setTableData] = React.useState([]);
   const [suppliersData, setSuppliersData] = React.useState('');
   const [showEdit, setShowEdit] = React.useState(false);
   const [supplier, setSupplier] = React.useState({});
-
-  const submitClick = () => {
-
-  }
+  const [alert, setAlert] = React.useState(null);
 
   useEffect(() => {
+    populateSuppliersTable();
+  }, [])
+
+  const submitEditButton = () => {
+    editSupplier(supplier).then((response) => {
+      populateSuppliersTable();
+      setShowEdit(false);
+    });
+  }
+
+  const warningWithConfirmAndCancelMessage = (sup) => {
+    setAlert(
+      <SweetAlert
+        warning
+        style={{ display: "block", marginTop: "-100px" }}
+        title="Are you sure?"
+        onConfirm={() => successDelete(sup)}
+        onCancel={() => cancelDetele()}
+        confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
+        cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
+        confirmBtnText="Confirm Delete"
+        cancelBtnText="Cancel"
+        showCancel
+      >
+        Please confirm deleting supplier.
+      </SweetAlert>
+    );
+  };
+
+  const successDelete = (sup) => {
+    deleteSupplier(sup).then((response) => {
+      populateSuppliersTable();
+      setAlert(
+        <SweetAlert
+          success
+          style={{ display: "block", marginTop: "-100px" }}
+          title="Deleted!"
+          onConfirm={() => hideAlert()}
+          onCancel={() => hideAlert()}
+          confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
+        >
+          Supplier deleted.
+        </SweetAlert>
+      );
+    })
+  };
+
+  const cancelDetele = () => {
+    setAlert(
+      <SweetAlert
+        danger
+        style={{ display: "block", marginTop: "-100px" }}
+        title="Cancelled"
+        onConfirm={() => hideAlert()}
+        onCancel={() => hideAlert()}
+        confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
+      >
+        Canceled deleting supplier.
+      </SweetAlert>
+    );
+  };
+  const hideAlert = () => {
+    setAlert(null);
+  };
+
+  const populateSuppliersTable = () => {
     getRequest('suppliers').then((response) => {
       let responseData = response.data.results;
 
@@ -57,10 +124,8 @@ export default function SupplierTable() {
                         className={"edit " + classes.actionButtonRound}
                         key={key}
                         onClick={() => {
-                            console.log('supdata', suppliersData);
-                            let sup = responseData.find(f => f.id === prop.id)
+                            let sup = responseData.find(f => f.id === prop.id);
                             if (sup != null) {
-                              console.log(sup);
                               setSupplier({
                                 id: sup.id,
                                 description: sup.description
@@ -77,19 +142,11 @@ export default function SupplierTable() {
                         round
                         simple
                         onClick={() => {
-                            var newData = suppliersData;
-                            newData.find((o, i) => {
-                                if (o.id === prop.id) {
-                                    console.log("found", o)
-                                    return true;
-                                }
-
-                                return false;
-                            });
-                            
-                            setSuppliersData([...newData]);
+                            let sup = responseData.find(f => f.id === prop.id);
+                            if (sup != null) {
+                              warningWithConfirmAndCancelMessage(sup);
                             }
-                        }
+                        }}
                         color="danger"
                         className="remove"
                     >
@@ -102,11 +159,12 @@ export default function SupplierTable() {
     });
 
       setTableData(data);
-    })
-  }, [])
+    });
+  }
 
   return (
     <GridContainer>
+      {alert}
       { !showEdit ?
           <GridItem xs={12}>
             <Card>
@@ -182,7 +240,7 @@ export default function SupplierTable() {
                   />
                   <Button 
                     color="rose"
-                    onClick={submitClick}
+                    onClick={submitEditButton}
                   > Submit
                   </Button>
                 </form>

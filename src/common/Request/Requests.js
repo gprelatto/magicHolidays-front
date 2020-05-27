@@ -19,6 +19,20 @@ export const postSupplier = (data) => {
     }, options)
 }
 
+export const editSupplier = (data) => {
+    return axios.put('https://magicholidays-api.herokuapp.com/suppliers/' + data.id + '/',
+    {
+        id: data.id,
+        description: data.description
+    }, options)
+}
+
+export const deleteSupplier = (data) => {
+    console.log('data', data)
+    return axios.delete('https://magicholidays-api.herokuapp.com/suppliers/' + data.id + '/',
+        options)
+}
+
 export const postProductCategory = (data) => {
     return axios.post('https://magicholidays-api.herokuapp.com/productCategories/',
     {
@@ -34,5 +48,6 @@ export const postProduct = (data) => {
         description: data.description
     }, options)
 }
+
 
 export default getRequest;
