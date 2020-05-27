@@ -16,7 +16,7 @@ import CardBody from "components/Card/CardBody.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
-import { postRequest } from "common/Request/Requests.js";
+import { postSupplier } from "common/Request/Requests.js";
 
 const useStyles = makeStyles(styles);
 
@@ -26,7 +26,7 @@ export default function SupplierForm() {
   const classes = useStyles();
 
   const submitButton = () => {
-    postRequest(supplier);
+    postSupplier(supplier);
   }
 
   return (

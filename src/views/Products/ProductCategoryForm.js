@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -19,40 +19,51 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
+import { getRequest, postProductCategory } from 'common/Request/Requests.js'
+
 const useStyles = makeStyles(styles);
 
 export default function ProductCategoryForm() {
-    const [demoSuppliers, setDemoSuppliers] = React.useState([
-        {
-            "id": 1,
-            "description": "Disney"
-        },
-        {
-            "id": 2,
-            "description": "World"
-        },
-        {
-            "id": 3,
-            "description": "Test"
-        }
-    ]);
-    const [supplierId, setSupplierId] = React.useState(1);
+    const [suppliers, setSuppliers] = React.useState([]);
+    const [supplierId, setSupplierId] = React.useState(0);
+    const [selectedSupplier, setSelectedSupplier] = React.useState({});
     const [productDescription, setProductCategoryDescription] = React.useState("");
     const [registerProductCategoryDescriptionState, setRegisterProductCategoryDescriptionState] = React.useState("");
+    const [registerSupplierState, setRegisterSupplierState] = React.useState("");
+
+    useEffect(() => {
+        getRequest('suppliers').then((response) => {
+            let responseData = response.data.results;
+            responseData.unshift(
+                {
+                    id: 0,
+                    description: 'Please select a supplier'
+                }
+            )
+
+            setSuppliers(responseData);
+        });
+    }, [])
+
+    useEffect(() => {
+        supplierId === 0 ? setRegisterSupplierState("error") : setRegisterSupplierState("success");
+    }, [supplierId]);
+
+    useEffect(() => {
+        productDescription === "" ? setRegisterProductCategoryDescriptionState("error") : setRegisterProductCategoryDescriptionState("success");
+    }, [productDescription]);
     
     const classes = useStyles();
 
     const submitClick = () => {
-        if (productDescription === "") {
-            setRegisterProductCategoryDescriptionState("error");
-        }
-        else {
+        if (registerProductCategoryDescriptionState !== "error"
+            && registerSupplierState !== "error") {
             let productCategory = {
-                supplier: supplierId,
+                supplier: selectedSupplier,
                 description: productDescription
             }
-    
-            console.log(productCategory);
+            
+            postProductCategory(productCategory).then((response) => console.log(response));
         }
     };
 
@@ -68,30 +79,39 @@ export default function ProductCategoryForm() {
                 <CardBody>
                     <form>
                         <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-                            Suppliers
+                            Suppliers *
                         </InputLabel>
                         <Select
+                            success={(registerSupplierState === "success").toString()}
+                            error={registerSupplierState === "error"}
                             MenuProps={{
-                            className: classes.selectMenu
+                                className: classes.selectMenu
                             }}
                             classes={{
-                            select: classes.select
+                                select: classes.select
                             }}
                             value={supplierId}
-                            onChange={e => setSupplierId(e.target.value)}
+                            onChange={e => {
+                                let id = e.target.value;
+                                setSupplierId(id);
+
+                                let sup = suppliers.find(s => s.id === id);
+                                setSelectedSupplier(sup);
+                            }}
                             inputProps={{
                                 name: "simpleSelect",
                                 id: "simple-select"
                             }}  
                             >   
-                            {demoSuppliers.map((supplier, i) => {     
+                            {suppliers.map((supplier, i) => {     
                                 return (
                                     <MenuItem
+                                        key={i}
                                         classes={{
                                             root: classes.selectMenuItem,
                                             selected: classes.selectMenuItemSelected
                                         }}
-                                        value = {supplier.id}
+                                        value={supplier.id}
                                         >
                                         {supplier.description}
                                     </MenuItem>
@@ -99,7 +119,7 @@ export default function ProductCategoryForm() {
                             })}
                         </Select>
                         <CustomInput
-                            labelText="Product Category"
+                            labelText="Product Category *"
                             id="description"
                             formControlProps={{
                                 fullWidth: true

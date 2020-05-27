@@ -35,13 +35,11 @@ export default function SupplierTable() {
   const [supplier, setSupplier] = React.useState({});
 
   const submitClick = () => {
-    console.log(supplier);
-    getRequest();
+
   }
 
   useEffect(() => {
-    getRequest().then((response) => {
-
+    getRequest('suppliers').then((response) => {
       let responseData = response.data.results;
 
       setSuppliersData(responseData);

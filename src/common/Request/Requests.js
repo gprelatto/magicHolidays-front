@@ -3,20 +3,28 @@ import axios from 'axios';
 const options = {
     headers: {
         'Content-type': 'application/json',
-        'X-Api-Key': process.env.API_KEY
+        'X-Api-Key': process.env.REACT_APP_API_KEY
     }
 }
 
-export function getRequest() {
-    return axios.get('https://magicholidays-api.herokuapp.com/suppliers/',
+export const getRequest = (endpoint) => {
+    return axios.get('https://magicholidays-api.herokuapp.com/' + endpoint +'/',
         options)
 };
 
-export const postRequest = (data) => {
+export const postSupplier = (data) => {
     return axios.post('https://magicholidays-api.herokuapp.com/suppliers/',
     {
         description: data
     }, options)
 }
 
-export default getRequest();
+export const postProductCategory = (data) => {
+    return axios.post('https://magicholidays-api.herokuapp.com/productCategories/',
+    {
+        supplier: data.supplier.id.toString(),
+        description: data.description
+    }, options)
+}
+
+export default getRequest;
