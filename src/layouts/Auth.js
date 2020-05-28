@@ -53,12 +53,8 @@ export default function Pages(props) {
   };
 
   const getBgImage = () => {
-    if (window.location.pathname.indexOf("/auth/register-page") !== -1) {
-      return register;
-    } else if (window.location.pathname.indexOf("/auth/login-page") !== -1) {
+    if (window.location.pathname.indexOf("/auth/login-page") !== -1) {
       return login;
-    } else if (window.location.pathname.indexOf("/auth/pricing-page") !== -1) {
-      return pricing;
     } else if (
       window.location.pathname.indexOf("/auth/lock-screen-page") !== -1
     ) {
@@ -69,7 +65,7 @@ export default function Pages(props) {
   };
 
   const getActiveRoute = routes => {
-    let activeRoute = "Default Brand Text";
+    let activeRoute = "Magic Holiday Travel Agency";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
         let collapseActiveRoute = getActiveRoute(routes[i].views);
