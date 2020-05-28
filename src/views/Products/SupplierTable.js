@@ -101,6 +101,7 @@ export default function SupplierTable() {
       </SweetAlert>
     );
   };
+  
   const hideAlert = () => {
     setAlert(null);
   };

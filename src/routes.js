@@ -32,6 +32,7 @@ import SupplierForm from "views/Products/SupplierForm.js";
 import SupplierTable from "views/Products/SupplierTable.js";
 import ProductCategoryForm from "views/Products/ProductCategoryForm.js";
 import ProductForm from "views/Products/ProductForm.js";
+import ProductCategoryTable from "views/Products/ProductCategoryTable.js";
 
 // @material-ui/icons
 import Apps from "@material-ui/icons/Apps";
@@ -382,8 +383,7 @@ var dashRoutes = [
             rtlMini: "",
             component: ProductForm,
             layout: "/admin"
-          }
-          ,
+          },
           {
             path: "/supplierTable",
             name: "List Suppliers",
@@ -391,6 +391,16 @@ var dashRoutes = [
             mini: "RF",
             rtlMini: "",
             component: SupplierTable,
+            layout: "/admin"
+          }
+          ,
+          {
+            path: "/productCategoryTable",
+            name: "List Product Categories",
+            rtlName: "",
+            mini: "RF",
+            rtlMini: "",
+            component: ProductCategoryTable,
             layout: "/admin"
           }
         ]

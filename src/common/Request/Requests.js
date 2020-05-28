@@ -28,7 +28,6 @@ export const editSupplier = (data) => {
 }
 
 export const deleteSupplier = (data) => {
-    console.log('data', data)
     return axios.delete('https://magicholidays-api.herokuapp.com/suppliers/' + data.id + '/',
         options)
 }
@@ -36,9 +35,23 @@ export const deleteSupplier = (data) => {
 export const postProductCategory = (data) => {
     return axios.post('https://magicholidays-api.herokuapp.com/productCategories/',
     {
-        supplier: data.supplier.id.toString(),
+        supplier: data.supplierId,
         description: data.description
     }, options)
+}
+
+export const editProductCategory = (data) => {
+    return axios.put('https://magicholidays-api.herokuapp.com/productCategories/' + data.id + '/',
+    {
+        id: data.id,
+        supplier: data.supplierId,
+        description: data.description
+    }, options)
+}
+
+export const deleteProductCategory = (data) => {
+    return axios.delete('https://magicholidays-api.herokuapp.com/productCategories/' + data.id + '/',
+        options)
 }
 
 export const postProduct = (data) => {
