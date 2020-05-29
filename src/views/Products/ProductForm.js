@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
+import { Redirect } from 'react-router-dom'
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
+import SweetAlert from "react-bootstrap-sweetalert";
+
 // @material-ui/icons
 import MailOutline from "@material-ui/icons/MailOutline";
+import AddAlert from "@material-ui/icons/AddAlert";
 
 // core components
 import GridItem from "components/Grid/GridItem.js";
@@ -16,12 +21,16 @@ import CardBody from "components/Card/CardBody.js";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Snackbar from "components/Snackbar/Snackbar.js";
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
+import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, postProduct } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
+const useAlertStyles = makeStyles(alertStyles);
 
 export default function ProductForm() {
     const [suppliers, setSuppliers] = React.useState([]);
@@ -37,16 +46,23 @@ export default function ProductForm() {
     const [registerProductDescriptionState, setRegisterProductDescriptionState] = React.useState("");
     const [registerProductCategoryState, setRegisterProductCategorytionState] = React.useState("");
     const [registerSupplierState, setRegisterSupplierState] = React.useState("");
+
+    const [bar, setBar] = React.useState(null);
+    const [tr, setTR] = React.useState(false);
+    const [alert, setAlert] = React.useState(null);
+    const [redirect, setRedirect] = React.useState(false);
     
     const classes = useStyles();
+    const alertClasses = useAlertStyles();
 
     useEffect(() => {
+        progressBar();
         getRequest('suppliers').then((response) => {
             let responseData = response.data.results;
             responseData.unshift(
                 {
                     id: 0,
-                    description: 'Please select a supplier'
+                    description: 'Please select a supplier *'
                 }
             )
 
@@ -59,17 +75,19 @@ export default function ProductForm() {
                 {
                     id: 0,
                     supplier: 0,
-                    description: 'Please select a Product Category'
+                    description: 'Please select a Product Category *'
                 }
             )
 
             setProductCategories(responseData);
+            removeProgressBar();
         });
     }, []);
 
     useEffect(() => {
         if(supplierId === 0) {
             setRegisterSupplierState("error");
+            setFilteredProductCategories(productCategories.filter(p => p.id === 0));
         } 
         else {
             setRegisterSupplierState("success");
@@ -101,17 +119,77 @@ export default function ProductForm() {
         if (registerProductCategoryState !== "error"
             && registerProductDescriptionState !== "error"
             && registerSupplierState !== "error") {
+            progressBar();
             let product = {
                 product_category: productCategoryId,
                 description: productDescription
             }
     
-            postProduct(product);
+            postProduct(product).then((response) => {
+                removeProgressBar();
+                successAlert()
+            });
+        }
+        else {
+            if (!tr) {
+                setTR(true);
+                setTimeout(function() {
+                  setTR(false);
+                }, 3000);
+              }
         }
     };
 
+    const successAlert = () => {
+        setAlert(
+          <SweetAlert
+            success
+            style={{ display: "block", marginTop: "-100px" }}
+            title="Product Added!"
+            onConfirm={() => {
+              setRedirect(<Redirect to='/admin/productTable' />);
+            }}
+            onCancel={() => {
+              setProductDescription("");
+              setProductCategoryId(0);
+              setSupplierId(0);
+              hideAlert();
+            }}
+            confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
+            cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
+            confirmBtnText="Done"
+            cancelBtnText="Add another"
+            showCancel
+          >
+            Product Category added!
+          </SweetAlert>
+        );
+      };
+
+      const hideAlert = () => {
+        setAlert(null);
+      };    
+
+    const progressBar = () => {
+        setBar(
+          <CustomLinearProgress
+            variant="indeterminate"
+            color="primary"
+            value={30}
+          />
+        );
+      };
+
+      const removeProgressBar = () => {
+        setBar(null);
+      };
+
+
     return (
         <GridItem xs={12} sm={12} md={6}>
+            {bar}
+            {alert}
+            {redirect}
             <Card>
                 <CardHeader color="rose" icon>
                     <CardIcon color="rose">
@@ -192,7 +270,7 @@ export default function ProductForm() {
                             })}
                         </Select>
                         <CustomInput
-                            labelText="Product"
+                            labelText="Product *"
                             id="description"
                             formControlProps={{
                                 fullWidth: true
@@ -203,7 +281,8 @@ export default function ProductForm() {
                                 type: "text",
                                 onChange: event => {
                                     setProductDescription(event.target.value)
-                                }
+                                },
+                                value: productDescription
                             }}
                         />
                         <div className={classes.formCategory}>
@@ -217,6 +296,15 @@ export default function ProductForm() {
                         </Button>
                     </form>
                 </CardBody>
+                <Snackbar
+                    place="tr"
+                    color="danger"
+                    icon={AddAlert}
+                    message="Missing mandatory fields."
+                    open={tr}
+                    closeNotification={() => setTR(false)}
+                    close
+                />
             </Card>
       </GridItem>
     );

@@ -23,6 +23,7 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
@@ -42,15 +43,19 @@ export default function ProductCategoryTable() {
   const [productCategoryToEdit, setProductCategoryToEdit] = React.useState({});
   const [supplierId, setSupplierId] = React.useState('');
   const [alert, setAlert] = React.useState(null);
+  const [bar, setBar] = React.useState(null);
+  const [editBar, setEditBar] = React.useState(null);
 
   useEffect(() => {
     populateProductCategoriesTable();
   }, [])
 
   const submitEditButton = () => {
+    editProgressBar();
     editProductCategory(productCategoryToEdit).then((response) => {
         populateProductCategoriesTable();
         setShowEdit(false);
+        removeEditProgressBar();
     });
   }
 
@@ -110,7 +115,36 @@ export default function ProductCategoryTable() {
     setAlert(null);
   };
 
+  const progressBar = () => {
+    setBar(
+      <CustomLinearProgress
+        variant="indeterminate"
+        color="primary"
+        value={30}
+      />
+    );
+  };
+
+  const removeProgressBar = () => {
+    setBar(null);
+  };
+
+  const editProgressBar = () => {
+    setEditBar(
+      <CustomLinearProgress
+        variant="indeterminate"
+        color="primary"
+        value={30}
+      />
+    );
+  };
+
+  const removeEditProgressBar = () => {
+    setEditBar(null);
+  };
+
   const populateProductCategoriesTable = () => {
+    progressBar();
     getRequest('suppliers').then((suppliersResponse) => {
         let supplierResponseData = suppliersResponse.data.results;
 
@@ -183,6 +217,7 @@ export default function ProductCategoryTable() {
             });
             
             setTableData(tableData);
+            removeProgressBar();
         });
     });
   }
@@ -192,6 +227,7 @@ export default function ProductCategoryTable() {
       {alert}
       { !showEdit ?
           <GridItem xs={12}>
+            {bar}
             <Card>
               <CardHeader color="rose" icon>
                 <CardIcon color="rose">
@@ -234,6 +270,7 @@ export default function ProductCategoryTable() {
           </GridItem>
           : 
           <GridItem xs={12} sm={12} md={6}>
+            {editBar}
             <Card>
               <CardHeader color="rose" icon>
                 <CardIcon color="rose">

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 
 import SweetAlert from "react-bootstrap-sweetalert";
 
@@ -25,7 +25,6 @@ import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsSt
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { postSupplier } from "common/Request/Requests.js";
-import SupplierTable from "./SupplierTable";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -34,6 +33,7 @@ export default function SupplierForm() {
   const [supplier, setSupplier] = React.useState('');
   const [alert, setAlert] = React.useState(null);
   const [tr, setTR] = React.useState(false);
+  const [redirect, setRedirect] = React.useState(false);
 
   const [supplierInputState, setSupplierInputState] = React.useState('');
 
@@ -43,13 +43,6 @@ export default function SupplierForm() {
   useEffect(() => {
     if(supplier === "") {
       setSupplierInputState("error");
-
-      if (!tr) {
-        setTR(true);
-        setTimeout(function() {
-          setTR(false);
-        }, 6000);
-      }
     } 
     else {
       setSupplierInputState("success");
@@ -63,6 +56,14 @@ export default function SupplierForm() {
         successAlert()
       });
     }
+    else {
+      if (!tr) {
+        setTR(true);
+        setTimeout(function() {
+          setTR(false);
+        }, 3000);
+      }
+    }
   }
 
   const successAlert = () => {
@@ -72,7 +73,7 @@ export default function SupplierForm() {
         style={{ display: "block", marginTop: "-100px" }}
         title="Supplier Added!"
         onConfirm={() => {
-          //return <Route path="/admin/supplierTable" component={SupplierTable} /> 
+          setRedirect(<Redirect to='/admin/supplierTable' />);
         }}
         onCancel={() => {
           setSupplier('');
@@ -97,6 +98,7 @@ export default function SupplierForm() {
     <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
         {alert}
+        {redirect}
         <Card>
           <CardHeader color="rose" icon>
             <CardIcon color="rose">
