@@ -116,7 +116,7 @@ export default function SupplierTable() {
             id: prop.id,
             description: prop.description,
             actions: (
-                <>
+              <div className="actions-right">
                     <Button
                         round
                         justIcon
@@ -135,7 +135,7 @@ export default function SupplierTable() {
                             }
                         }}
                     >
-                        <Edit />
+                      <Edit />
                     </Button>
                     <>{" "}</>
                     <Button
@@ -154,7 +154,7 @@ export default function SupplierTable() {
                         <Close />
                     </Button>
                     <>{" "}</>
-                </>
+                </div>
             )
         }
     });
@@ -179,6 +179,7 @@ export default function SupplierTable() {
               <ReactTable
                   data={tableData}
                   filterable
+                  defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   columns={[
                     {
                       Header: "ID",
@@ -199,14 +200,6 @@ export default function SupplierTable() {
                   showPaginationTop
                   showPaginationBottom={false}
                   className="-striped -highlight"
-                  customCellClasses={[classes.center, classes.right, classes.right]}
-                  customClassesForCells={[0, 4, 5]}
-                  customHeadCellClasses={[
-                    classes.center,
-                    classes.right,
-                    classes.right
-                  ]}
-                  customHeadClassesForCells={[0, 4, 5]}
                 />
               </CardBody>
             </Card>

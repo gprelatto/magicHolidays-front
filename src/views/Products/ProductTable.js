@@ -154,7 +154,7 @@ export default function ProductCategoryTable() {
                       productCategory: prop.prodCategoryDesc,
                       description: prop.description,
                       actions: (
-                          <>
+                        <div className="actions-right">
                               <Button
                                   round
                                   justIcon
@@ -191,7 +191,7 @@ export default function ProductCategoryTable() {
                                   <Close />
                               </Button>
                               <>{" "}</>
-                          </>
+                          </div>
                       )
                   }
               });
@@ -218,6 +218,7 @@ export default function ProductCategoryTable() {
               <ReactTable
                   data={tableData}
                   filterable
+                  defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   columns={[
                     {
                       Header: "ID",
@@ -246,14 +247,6 @@ export default function ProductCategoryTable() {
                   showPaginationTop
                   showPaginationBottom={false}
                   className="-striped -highlight"
-                  customCellClasses={[classes.center, classes.right, classes.right]}
-                  customClassesForCells={[0, 4, 5]}
-                  customHeadCellClasses={[
-                    classes.center,
-                    classes.right,
-                    classes.right
-                  ]}
-                  customHeadClassesForCells={[0, 4, 5]}
                 />
               </CardBody>
             </Card>
