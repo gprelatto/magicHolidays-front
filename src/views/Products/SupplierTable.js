@@ -20,6 +20,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
@@ -38,15 +39,19 @@ export default function SupplierTable() {
   const [showEdit, setShowEdit] = React.useState(false);
   const [supplier, setSupplier] = React.useState({});
   const [alert, setAlert] = React.useState(null);
+  const [bar, setBar] = React.useState(null);
+  const [editBar, setEditBar] = React.useState(null);
 
   useEffect(() => {
     populateSuppliersTable();
   }, [])
 
   const submitEditButton = () => {
+    editProgressBar();
     editSupplier(supplier).then((response) => {
       populateSuppliersTable();
       setShowEdit(false);
+      removeEditProgressBar();
     });
   }
 
@@ -106,7 +111,36 @@ export default function SupplierTable() {
     setAlert(null);
   };
 
+  const progressBar = () => {
+    setBar(
+      <CustomLinearProgress
+        variant="indeterminate"
+        color="primary"
+        value={30}
+      />
+    );
+  };
+
+  const removeProgressBar = () => {
+    setBar(null);
+  };
+
+  const editProgressBar = () => {
+    setEditBar(
+      <CustomLinearProgress
+        variant="indeterminate"
+        color="primary"
+        value={30}
+      />
+    );
+  };
+
+  const removeEditProgressBar = () => {
+    setEditBar(null);
+  };
+  
   const populateSuppliersTable = () => {
+    progressBar();
     getRequest('suppliers').then((response) => {
       let responseData = response.data.results;
 
@@ -158,8 +192,8 @@ export default function SupplierTable() {
             )
         }
     });
-
-      setTableData(data);
+    removeProgressBar();
+    setTableData(data);
     });
   }
 
@@ -168,6 +202,7 @@ export default function SupplierTable() {
       {alert}
       { !showEdit ?
           <GridItem xs={12}>
+            {bar}
             <Card>
               <CardHeader color="rose" icon>
                 <CardIcon color="rose">
@@ -206,6 +241,7 @@ export default function SupplierTable() {
           </GridItem>
           : 
           <GridItem xs={12} sm={12} md={6}>
+            {editBar}
             <Card>
               <CardHeader color="rose" icon>
                 <CardIcon color="rose">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route } from 'react-router-dom';
 
 import SweetAlert from "react-bootstrap-sweetalert";
@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // @material-ui/icons
 import MailOutline from "@material-ui/icons/MailOutline";
+import AddAlert from "@material-ui/icons/AddAlert";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -18,6 +19,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
+import Snackbar from "components/Snackbar/Snackbar.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
@@ -31,14 +33,36 @@ const useAlertStyles = makeStyles(alertStyles);
 export default function SupplierForm() {
   const [supplier, setSupplier] = React.useState('');
   const [alert, setAlert] = React.useState(null);
+  const [tr, setTR] = React.useState(false);
+
+  const [supplierInputState, setSupplierInputState] = React.useState('');
 
   const classes = useStyles();
   const alertClasses = useAlertStyles();
 
+  useEffect(() => {
+    if(supplier === "") {
+      setSupplierInputState("error");
+
+      if (!tr) {
+        setTR(true);
+        setTimeout(function() {
+          setTR(false);
+        }, 6000);
+      }
+    } 
+    else {
+      setSupplierInputState("success");
+    }
+  }, [supplier]);
+
   const submitButton = () => {
-    postSupplier(supplier).then((response) => {
-      successAlert()
-    });
+    if(supplierInputState !== "error")
+    {
+      postSupplier(supplier).then((response) => {
+        successAlert()
+      });
+    }
   }
 
   const successAlert = () => {
@@ -48,7 +72,6 @@ export default function SupplierForm() {
         style={{ display: "block", marginTop: "-100px" }}
         title="Supplier Added!"
         onConfirm={() => {
-          console.log('resd');
           //return <Route path="/admin/supplierTable" component={SupplierTable} /> 
         }}
         onCancel={() => {
@@ -84,7 +107,9 @@ export default function SupplierForm() {
           <CardBody>
             <form>
               <CustomInput
-                labelText='Supplier Name'
+                success={supplierInputState === "success"}
+                error={supplierInputState === "error"}
+                labelText='Supplier Name *'
                 id='description'
                 formControlProps={{
                   fullWidth: true
@@ -105,6 +130,15 @@ export default function SupplierForm() {
             </form>
           </CardBody>
         </Card>
+        <Snackbar
+          place="tr"
+          color="danger"
+          icon={AddAlert}
+          message="Missing mandatory fields."
+          open={tr}
+          closeNotification={() => setTR(false)}
+          close
+        />
       </GridItem>
     </GridContainer>
   );
