@@ -6,6 +6,8 @@ import ProductCategoryForm from "views/Products/ProductCategoryForm.js";
 import ProductForm from "views/Products/ProductForm.js";
 import ProductCategoryTable from "views/Products/ProductCategoryTable.js";
 import ProductTable from "views/Products/ProductTable.js";
+import CustomerForm from "views/Customers/CustomerForm.js"
+import CustomerTable from "views/Customers/CustomerTable.js"
 
 // @material-ui/icons
 import Apps from "@material-ui/icons/Apps";
@@ -25,6 +27,33 @@ var dashRoutes = [
     icon: DashboardIcon,
     component: Dashboard,
     layout: "/admin"
+  },
+  {
+    collapse: true,
+    name: "Customers",
+    rtlName: "",
+    icon: Place,
+    state: "customersManagement",
+    views: [
+      {
+        path: "/customerAdd",
+        name: "Add Customer",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: CustomerForm,
+        layout: "/admin"
+      },
+      {
+        path: "/customerTable",
+        name: "List Customers",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: CustomerTable,
+        layout: "/admin"
+      }
+    ]
   },
   {
     collapse: true,

@@ -76,5 +76,30 @@ export const deleteProduct = (data) => {
         options)
 }
 
+export const postCustomer = (data) => {
+    return axios.post('https://magicholidays-api.herokuapp.com/customers/',
+    {
+        fullname: data.fullname,
+        mail: data.mail,
+        phone: data.phone,
+        country: data.country
+    }, options)
+}
+
+export const editCustomer = (data) => {
+    return axios.put('https://magicholidays-api.herokuapp.com/customers/' + data.id + '/',
+    {
+        id: data.id,
+        fullname: data.fullname,
+        mail: data.mail,
+        phone: data.phone,
+        country: data.country
+    }, options)
+}
+
+export const deleteCustomer = (data) => {
+    return axios.delete('https://magicholidays-api.herokuapp.com/products/' + data.id + '/',
+        options)
+}
 
 export default getRequest;
