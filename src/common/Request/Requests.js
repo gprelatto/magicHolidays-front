@@ -98,7 +98,7 @@ export const editCustomer = (data) => {
 }
 
 export const deleteCustomer = (data) => {
-    return axios.delete('https://magicholidays-api.herokuapp.com/products/' + data.id + '/',
+    return axios.delete('https://magicholidays-api.herokuapp.com/customers/' + data.id + '/',
         options)
 }
 

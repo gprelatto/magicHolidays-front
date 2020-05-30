@@ -352,11 +352,16 @@ export default function ProductCategoryTable() {
                         value: productToEdit.description
                         }}
                     />
-                    <Button 
-                        color="rose"
-                        onClick={submitEditButton}
-                    > Submit
-                    </Button>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <div className={classes.cardContentRight}>
+                        <Button color="primary" className={classes.marginRight} onClick={submitEditButton}>
+                          Submit
+                        </Button>
+                        <Button color="primary" className={classes.marginRight} onClick={() => setShowEdit(false)}>
+                          Return to table
+                        </Button>
+                      </div>
+                    </GridItem>
                 </form>
             </CardBody>
             </Card>

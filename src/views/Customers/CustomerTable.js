@@ -63,13 +63,13 @@ export default function CustomerTable() {
     });
   }
 
-  const warningWithConfirmAndCancelMessage = (prod) => {
+  const warningWithConfirmAndCancelMessage = (cus) => {
     setAlert(
       <SweetAlert
         warning
         style={{ display: "block", marginTop: "-100px" }}
         title="Are you sure?"
-        onConfirm={() => successDelete(prod)}
+        onConfirm={() => successDelete(cus)}
         onCancel={() => cancelDetele()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
@@ -307,7 +307,7 @@ export default function CustomerTable() {
                         onChange: event => {
                             setCustomerToEdit({
                                 ...customerToEdit,
-                                description: event.target.value
+                                fullname: event.target.value
                             })
                         },
                         value: customerToEdit.fullname
@@ -365,7 +365,7 @@ export default function CustomerTable() {
                             let c = countryData.find(s => s.id === id);
                             setCustomerToEdit({
                                 ...customerToEdit,
-                                countryId: c.id,
+                                country: c.id,
                                 countryDescription: c.description
                             })
                         }}
@@ -389,11 +389,16 @@ export default function CustomerTable() {
                             ) 
                         })}
                     </Select>
-                    <Button 
-                        color="rose"
-                        onClick={submitEditButton}
-                    > Submit
-                    </Button>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <div className={classes.cardContentRight}>
+                        <Button color="primary" className={classes.marginRight} onClick={submitEditButton}>
+                          Submit
+                        </Button>
+                        <Button color="primary" className={classes.marginRight} onClick={() => setShowEdit(false)}>
+                          Return to table
+                        </Button>
+                      </div>
+                    </GridItem>
                 </form>
             </CardBody>
             </Card>

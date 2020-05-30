@@ -141,7 +141,7 @@ export default function ProductCategoryForm() {
             style={{ display: "block", marginTop: "-100px" }}
             title="Customer Added!"
             onConfirm={() => {
-              setRedirect(<Redirect to='/admin/' />);
+              setRedirect(<Redirect to='/admin/customerTable' />);
             }}
             onCancel={() => {
                 setFullName('');
@@ -235,7 +235,7 @@ export default function ProductCategoryForm() {
                                 value: phone
                             }}
                         />
-                        <InputLabel htmlFor="country-select" className={classes.labelHorizontal}>
+                        <InputLabel htmlFor="country-select" className={classes.selectLabel}>
                             Country
                         </InputLabel>
                         <Select
