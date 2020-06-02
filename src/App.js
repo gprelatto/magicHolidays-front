@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createBrowserHistory } from "history";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
@@ -11,12 +11,20 @@ import { AuthContext } from "./context/auth";
 import "assets/scss/material-dashboard-pro-react.scss?v=1.8.0";
 
 function App() {
-    const existingToken = JSON.parse(localStorage.getItem("token"));
-    const [authToken, setAuthToken] = useState(existingToken);
+    const [authToken, setAuthToken] = useState();
     
+    useEffect(() => {
+        const existingToken = localStorage.getItem("token");
+        console.log('ex',existingToken)
+        if (existingToken !== undefined && existingToken !== 'undefined' && existingToken !== null) {
+            setAuthToken(existingToken);
+        }
+    }, []);
+
     const hist = createBrowserHistory();
 
     const setToken = (data) => {
+        console.log('data',data);
         localStorage.setItem("token", JSON.stringify(data));
         setAuthToken(data);
     }
@@ -27,7 +35,9 @@ function App() {
                 <Switch>
                     <Route path="/auth/login-page" component={AuthLayout} />
                     <PrivateRoute path="/admin" component={AdminLayout} />
-                    <Redirect from="/" to="/admin/dashboard" />
+                    <Route exact path="/" render={() => (
+                        <Redirect to="/admin"/>
+                    )}/>
                 </Switch>
             </Router>
         </AuthContext.Provider>

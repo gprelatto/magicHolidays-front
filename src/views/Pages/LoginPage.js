@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from 'react-router-dom'
 
 import axios from 'axios';
@@ -11,7 +11,7 @@ import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
-// import LockOutline from "@material-ui/icons/LockOutline";
+import AddAlert from "@material-ui/icons/AddAlert";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -22,6 +22,8 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
+import Snackbar from "components/Snackbar/Snackbar.js";
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
 
@@ -34,6 +36,9 @@ export default function LoginPage() {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = React.useState(false);
+  const [bar, setBar] = React.useState(null);
+  const [tr, setTR] = React.useState(false);
+  const [message, setMessage] = React.useState('');
 
   const { setAuthToken } = useAuth();
 
@@ -45,6 +50,7 @@ export default function LoginPage() {
   }, 700);
 
   function postLogin() {
+    progressBar();
     const bodyForm = new FormData();
     bodyForm.append('mail', mail);
     bodyForm.append('password', password);
@@ -55,20 +61,50 @@ export default function LoginPage() {
       data: bodyForm,
       headers: { 'Content-Type': 'multipart/form-data' }
     }).then(response => {
-      if (response.status === 200) {
+      if (response.data.code === 200) {
+        removeProgressBar();
         setAuthToken(response.data.results);
         setRedirect(<Redirect to="/admin/dashboard"/>);
       } else {
+        removeProgressBar();
+        setMessage(response.data.message);
         setIsError(true);
       }
     }).catch(e => {
       setIsError(true);
+      setMessage(e);
+      removeProgressBar();
     });
   }
+
+  useEffect(() => {
+    if (!tr && isError) {
+      setTR(true);
+      setTimeout(function() {
+        setTR(false);
+        setIsError(false);
+      }, 3000);
+    }
+  }, [isError]);
+
+  const progressBar = () => {
+    setBar(
+      <CustomLinearProgress
+        variant="indeterminate"
+        color="primary"
+        value={30}
+      />
+    );
+  };
+
+  const removeProgressBar = () => {
+    setBar(null);
+  };
   
   return (
     <div className={classes.container}>
       {redirect}
+      {bar}
       <GridContainer justify="center">
         <GridItem xs={12} sm={6} md={4}>
           <form>
@@ -122,6 +158,15 @@ export default function LoginPage() {
               </CardFooter>
             </Card>
           </form>
+          <Snackbar
+            place="tr"
+            color="danger"
+            icon={AddAlert}
+            message={message}
+            open={tr}
+            closeNotification={() => setTR(false)}
+            close
+          />
         </GridItem>
       </GridContainer>
     </div>

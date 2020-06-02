@@ -13,6 +13,7 @@ import ProductCategoryTable from "views/Products/ProductCategoryTable.js";
 import ProductTable from "views/Products/ProductTable.js";
 import CustomerForm from "views/Customers/CustomerForm.js"
 import CustomerTable from "views/Customers/CustomerTable.js"
+import LogOut from "views/Pages/LogOut.js"
 
 // @material-ui/icons
 import Apps from "@material-ui/icons/Apps";
@@ -140,19 +141,27 @@ export const routes = [
         layout: "/admin"
       }
     ]
-  }
+  },
+  {
+    path: "/logOut",
+    name: "Log Out",
+    rtlName: "",
+    icon: DashboardIcon,
+    component: LogOut,
+    layout: "/admin"
+  },
 ];
 
 function PrivateRoute({ component: Component, ...rest }) { 
-  const { authToken } = useAuth();
+  const isAuthenticated = useAuth();
 
-  console.log('auth', authToken)
+  console.log('is', isAuthenticated)
   
   return(
     <Route
       {...rest}
       render={props =>
-        authToken ? (
+        isAuthenticated.authToken !== null && isAuthenticated.authToken !== undefined ? (
           <Component {...props} />
         ) : (
           <Redirect to="/auth/login-page" />
