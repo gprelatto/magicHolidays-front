@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Redirect } from 'react-router-dom'
+
+import axios from 'axios';
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,7 +11,7 @@ import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
-// import LockOutline from "@material-ui/icons/LockOutline";
+import AddAlert from "@material-ui/icons/AddAlert";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -19,64 +22,100 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
+import Snackbar from "components/Snackbar/Snackbar.js";
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
+
+import { useAuth } from "context/auth";
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage() {
+  const [isError, setIsError] = useState(false);
+  const [mail, setMail] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = React.useState(false);
+  const [bar, setBar] = React.useState(null);
+  const [tr, setTR] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+
+  const { setAuthToken } = useAuth();
+
+  const classes = useStyles();
+
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
 
-  const classes = useStyles();
+  function postLogin() {
+    progressBar();
+    const bodyForm = new FormData();
+    bodyForm.append('mail', mail);
+    bodyForm.append('password', password);
+
+    axios({
+      method: 'post',
+      url: 'https://magicholidays-api.herokuapp.com/login/',
+      data: bodyForm,
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }).then(response => {
+      if (response.data.code === 200) {
+        removeProgressBar();
+        setAuthToken(response.data.results);
+        setRedirect(<Redirect to="/admin/dashboard"/>);
+      } else {
+        removeProgressBar();
+        setMessage(response.data.message);
+        setIsError(true);
+      }
+    }).catch(e => {
+      setIsError(true);
+      setMessage(e);
+      removeProgressBar();
+    });
+  }
+
+  useEffect(() => {
+    if (!tr && isError) {
+      setTR(true);
+      setTimeout(function() {
+        setTR(false);
+        setIsError(false);
+      }, 3000);
+    }
+  }, [isError]);
+
+  const progressBar = () => {
+    setBar(
+      <CustomLinearProgress
+        variant="indeterminate"
+        color="primary"
+        value={30}
+      />
+    );
+  };
+
+  const removeProgressBar = () => {
+    setBar(null);
+  };
   
   return (
     <div className={classes.container}>
+      {redirect}
+      {bar}
       <GridContainer justify="center">
         <GridItem xs={12} sm={6} md={4}>
           <form>
             <Card login className={classes[cardAnimaton]}>
               <CardHeader
                 className={`${classes.cardHeader} ${classes.textCenter}`}
-                color="rose"
+                color="primary"
               >
                 <h4 className={classes.cardTitle}>Log in</h4>
-                <div className={classes.socialLine}>
-                  {[
-                    "fab fa-facebook-square",
-                    "fab fa-twitter",
-                    "fab fa-google-plus"
-                  ].map((prop, key) => {
-                    return (
-                      <Button
-                        color="transparent"
-                        justIcon
-                        key={key}
-                        className={classes.customButtonClass}
-                      >
-                        <i className={prop} />
-                      </Button>
-                    );
-                  })}
-                </div>
               </CardHeader>
               <CardBody>
-                <CustomInput
-                  labelText="First Name.."
-                  id="firstname"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Face className={classes.inputAdornmentIcon} />
-                      </InputAdornment>
-                    )
-                  }}
-                />
                 <CustomInput
                   labelText="Email..."
                   id="email"
@@ -88,7 +127,8 @@ export default function LoginPage() {
                       <InputAdornment position="end">
                         <Email className={classes.inputAdornmentIcon} />
                       </InputAdornment>
-                    )
+                    ),
+                    onChange: e => { setMail(e.target.value) }
                   }}
                 />
                 <CustomInput
@@ -106,17 +146,27 @@ export default function LoginPage() {
                       </InputAdornment>
                     ),
                     type: "password",
-                    autoComplete: "off"
+                    autoComplete: "off",
+                    onChange: e => { setPassword(e.target.value) }
                   }}
                 />
               </CardBody>
               <CardFooter className={classes.justifyContentCenter}>
-                <Button color="rose" simple size="lg" block>
+                <Button color="rose" simple size="lg" block onClick={() => postLogin()}>
                   Let{"'"}s Go
                 </Button>
               </CardFooter>
             </Card>
           </form>
+          <Snackbar
+            place="tr"
+            color="danger"
+            icon={AddAlert}
+            message={message}
+            open={tr}
+            closeNotification={() => setTR(false)}
+            close
+          />
         </GridItem>
       </GridContainer>
     </div>

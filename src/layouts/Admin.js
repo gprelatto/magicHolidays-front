@@ -14,7 +14,7 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
-import routes from "routes.js";
+import PrivateRoute, { routes } from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
 
@@ -120,7 +120,7 @@ export default function Dashboard(props) {
       }
       if (prop.layout === "/admin") {
         return (
-          <Route
+          <PrivateRoute
             path={prop.layout + prop.path}
             component={prop.component}
             key={key}

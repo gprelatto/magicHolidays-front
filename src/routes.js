@@ -1,3 +1,8 @@
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+
+import { useAuth } from "./context/auth";
+
 import Dashboard from "views/Dashboard/Dashboard.js";
 
 import SupplierForm from "views/Products/SupplierForm.js";
@@ -8,6 +13,7 @@ import ProductCategoryTable from "views/Products/ProductCategoryTable.js";
 import ProductTable from "views/Products/ProductTable.js";
 import CustomerForm from "views/Customers/CustomerForm.js"
 import CustomerTable from "views/Customers/CustomerTable.js"
+import LogOut from "views/Pages/LogOut.js"
 
 // @material-ui/icons
 import Apps from "@material-ui/icons/Apps";
@@ -19,7 +25,7 @@ import Place from "@material-ui/icons/Place";
 import Timeline from "@material-ui/icons/Timeline";
 import WidgetsIcon from "@material-ui/icons/Widgets";
 
-var dashRoutes = [
+export const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -135,7 +141,34 @@ var dashRoutes = [
         layout: "/admin"
       }
     ]
-  }
+  },
+  {
+    path: "/logOut",
+    name: "Log Out",
+    rtlName: "",
+    icon: DashboardIcon,
+    component: LogOut,
+    layout: "/admin"
+  },
 ];
 
-export default dashRoutes;
+function PrivateRoute({ component: Component, ...rest }) { 
+  const isAuthenticated = useAuth();
+
+  console.log('is', isAuthenticated)
+  
+  return(
+    <Route
+      {...rest}
+      render={props =>
+        isAuthenticated.authToken !== null && isAuthenticated.authToken !== undefined ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/auth/login-page" />
+        )
+      }
+    />
+  );
+}
+
+export default PrivateRoute;
