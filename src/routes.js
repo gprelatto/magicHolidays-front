@@ -1,3 +1,8 @@
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+
+import { useAuth } from "./context/auth";
+
 import Dashboard from "views/Dashboard/Dashboard.js";
 
 import SupplierForm from "views/Products/SupplierForm.js";
@@ -19,7 +24,7 @@ import Place from "@material-ui/icons/Place";
 import Timeline from "@material-ui/icons/Timeline";
 import WidgetsIcon from "@material-ui/icons/Widgets";
 
-var dashRoutes = [
+export const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -138,4 +143,23 @@ var dashRoutes = [
   }
 ];
 
-export default dashRoutes;
+function PrivateRoute({ component: Component, ...rest }) { 
+  const { authToken } = useAuth();
+
+  console.log('auth', authToken)
+  
+  return(
+    <Route
+      {...rest}
+      render={props =>
+        authToken ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/auth/login-page" />
+        )
+      }
+    />
+  );
+}
+
+export default PrivateRoute;

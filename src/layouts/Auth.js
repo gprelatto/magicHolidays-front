@@ -8,15 +8,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footer/Footer.js";
 
-import routes from "routes.js";
+import LoginPage from "views/Pages/LoginPage.js"
+
+import { routes } from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/authStyle.js";
 
-import register from "assets/img/register.jpeg";
 import login from "assets/img/login.jpeg";
 import lock from "assets/img/lock.jpeg";
 import error from "assets/img/clint-mckoy.jpg";
-import pricing from "assets/img/bg-pricing.jpeg";
 
 const useStyles = makeStyles(styles);
 
@@ -85,16 +85,13 @@ export default function Pages(props) {
 
   return (
     <div>
-      <AuthNavbar brandText={getActiveRoute(routes)} {...rest} />
+      <AuthNavbar brandText="Magic Holiday Travel Agency" {...rest} />
       <div className={classes.wrapper} ref={wrapper}>
         <div
           className={classes.fullPage}
           style={{ backgroundImage: "url(" + getBgImage() + ")" }}
         >
-          <Switch>
-            {getRoutes(routes)}
-            <Redirect from="/auth" to="/auth/login-page" />
-          </Switch>
+          <LoginPage />
           <Footer white />
         </div>
       </div>
