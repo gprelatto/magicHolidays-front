@@ -154,8 +154,6 @@ export const routes = [
 
 function PrivateRoute({ component: Component, ...rest }) { 
   const isAuthenticated = useAuth();
-
-  console.log('is', isAuthenticated)
   
   return(
     <Route

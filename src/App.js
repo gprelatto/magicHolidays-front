@@ -15,7 +15,6 @@ function App() {
     
     useEffect(() => {
         const existingToken = localStorage.getItem("token");
-        console.log('ex',existingToken)
         if (existingToken !== undefined && existingToken !== 'undefined' && existingToken !== null) {
             setAuthToken(existingToken);
         }
@@ -24,7 +23,6 @@ function App() {
     const hist = createBrowserHistory();
 
     const setToken = (data) => {
-        console.log('data',data);
         localStorage.setItem("token", JSON.stringify(data));
         setAuthToken(data);
     }
