@@ -1,22 +1,27 @@
 import axios from 'axios';
 
-const options = {
-    headers: {
-        'Content-type': 'application/json',
-        'X-Api-Key': process.env.REACT_APP_API_KEY
+function getAuthHeaders() {
+    let auth = JSON.parse(localStorage.getItem('auth'));
+
+    return {
+        headers: {
+            'Content-type': 'application/json',
+            'mail': auth.mail,
+            'token': auth.token
+        }
     }
 }
 
 export const getRequest = (endpoint) => {
     return axios.get('https://magicholidays-api.herokuapp.com/' + endpoint + '/',
-        options)
+        getAuthHeaders())
 };
 
 export const postSupplier = (data) => {
     return axios.post('https://magicholidays-api.herokuapp.com/suppliers/',
     {
         description: data
-    }, options)
+    }, getAuthHeaders())
 }
 
 export const editSupplier = (data) => {
@@ -24,12 +29,12 @@ export const editSupplier = (data) => {
     {
         id: data.id,
         description: data.description
-    }, options)
+    }, getAuthHeaders())
 }
 
 export const deleteSupplier = (data) => {
     return axios.delete('https://magicholidays-api.herokuapp.com/suppliers/' + data.id + '/',
-        options)
+        getAuthHeaders())
 }
 
 export const postProductCategory = (data) => {
@@ -37,7 +42,7 @@ export const postProductCategory = (data) => {
     {
         supplier: data.supplier.id.toString(),
         description: data.description
-    }, options)
+    }, getAuthHeaders())
 }
 
 export const editProductCategory = (data) => {
@@ -46,12 +51,12 @@ export const editProductCategory = (data) => {
         id: data.id,
         supplier: data.supplierId.toString(),
         description: data.description
-    }, options)
+    }, getAuthHeaders())
 }
 
 export const deleteProductCategory = (data) => {
     return axios.delete('https://magicholidays-api.herokuapp.com/productCategories/' + data.id + '/',
-        options)
+    getAuthHeaders())
 }
 
 export const postProduct = (data) => {
@@ -59,7 +64,7 @@ export const postProduct = (data) => {
     {
         product_category: data.product_category.toString(),
         description: data.description
-    }, options)
+    }, getAuthHeaders())
 }
 
 export const editProduct = (data) => {
@@ -68,12 +73,12 @@ export const editProduct = (data) => {
         id: data.id,
         product_category: data.prodCategoryId,
         description: data.description
-    }, options)
+    }, getAuthHeaders())
 }
 
 export const deleteProduct = (data) => {
     return axios.delete('https://magicholidays-api.herokuapp.com/products/' + data.id + '/',
-        options)
+        getAuthHeaders())
 }
 
 export const postCustomer = (data) => {
@@ -83,7 +88,7 @@ export const postCustomer = (data) => {
         mail: data.mail,
         phone: data.phone,
         country: data.country
-    }, options)
+    }, getAuthHeaders())
 }
 
 export const editCustomer = (data) => {
@@ -94,12 +99,12 @@ export const editCustomer = (data) => {
         mail: data.mail,
         phone: data.phone,
         country: data.country
-    }, options)
+    }, getAuthHeaders())
 }
 
 export const deleteCustomer = (data) => {
     return axios.delete('https://magicholidays-api.herokuapp.com/customers/' + data.id + '/',
-        options)
+        getAuthHeaders())
 }
 
 export default getRequest;

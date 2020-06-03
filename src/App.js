@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
@@ -27,9 +27,6 @@ function App() {
                 <Switch>
                     <PrivateRoute path="/admin" component={AdminLayout} />
                     <Route path="/auth" component={AuthLayout} />
-                    <Route path="/" render={() => (
-                        <Redirect to="/admin" component={AdminLayout}/>
-                    )}/>
                 </Switch>
             </Router>
         </AuthContext.Provider>

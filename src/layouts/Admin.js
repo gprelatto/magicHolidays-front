@@ -1,6 +1,9 @@
 import React from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
+
+import { useAuth } from "context/auth";
+
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -14,6 +17,8 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
+import Dashboard from "views/Dashboard/Dashboard.js";
+
 import PrivateRoute, { routes } from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
@@ -22,7 +27,7 @@ var ps;
 
 const useStyles = makeStyles(styles);
 
-export default function Dashboard(props) {
+export default function AdminLayout(props) {
   const { ...rest } = props;
   // states and functions
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -33,6 +38,7 @@ export default function Dashboard(props) {
   // const [hasImage, setHasImage] = React.useState(true);
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [logo, setLogo] = React.useState(require("assets/img/logo-white.svg"));
+  const [auth, setAuth] = React.useState(useAuth());
   // styles
   const classes = useStyles();
   const mainPanelClasses =
@@ -64,13 +70,16 @@ export default function Dashboard(props) {
       window.removeEventListener("resize", resizeFunction);
     };
   });
+
   // functions for changeing the states from components
   const handleImageClick = image => {
     setImage(image);
   };
+
   const handleColorClick = color => {
     setColor(color);
   };
+
   const handleBgColorClick = bgColor => {
     switch (bgColor) {
       case "white":
@@ -82,6 +91,7 @@ export default function Dashboard(props) {
     }
     setBgColor(bgColor);
   };
+  
   const handleFixedClick = () => {
     if (fixedClasses === "dropdown") {
       setFixedClasses("dropdown show");
@@ -89,12 +99,15 @@ export default function Dashboard(props) {
       setFixedClasses("dropdown");
     }
   };
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
   const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
+
   const getActiveRoute = routes => {
     let activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
@@ -113,12 +126,15 @@ export default function Dashboard(props) {
     }
     return activeRoute;
   };
+
   const getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.collapse) {
+      if (prop.collapse)// && prop.permissions.find(f => f === auth.auth.user_type) !== undefined) 
+      {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/admin" )//&& prop.permissions.find(f => f === auth.auth.user_type) !== undefined) 
+      {
         return (
           <PrivateRoute
             path={prop.layout + prop.path}
@@ -131,9 +147,11 @@ export default function Dashboard(props) {
       }
     });
   };
+
   const sidebarMinimize = () => {
     setMiniActive(!miniActive);
   };
+
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {
       setMobileOpen(false);
@@ -166,18 +184,14 @@ export default function Dashboard(props) {
         {getRoute() ? (
           <div className={classes.content}>
             <div className={classes.container}>
-              <Switch>
-                {getRoutes(routes)}
-              </Switch>
-              <Redirect from="/admin" to="/admin/dashboard" />
+              {getRoutes(routes)}
+              <Redirect from="/admin" to="/admin/dashboard"/>
             </div>
           </div>
         ) : (
           <div className={classes.map}>
-            <Switch>
-              {getRoutes(routes)}
-            </Switch>
-            <Redirect from="/admin" to="/admin/dashboard" />
+            {getRoutes(routes)}
+            <Redirect from="/admin" to="/admin/dashboard"/>
           </div>
         )}
         {getRoute() ? <Footer fluid /> : null}

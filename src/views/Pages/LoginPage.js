@@ -64,7 +64,7 @@ export default function LoginPage(props) {
       if (response.data.code === 200) {
         removeProgressBar();
         setAuth(response.data.results.filter(x => typeof x!==undefined).shift());
-        props.history.push('/admin/dashboard');
+        props.history.push('/admin');
       } else {
         removeProgressBar();
         setMessage(response.data.message);

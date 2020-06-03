@@ -27,12 +27,16 @@ import WidgetsIcon from "@material-ui/icons/Widgets";
 
 export const routes = [
   {
+    collapse: false,
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
     icon: DashboardIcon,
     component: Dashboard,
-    layout: "/admin"
+    layout: "/admin",
+    permissions: [
+      1,2,3
+    ]
   },
   {
     collapse: true,
@@ -40,6 +44,9 @@ export const routes = [
     rtlName: "",
     icon: Place,
     state: "customersManagement",
+    permissions: [
+      1,2
+    ],
     views: [
       {
         path: "/customerAdd",
@@ -48,7 +55,10 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: CustomerForm,
-        layout: "/admin"
+        layout: "/admin",
+        permissions: [
+          1,2
+        ]
       },
       {
         path: "/customerTable",
@@ -57,7 +67,10 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: CustomerTable,
-        layout: "/admin"
+        layout: "/admin",
+        permissions: [
+          1,2
+        ]
       }
     ]
   },
@@ -67,6 +80,9 @@ export const routes = [
     rtlName: "",
     icon: Place,
     state: "suppliersCollapse",
+    permissions: [
+      1
+    ],
     views: [
       {
         path: "/supplierAdd",
@@ -75,7 +91,10 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: SupplierForm,
-        layout: "/admin"
+        layout: "/admin",
+        permissions: [
+          1
+        ]
       },
       {
         path: "/supplierTable",
@@ -84,7 +103,10 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: SupplierTable,
-        layout: "/admin"
+        layout: "/admin",
+        permissions: [
+          1
+        ]
       }
     ]
   },
@@ -94,6 +116,9 @@ export const routes = [
     rtlName: "",
     icon: Place,
     state: "prodCategoriesCollapse",
+    permissions: [
+      1
+    ],
     views: [
       {
         path: "/productCategoryAdd",
@@ -102,7 +127,10 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: ProductCategoryForm,
-        layout: "/admin"
+        layout: "/admin",
+        permissions: [
+          1
+        ]
       },
       {
         path: "/productCategoryTable",
@@ -111,7 +139,10 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: ProductCategoryTable,
-        layout: "/admin"
+        layout: "/admin",
+        permissions: [
+          1
+        ]
       }
     ]
   },
@@ -121,6 +152,9 @@ export const routes = [
     rtlName: "",
     icon: Place,
     state: "productsManagement",
+    permissions: [
+      1
+    ],
     views: [
       {
         path: "/productAdd",
@@ -129,7 +163,10 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: ProductForm,
-        layout: "/admin"
+        layout: "/admin",
+        permissions: [
+          1
+        ]
       },
       {
         path: "/productTable",
@@ -138,17 +175,24 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: ProductTable,
-        layout: "/admin"
+        layout: "/admin",
+        permissions: [
+          1
+        ]
       }
     ]
   },
   {
+    collapse: false,
     path: "/logOut",
     name: "Log Out",
     rtlName: "",
     icon: DashboardIcon,
     component: LogOut,
-    layout: "/admin"
+    layout: "/admin",
+    permissions: [
+      1,2,3
+    ]
   },
 ];
 
