@@ -105,7 +105,6 @@ export default function AdminLayout(props) {
   };
 
   const getRoute = () => {
-    getFileteredRoutes();
     return window.location.pathname !== "/admin/full-screen-maps";
   };
 
@@ -159,10 +158,11 @@ export default function AdminLayout(props) {
     }
   };
 
+
   const getFileteredRoutes = () => {
-    let filteredRoutes = []
+    let filteredRoutes = [];
     
-    routes.forEach(r => {
+    routes.forEach((r,i) => {
       if(!r.collapse) {
         if(r.permissions.find(f => f === auth.auth.user_type) !== undefined) {
           filteredRoutes.push(r);
@@ -170,13 +170,23 @@ export default function AdminLayout(props) {
       }
       else {
         if(r.permissions.find(f => f === auth.auth.user_type) !== undefined) {
-          r.views.forEach((v, i) => {
-            if(v.permissions.find(f => f === auth.auth.user_type) === undefined) {
-              r.views.splice(i);
-            }
-          })
+          let route = {
+            collapse: r.collapse,
+            name: r.name,
+            rtlName: r.rtlName,
+            icon: r.icon,
+            state: r.state,
+            permissions: r.permissions,
+            views: []
+          };
 
-          filteredRoutes.push(r);
+          r.views.forEach((v) => {
+            if(v.permissions.find(f => f === auth.auth.user_type) !== undefined) {
+              route.views.push(v);
+            }
+          });
+
+          filteredRoutes.push(route);
         }
       }
     });
