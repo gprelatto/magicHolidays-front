@@ -31,7 +31,7 @@ import { useAuth } from "context/auth";
 
 const useStyles = makeStyles(styles);
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   const [isError, setIsError] = useState(false);
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +40,7 @@ export default function LoginPage() {
   const [tr, setTR] = React.useState(false);
   const [message, setMessage] = React.useState('');
 
-  const { setAuthToken } = useAuth();
+  const { setAuth } = useAuth();
 
   const classes = useStyles();
 
@@ -63,8 +63,8 @@ export default function LoginPage() {
     }).then(response => {
       if (response.data.code === 200) {
         removeProgressBar();
-        setAuthToken(response.data.results);
-        setRedirect(<Redirect to="/admin/dashboard"/>);
+        setAuth(response.data.results.filter(x => typeof x!==undefined).shift());
+        props.history.push('/admin/dashboard');
       } else {
         removeProgressBar();
         setMessage(response.data.message);

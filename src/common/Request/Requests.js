@@ -8,7 +8,7 @@ const options = {
 }
 
 export const getRequest = (endpoint) => {
-    return axios.get('https://magicholidays-api.herokuapp.com/' + endpoint +'/',
+    return axios.get('https://magicholidays-api.herokuapp.com/' + endpoint + '/',
         options)
 };
 

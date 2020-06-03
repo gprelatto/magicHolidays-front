@@ -168,16 +168,16 @@ export default function Dashboard(props) {
             <div className={classes.container}>
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from="/admin" to="/admin/dashboard" />
               </Switch>
+              <Redirect from="/admin" to="/admin/dashboard" />
             </div>
           </div>
         ) : (
           <div className={classes.map}>
             <Switch>
               {getRoutes(routes)}
-              <Redirect from="/admin" to="/admin/dashboard" />
             </Switch>
+            <Redirect from="/admin" to="/admin/dashboard" />
           </div>
         )}
         {getRoute() ? <Footer fluid /> : null}

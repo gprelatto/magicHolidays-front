@@ -9,6 +9,7 @@ import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footer/Footer.js";
 
 import LoginPage from "views/Pages/LoginPage.js"
+import ForbiddenPage from "views/Pages/ForbiddenPage.js"
 
 import { routes } from "routes.js";
 
@@ -29,7 +30,6 @@ export default function Pages(props) {
   
   React.useEffect(() => {
     document.body.style.overflow = "unset";
-    // Specify how to clean up after this effect:
     return function cleanup() {};
   });
 
@@ -55,12 +55,8 @@ export default function Pages(props) {
   const getBgImage = () => {
     if (window.location.pathname.indexOf("/auth/login-page") !== -1) {
       return login;
-    } else if (
-      window.location.pathname.indexOf("/auth/lock-screen-page") !== -1
-    ) {
+    } else if (window.location.pathname.indexOf("/auth/forbidden") !== -1) {
       return lock;
-    } else if (window.location.pathname.indexOf("/auth/error-page") !== -1) {
-      return error;
     }
   };
 
@@ -91,7 +87,9 @@ export default function Pages(props) {
           className={classes.fullPage}
           style={{ backgroundImage: "url(" + getBgImage() + ")" }}
         >
-          <LoginPage />
+          <Route path= "/auth/login-page/" component={LoginPage} />
+          <Route path="/auth/forbidden/" component={ForbiddenPage} />
+          <Redirect from="/auth" to="/auth/login-page/" />
           <Footer white />
         </div>
       </div>

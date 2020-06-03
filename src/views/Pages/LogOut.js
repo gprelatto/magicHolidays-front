@@ -2,21 +2,16 @@ import React, { useEffect } from "react";
 import { Redirect } from 'react-router-dom'
 import { useAuth } from "context/auth";
 
-function LogOut() {
-    const [enableRedirect, setEnableRedirect] = React.useState(false)
-    const { setAuthToken } = useAuth();
+function LogOut(props) {
+    const { setAuth } = useAuth();
 
     useEffect(() => {
-        setAuthToken();
-        setEnableRedirect(true);
+        setAuth({});
+        props.history.push('/auth/login-page');
     }, []);
 
     return (
-        enableRedirect ?
-        <>
-         <Redirect to="/auth/login-form" /> 
-        </>
-        : <></>
+        <></>
     );
 }
 

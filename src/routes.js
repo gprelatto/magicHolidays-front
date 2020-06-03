@@ -159,7 +159,7 @@ function PrivateRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={props =>
-        isAuthenticated.authToken !== null && isAuthenticated.authToken !== undefined ? (
+        isAuthenticated.auth.token !== null && isAuthenticated.auth.token !== undefined && isAuthenticated.auth.token !== '' ? (
           <Component {...props} />
         ) : (
           <Redirect to="/auth/login-page" />
