@@ -105,6 +105,7 @@ export default function AdminLayout(props) {
   };
 
   const getRoute = () => {
+    getFileteredRoutes();
     return window.location.pathname !== "/admin/full-screen-maps";
   };
 
@@ -129,11 +130,11 @@ export default function AdminLayout(props) {
 
   const getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.collapse)// && prop.permissions.find(f => f === auth.auth.user_type) !== undefined) 
+      if (prop.collapse && prop.permissions.find(f => f === auth.auth.user_type) !== undefined) 
       {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/admin" )//&& prop.permissions.find(f => f === auth.auth.user_type) !== undefined) 
+      if (prop.layout === "/admin" && prop.permissions.find(f => f === auth.auth.user_type) !== undefined) 
       {
         return (
           <PrivateRoute
@@ -158,10 +159,35 @@ export default function AdminLayout(props) {
     }
   };
 
+  const getFileteredRoutes = () => {
+    let filteredRoutes = []
+    
+    routes.forEach(r => {
+      if(!r.collapse) {
+        if(r.permissions.find(f => f === auth.auth.user_type) !== undefined) {
+          filteredRoutes.push(r);
+        }
+      }
+      else {
+        if(r.permissions.find(f => f === auth.auth.user_type) !== undefined) {
+          r.views.forEach((v, i) => {
+            if(v.permissions.find(f => f === auth.auth.user_type) === undefined) {
+              r.views.splice(i);
+            }
+          })
+
+          filteredRoutes.push(r);
+        }
+      }
+    });
+
+    return filteredRoutes;
+  }
+
   return (
     <div className={classes.wrapper}>
       <Sidebar
-        routes={routes}
+        routes={getFileteredRoutes()}
         logoText={"Magic Holiday"}
         logo={logo}
         image={image}

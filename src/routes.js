@@ -81,7 +81,7 @@ export const routes = [
     icon: Place,
     state: "suppliersCollapse",
     permissions: [
-      1
+      1,2
     ],
     views: [
       {
@@ -93,7 +93,7 @@ export const routes = [
         component: SupplierForm,
         layout: "/admin",
         permissions: [
-          1
+          1,2
         ]
       },
       {

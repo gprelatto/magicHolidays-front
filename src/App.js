@@ -27,6 +27,7 @@ function App() {
                 <Switch>
                     <PrivateRoute path="/admin" component={AdminLayout} />
                     <Route path="/auth" component={AuthLayout} />
+                    <Route path="/error" component={AuthLayout} />
                 </Switch>
             </Router>
         </AuthContext.Provider>
