@@ -28,6 +28,7 @@ function App() {
                     <PrivateRoute path="/admin" component={AdminLayout} />
                     <Route path="/auth" component={AuthLayout} />
                     <Route path="/error" component={AuthLayout} />
+                    <Route exact path="" render={() => <Redirect to="/admin" />} />
                 </Switch>
             </Router>
         </AuthContext.Provider>
