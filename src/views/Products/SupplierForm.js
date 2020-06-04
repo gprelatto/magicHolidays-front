@@ -29,7 +29,7 @@ import { postSupplier } from "common/Request/Requests.js";
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function SupplierForm() {
+export default function SupplierForm(props) {
   const [supplier, setSupplier] = React.useState('');
   const [alert, setAlert] = React.useState(null);
   const [tr, setTR] = React.useState(false);
@@ -54,6 +54,8 @@ export default function SupplierForm() {
     {
       postSupplier(supplier).then((response) => {
         successAlert()
+      }).catch(e => {
+        props.history.push('/auth/forbidden')
       });
     }
     else {

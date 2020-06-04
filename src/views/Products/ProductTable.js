@@ -33,7 +33,7 @@ import { getRequest, editProduct, deleteProduct } from 'common/Request/Requests.
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function ProductCategoryTable() {
+export default function ProductCategoryTable(props) {
   const classes = useStyles();
   const alertClasses = useAlertStyles();
 
@@ -149,13 +149,13 @@ export default function ProductCategoryTable() {
   const populateProductsTable = () => {
     progressBar();
     getRequest('suppliers').then((suppliersResponse) => {
-        let supplierResponseData = suppliersResponse.data.results;
+        let supplierResponseData = suppliersResponse.data.data;
         setSuppliersData(supplierResponseData);
         getRequest('productCategories').then((productCategoryResponse) => {
-            let productCategorieResponseData = productCategoryResponse.data.results;
+            let productCategorieResponseData = productCategoryResponse.data.data;
             setProductCategoriesData(productCategorieResponseData)
             getRequest('products').then((productsResponse) => {
-              let productsResponseData = productsResponse.data.results;
+              let productsResponseData = productsResponse.data.data;
               let data = [];
 
               setProductsData(productsResponseData);
@@ -224,11 +224,18 @@ export default function ProductCategoryTable() {
                       )
                   }
               });
+              
               removeProgressBar();
               setTableData(tableData);
+          }).catch(e => {
+            props.history.push('/auth/forbidden')
           });
+      }).catch(e => {
+        props.history.push('/auth/forbidden')
       });
-    })
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
+    });
   }
 
   return (

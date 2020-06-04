@@ -32,7 +32,7 @@ import { getRequest, postProductCategory } from 'common/Request/Requests.js'
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function ProductCategoryForm() {
+export default function ProductCategoryForm(props) {
     const [suppliers, setSuppliers] = React.useState([]);
     const [supplierId, setSupplierId] = React.useState(0);
     const [selectedSupplier, setSelectedSupplier] = React.useState({});
@@ -50,7 +50,7 @@ export default function ProductCategoryForm() {
     useEffect(() => {
         progressBar();
         getRequest('suppliers').then((response) => {
-            let responseData = response.data.results;
+            let responseData = response.data.data;
             responseData.unshift(
                 {
                     id: 0,
@@ -60,6 +60,8 @@ export default function ProductCategoryForm() {
 
             setSuppliers(responseData);
             removeProgressBar();
+        }).catch(e => {
+            props.history.push('/auth/forbidden')
         });
     }, [])
 

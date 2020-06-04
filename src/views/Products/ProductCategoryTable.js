@@ -33,7 +33,7 @@ import { getRequest, editProductCategory, deleteProductCategory } from 'common/R
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function ProductCategoryTable() {
+export default function ProductCategoryTable(props) {
   const classes = useStyles();
   const alertClasses = useAlertStyles();
 
@@ -56,6 +56,8 @@ export default function ProductCategoryTable() {
         populateProductCategoriesTable();
         setShowEdit(false);
         removeEditProgressBar();
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
     });
   }
 
@@ -93,7 +95,9 @@ export default function ProductCategoryTable() {
           Product Category deleted.
         </SweetAlert>
       );
-    })
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
+    });
   };
 
   const cancelDetele = () => {
@@ -146,11 +150,11 @@ export default function ProductCategoryTable() {
   const populateProductCategoriesTable = () => {
     progressBar();
     getRequest('suppliers').then((suppliersResponse) => {
-        let supplierResponseData = suppliersResponse.data.results;
+        let supplierResponseData = suppliersResponse.data.data;
 
         setSuppliersData(supplierResponseData);
         getRequest('productCategories').then((productCategoryResponse) => {
-            let productCategorieResponseData = productCategoryResponse.data.results;
+            let productCategorieResponseData = productCategoryResponse.data.data;
             let data = [];
 
             productCategorieResponseData.forEach(element => {
@@ -218,7 +222,11 @@ export default function ProductCategoryTable() {
             
             setTableData(tableData);
             removeProgressBar();
+        }).catch(e => {
+          props.history.push('/auth/forbidden')
         });
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
     });
   }
 

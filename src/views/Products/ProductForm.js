@@ -32,7 +32,7 @@ import { getRequest, postProduct } from 'common/Request/Requests.js'
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function ProductForm() {
+export default function ProductForm(props) {
     const [suppliers, setSuppliers] = React.useState([]);
     const [supplierId, setSupplierId] = React.useState(0);
 
@@ -58,7 +58,7 @@ export default function ProductForm() {
     useEffect(() => {
         progressBar();
         getRequest('suppliers').then((response) => {
-            let responseData = response.data.results;
+            let responseData = response.data.data;
             responseData.unshift(
                 {
                     id: 0,
@@ -67,10 +67,12 @@ export default function ProductForm() {
             )
 
             setSuppliers(responseData);
+        }).catch(e => {
+            props.history.push('/auth/forbidden')
         });
 
         getRequest('productCategories').then((response) => {
-            let responseData = response.data.results;
+            let responseData = response.data.data;
             responseData.unshift(
                 {
                     id: 0,
@@ -81,6 +83,8 @@ export default function ProductForm() {
 
             setProductCategories(responseData);
             removeProgressBar();
+        }).catch(e => {
+            props.history.push('/auth/forbidden')
         });
     }, []);
 
@@ -128,6 +132,8 @@ export default function ProductForm() {
             postProduct(product).then((response) => {
                 removeProgressBar();
                 successAlert()
+            }).catch(e => {
+                props.history.push('/auth/forbidden')
             });
         }
         else {
@@ -252,7 +258,7 @@ export default function ProductForm() {
                             inputProps={{
                                 name: "productCategorySelect",
                                 id: "productCategorySelect"
-                            }}  
+                            }}
                             >   
                             {filteredProductCategories.map((productCategory, i) => {     
                                 return (

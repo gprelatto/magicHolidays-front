@@ -12,9 +12,11 @@ function getAuthHeaders() {
     }
 }
 
-export const getRequest = (endpoint) => {
-    return axios.get('https://magicholidays-api.herokuapp.com/' + endpoint + '/',
+export const getRequest = (endpoint, props) => {
+    let response = axios.get('https://magicholidays-api.herokuapp.com/' + endpoint + '/',
         getAuthHeaders())
+
+    return response;
 };
 
 export const postSupplier = (data) => {

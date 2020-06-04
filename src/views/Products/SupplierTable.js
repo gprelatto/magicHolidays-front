@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { withRouter } from "react-router-dom";
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -30,7 +32,7 @@ import { getRequest, editSupplier, deleteSupplier } from 'common/Request/Request
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function SupplierTable() {
+export default function SupplierTable(props) {
   const classes = useStyles();
   const alertClasses = useAlertStyles();
 
@@ -142,10 +144,10 @@ export default function SupplierTable() {
   const populateSuppliersTable = () => {
     progressBar();
     getRequest('suppliers').then((response) => {
-      let responseData = response.data.results;
+      let responseData = response.data.data;
 
       setSuppliersData(responseData);
-      let data = response.data.results.map((prop, key) => {
+      let data = response.data.data.map((prop, key) => {
         return {
             id: prop.id,
             description: prop.description,
@@ -192,8 +194,12 @@ export default function SupplierTable() {
             )
         }
     });
+
     removeProgressBar();
     setTableData(data);
+
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
     });
   }
 

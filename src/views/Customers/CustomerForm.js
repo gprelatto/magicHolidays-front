@@ -32,7 +32,7 @@ import { getRequest, postCustomer } from 'common/Request/Requests.js'
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function ProductCategoryForm() {
+export default function ProductCategoryForm(props) {
     const [countries, setCountries] = React.useState([]);
 
     const [selectedCountryId, setSelectedCountryId] = React.useState(0);
@@ -56,7 +56,7 @@ export default function ProductCategoryForm() {
     useEffect(() => {
         progressBar();
         getRequest('countries').then((response) => {
-            let responseData = response.data.results;
+            let responseData = response.data.data;
             responseData.unshift(
                 {
                     id: 0,
@@ -67,6 +67,8 @@ export default function ProductCategoryForm() {
 
             setCountries(responseData);
             removeProgressBar();
+        }).catch(e => {
+            props.history.push('/auth/forbidden')
         });
     }, [])
 
@@ -108,6 +110,8 @@ export default function ProductCategoryForm() {
             postCustomer(customer).then((response) => {
                 removeProgressBar();
                 successAlert()
+            }).catch(e => {
+                props.history.push('/auth/forbidden')
             });
         }
         else {

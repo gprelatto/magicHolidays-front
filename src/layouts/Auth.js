@@ -89,7 +89,7 @@ export default function Pages(props) {
         >
           <Route path= "/auth/login-page/" component={LoginPage} />
           <Route path="/auth/forbidden/" component={ForbiddenPage} />
-          <Redirect from="/auth" to="/auth/login-page/" />
+          {/* <Redirect exact from="/auth" to="/auth/login-page/" /> */}
           <Footer white />
         </div>
       </div>

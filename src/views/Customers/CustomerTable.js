@@ -33,7 +33,7 @@ import { getRequest, editCustomer, deleteCustomer } from 'common/Request/Request
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function CustomerTable() {
+export default function CustomerTable(props) {
   const classes = useStyles();
   const alertClasses = useAlertStyles();
 
@@ -60,7 +60,9 @@ export default function CustomerTable() {
         populateCustomersTable();
         setShowEdit(false);
         removeEditProgressBar();
-    });
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
+    });;
   }
 
   const warningWithConfirmAndCancelMessage = (cus) => {
@@ -150,11 +152,11 @@ export default function CustomerTable() {
   const populateCustomersTable = () => {
     progressBar();
     getRequest('customers').then((customersResponse) => {
-        let customersResponseData = customersResponse.data.results;
+        let customersResponseData = customersResponse.data.data;
 
         setCustomersData(customersResponseData);
         getRequest('countries').then((countriesResponse) => {
-            let countriesResponseData = countriesResponse.data.results;
+            let countriesResponseData = countriesResponse.data.data;
             let data = [];
             setCountryData(countriesResponseData);
 
@@ -226,7 +228,11 @@ export default function CustomerTable() {
             
             setTableData(tableData);
             removeProgressBar();
+        }).catch(e => {
+          props.history.push('/auth/forbidden')
         });
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
     });
   }
 
