@@ -27,26 +27,35 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, postCustomer } from 'common/Request/Requests.js'
+import { getRequest, postUser } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function CustomerForm(props) {
+export default function UserForm(props) {
     const [countries, setCountries] = React.useState([]);
+    const [userTypes, setUserTypes] = React.useState([]);
 
     const [selectedCountryId, setSelectedCountryId] = React.useState(0);
-    const [fullName, setFullName] = React.useState('');
+    const [selectedUserTypeId, setSelectedUserTypeId] = React.useState(0);
+    const [name, setName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
 
-    const [registerFullName, setRegisterFullName] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
+
+    const [registerName, setRegisterName] = React.useState('');
     const [registerCountryId, setRegisterCountryId] = React.useState('');
-    const [registerPhone, setRegisterPhone] = React.useState('');
+    const [registerUserTypeId, setRegisterUserTypeId] = React.useState('');
     const [registerEmail, setRegisterEmail] = React.useState('');
+    const [registerPassword, setRegisterPassword] = React.useState('');
+    const [registerPasswordConfirmation, setRegisterPasswordConfirmation] = React.useState('');
     
     const [bar, setBar] = React.useState(null);
     const [tr, setTR] = React.useState(false);
+    const [pwTr, setPwTr] = React.useState(false);
     const [alert, setAlert] = React.useState(null);
     const [redirect, setRedirect] = React.useState(false);
 
@@ -66,7 +75,19 @@ export default function CustomerForm(props) {
             )
 
             setCountries(responseData);
-            removeProgressBar();
+        }).then(() => {
+            getRequest('userTypes').then((userTypesResponse) => {
+                let userTypesData = userTypesResponse.data.data;
+                userTypesData.unshift(
+                    {
+                        id: 0,
+                        description: 'Please select a type *'
+                    }
+                );
+
+                setUserTypes(userTypesData);
+                removeProgressBar();
+            });
         }).catch(e => {
             props.history.push('/auth/forbidden')
         });
@@ -77,8 +98,20 @@ export default function CustomerForm(props) {
     }, [selectedCountryId]);
 
     useEffect(() => {
-        fullName === "" ? setRegisterFullName("error") : setRegisterFullName("success");
-    }, [fullName]);
+        selectedUserTypeId === 0 ? setRegisterUserTypeId("error") : setRegisterUserTypeId("success");
+    }, [selectedUserTypeId]);
+
+    useEffect(() => {
+        name === "" ? setRegisterName("error") : setRegisterName("success");
+    }, [name]);
+
+    useEffect(() => {
+        password === "" ? setRegisterPassword("error") : setRegisterPassword("success");
+    }, [password]);
+
+    useEffect(() => {
+        passwordConfirmation === "" ? setRegisterPasswordConfirmation("error") : setRegisterPasswordConfirmation("success");
+    }, [passwordConfirmation]);
 
     useEffect(() => {
         if (email === "" || !verifyEmail(email)) {
@@ -87,32 +120,43 @@ export default function CustomerForm(props) {
         else {
             setRegisterEmail("success");
         }
-
     }, [email]);
 
-    useEffect(() => {
-        phone === "" ? setRegisterPhone("error") : setRegisterPhone("success");
-    }, [phone]);
-
     const submitClick = () => {
-        if (registerFullName !== "error"
+        if (registerName !== "error"
             && registerCountryId !== "error"
-            && registerPhone !== "error"
-            && registerEmail !== "error") {
-            progressBar();
-            let customer = {
-                fullname: fullName,
-                mail: email,
-                phone: phone,
-                country: selectedCountryId
+            && registerUserTypeId !== "error"
+            && registerEmail !== "error"
+            && registerPassword !== "error"
+            && registerPasswordConfirmation !== "error") {
+
+            if (password === passwordConfirmation) {
+                progressBar();
+                let user = {
+                    name: name,
+                    lastname: lastName,
+                    mail: email,
+                    phone: phone,
+                    country: selectedCountryId,
+                    user_type: selectedUserTypeId,
+                    password: password
+                }
+                
+                postUser(user).then((response) => {
+                    removeProgressBar();
+                    successAlert()
+                }).catch(e => {
+                    props.history.push('/auth/forbidden')
+                });
             }
-            
-            postCustomer(customer).then((response) => {
-                removeProgressBar();
-                successAlert()
-            }).catch(e => {
-                props.history.push('/auth/forbidden')
-            });
+            else {
+                if (!pwTr) {
+                    setPwTr(true);
+                    setTimeout(function() {
+                      setTR(false);
+                    }, 3000);
+                }    
+            }
         }
         else {
             if (!tr) {
@@ -120,7 +164,7 @@ export default function CustomerForm(props) {
                 setTimeout(function() {
                   setTR(false);
                 }, 3000);
-              }
+            }
         }
     };
 
@@ -143,15 +187,16 @@ export default function CustomerForm(props) {
           <SweetAlert
             success
             style={{ display: "block", marginTop: "-100px" }}
-            title="Customer Added!"
+            title="User Added!"
             onConfirm={() => {
-              setRedirect(<Redirect to='/admin/customerTable' />);
+              setRedirect(<Redirect to='/admin/userTable' />);
             }}
             onCancel={() => {
-                setFullName('');
+                setName('');
+                setLastName('');
                 setSelectedCountryId(0);
                 setPhone('');
-                setEmail('')
+                setEmail('');
                 hideAlert();
             }}
             confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
@@ -187,29 +232,45 @@ export default function CustomerForm(props) {
                     <CardIcon color="rose">
                     <MailOutline />
                     </CardIcon>
-                    <h4 className={classes.cardIconTitle}>Customer</h4>
+                    <h4 className={classes.cardIconTitle}>User</h4>
                 </CardHeader>
                 <CardBody>
                     <form>
                         <CustomInput
-                            labelText="Full Name *"
-                            id="fullname"
+                            labelText="Name *"
+                            id="name"
                             formControlProps={{
                                 fullWidth: true
                             }}
-                            success={registerFullName === "success"}
-                            error={registerFullName === "error"}
+                            success={registerName === "success"}
+                            error={registerName === "error"}
                             inputProps={{
                                 type: "text",
+                                autoComplete: "new-password",
                                 onChange: event => {
-                                    setFullName(event.target.value)
+                                    setName(event.target.value)
                                 },
-                                value: fullName
+                                value: name
                             }}
                         />
                         <CustomInput
-                            labelText="Email *"
-                            id="email"
+                            labelText="Last Name"
+                            id="lastname"
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            inputProps={{
+                                type: "text",
+                                autoComplete: "new-password",
+                                onChange: event => {
+                                    setLastName(event.target.value)
+                                },
+                                value: lastName
+                            }}
+                        />
+                        <CustomInput
+                            labelText="Mail *"
+                            id="mail"
                             formControlProps={{
                                 fullWidth: true
                             }}
@@ -217,6 +278,7 @@ export default function CustomerForm(props) {
                             error={registerEmail === "error"}
                             inputProps={{
                                 type: "email",
+                                autoComplete: "new-password",
                                 onChange: event => {
                                     setEmail(event.target.value)
                                 },
@@ -224,15 +286,14 @@ export default function CustomerForm(props) {
                             }}
                         />
                         <CustomInput
-                            labelText="Phone *"
+                            labelText="Phone"
                             id="phone"
                             formControlProps={{
-                                fullWidth: true
+                                fullWidth: true,
                             }}
-                            success={registerPhone === "success"}
-                            error={registerPhone === "error"}
                             inputProps={{
                                 type: "text",
+                                autoComplete: "new-password",
                                 onChange: event => {
                                     setPhone(event.target.value)
                                 },
@@ -276,6 +337,73 @@ export default function CustomerForm(props) {
                                 ) 
                             })}
                         </Select>
+                        <InputLabel htmlFor="usert-select" className={classes.selectLabel}>
+                            User Type
+                        </InputLabel>
+                        <Select
+                            success={(registerUserTypeId === "success").toString()}
+                            error={registerUserTypeId === "error"}
+                            MenuProps={{
+                                className: classes.selectMenu
+                            }}
+                            classes={{
+                                select: classes.select
+                            }}
+                            value={selectedUserTypeId}
+                            onChange={e => {
+                                let id = e.target.value;
+                                setSelectedUserTypeId(id);
+                            }}
+                            inputProps={{
+                                name: "userTypeSelect",
+                                id: "userType-select"
+                            }}  
+                            >   
+                            {userTypes.map((c, i) => {     
+                                return (
+                                    <MenuItem
+                                        key={i}
+                                        classes={{
+                                            root: classes.selectMenuItem,
+                                            selected: classes.selectMenuItemSelected
+                                        }}
+                                        value={c.id}
+                                        >
+                                        {c.description}
+                                    </MenuItem>
+                                ) 
+                            })}
+                        </Select>
+                        <CustomInput
+                            labelText="Password *"
+                            id="pw"
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            inputProps={{
+                                type: "password",
+                                autoComplete: "new-password",
+                                onChange: event => {
+                                    setPassword(event.target.value)
+                                },
+                                value: password
+                            }}
+                        />
+                        <CustomInput
+                            labelText="Repeat Password *"
+                            id="pw2"
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            inputProps={{
+                                type: "password",
+                                autoComplete: "new-password",
+                                onChange: event => {
+                                    setPasswordConfirmation(event.target.value)
+                                },
+                                value: passwordConfirmation
+                            }}
+                        />
                         <div className={classes.formCategory}>
                             <small>*</small> Required fields
                         </div>
@@ -294,6 +422,15 @@ export default function CustomerForm(props) {
                     message="Missing mandatory fields. Also check for a valid email input."
                     open={tr}
                     closeNotification={() => setTR(false)}
+                    close
+                />
+                <Snackbar
+                    place="tr"
+                    color="danger"
+                    icon={AddAlert}
+                    message="The passwords do not match, please re-enter."
+                    open={pwTr}
+                    closeNotification={() => setPwTr(false)}
                     close
                 />
             </Card>

@@ -122,4 +122,36 @@ export const editProfile = (data) => {
     }, getAuthHeaders())
 }
 
+export const postUser = (data) => {
+    return axios.post('https://magicholidays-api.herokuapp.com/users/',
+    {
+        id: data.id,
+        name: data.name,
+        lastname: data.lastname,
+        mail: data.mail,
+        phone: data.phone,
+        country: data.country,
+        user_type: data.user_type,
+        password: data.password
+    }, getAuthHeaders())
+}
+
+export const editUser = (data) => {
+    return axios.put('https://magicholidays-api.herokuapp.com/users/' + data.id + '/',
+    {
+        id: data.id,
+        name: data.name,
+        lastname: data.lastname,
+        mail: data.mail,
+        phone: data.phone,
+        country: data.country,
+        user_type: data.user_type
+    }, getAuthHeaders())
+}
+
+export const deleteUser = (data) => {
+    return axios.delete('https://magicholidays-api.herokuapp.com/users/' + data.id + '/',
+        getAuthHeaders())
+}
+
 export default getRequest;

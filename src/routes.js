@@ -25,6 +25,8 @@ import Image from "@material-ui/icons/Image";
 import Place from "@material-ui/icons/Place";
 import Timeline from "@material-ui/icons/Timeline";
 import WidgetsIcon from "@material-ui/icons/Widgets";
+import UsersTable from 'views/User/usersTable';
+import UserForm from 'views/User/userForm';
 
 export const routes = [
   {
@@ -215,6 +217,45 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: ProductTable,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    collapse: true,
+    render: true,
+    name: "Users",
+    rtlName: "",
+    icon: Place,
+    state: "usersManagement",
+    permissions: [
+      1
+    ],
+    views: [
+      {
+        render: true,
+        path: "/userForm",
+        name: "Add User",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: UserForm,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      },
+      {
+        render: true,
+        path: "/usersTable",
+        name: "List Users",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: UsersTable,
         layout: "/admin",
         permissions: [
           1
