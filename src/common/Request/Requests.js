@@ -125,7 +125,6 @@ export const editProfile = (data) => {
 export const postUser = (data) => {
     return axios.post('https://magicholidays-api.herokuapp.com/users/',
     {
-        id: data.id,
         name: data.name,
         lastname: data.lastname,
         mail: data.mail,
