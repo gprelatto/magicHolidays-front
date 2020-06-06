@@ -63,7 +63,7 @@ export default function LoginPage(props) {
     }).then(response => {
       if (response.data.code === 200) {
         removeProgressBar();
-        setAuth(response.data.results.filter(x => typeof x!==undefined).shift());
+        setAuth(response.data.data || {});
         props.history.push('/admin');
       } else {
         removeProgressBar();

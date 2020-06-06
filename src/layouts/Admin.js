@@ -177,7 +177,8 @@ export default function AdminLayout(props) {
             icon: r.icon,
             state: r.state,
             permissions: r.permissions,
-            views: []
+            views: [],
+            render : r.render
           };
 
           r.views.forEach((v) => {

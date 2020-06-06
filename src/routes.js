@@ -14,6 +14,7 @@ import ProductTable from "views/Products/ProductTable.js";
 import CustomerForm from "views/Customers/CustomerForm.js"
 import CustomerTable from "views/Customers/CustomerTable.js"
 import LogOut from "views/Pages/LogOut.js"
+import UserProfile from "views/Pages/UserProfile.js"
 
 // @material-ui/icons
 import Apps from "@material-ui/icons/Apps";
@@ -28,6 +29,7 @@ import WidgetsIcon from "@material-ui/icons/Widgets";
 export const routes = [
   {
     collapse: false,
+    render: true,
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
@@ -40,6 +42,33 @@ export const routes = [
   },
   {
     collapse: true,
+    render: false,
+    name: "User Profile",
+    rtlName: "",
+    icon: DashboardIcon,
+    layout: "/admin",
+    permissions: [
+      1,2,3
+    ],
+    views: [
+      {
+        render: true,
+        path: "/userProfile",
+        name: "Edit Profile",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: UserProfile,
+        layout: "/admin",
+        permissions: [
+          1,2,3
+        ]
+      }
+    ]
+  },
+  {
+    collapse: true,
+    render: true,
     name: "Customers",
     rtlName: "",
     icon: Place,
@@ -49,6 +78,7 @@ export const routes = [
     ],
     views: [
       {
+        render: true,
         path: "/customerAdd",
         name: "Add Customer",
         rtlName: "",
@@ -61,6 +91,7 @@ export const routes = [
         ]
       },
       {
+        render: true,
         path: "/customerTable",
         name: "List Customers",
         rtlName: "",
@@ -76,6 +107,7 @@ export const routes = [
   },
   {
     collapse: true,
+    render: true,
     name: "Suppliers",
     rtlName: "",
     icon: Place,
@@ -85,6 +117,7 @@ export const routes = [
     ],
     views: [
       {
+        render: true,
         path: "/supplierAdd",
         name: "Add Supplier",
         rtlName: "",
@@ -97,6 +130,7 @@ export const routes = [
         ]
       },
       {
+        render: true,
         path: "/supplierTable",
         name: "List Suppliers",
         rtlName: "",
@@ -112,6 +146,7 @@ export const routes = [
   },
   {
     collapse: true,
+    render: true,
     name: "Product Categories",
     rtlName: "",
     icon: Place,
@@ -121,6 +156,7 @@ export const routes = [
     ],
     views: [
       {
+        render: true,
         path: "/productCategoryAdd",
         name: "Add Product Category",
         rtlName: "",
@@ -133,6 +169,7 @@ export const routes = [
         ]
       },
       {
+        render: true,
         path: "/productCategoryTable",
         name: "List Product Categories",
         rtlName: "",
@@ -148,6 +185,7 @@ export const routes = [
   },
   {
     collapse: true,
+    render: true,
     name: "Products",
     rtlName: "",
     icon: Place,
@@ -157,6 +195,7 @@ export const routes = [
     ],
     views: [
       {
+        render: true,
         path: "/productAdd",
         name: "Add Product",
         rtlName: "",
@@ -169,6 +208,7 @@ export const routes = [
         ]
       },
       {
+        render: true,
         path: "/productTable",
         name: "List Products",
         rtlName: "",
@@ -184,6 +224,7 @@ export const routes = [
   },
   {
     collapse: false,
+    render: true,
     path: "/logOut",
     name: "Log Out",
     rtlName: "",

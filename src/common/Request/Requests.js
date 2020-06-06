@@ -109,4 +109,17 @@ export const deleteCustomer = (data) => {
         getAuthHeaders())
 }
 
+export const editProfile = (data) => {
+    return axios.put('https://magicholidays-api.herokuapp.com/getProfile/' + data.id + '/',
+    {
+        id: data.id,
+        name: data.name,
+        lastname: data.lastname,
+        mail: data.mail,
+        phone: data.phone,
+        country: data.country,
+        user_type: data.user_type
+    }, getAuthHeaders())
+}
+
 export default getRequest;

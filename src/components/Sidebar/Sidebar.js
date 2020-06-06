@@ -59,12 +59,16 @@ class SidebarWrapper extends React.Component {
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
+    let auth = JSON.parse(localStorage.getItem('auth'));
+
     this.state = {
       openAvatar: false,
       miniActive: true,
+      userFullName: auth.fullname,
       ...this.getCollapseStates(props.routes)
     };
   }
+
   mainPanel = React.createRef();
   // this creates the intial state of this component based on the collapse routes
   // that it gets through this.props.routes
@@ -82,6 +86,7 @@ class Sidebar extends React.Component {
     });
     return initialState;
   };
+
   // this verifies if any of the collapses should be default opened on a rerender of this component
   // for example, on the refresh of the page,
   // while on the src/views/forms/RegularForms.jsx - route /admin/regular-forms
@@ -95,15 +100,18 @@ class Sidebar extends React.Component {
     }
     return false;
   }
+
   // verifies if routeName is the one active (in browser input)
   activeRoute = routeName => {
     return window.location.href.indexOf(routeName) > -1 ? "active" : "";
   };
+
   openCollapse(collapse) {
     var st = {};
     st[collapse] = !this.state[collapse];
     this.setState(st);
   }
+
   // this function creates the links and collapses that appear in the sidebar (left menu)
   createLinks = routes => {
     const { classes, color, rtlActive } = this.props;
@@ -111,6 +119,7 @@ class Sidebar extends React.Component {
       if (prop.redirect) {
         return null;
       }
+
       if (prop.collapse) {
         var st = {};
         st[prop["state"]] = !this.state[prop.state];
@@ -160,6 +169,7 @@ class Sidebar extends React.Component {
           cx({
             [classes.collapseItemMiniRTL]: rtlActive
           });
+
         return (
           <ListItem
             key={key}
@@ -213,6 +223,7 @@ class Sidebar extends React.Component {
           </ListItem>
         );
       }
+
       const innerNavLinkClasses =
         classes.collapseItemLink +
         " " +
@@ -257,6 +268,7 @@ class Sidebar extends React.Component {
         cx({
           [classes.itemIconRTL]: rtlActive
         });
+
       return (
         <ListItem
           key={key}
@@ -295,7 +307,9 @@ class Sidebar extends React.Component {
         </ListItem>
       );
     });
+
   };
+
   render() {
     const {
       classes,
@@ -306,6 +320,8 @@ class Sidebar extends React.Component {
       bgColor,
       rtlActive
     } = this.props;
+
+    const { userFullName} = this.state;
     const itemText =
       classes.itemText +
       " " +
@@ -362,7 +378,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={rtlActive ? "تانيا أندرو" : "Tania Andrew"}
+                primary={userFullName}
                 secondary={
                   <b
                     className={
