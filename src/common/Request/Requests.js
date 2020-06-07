@@ -153,4 +153,8 @@ export const deleteUser = (data) => {
         getAuthHeaders())
 }
 
+export const postRez = (data) => {
+    return axios.post('https://magicholidays-api.herokuapp.com/reservations/', data, getAuthHeaders())
+}
+
 export default getRequest;

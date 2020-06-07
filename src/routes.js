@@ -28,6 +28,7 @@ import WidgetsIcon from "@material-ui/icons/Widgets";
 import UsersTable from 'views/User/usersTable';
 import UserForm from 'views/User/userForm';
 import RezForm from 'views/Rez/rezForm';
+import RezTable from 'views/Rez/rezTable';
 
 export const routes = [
   {
@@ -275,6 +276,19 @@ export const routes = [
       1
     ],
     views: [
+      {
+        render: true,
+        path: "/rezTable",
+        name: "List Reservations",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: RezTable,
+        layout: "/admin",
+        permissions: [
+          1,2
+        ]
+      },
       {
         render: true,
         path: "/rezForm",

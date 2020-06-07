@@ -36,7 +36,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, postProduct } from 'common/Request/Requests.js'
+import { getRequest, postRez } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -75,7 +75,7 @@ export default function RezForm(props) {
     const [feeAgency, setFeeAgency] = React.useState(0);
     const [feeUser, setFeeUser] = React.useState(0);
 
-    const [reservationNumber, setReservationNumber] = React.useState('');
+    const [confirmationNumber, setConfirmationNumber] = React.useState('');
     const [confirmationDate, setConfirmationDate] = React.useState(new Date());
     const [arrivalDate, setArrivalDate] = React.useState('');
 
@@ -219,12 +219,22 @@ export default function RezForm(props) {
             && registerProductDescriptionState !== "error"
             && registerSupplierState !== "error") {
             progressBar();
-            let product = {
-                product_category: productCategoryId,
-                description: productDescription
+            let rez = {
+                confirmationNumber: confirmationNumber,
+                confirmationDate: confirmationDate,
+                arrivalDate: arrivalDate,
+                total: total,
+                feeTotal: feeTotal,
+                feeAgency: feeAgency,
+                feeUser: feeUser,
+                product: productId,
+                customer: selectedCustomer.id
             }
+
+            console.log('rez',rez)
     
-            postProduct(product).then((response) => {
+            postRez(rez).then((response) => {
+                console.log('res', response)
                 removeProgressBar();
                 successAlert()
             }).catch(e => {
@@ -477,7 +487,6 @@ export default function RezForm(props) {
                             })}
                         </Select>
 
-                        <InputLabel className={classes.label}>Date Picker</InputLabel>
                         <br />
                             <Datetime
                             timeFormat={false}
@@ -529,14 +538,16 @@ export default function RezForm(props) {
                             labelText="Agency Fee *"
                             id="agencyFee"
                             formControlProps={{
-                                fullWidth: true,
-                                disabled: true
+                                fullWidth: true
                             }}
                             // success={registerProductDescriptionState === "success"}
                             // error={registerProductDescriptionState === "error"}
                             inputProps={{
                                 type: "number",
-                                value: feeAgency
+                                value: feeAgency,
+                                onChange: event => {
+                                    setFeeAgency(event.target.value)
+                                }
                             }}
                         />
 
@@ -544,14 +555,16 @@ export default function RezForm(props) {
                             labelText="User Fee *"
                             id="feeUser"
                             formControlProps={{
-                                fullWidth: true,
-                                disabled: true
+                                fullWidth: true
                             }}
                             // success={registerProductDescriptionState === "success"}
                             // error={registerProductDescriptionState === "error"}
                             inputProps={{
                                 type: "number",
-                                value: feeUser
+                                value: feeUser,
+                                onChange: event => {
+                                    setFeeUser(event.target.value)
+                                }
                             }}
                         />
 
@@ -566,13 +579,12 @@ export default function RezForm(props) {
                             inputProps={{
                                 type: "text",
                                 onChange: event => {
-                                    setReservationNumber(event.target.value)
+                                    setConfirmationNumber(event.target.value)
                                 },
-                                value: reservationNumber
+                                value: confirmationNumber
                             }}
                         />
 
-                        <InputLabel className={classes.label}>Date Picker</InputLabel>
                         <br />
                             <Datetime
                             timeFormat={false}
@@ -583,20 +595,20 @@ export default function RezForm(props) {
                             onChange={(event) => {
                                 setConfirmationDate(event._d)
                             }}
+                            value={confirmationDate}
                         />
 
-                        <InputLabel className={classes.label}>Date Picker</InputLabel>
                         <br />
                             <Datetime
                             timeFormat={false}
                             closeOnSelect={true}
                             inputProps={{ 
-                                placeholder: "Trip date",
+                                placeholder: "Arrival Date",
                             }}
                             onChange={(event) => {
-                                setSelectedDate(event._d)
+                                setArrivalDate(event._d)
                             }}
-                            value={confirmationDate}
+                            value={arrivalDate}
                         />
 
                         <div className={classes.formCategory}>
