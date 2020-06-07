@@ -273,7 +273,7 @@ export const routes = [
     icon: Place,
     state: "rezManagement",
     permissions: [
-      1
+      1,2
     ],
     views: [
       {

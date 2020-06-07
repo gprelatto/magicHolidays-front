@@ -198,13 +198,13 @@ export default function RezTable(props) {
         
                             let tableData = data.map((prop, key) => {
                                 return {
-                                    id: prop.id,
                                     product: prop.prodDescription,
                                     productCategory: prop.prodCategoryDesc,
                                     supplier: prop.supplierDescription,
                                     confirmationNumber: prop.confirmationNumber,
                                     confirmationDate: prop.confirmationDate,
                                     arrivalDate: prop.arrivalDate,
+                                    customer: prop.customerMail,
                                     total: prop.total,
                                     feeTotal: prop.feeTotal,
                                     feeAgency: prop.feeAgency,
@@ -288,10 +288,6 @@ export default function RezTable(props) {
                   defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   columns={[
                     {
-                      Header: "ID",
-                      accessor: "id"
-                    },
-                    {
                         Header: "Product",
                         accessor: "product"
                     },
@@ -314,6 +310,10 @@ export default function RezTable(props) {
                     {
                         Header: "Arrival Date",
                         accessor: "arrivalDate"
+                    },
+                    {
+                        Header: "Customer Mail",
+                        accessor: "customer"
                     },
                     {
                         Header: "Total",
