@@ -27,6 +27,7 @@ import Timeline from "@material-ui/icons/Timeline";
 import WidgetsIcon from "@material-ui/icons/Widgets";
 import UsersTable from 'views/User/usersTable';
 import UserForm from 'views/User/userForm';
+import RezForm from 'views/Rez/rezForm';
 
 export const routes = [
   {
@@ -259,6 +260,32 @@ export const routes = [
         layout: "/admin",
         permissions: [
           1
+        ]
+      }
+    ]
+  },
+  {
+    collapse: true,
+    render: true,
+    name: "Reservations",
+    rtlName: "",
+    icon: Place,
+    state: "rezManagement",
+    permissions: [
+      1
+    ],
+    views: [
+      {
+        render: true,
+        path: "/rezForm",
+        name: "Add Reservation",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: RezForm,
+        layout: "/admin",
+        permissions: [
+          1,2
         ]
       }
     ]
