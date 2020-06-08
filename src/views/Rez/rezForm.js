@@ -511,7 +511,7 @@ export default function RezForm(props) {
                             inputProps={{
                                 type: "number",
                                 onChange: event => {
-                                    setTotal(event.target.value)
+                                    setTotal(Number(event.target.value))
                                 },
                                 value: total
                             }}
@@ -528,7 +528,7 @@ export default function RezForm(props) {
                             inputProps={{
                                 type: "number",
                                 onChange: event => {
-                                    setFeeTotal(event.target.value)
+                                    setFeeTotal(Number(event.target.value))
                                 },
                                 value: feeTotal
                             }}
