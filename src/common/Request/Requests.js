@@ -157,4 +157,8 @@ export const postRez = (data) => {
     return axios.post('https://magicholidays-api.herokuapp.com/reservations/', data, getAuthHeaders())
 }
 
+export const editRez = (data) => {
+    return axios.put('https://magicholidays-api.herokuapp.com/reservations/' + data.id + '/', data, getAuthHeaders())
+}
+
 export default getRequest;

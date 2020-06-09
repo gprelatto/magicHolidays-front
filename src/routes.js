@@ -29,6 +29,7 @@ import UsersTable from 'views/User/usersTable';
 import UserForm from 'views/User/userForm';
 import RezForm from 'views/Rez/rezForm';
 import RezTable from 'views/Rez/rezTable';
+import EditProfilePassword from 'views/Pages/EditProfilePassword';
 
 export const routes = [
   {
@@ -63,6 +64,19 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: UserProfile,
+        layout: "/admin",
+        permissions: [
+          1,2,3
+        ]
+      },
+      {
+        render: true,
+        path: "/editProfilePassword",
+        name: "Edit Password",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: EditProfilePassword,
         layout: "/admin",
         permissions: [
           1,2,3

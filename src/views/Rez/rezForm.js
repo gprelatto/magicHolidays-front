@@ -317,7 +317,8 @@ export default function RezForm(props) {
                         options={customers}
                         getOptionLabel={(option) => option.mail}
                         onChange={(event, newValue) => {
-                            setSelectedCustomer(newValue);
+                            if(newValue !== null)
+                                setSelectedCustomer(newValue);
                         }}
                         open={open}
                         onOpen={() => {
@@ -357,7 +358,7 @@ export default function RezForm(props) {
                                 //     setPhone(event.target.value)
                                 // },
                                 disabled: true,
-                                value: selectedCustomer.fullname
+                                value: selectedCustomer.fullname ?? ''
                             }}
                         />
 
@@ -375,7 +376,7 @@ export default function RezForm(props) {
                                 //     setPhone(event.target.value)
                                 // },
                                 disabled: true,
-                                value: selectedCustomer.phone
+                                value: selectedCustomer.phone ?? ''
                             }}
                         />
 
@@ -486,19 +487,6 @@ export default function RezForm(props) {
                                 ) 
                             })}
                         </Select>
-
-                        <br />
-                            <Datetime
-                            timeFormat={false}
-                            closeOnSelect={true}
-                            inputProps={{ 
-                                placeholder: "Trip date",
-                            }}
-                            onChange={(event) => {
-                                setSelectedDate(event._d)
-                            }}
-                        />
-
 
                         <CustomInput
                             labelText="Total Reservation *"

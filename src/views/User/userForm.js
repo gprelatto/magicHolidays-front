@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Redirect } from 'react-router-dom'
 
+import axios from 'axios';
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -141,8 +143,28 @@ export default function UserForm(props) {
                     user_type: selectedUserTypeId,
                     password: password
                 }
+
+                const bodyForm = new FormData();
+                bodyForm.append('name', name);
+                bodyForm.append('password', password);
+                bodyForm.append('lastname', lastName);
+                bodyForm.append('phone', phone);
+                bodyForm.append('country', selectedCountryId);
+                bodyForm.append('user_type', selectedUserTypeId);
+                bodyForm.append('mail', email);
+
+                let auth = JSON.parse(localStorage.getItem('auth'));
                 
-                postUser(user).then((response) => {
+                axios({
+                    method: 'post',
+                    url: 'https://magicholidays-api.herokuapp.com/users/',
+                    data: bodyForm,
+                    headers: { 
+                        'Content-Type': 'multipart/form-data',
+                        'mail': auth.mail,
+                        'token': auth.token
+                    }
+                }).then((response) => {
                     removeProgressBar();
                     successAlert()
                 }).catch(e => {
