@@ -34,7 +34,7 @@ import Datetime from "react-datetime";
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, editRez } from 'common/Request/Requests.js'
+import { getRequest, editRez, postPrepay } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -337,6 +337,25 @@ export default function RezTable(props) {
                                                 }}
                                             >
                                                 <Edit />
+                                            </Button>
+                                            <>{" "}</>
+                                            <Button
+                                                justIcon
+                                                round
+                                                simple
+                                                onClick={() => {
+                                                    let prepay = {
+                                                      reservations: [
+                                                        prop.id
+                                                      ],
+                                                      prepaidDate: new Date()
+                                                    }
+                                                    postPrepay(prepay);
+                                                }}
+                                                color="danger"
+                                                className="remove"
+                                            >
+                                                <Close />
                                             </Button>
                                             <>{" "}</>
                                         </div>

@@ -258,7 +258,7 @@ export default function RezForm(props) {
             style={{ display: "block", marginTop: "-100px" }}
             title="Product Added!"
             onConfirm={() => {
-              setRedirect(<Redirect to='/admin/productTable' />);
+              setRedirect(<Redirect to='/admin/rezTable' />);
             }}
             onCancel={() => {
               setProductDescription("");

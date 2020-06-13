@@ -30,6 +30,7 @@ import UserForm from 'views/User/userForm';
 import RezForm from 'views/Rez/rezForm';
 import RezTable from 'views/Rez/rezTable';
 import EditProfilePassword from 'views/Pages/EditProfilePassword';
+import PrepaidTable from 'views/Payment/prepaidTable';
 
 export const routes = [
   {
@@ -314,6 +315,32 @@ export const routes = [
         layout: "/admin",
         permissions: [
           1,2
+        ]
+      }
+    ]
+  },
+  {
+    collapse: true,
+    render: true,
+    name: "Payments",
+    rtlName: "",
+    icon: Place,
+    state: "paymentsManagement",
+    permissions: [
+      1
+    ],
+    views: [
+      {
+        render: true,
+        path: "/prepaidTable",
+        name: "List Prepaid Rez",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: PrepaidTable,
+        layout: "/admin",
+        permissions: [
+          1
         ]
       }
     ]

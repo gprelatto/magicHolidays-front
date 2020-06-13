@@ -12,7 +12,12 @@ function getAuthHeaders() {
     }
 }
 
-export const getRequest = (endpoint, props) => {
+export const redirectToUnforbidden = (props) => {
+    localStorage.setItem("auth", JSON.stringify({}));
+    props.history.push('/auth/forbidden');
+}
+
+export const getRequest = (endpoint) => {
     let response = axios.get('https://magicholidays-api.herokuapp.com/' + endpoint + '/',
         getAuthHeaders())
 
@@ -159,6 +164,11 @@ export const postRez = (data) => {
 
 export const editRez = (data) => {
     return axios.put('https://magicholidays-api.herokuapp.com/reservations/' + data.id + '/', data, getAuthHeaders())
+}
+
+export const postPrepay = (data) => {
+    return axios.post('https://magicholidays-api.herokuapp.com/prepay/',
+    data, getAuthHeaders())
 }
 
 export default getRequest;
