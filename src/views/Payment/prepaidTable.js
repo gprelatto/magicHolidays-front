@@ -72,14 +72,6 @@ export default function PrepaidTable(props) {
   const [alert, setAlert] = React.useState(null);
   const [showEdit, setShowEdit] = React.useState(false);
 
-    // [20:11, 6/8/2020] Gonz: path('prepay/', views.prepaidViewSet.as_view(), name='prepay'),
-    // path('pay/', views.payViewSet.as_view(), name='pay')
-    // [20:11, 6/8/2020] Gonz: reciben esto:
-    // [20:12, 6/8/2020] Gonz: reservations : listita, prepaidDate
-    // [20:12, 6/8/2020] Gonz: reservations : listita, prepaidDate, payDate
-    // [20:12, 6/8/2020] Gonz: funcionan bien, fue buena esa idea
-
-
   useEffect(() => {
     populateTable();
   }, [])
