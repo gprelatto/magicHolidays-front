@@ -27,7 +27,7 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, editSupplier, deleteSupplier } from 'common/Request/Requests.js'
+import { getRequest, editSupplier, deleteSupplier, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -51,6 +51,9 @@ export default function SupplierTable(props) {
   const submitEditButton = () => {
     editProgressBar();
     editSupplier(supplier).then((response) => {
+      if(response.data.code === 403) {
+        redirectToUnforbidden(props);
+      }
       populateSuppliersTable();
       setShowEdit(false);
       removeEditProgressBar();
@@ -144,6 +147,9 @@ export default function SupplierTable(props) {
   const populateSuppliersTable = () => {
     progressBar();
     getRequest('suppliers').then((response) => {
+      if(response.data.code === 403) {
+        redirectToUnforbidden(props);
+      }
       let responseData = response.data.data;
 
       setSuppliersData(responseData);

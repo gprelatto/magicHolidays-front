@@ -27,7 +27,7 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, postProductCategory } from 'common/Request/Requests.js'
+import { getRequest, postProductCategory, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -50,15 +50,20 @@ export default function ProductCategoryForm(props) {
     useEffect(() => {
         progressBar();
         getRequest('suppliers').then((response) => {
-            let responseData = response.data.data;
-            responseData.unshift(
+            let responseData = response.data
+
+            if(responseData.code === 403) {
+                redirectToUnforbidden(props);
+            }
+
+            responseData.data.unshift(
                 {
                     id: 0,
                     description: 'Please select a supplier *'
                 }
             )
 
-            setSuppliers(responseData);
+            setSuppliers(responseData.data);
             removeProgressBar();
         }).catch(e => {
             props.history.push('/auth/forbidden')
@@ -83,6 +88,10 @@ export default function ProductCategoryForm(props) {
             }
             
             postProductCategory(productCategory).then((response) => {
+                if(response.data.code === 403) {
+                    redirectToUnforbidden(props);
+                }
+    
                 removeProgressBar();
                 successAlert()
             });

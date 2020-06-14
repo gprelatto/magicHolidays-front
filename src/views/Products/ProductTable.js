@@ -28,7 +28,7 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, editProduct, deleteProduct } from 'common/Request/Requests.js'
+import { getRequest, editProduct, deleteProduct, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -57,6 +57,10 @@ export default function ProductCategoryTable(props) {
 
   const submitEditButton = () => {
     editProduct(productToEdit).then((response) => {
+        if(response.data.code === 403) {
+          redirectToUnforbidden(props);
+        }
+
         populateProductsTable();
         setShowEdit(false);
     });
@@ -149,12 +153,22 @@ export default function ProductCategoryTable(props) {
   const populateProductsTable = () => {
     progressBar();
     getRequest('suppliers').then((suppliersResponse) => {
+      if(suppliersResponse.data.code === 403) {
+        redirectToUnforbidden(props);
+      }
+
         let supplierResponseData = suppliersResponse.data.data;
         setSuppliersData(supplierResponseData);
         getRequest('productCategories').then((productCategoryResponse) => {
+          if(productCategoryResponse.data.code === 403) {
+            redirectToUnforbidden(props);
+          }
             let productCategorieResponseData = productCategoryResponse.data.data;
             setProductCategoriesData(productCategorieResponseData)
             getRequest('products').then((productsResponse) => {
+              if(productsResponse.data.code === 403) {
+                redirectToUnforbidden(props);
+              }
               let productsResponseData = productsResponse.data.data;
               let data = [];
 

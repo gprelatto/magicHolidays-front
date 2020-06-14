@@ -24,7 +24,7 @@ import Snackbar from "components/Snackbar/Snackbar.js";
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { postSupplier } from "common/Request/Requests.js";
+import { postSupplier, redirectToUnforbidden } from "common/Request/Requests.js";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -53,6 +53,9 @@ export default function SupplierForm(props) {
     if(supplierInputState !== "error")
     {
       postSupplier(supplier).then((response) => {
+        if(response.data.code === 403) {
+          redirectToUnforbidden(props);
+        }
         successAlert()
       }).catch(e => {
         props.history.push('/auth/forbidden')

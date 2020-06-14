@@ -27,7 +27,7 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, postProduct } from 'common/Request/Requests.js'
+import { getRequest, postProduct, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -58,6 +58,10 @@ export default function ProductForm(props) {
     useEffect(() => {
         progressBar();
         getRequest('suppliers').then((response) => {
+            if(response.data.code === 403) {
+                redirectToUnforbidden(props);
+            }
+
             let responseData = response.data.data;
             responseData.unshift(
                 {
@@ -72,6 +76,9 @@ export default function ProductForm(props) {
         });
 
         getRequest('productCategories').then((response) => {
+            if(response.data.code === 403) {
+                redirectToUnforbidden(props);
+            }
             let responseData = response.data.data;
             responseData.unshift(
                 {
@@ -130,6 +137,9 @@ export default function ProductForm(props) {
             }
     
             postProduct(product).then((response) => {
+                if(response.data.code === 403) {
+                    redirectToUnforbidden(props);
+                }
                 removeProgressBar();
                 successAlert()
             }).catch(e => {

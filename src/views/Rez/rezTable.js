@@ -34,7 +34,7 @@ import Datetime from "react-datetime";
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, editRez, postPrepay } from 'common/Request/Requests.js'
+import { getRequest, editRez, postPrepay, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -171,6 +171,9 @@ export default function RezTable(props) {
 
   const successDelete = (prod) => {
     getRequest(prod).then((response) => {
+        if(response.data.code === 403) {
+          redirectToUnforbidden(props);
+        }
         populateProductsTable();
       setAlert(
         <SweetAlert
@@ -237,9 +240,15 @@ export default function RezTable(props) {
   const populateProductsTable = () => {
     progressBar();
     getRequest('reservations').then((reservationsResponse) => {
+        if(reservationsResponse.data.code === 403) {
+          redirectToUnforbidden(props);
+        }
         let reservationsResponseData = reservationsResponse.data.data;
         setReservationsData(reservationsResponseData);
         getRequest('productCategories').then((productCategoryResponse) => {
+          if(productCategoryResponse.data.code === 403) {
+            redirectToUnforbidden(props);
+          }
             let productCategorieResponseData = productCategoryResponse.data.data;
             productCategorieResponseData.unshift(
               {
@@ -251,6 +260,9 @@ export default function RezTable(props) {
             setProductCategoriesData(productCategorieResponseData);
 
             getRequest('products').then((productsResponse) => {
+              if(productsResponse.data.code === 403) {
+                redirectToUnforbidden(props);
+              }
                 let productsResponseData = productsResponse.data.data;
                 productsResponseData.unshift(
                   {
@@ -262,12 +274,21 @@ export default function RezTable(props) {
                 setProductsData(productsResponseData);
 
                 getRequest('suppliers').then((suppliersResponse) => {
+                  if(suppliersResponse.data.code === 403) {
+                    redirectToUnforbidden(props);
+                  }
                     let suppliersResponseData = suppliersResponse.data.data;
                     setSuppliers(suppliersResponseData);
                     getRequest('customers').then((customersResponse) => {
+                      if(customersResponse.data.code === 403) {
+                        redirectToUnforbidden(props);
+                      }
                         let customersResponseData = customersResponse.data.data;
                         setCustomers(customersResponseData);
                         getRequest('users').then((usersResponse) => {
+                          if(usersResponse.data.code === 403) {
+                            redirectToUnforbidden(props);
+                          }
                             let usersResponseData = usersResponse.data.data;
 
                             let data = [];

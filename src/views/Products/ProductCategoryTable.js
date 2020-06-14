@@ -28,7 +28,7 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, editProductCategory, deleteProductCategory } from 'common/Request/Requests.js'
+import { getRequest, editProductCategory, deleteProductCategory, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -53,9 +53,13 @@ export default function ProductCategoryTable(props) {
   const submitEditButton = () => {
     editProgressBar();
     editProductCategory(productCategoryToEdit).then((response) => {
-        populateProductCategoriesTable();
-        setShowEdit(false);
-        removeEditProgressBar();
+      if(response.data.code === 403) {
+        redirectToUnforbidden(props);
+      }
+
+      populateProductCategoriesTable();
+      setShowEdit(false);
+      removeEditProgressBar();
     }).catch(e => {
       props.history.push('/auth/forbidden')
     });
@@ -82,7 +86,11 @@ export default function ProductCategoryTable(props) {
 
   const successDelete = (prod) => {
     deleteProductCategory(prod).then((response) => {
-        populateProductCategoriesTable();
+      if(response.data.code === 403) {
+        redirectToUnforbidden(props);
+      }
+
+      populateProductCategoriesTable();
       setAlert(
         <SweetAlert
           success
@@ -150,10 +158,17 @@ export default function ProductCategoryTable(props) {
   const populateProductCategoriesTable = () => {
     progressBar();
     getRequest('suppliers').then((suppliersResponse) => {
+      if(suppliersResponse.data.code === 403) {
+        redirectToUnforbidden(props);
+      }
+
         let supplierResponseData = suppliersResponse.data.data;
 
         setSuppliersData(supplierResponseData);
         getRequest('productCategories').then((productCategoryResponse) => {
+          if(productCategoryResponse.data.code === 403) {
+            redirectToUnforbidden(props);
+          }
             let productCategorieResponseData = productCategoryResponse.data.data;
             let data = [];
 

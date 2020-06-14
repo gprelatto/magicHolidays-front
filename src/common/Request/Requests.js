@@ -171,4 +171,9 @@ export const postPrepay = (data) => {
     data, getAuthHeaders())
 }
 
+export const postPay = (data) => {
+    return axios.post('https://magicholidays-api.herokuapp.com/pay/',
+    data, getAuthHeaders())
+}
+
 export default getRequest;

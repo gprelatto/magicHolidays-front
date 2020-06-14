@@ -48,7 +48,7 @@ import Paper from '@material-ui/core/Paper';
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, redirectToUnforbidden, postPrepay } from 'common/Request/Requests.js'
+import { getRequest, redirectToUnforbidden, postPay } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -62,8 +62,6 @@ export default function PaymentTable(props) {
 
   const [tableData, setTableData] = React.useState([]);
 
-  const [payDate, setPayDate] = React.useState(new Date());
-
   const [filteredData, setFilteredData] = React.useState([]);
   const [selectedReservations, setSelectedReservations] = React.useState([]);
   const [summary, setSummary] = React.useState([]);
@@ -73,6 +71,9 @@ export default function PaymentTable(props) {
   const [alert, setAlert] = React.useState(null);
   const [showEdit, setShowEdit] = React.useState(false);
 
+  const [payDate, setPayDate] = React.useState(new Date());
+  const [transactionNumber, setTransactionNumber] = React.useState('');
+
   useEffect(() => {
     populateTable();
   }, [])
@@ -81,12 +82,11 @@ export default function PaymentTable(props) {
     submitProgressBar();
 
     let data = {
-      paidDate: payDate,
-      prepaidDate: new Date(),
-      reservations: selectedReservations
+      payDate: payDate,
+      reservations: selectedReservations.map(prop => prop.id)
     }
 
-    postPrepay(data).then((response) => {
+    postPay(data).then((response) => {
       console.log('res',response)
       populateTable();
       setAlert(
@@ -115,7 +115,7 @@ export default function PaymentTable(props) {
         onCancel={() => cancelDetele()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-        confirmBtnText="Confirm prepay"
+        confirmBtnText="Confirm pay"
         cancelBtnText="Cancel"
         showCancel
       >
@@ -181,74 +181,59 @@ export default function PaymentTable(props) {
         redirectToUnforbidden(props);
       }
 
-      let customData = [];
+      getRequest('users').then((usersResponse) => {
+        let usersResponseData = usersResponse.data
+        
+        if(usersResponseData.code === 403) {
+          redirectToUnforbidden(props);
+        }
 
-      for (var i = 0, len = payResponseData.data.length; i < len; i++) {
-        let e = payResponseData.data[i];
-        getRequest('reservations/' + e.rez).then(rez => {
-            getRequest('users/' + rez.data.data.user).then((response) => {
-                let user = response.data;
-                
-                if (user.code === 403) {
-                  redirectToUnforbidden(props);
-                }
+        let tableData = payResponseData.data.map((prop, key) => {
+          let user = usersResponseData.data.find(f => f.id === prop.rez.user);
+          prop.user = user;
 
-                customData.push({
-                    id: e.id,
-                    name: user.data.name,
-                    lastname: user.data.lastname,
-                    confirmationNumber: rez.data.data.confirmationNumber,
-                    prepaidDate: e.prepaidDate,
-                    total: rez.data.data.total,
-                    feeTotal: rez.data.data.feeTotal,
-                    feeAgency: rez.data.data.feeAgency,
-                    feeUser: rez.data.data.feeUser,
-                    prepay: (
-                        <div>
-                            <Checkbox
-                                key={rez.data.data.id}
-                                tabIndex={-1}
-                                onClick={(event) => {
-                                    console.log('cc', selectedReservationsRef.current)
-                                    let existingRezIdx = selectedReservationsRef.current.map(function(item) { return item.pay.id; }).indexOf(e.id);
-                                    
-                                    if(existingRezIdx === -1) {
-                                        selectedReservationsRef.current.push({
-                                            pay: e,
-                                            rez: rez.data.data,
-                                            user: response.data.data
-                                        })
-                                    }
-                                    else {
-                                    selectedReservationsRef.current.splice(existingRezIdx, 1);
-                                    }
-                                }}
-                                checkedIcon={<Check className={classes.checkedIcon} />}
-                                icon={<Check className={classes.uncheckedIcon} />}
-                                classes={{
-                                    checked: classes.checked,
-                                    root: classes.checkRoot
-                                }}
-                            />
-                        </div>
-                    )
-                })
-                });
-            })
-      }
+          return {
+            id: prop.id,
+            name: user.name,
+            lastname: user.lastname,
+            confirmationNumber: prop.rez.confirmationNumber,
+            prepaidDate: prop.prepaidDate,
+            total: prop.rez.total,
+            feeTotal: prop.rez.feeTotal,
+            feeAgency: prop.rez.feeAgency,
+            feeUser: prop.rez.feeUser,
+            prepay: (
+              <div>
+                  <Checkbox
+                      key={prop.id}
+                      tabIndex={-1}
+                      onClick={(event) => {
+                          let existingRezIdx = selectedReservationsRef.current.map(function(item) { return item.id; }).indexOf(prop.id);
+                          
+                          if(existingRezIdx === -1) {
+                              selectedReservationsRef.current.push(prop)
+                          }
+                          else {
+                          selectedReservationsRef.current.splice(existingRezIdx, 1);
+                          }
+                      }}
+                      checkedIcon={<Check className={classes.checkedIcon} />}
+                      icon={<Check className={classes.uncheckedIcon} />}
+                      classes={{
+                          checked: classes.checked,
+                          root: classes.checkRoot
+                      }}
+                  />
+              </div>
+            )
+          }
+      });
 
-    setTableData(customData);
-    removeProgressBar();      
+      setTableData(tableData);
+      removeProgressBar();      
     })
-    }
-
-    const [dataProvisory, setDataProvisory] = React.useState([]);
-
-    useEffect(() => {
-        console.log('prov',tableData)
-        setDataProvisory(tableData)
-    }, [tableData]);
-
+    })
+  }
 
     const TAX_RATE = 0.07;
 
@@ -264,21 +249,6 @@ export default function PaymentTable(props) {
     const price = priceRow(qty, unit);
     return { desc, qty, unit, price };
     }
-
-    function subtotal(items) {
-    return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-    }
-
-    const rows = [
-    createRow('Paperclips (Box)', 100, 1.15),
-    createRow('Paper (Case)', 10, 45.99),
-    createRow('Waste Basket', 2, 17.99),
-    ];
-
-    const invoiceSubtotal = subtotal(rows);
-    const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-    const invoiceTotal = invoiceTaxes + invoiceSubtotal;
-
 
   return (
     <GridContainer>
@@ -358,7 +328,7 @@ export default function PaymentTable(props) {
               </CardHeader>
               <CardBody>
               <ReactTable
-                  data={dataProvisory}
+                  data={tableData}
                   filterable
                   defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   ref={(r) => {
@@ -437,10 +407,10 @@ export default function PaymentTable(props) {
                     <Table className={classes.table} aria-label="spanning table">
                         <TableHead>
                         <TableRow>
-                            <TableCell align="center" colSpan={3}>
+                            <TableCell align="left" colSpan={2}>
                             Details
                             </TableCell>
-                            <TableCell align="right">Price</TableCell>
+                            <TableCell align="right" colSpan={4}>Price</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>Agent</TableCell>
@@ -456,14 +426,14 @@ export default function PaymentTable(props) {
                             <TableRow key={row.userId}>
                             <TableCell>{row.user}</TableCell>
                             <TableCell align="right">{row.qty}</TableCell>
-                            <TableCell align="right">{row.total}</TableCell>
+                            <TableCell align="right">{ccyFormat(row.total)}</TableCell>
                             <TableCell align="right">{ccyFormat(row.feeTotal)}</TableCell>
                             <TableCell align="right">{ccyFormat(row.feeUser)}</TableCell>
                             <TableCell align="right">{ccyFormat(row.feeAgency)}</TableCell>
                             </TableRow>
                         ))}
 
-                        <TableRow>
+                        {/* <TableRow>
                             <TableCell rowSpan={3} />
                             <TableCell colSpan={2}>Subtotal</TableCell>
                             <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
@@ -476,13 +446,48 @@ export default function PaymentTable(props) {
                         <TableRow>
                             <TableCell colSpan={2}>Total</TableCell>
                             <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
-                        </TableRow>
-                        </TableBody>
+                        </TableRow>*/}
+                        </TableBody> 
                     </Table>
                     </TableContainer>
+                    <CustomInput
+                      labelText="Transaction Number *"
+                      id="rezNumber"
+                      formControlProps={{
+                          fullWidth: true
+                      }}
+                      // success={registerProductDescriptionState === "success"}
+                      // error={registerProductDescriptionState === "error"}
+                      inputProps={{
+                          type: "text",
+                          onChange: event => {
+                              setTransactionNumber(event.target.value)
+                          },
+                          value: transactionNumber
+                      }}
+                    />
+                    <Datetime
+                      timeFormat={false}
+                      closeOnSelect={true}
+                      inputProps={{ 
+                          placeholder: "Pay Date",
+                      }}
+                      onChange={(event) => {
+                          setPayDate(event._d)
+                      }}
+                      value={payDate}
+                    />
                     <div className={classes.cardContentRight}>
-                        <Button color="primary" className={classes.marginRight} onClick={() => setShowEdit(false)}>
+                        <Button color="warning" className={classes.marginRight} onClick={() => {
+                          selectedReservationsRef.current = [];
+                          setShowEdit(false);
+                          }}>
                             Return to table
+                        </Button>
+                        <Button color="primary" className={classes.marginRight} onClick={() => {
+                          warningWithConfirmAndCancelMessage();
+                        }}>
+                            Set transaction number and pay date
                         </Button>
                     </div>
               </CardBody>

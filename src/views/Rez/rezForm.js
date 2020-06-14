@@ -36,7 +36,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, postRez } from 'common/Request/Requests.js'
+import { getRequest, postRez, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -95,6 +95,9 @@ export default function RezForm(props) {
         progressBar();
 
         getRequest('suppliers').then((response) => {
+            if(response.data.code === 403) {
+                redirectToUnforbidden(props);
+              }
             let responseData = response.data.data;
             responseData.unshift(
                 {
@@ -109,6 +112,9 @@ export default function RezForm(props) {
         });
 
         getRequest('productCategories').then((response) => {
+            if(response.data.code === 403) {
+                redirectToUnforbidden(props);
+              }
             let responseData = response.data.data;
             responseData.unshift(
                 {
@@ -125,6 +131,9 @@ export default function RezForm(props) {
         });
 
         getRequest('products').then((response) => {
+            if(response.data.code === 403) {
+                redirectToUnforbidden(props);
+              }
             let responseData = response.data.data;
             responseData.unshift(
                 {
@@ -149,6 +158,9 @@ export default function RezForm(props) {
         }
 
         getRequest('customers').then((customerResponse) => {
+            if(customerResponse.data.code === 403) {
+                redirectToUnforbidden(props);
+              }
             setCustomers(customerResponse.data.data);
         });
     
@@ -234,6 +246,9 @@ export default function RezForm(props) {
             console.log('rez',rez)
     
             postRez(rez).then((response) => {
+                if(response.data.code === 403) {
+                    redirectToUnforbidden(props);
+                  }
                 console.log('res', response)
                 removeProgressBar();
                 successAlert()
