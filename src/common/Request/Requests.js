@@ -115,7 +115,7 @@ export const deleteCustomer = (data) => {
 }
 
 export const editProfile = (data) => {
-    return axios.put('https://magicholidays-api.herokuapp.com/getProfile/' + data.id + '/',
+    return axios.post('https://magicholidays-api.herokuapp.com/getProfile/',
     {
         id: data.id,
         name: data.name,
@@ -164,6 +164,10 @@ export const postRez = (data) => {
 
 export const editRez = (data) => {
     return axios.put('https://magicholidays-api.herokuapp.com/reservations/' + data.id + '/', data, getAuthHeaders())
+}
+
+export const deleteRez = (data) => {
+    return axios.delete('https://magicholidays-api.herokuapp.com/reservations/' + data + '/', getAuthHeaders())
 }
 
 export const postPrepay = (data) => {

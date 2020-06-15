@@ -34,7 +34,7 @@ import Datetime from "react-datetime";
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, editRez, postPrepay, redirectToUnforbidden } from 'common/Request/Requests.js'
+import { getRequest, editRez, deleteRez, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -77,6 +77,8 @@ export default function RezTable(props) {
   const [productToEdit, setProductToEdit] = React.useState({});
   const [productCategoryId, setProductCategoryId] = React.useState('');
 
+  const [selectedCustomerId, setSelectedCustomerId] = React.useState('');
+
   const [alert, setAlert] = React.useState(null);
   const [bar, setBar] = React.useState(null);
   const [editBar, setEditBar] = React.useState(null);
@@ -97,6 +99,7 @@ export default function RezTable(props) {
       let cus = customers.find(c => c.id === rezToEdit.customer);
 
       setSelectedCustomer({
+        id: cus.id,
         mail: cus.mail,
         fullname: cus.fullname,
         phone: cus.phone
@@ -141,7 +144,8 @@ export default function RezTable(props) {
       feeAgency: feeAgency,
       feeUser: feeUser,
       product: productId,
-      customer: selectedCustomer.id
+      customer: selectedCustomer.id,
+      user: rezToEdit.user
     }
 
     editRez(rez).then((response) => {
@@ -150,17 +154,17 @@ export default function RezTable(props) {
     });
   }
 
-  const warningWithConfirmAndCancelMessage = (prod) => {
+  const warningWithConfirmAndCancelMessage = (id) => {
     setAlert(
       <SweetAlert
         warning
         style={{ display: "block", marginTop: "-100px" }}
         title="Are you sure?"
-        onConfirm={() => successDelete(prod)}
+        onConfirm={() => successDelete(id)}
         onCancel={() => cancelDetele()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-        confirmBtnText="Confirm Delete"
+        confirmBtnText="Confirm Cancelation"
         cancelBtnText="Cancel"
         showCancel
       >
@@ -169,8 +173,8 @@ export default function RezTable(props) {
     );
   };
 
-  const successDelete = (prod) => {
-    getRequest(prod).then((response) => {
+  const successDelete = (id) => {
+    deleteRez(id).then((response) => {
         if(response.data.code === 403) {
           redirectToUnforbidden(props);
         }
@@ -179,12 +183,12 @@ export default function RezTable(props) {
         <SweetAlert
           success
           style={{ display: "block", marginTop: "-100px" }}
-          title="Deleted!"
+          title="Reservation Canceled!"
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
           confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         >
-          Product deleted.
+          Reservation canceled.
         </SweetAlert>
       );
     })
@@ -320,7 +324,8 @@ export default function RezTable(props) {
                                     total: rez.total,
                                     feeTotal: rez.feeTotal,
                                     feeAgency: rez.feeAgency,
-                                    feeUser: rez.feeUser
+                                    feeUser: rez.feeUser,
+                                    deleted_at: rez.deleted_at
                                 });
                             })
 
@@ -340,6 +345,7 @@ export default function RezTable(props) {
                                     feeTotal: prop.feeTotal,
                                     feeAgency: prop.feeAgency,
                                     feeUser: prop.feeUser,
+                                    deleted_at: prop.deleted_at,
                                     actions: (
                                       <div className="actions-right">
                                             <Button
@@ -353,6 +359,7 @@ export default function RezTable(props) {
                                                     let rez = data.find(f => f.id === prop.id)
                                                     if (rez != null) {
                                                         setRezToEdit(rez);
+                                                        setSelectedCustomerId(rez.customer);
                                                         setRezEditId(rez.id);
                                                     }
                                                 }}
@@ -365,13 +372,7 @@ export default function RezTable(props) {
                                                 round
                                                 simple
                                                 onClick={() => {
-                                                    let prepay = {
-                                                      reservations: [
-                                                        prop.id
-                                                      ],
-                                                      prepaidDate: new Date()
-                                                    }
-                                                    postPrepay(prepay);
+                                                    warningWithConfirmAndCancelMessage(prop.id);
                                                 }}
                                                 color="danger"
                                                 className="remove"
@@ -398,6 +399,18 @@ export default function RezTable(props) {
     }).catch(e => {
       props.history.push('/auth/forbidden')
     });
+  }
+
+  const getTrProps = (state, rowInfo, instance) => {
+    if (rowInfo) {
+      console.log('rowinfo', rowInfo)
+      return {
+        style: {
+          background: rowInfo.row.deleted_at === null ? '' : '#ff6666',
+        }
+      }
+    }
+    return {};
   }
 
   return (
@@ -468,6 +481,11 @@ export default function RezTable(props) {
                         accessor: "feeUser"
                     },
                     {
+                      Header: "Deleted at",
+                      accessor: "deleted_at",
+                      isVisible: false
+                    },
+                    {
                       Header: "Action",
                       accessor: "actions",
                       sortable: false,
@@ -478,6 +496,12 @@ export default function RezTable(props) {
                   showPaginationTop
                   showPaginationBottom={false}
                   className="-striped -highlight"
+                  getTrProps={getTrProps}
+                  initialState={{
+                    hiddenColumns: [
+                      'Deleted at'
+                    ]
+                  }}
                 />
               </CardBody>
             </Card>
@@ -503,6 +527,7 @@ export default function RezTable(props) {
                         onChange={(event, newValue) => {
                           if (newValue !== null)
                             setSelectedCustomer(newValue);
+                            setSelectedCustomerId(newValue.id)
                         }}
                         open={open}
                         onOpen={() => {
@@ -511,7 +536,7 @@ export default function RezTable(props) {
                         onClose={() => {
                             setOpen(false);
                         }}
-                        value={customers.find(f => f.id === rezToEdit.customer)}
+                        value={customers.find(f => f.id === selectedCustomerId)}
                         loading={loading}
                         style={{ width: 300 }}
                         renderInput={(params) => (<TextField {...params} 

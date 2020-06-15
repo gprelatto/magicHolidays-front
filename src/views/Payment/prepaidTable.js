@@ -242,24 +242,13 @@ export default function PrepaidTable(props) {
       {alert}
       { !showEdit ?
           <GridItem xs={12}>
-            <Button color="warning"
-                className={classes.marginRight}
-                onClick={() => {
-                  let ids = filteredDataRef.getResolvedState().sortedData.map((i, k) => {
-                    return i.id;
-                  });
-
-                  setSelectedReservations(ids);
-                  setShowEdit(true);
-                }} >
-                Mark as prepaid all filtered reservations
-            </Button>
             <Button color="info"
                 className={classes.marginRight}
                 onClick={() => {
                   let ids = selectedReservationsRef.current.map((i, k) => {
                     return i.id;
                   });
+
                   setSelectedReservations(ids);
                   setShowEdit(true);
                 }} >

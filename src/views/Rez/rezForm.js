@@ -395,6 +395,32 @@ export default function RezForm(props) {
                             }}
                         />
 
+                        <br />
+                            <Datetime
+                            timeFormat={false}
+                            closeOnSelect={true}
+                            inputProps={{ 
+                                placeholder: "Confirmation Date",
+                            }}
+                            onChange={(event) => {
+                                setConfirmationDate(event._d)
+                            }}
+                            value={confirmationDate}
+                        />
+
+                        <br />
+                            <Datetime
+                            timeFormat={false}
+                            closeOnSelect={true}
+                            inputProps={{ 
+                                placeholder: "Arrival Date",
+                            }}
+                            onChange={(event) => {
+                                setArrivalDate(event._d)
+                            }}
+                            value={arrivalDate}
+                        />
+
                          <InputLabel htmlFor="supplier-select" className={classes.selectLabel}>
                             Supplier
                         </InputLabel>
@@ -548,6 +574,7 @@ export default function RezForm(props) {
                             inputProps={{
                                 type: "number",
                                 value: feeAgency,
+                                disabled: true,
                                 onChange: event => {
                                     setFeeAgency(event.target.value)
                                 }
@@ -565,6 +592,7 @@ export default function RezForm(props) {
                             inputProps={{
                                 type: "number",
                                 value: feeUser,
+                                disabled: true,
                                 onChange: event => {
                                     setFeeUser(event.target.value)
                                 }
@@ -586,32 +614,6 @@ export default function RezForm(props) {
                                 },
                                 value: confirmationNumber
                             }}
-                        />
-
-                        <br />
-                            <Datetime
-                            timeFormat={false}
-                            closeOnSelect={true}
-                            inputProps={{ 
-                                placeholder: "Confirmation Date",
-                            }}
-                            onChange={(event) => {
-                                setConfirmationDate(event._d)
-                            }}
-                            value={confirmationDate}
-                        />
-
-                        <br />
-                            <Datetime
-                            timeFormat={false}
-                            closeOnSelect={true}
-                            inputProps={{ 
-                                placeholder: "Arrival Date",
-                            }}
-                            onChange={(event) => {
-                                setArrivalDate(event._d)
-                            }}
-                            value={arrivalDate}
                         />
 
                         <div className={classes.formCategory}>

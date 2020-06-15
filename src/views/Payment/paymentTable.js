@@ -83,7 +83,8 @@ export default function PaymentTable(props) {
 
     let data = {
       payDate: payDate,
-      reservations: selectedReservations.map(prop => prop.id)
+      transactionNumber: transactionNumber,
+      reservations: selectedReservations.map(prop => prop.rez.id)
     }
 
     postPay(data).then((response) => {
@@ -194,6 +195,7 @@ export default function PaymentTable(props) {
 
           return {
             id: prop.id,
+            rez_id: prop.rez.id,
             name: user.name,
             lastname: user.lastname,
             confirmationNumber: prop.rez.confirmationNumber,
@@ -255,18 +257,6 @@ export default function PaymentTable(props) {
       {alert}
       { !showEdit ?
           <GridItem xs={12}>
-            <Button color="warning"
-                className={classes.marginRight}
-                onClick={() => {
-                  let ids = filteredDataRef.getResolvedState().sortedData.map((i, k) => {
-                    return i.id;
-                  });
-
-                  setSelectedReservations(ids);
-                  setShowEdit(true);
-                }} >
-                PAY all filtered reservations
-            </Button>
             <Button color="info"
                 className={classes.marginRight}
                 onClick={() => {
@@ -343,6 +333,10 @@ export default function PaymentTable(props) {
                     {
                       Header: "ID",
                       accessor: "id"
+                    },
+                    {
+                      Header: "ID REZ",
+                      accessor: "rez_id"
                     },
                     {
                       Header: "Name",

@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
+import axios from 'axios';
+
 import ReactTable from "react-table";
 import SweetAlert from "react-bootstrap-sweetalert";
 
@@ -46,7 +48,9 @@ export default function UsersTable(props) {
   
   const [userToEdit, setUserToEdit] = React.useState({});
   const [userTypeId, setUserTypeId] = React.useState('');
-  
+
+  const [password, setPassword] = React.useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = React.useState('');  
   
   const [alert, setAlert] = React.useState(null);
   const [bar, setBar] = React.useState(null);
@@ -58,13 +62,35 @@ export default function UsersTable(props) {
 
   const submitEditButton = () => {
     editProgressBar();
-    editUser(userToEdit).then((response) => {
-        populateUsersTable();
-        setShowEdit(false);
-        removeEditProgressBar();
-    }).catch(e => {
-      props.history.push('/auth/forbidden')
-    });;
+
+    const bodyForm = new FormData();
+    bodyForm.append('id', userToEdit.id);
+    bodyForm.append('name', userToEdit.name);
+    bodyForm.append('password', password);
+    bodyForm.append('lastname', userToEdit.lastname);
+    bodyForm.append('phone', userToEdit.phone);
+    bodyForm.append('country', userToEdit.country);
+    bodyForm.append('user_type', userToEdit.user_type);
+    bodyForm.append('mail', userToEdit.mail);
+
+    let auth = JSON.parse(localStorage.getItem('auth'));
+
+    axios({
+      method: 'put',
+      url: 'https://magicholidays-api.herokuapp.com/users/' + userToEdit.id  + '/',
+      data: bodyForm,
+      headers: { 
+          'Content-Type': 'multipart/form-data',
+          'mail': auth.mail,
+          'token': auth.token
+      }
+      }).then((response) => {
+          removeProgressBar();
+          populateUsersTable();
+          setShowEdit(false);
+      }).catch(e => {
+          props.history.push('/auth/forbidden')
+      });
   }
 
   const warningWithConfirmAndCancelMessage = (cus) => {
@@ -447,7 +473,7 @@ export default function UsersTable(props) {
                         classes={{
                             select: classes.select
                         }}
-                        value={countryId}
+                        value={userTypeId}
                         onChange={e => {
                             let id = e.target.value;
                             setUserTypeId(id);
@@ -479,6 +505,36 @@ export default function UsersTable(props) {
                             ) 
                         })}
                     </Select>
+                    <CustomInput
+                            labelText="Password *"
+                            id="pw"
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            inputProps={{
+                                type: "password",
+                                autoComplete: "new-password",
+                                onChange: event => {
+                                    setPassword(event.target.value)
+                                },
+                                value: password
+                            }}
+                        />
+                        <CustomInput
+                            labelText="Repeat Password *"
+                            id="pw2"
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            inputProps={{
+                                type: "password",
+                                autoComplete: "new-password",
+                                onChange: event => {
+                                    setPasswordConfirmation(event.target.value)
+                                },
+                                value: passwordConfirmation
+                            }}
+                        />
                     <GridItem xs={12} sm={12} md={6}>
                       <div className={classes.cardContentRight}>
                         <Button color="primary" className={classes.marginRight} onClick={submitEditButton}>

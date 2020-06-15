@@ -72,7 +72,7 @@ export default function EditProfilePassword(props) {
                 let auth = JSON.parse(localStorage.getItem('auth'));
                 
                 axios({
-                    method: 'put',
+                    method: 'post',
                     url: 'https://magicholidays-api.herokuapp.com/updatePassword/',
                     data: bodyForm,
                     headers: { 
