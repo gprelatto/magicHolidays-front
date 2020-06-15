@@ -50,7 +50,7 @@ export const routes = [
   {
     collapse: true,
     render: false,
-    name: "User Profile",
+    name: "menu.label.profile",
     rtlName: "",
     icon: DashboardIcon,
     layout: "/admin",
@@ -61,7 +61,7 @@ export const routes = [
       {
         render: true,
         path: "/userProfile",
-        name: "Edit Profile",
+        name: "menu.label.profile.edit",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -74,7 +74,7 @@ export const routes = [
       {
         render: true,
         path: "/editProfilePassword",
-        name: "Edit Password",
+        name: "menu.label.profile.editPw",
         rtlName: "",
         mini: "RF",
         rtlMini: "",

@@ -28,10 +28,13 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
 
 import { useAuth } from "context/auth";
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
+  const { t, i18n } = useTranslation();
+
   const [isError, setIsError] = useState(false);
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,8 +65,10 @@ export default function LoginPage(props) {
       headers: { 'Content-Type': 'multipart/form-data' }
     }).then(response => {
       if (response.data.code === 200) {
+        let responseJson = response.data.data;
         removeProgressBar();
         setAuth(response.data.data || {});
+        changeLanguage(responseJson.lang ?? 'es');
         props.history.push('/admin');
       } else {
         removeProgressBar();
@@ -71,6 +76,7 @@ export default function LoginPage(props) {
         setIsError(true);
       }
     }).catch(e => {
+      console.log('e',e)
       setIsError(true);
       setMessage(e);
       removeProgressBar();
@@ -100,6 +106,10 @@ export default function LoginPage(props) {
   const removeProgressBar = () => {
     setBar(null);
   };
+  
+  const changeLanguage = (lang) => {
+      i18n.changeLanguage(lang)
+  }
   
   return (
     <div className={classes.container}>

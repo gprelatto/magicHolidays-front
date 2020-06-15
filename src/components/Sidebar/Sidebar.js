@@ -23,6 +23,8 @@ import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sid
 
 import avatar from "assets/img/faces/avatar.jpg";
 
+import { withTranslation } from 'react-i18next'
+
 var ps;
 
 // We've created this component so we can have a ref to the wrapper of the links that appears in our sidebar.
@@ -114,7 +116,8 @@ class Sidebar extends React.Component {
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
   createLinks = routes => {
-    const { classes, color, rtlActive } = this.props;
+    const { classes, color, rtlActive, t } = this.props;
+
     return routes.map((prop, key) => {
       if (prop.redirect) {
         return null;
@@ -198,7 +201,7 @@ class Sidebar extends React.Component {
                 </span>
               )}
               <ListItemText
-                primary={rtlActive ? prop.rtlName : prop.name}
+                primary={t(prop.name)}
                 secondary={
                   <b
                     className={
@@ -296,7 +299,7 @@ class Sidebar extends React.Component {
               </span>
             )}
             <ListItemText
-              primary={rtlActive ? prop.rtlName : prop.name}
+              primary={t(prop.name)}
               disableTypography={true}
               className={cx(
                 { [itemText]: prop.icon !== undefined },
@@ -609,4 +612,4 @@ SidebarWrapper.propTypes = {
   links: PropTypes.object
 };
 
-export default withStyles(sidebarStyle)(Sidebar);
+export default withTranslation()(withStyles(sidebarStyle)(Sidebar));
