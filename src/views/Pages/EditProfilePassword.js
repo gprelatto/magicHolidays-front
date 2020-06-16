@@ -26,6 +26,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Snackbar from "components/Snackbar/Snackbar.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
+import { useTranslation } from 'react-i18next';
+
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
@@ -33,6 +35,8 @@ const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function EditProfilePassword(props) {
+    const { t, i18n } = useTranslation();
+
     const [password, setPassword] = React.useState('');
     const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
 
@@ -157,12 +161,12 @@ export default function EditProfilePassword(props) {
                     <CardIcon color="rose">
                     <MailOutline />
                     </CardIcon>
-                    <h4 className={classes.cardIconTitle}>User</h4>
+                    <h4 className={classes.cardIconTitle}>{t('profile.edit.password.title')}</h4>
                 </CardHeader>
                 <CardBody>
                     <form>
                         <CustomInput
-                            labelText="Password *"
+                            labelText={t('profile.edit.password.pwLabel')}
                             id="pw"
                             formControlProps={{
                                 fullWidth: true
@@ -177,7 +181,7 @@ export default function EditProfilePassword(props) {
                             }}
                         />
                         <CustomInput
-                            labelText="Repeat Password *"
+                            labelText={t('profile.edit.password.repeatPwLabel')}
                             id="pw2"
                             formControlProps={{
                                 fullWidth: true
@@ -192,7 +196,7 @@ export default function EditProfilePassword(props) {
                             }}
                         />
                         <div className={classes.formCategory}>
-                            <small>*</small> Required fields
+                        <small>*</small> {t('common.requiredFields')}
                         </div>
                         <Button 
                             color="rose"
@@ -206,7 +210,7 @@ export default function EditProfilePassword(props) {
                     place="tr"
                     color="danger"
                     icon={AddAlert}
-                    message="Missing mandatory fields. Also check for a valid email input."
+                    message={t('common.snackbar.missingAlertWithMail')}
                     open={tr}
                     closeNotification={() => setTR(false)}
                     close
@@ -215,7 +219,7 @@ export default function EditProfilePassword(props) {
                     place="tr"
                     color="danger"
                     icon={AddAlert}
-                    message="The passwords do not match, please re-enter."
+                    message={t('common.snackbar.passwords')}
                     open={pwTr}
                     closeNotification={() => setPwTr(false)}
                     close

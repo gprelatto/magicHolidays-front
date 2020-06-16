@@ -28,11 +28,14 @@ import styles from "assets/jss/material-dashboard-pro-react/views/extendedTables
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, editSupplier, deleteSupplier, redirectToUnforbidden } from 'common/Request/Requests.js'
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function SupplierTable(props) {
+  const { t, i18n } = useTranslation();
+
   const classes = useStyles();
   const alertClasses = useAlertStyles();
 
@@ -65,13 +68,13 @@ export default function SupplierTable(props) {
       <SweetAlert
         warning
         style={{ display: "block", marginTop: "-100px" }}
-        title="Are you sure?"
+        title={t('common.alert.areUSure')}
         onConfirm={() => successDelete(sup)}
         onCancel={() => cancelDetele()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-        confirmBtnText="Confirm Delete"
-        cancelBtnText="Cancel"
+        confirmBtnText={t('common.alert.confirmDelete')}
+        cancelBtnText={t('common.alert.cancel')}
         showCancel
       >
         Please confirm deleting supplier.

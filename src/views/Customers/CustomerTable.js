@@ -29,6 +29,7 @@ import styles from "assets/jss/material-dashboard-pro-react/views/extendedTables
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, editCustomer, deleteCustomer } from 'common/Request/Requests.js'
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -36,6 +37,8 @@ const useAlertStyles = makeStyles(alertStyles);
 export default function CustomerTable(props) {
   const classes = useStyles();
   const alertClasses = useAlertStyles();
+
+  const { t, i18n } = useTranslation();
 
   const [tableData, setTableData] = React.useState([]);
   const [customersData, setCustomersData] = React.useState('');
@@ -70,16 +73,16 @@ export default function CustomerTable(props) {
       <SweetAlert
         warning
         style={{ display: "block", marginTop: "-100px" }}
-        title="Are you sure?"
+        title={t('common.alert.areUSure')}
         onConfirm={() => successDelete(cus)}
         onCancel={() => cancelDetele()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-        confirmBtnText="Confirm Delete"
-        cancelBtnText="Cancel"
+        confirmBtnText={t('common.alert.confirmDelete')}
+        cancelBtnText={t('common.alert.cancel')}
         showCancel
       >
-        Please confirm deleting customer.
+        {t('customer.list.alert.confirm')}
       </SweetAlert>
     );
   };
@@ -96,7 +99,7 @@ export default function CustomerTable(props) {
           onCancel={() => hideAlert()}
           confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         >
-          Customer deleted.
+          {t('customer.list.alert.deleted')}
         </SweetAlert>
       );
     })
@@ -107,12 +110,12 @@ export default function CustomerTable(props) {
       <SweetAlert
         danger
         style={{ display: "block", marginTop: "-100px" }}
-        title="Cancelled"
+        title={t('common.alert.canceled')}
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
       >
-        Canceled deleting customer.
+        {t('customer.list.alert.canceled')}
       </SweetAlert>
     );
   };
@@ -247,7 +250,7 @@ export default function CustomerTable(props) {
                 <CardIcon color="rose">
                   <Assignment />
                 </CardIcon>
-                <h4 className={classes.cardIconTitle}>Customers</h4>
+                <h4 className={classes.cardIconTitle}>{t('customer.list.title')}</h4>
               </CardHeader>
               <CardBody>
               <ReactTable
@@ -256,27 +259,27 @@ export default function CustomerTable(props) {
                   defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   columns={[
                     {
-                        Header: "ID",
+                        Header: t('common.table.header.id'),
                         accessor: "id"
                     },
                     {
-                        Header: "Full Name",
+                        Header: t('common.table.header.fullName'),
                         accessor: "fullname"
                     },
                     {
-                        Header: "EMail",
+                        Header: t('common.table.header.mail'),
                         accessor: "mail"
                     },
                     {
-                        Header: "Phone",
+                        Header: t('common.table.header.phone'),
                         accessor: "phone"
                     },
                     {
-                        Header: "Country",
+                        Header: t('common.table.header.country'),
                         accessor: "countryDescription"
                     },
                     {
-                        Header: "Actions",
+                        Header: t('common.table.header.actions'),
                         accessor: "actions",
                         sortable: false,
                         filterable: false
@@ -298,12 +301,12 @@ export default function CustomerTable(props) {
                 <CardIcon color="rose">
                   <MailOutline />
                 </CardIcon>
-                <h4 className={classes.cardIconTitle}>Edit Customer</h4>
+                <h4 className={classes.cardIconTitle}>{t('customer.list.edit.title')}</h4>
               </CardHeader>
               <CardBody>
                 <form>
                     <CustomInput
-                        labelText="Full Name"
+                        labelText={t('customers.add.fullName')}
                         id="fullname"
                         formControlProps={{
                         fullWidth: true
@@ -320,7 +323,7 @@ export default function CustomerTable(props) {
                         }}
                     />
                     <CustomInput
-                        labelText="EMail"
+                        labelText={t('customers.add.mail')}
                         id="mail"
                         formControlProps={{
                         fullWidth: true
@@ -337,7 +340,7 @@ export default function CustomerTable(props) {
                         }}
                     />
                     <CustomInput
-                        labelText="Phone"
+                        labelText={t('customers.add.phone')}
                         id="phone"
                         formControlProps={{
                         fullWidth: true
@@ -354,7 +357,7 @@ export default function CustomerTable(props) {
                         }}
                     />
                     <InputLabel htmlFor="country-select" className={classes.selectLabel}>
-                        Country
+                        {t('common.country')}
                     </InputLabel>
                     <Select
                         MenuProps={{
@@ -398,10 +401,10 @@ export default function CustomerTable(props) {
                     <GridItem xs={12} sm={12} md={6}>
                       <div className={classes.cardContentRight}>
                         <Button color="primary" className={classes.marginRight} onClick={submitEditButton}>
-                          Submit
+                          {t('common.button.submit')}
                         </Button>
                         <Button color="primary" className={classes.marginRight} onClick={() => setShowEdit(false)}>
-                          Return to table
+                          {t('common.button.returnToTable')}
                         </Button>
                       </div>
                     </GridItem>

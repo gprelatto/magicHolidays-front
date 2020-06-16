@@ -25,11 +25,14 @@ import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsSt
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { postSupplier, redirectToUnforbidden } from "common/Request/Requests.js";
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function SupplierForm(props) {
+  const { t, i18n } = useTranslation();
+
   const [supplier, setSupplier] = React.useState('');
   const [alert, setAlert] = React.useState(null);
   const [tr, setTR] = React.useState(false);
@@ -76,7 +79,7 @@ export default function SupplierForm(props) {
       <SweetAlert
         success
         style={{ display: "block", marginTop: "-100px" }}
-        title="Supplier Added!"
+        title={t('supplier.add.alert.added')}
         onConfirm={() => {
           setRedirect(<Redirect to='/admin/supplierTable' />);
         }}
@@ -86,11 +89,11 @@ export default function SupplierForm(props) {
         }}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-        confirmBtnText="Done"
-        cancelBtnText="Add another"
+        confirmBtnText={t('common.alert.done')}
+        cancelBtnText={t('common.alert.addAnother')}
         showCancel
       >
-        Supplier added!
+        {t('supplier.add.alert.added')}
       </SweetAlert>
     );
   };
@@ -109,14 +112,14 @@ export default function SupplierForm(props) {
             <CardIcon color="rose">
               <MailOutline />
             </CardIcon>
-            <h4 className={classes.cardIconTitle}>Add Supplier</h4>
+            <h4 className={classes.cardIconTitle}>{t('supplier.add.title')}</h4>
           </CardHeader>
           <CardBody>
             <form>
               <CustomInput
                 success={supplierInputState === "success"}
                 error={supplierInputState === "error"}
-                labelText='Supplier Name *'
+                labelText={t('supplier.form.name')}
                 id='description'
                 formControlProps={{
                   fullWidth: true
@@ -132,7 +135,7 @@ export default function SupplierForm(props) {
               <Button 
                 color="rose"
                 onClick={submitButton}>
-                  Submit
+                  {t('common.button.submit')}
                 </Button>
             </form>
           </CardBody>
@@ -141,7 +144,7 @@ export default function SupplierForm(props) {
           place="tr"
           color="danger"
           icon={AddAlert}
-          message="Missing mandatory fields."
+          message={t('common.snackbar.missingAlert')}
           open={tr}
           closeNotification={() => setTR(false)}
           close

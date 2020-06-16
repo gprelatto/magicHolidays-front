@@ -28,11 +28,14 @@ import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsSt
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, postCustomer } from 'common/Request/Requests.js'
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function CustomerForm(props) {
+    const { t, i18n } = useTranslation();
+
     const [countries, setCountries] = React.useState([]);
 
     const [selectedCountryId, setSelectedCountryId] = React.useState(0);
@@ -57,10 +60,11 @@ export default function CustomerForm(props) {
         progressBar();
         getRequest('countries').then((response) => {
             let responseData = response.data.data;
+            let desc = t('common.dropdown.pleaseSelectCountry')
             responseData.unshift(
                 {
                     id: 0,
-                    description: 'Please select a country *',
+                    description: desc,
                     lang: ''
                 }
             )
@@ -143,7 +147,7 @@ export default function CustomerForm(props) {
           <SweetAlert
             success
             style={{ display: "block", marginTop: "-100px" }}
-            title="Customer Added!"
+            title={t('customers.add.alert.added')}
             onConfirm={() => {
               setRedirect(<Redirect to='/admin/customerTable' />);
             }}
@@ -156,11 +160,11 @@ export default function CustomerForm(props) {
             }}
             confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
             cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-            confirmBtnText="Done"
-            cancelBtnText="Add another"
+            confirmBtnText={t('common.alert.done')}
+            cancelBtnText={t('common.alert.addAnother')}
             showCancel
           >
-            Customer added!
+            {t('customers.add.alert.added')}
           </SweetAlert>
         );
       };
@@ -187,12 +191,12 @@ export default function CustomerForm(props) {
                     <CardIcon color="rose">
                     <MailOutline />
                     </CardIcon>
-                    <h4 className={classes.cardIconTitle}>Customer</h4>
+                    <h4 className={classes.cardIconTitle}>{t('customers.add.title')}</h4>
                 </CardHeader>
                 <CardBody>
                     <form>
                         <CustomInput
-                            labelText="Full Name *"
+                            labelText={t('customers.add.fullName')}
                             id="fullname"
                             formControlProps={{
                                 fullWidth: true
@@ -208,7 +212,7 @@ export default function CustomerForm(props) {
                             }}
                         />
                         <CustomInput
-                            labelText="Email *"
+                            labelText={t('customers.add.mail')}
                             id="email"
                             formControlProps={{
                                 fullWidth: true
@@ -224,7 +228,7 @@ export default function CustomerForm(props) {
                             }}
                         />
                         <CustomInput
-                            labelText="Phone *"
+                            labelText={t('customers.add.phone')}
                             id="phone"
                             formControlProps={{
                                 fullWidth: true
@@ -240,7 +244,7 @@ export default function CustomerForm(props) {
                             }}
                         />
                         <InputLabel htmlFor="country-select" className={classes.selectLabel}>
-                            Country
+                        {t('common.country')}
                         </InputLabel>
                         <Select
                             success={(registerCountryId === "success").toString()}
@@ -277,13 +281,13 @@ export default function CustomerForm(props) {
                             })}
                         </Select>
                         <div className={classes.formCategory}>
-                            <small>*</small> Required fields
+                            <small>*</small> {t('common.requiredFields')}
                         </div>
                         <Button 
                             color="rose"
                             onClick={submitClick}
                         >
-                            Submit
+                            {t('common.button.submit')}
                         </Button>
                     </form>
                 </CardBody>
@@ -291,7 +295,7 @@ export default function CustomerForm(props) {
                     place="tr"
                     color="danger"
                     icon={AddAlert}
-                    message="Missing mandatory fields. Also check for a valid email input."
+                    message={t('common.snackbar.missingAlertWithMail')}
                     open={tr}
                     closeNotification={() => setTR(false)}
                     close

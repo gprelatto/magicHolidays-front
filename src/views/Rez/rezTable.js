@@ -497,10 +497,12 @@ export default function RezTable(props) {
                   showPaginationBottom={false}
                   className="-striped -highlight"
                   getTrProps={getTrProps}
-                  initialState={{
-                    hiddenColumns: [
-                      'Deleted at'
-                    ]
+                  useTable={{
+                    initialState: {
+                      hiddenColumns: [
+                        'deleted_at'
+                      ]
+                    }
                   }}
                 />
               </CardBody>

@@ -26,6 +26,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import { getRequest, editProfile } from "common/Request/Requests.js";
+import { useTranslation } from 'react-i18next';
 
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
 import selectStyles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
@@ -36,6 +37,8 @@ const useSelectStyles = makeStyles(selectStyles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function UserProfile(props) {
+  const { t, i18n } = useTranslation();
+
   const [userProfile, setUserProfile] = React.useState({});
   const [countries, setCountries] = React.useState([]);
   const [userType, setUserType] = React.useState({});
@@ -137,14 +140,14 @@ export default function UserProfile(props) {
                 <PermIdentity />
               </CardIcon>
               <h4 className={classes.cardIconTitle}>
-                Edit Profile
+                {t('profile.title.edit')}
               </h4>
             </CardHeader>
             <CardBody>
             <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <InputLabel htmlFor="firstname" className={classes.description}>
-                    First Name
+                    {t('common.firstname')}
                   </InputLabel>
                   <CustomInput
                     id="first-name"
@@ -165,7 +168,7 @@ export default function UserProfile(props) {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <InputLabel htmlFor="lastname" className={classes.description}>
-                    Last Name
+                    {t('common.lastname')}
                   </InputLabel>
                   <CustomInput
                     id="last-name"
@@ -188,7 +191,7 @@ export default function UserProfile(props) {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                 <InputLabel htmlFor="mail" className={classes.description}>
-                    Mail
+                  {t('common.mail')}
                   </InputLabel>
                   <CustomInput
                     id="mail"
@@ -209,7 +212,7 @@ export default function UserProfile(props) {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <InputLabel htmlFor="phone" className={classes.description}>
-                    Phone
+                    {t('common.phone')}
                   </InputLabel>
                   <CustomInput
                     id="phone"
@@ -232,7 +235,7 @@ export default function UserProfile(props) {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <InputLabel htmlFor="userType" className={classes.description}>
-                    User Type
+                    {t('common.user_type')}
                   </InputLabel>
                   <CustomInput
                     id="user-type"
@@ -248,7 +251,7 @@ export default function UserProfile(props) {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <InputLabel htmlFor="country" className={classes.description}>
-                    Country
+                    {t('common.country')}
                   </InputLabel>
                   <Select
                     // success={(registerCountryId === "success").toString()}
@@ -292,7 +295,7 @@ export default function UserProfile(props) {
               </GridContainer>
 
               <Button color="rose" className={classes.updateProfileButton} onClick={submitButton}>
-                Update Profile
+                {t('common.updateButton')}
               </Button>
               <Clearfix />
             </CardBody>

@@ -89,7 +89,7 @@ export const routes = [
   {
     collapse: true,
     render: true,
-    name: "Customers",
+    name: "menu.label.customer",
     rtlName: "",
     icon: Place,
     state: "customersManagement",
@@ -100,7 +100,7 @@ export const routes = [
       {
         render: true,
         path: "/customerAdd",
-        name: "Add Customer",
+        name: "menu.label.customer.add",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -113,7 +113,7 @@ export const routes = [
       {
         render: true,
         path: "/customerTable",
-        name: "List Customers",
+        name: "menu.label.customer.list",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -128,7 +128,7 @@ export const routes = [
   {
     collapse: true,
     render: true,
-    name: "Suppliers",
+    name: "menu.label.supplier",
     rtlName: "",
     icon: Place,
     state: "suppliersCollapse",
@@ -139,7 +139,7 @@ export const routes = [
       {
         render: true,
         path: "/supplierAdd",
-        name: "Add Supplier",
+        name: "menu.label.supplier.add",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -152,7 +152,7 @@ export const routes = [
       {
         render: true,
         path: "/supplierTable",
-        name: "List Suppliers",
+        name: "menu.label.supplier.list",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -167,7 +167,7 @@ export const routes = [
   {
     collapse: true,
     render: true,
-    name: "Product Categories",
+    name: "menu.label.prodCat",
     rtlName: "",
     icon: Place,
     state: "prodCategoriesCollapse",
@@ -178,7 +178,7 @@ export const routes = [
       {
         render: true,
         path: "/productCategoryAdd",
-        name: "Add Product Category",
+        name: "menu.label.prodCat.add",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -191,7 +191,7 @@ export const routes = [
       {
         render: true,
         path: "/productCategoryTable",
-        name: "List Product Categories",
+        name: "menu.label.prodCat.list",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -206,7 +206,7 @@ export const routes = [
   {
     collapse: true,
     render: true,
-    name: "Products",
+    name: "menu.label.product",
     rtlName: "",
     icon: Place,
     state: "productsManagement",
@@ -217,7 +217,7 @@ export const routes = [
       {
         render: true,
         path: "/productAdd",
-        name: "Add Product",
+        name: "menu.label.product.add",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -230,7 +230,7 @@ export const routes = [
       {
         render: true,
         path: "/productTable",
-        name: "List Products",
+        name: "menu.label.product.list",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -245,7 +245,7 @@ export const routes = [
   {
     collapse: true,
     render: true,
-    name: "Users",
+    name: "menu.label.users",
     rtlName: "",
     icon: Place,
     state: "usersManagement",
@@ -256,7 +256,7 @@ export const routes = [
       {
         render: true,
         path: "/userForm",
-        name: "Add User",
+        name: "menu.label.users.add",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -269,7 +269,7 @@ export const routes = [
       {
         render: true,
         path: "/usersTable",
-        name: "List Users",
+        name: "menu.label.users.list",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -284,7 +284,7 @@ export const routes = [
   {
     collapse: true,
     render: true,
-    name: "Reservations",
+    name: "menu.label.rez",
     rtlName: "",
     icon: Place,
     state: "rezManagement",
@@ -294,12 +294,12 @@ export const routes = [
     views: [
       {
         render: true,
-        path: "/rezTable",
-        name: "List Reservations",
+        path: "/rezForm",
+        name: "menu.label.rez.add",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
-        component: RezTable,
+        component: RezForm,
         layout: "/admin",
         permissions: [
           1,2
@@ -307,12 +307,12 @@ export const routes = [
       },
       {
         render: true,
-        path: "/rezForm",
-        name: "Add Reservation",
+        path: "/rezTable",
+        name: "menu.label.rez.list",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
-        component: RezForm,
+        component: RezTable,
         layout: "/admin",
         permissions: [
           1,2
@@ -323,7 +323,7 @@ export const routes = [
   {
     collapse: true,
     render: true,
-    name: "Payments",
+    name: "menu.label.payments",
     rtlName: "",
     icon: Place,
     state: "paymentsManagement",
@@ -334,7 +334,7 @@ export const routes = [
       {
         render: true,
         path: "/prepaidTable",
-        name: "Prepay Reservation",
+        name: "menu.label.payments.prepay",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -347,7 +347,7 @@ export const routes = [
       {
         render: true,
         path: "/paymentTable",
-        name: "Pay Reservation",
+        name: "menu.label.payments.pay",
         rtlName: "",
         mini: "RF",
         rtlMini: "",
@@ -363,7 +363,7 @@ export const routes = [
     collapse: false,
     render: true,
     path: "/logOut",
-    name: "Log Out",
+    name: "menu.label.logout",
     rtlName: "",
     icon: DashboardIcon,
     component: LogOut,
