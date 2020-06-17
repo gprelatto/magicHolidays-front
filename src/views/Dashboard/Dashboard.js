@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // react plugin for creating vector maps
@@ -36,18 +36,29 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
+
+// @material-ui/icons
+import Timeline from "@material-ui/icons/Timeline";
 
 import {
   dailySalesChart,
   emailsSubscriptionChart,
-  completedTasksChart
+  completedTasksChart,
+  colouredLinesChart
 } from "variables/charts";
 
+
+
 import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.js";
+import chartStyles from "assets/jss/material-dashboard-pro-react/views/chartsStyle.js";
 
 import priceImage1 from "assets/img/card-2.jpeg";
 import priceImage2 from "assets/img/card-3.jpeg";
 import priceImage3 from "assets/img/card-1.jpeg";
+
+import { getRequest,  redirectToUnforbidden } from 'common/Request/Requests.js'
+import { blackColor } from "assets/jss/material-dashboard-pro-react";
 
 const us_flag = require("assets/img/flags/US.png");
 const de_flag = require("assets/img/flags/DE.png");
@@ -56,58 +67,150 @@ const gb_flag = require("assets/img/flags/GB.png");
 const ro_flag = require("assets/img/flags/RO.png");
 const br_flag = require("assets/img/flags/BR.png");
 
-var mapData = {
-  AU: 760,
-  BR: 550,
-  CA: 120,
-  DE: 1300,
-  FR: 540,
-  GB: 690,
-  GE: 200,
-  IN: 200,
-  RO: 600,
-  RU: 300,
-  US: 2920
-};
-
 const useStyles = makeStyles(styles);
+const useChartStyles = makeStyles(chartStyles);
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
+  const classesChart = useChartStyles();
+  const [widgets, setWidgets] = React.useState([]);
+  const [totalSales, setWidgetsTotalSales] = React.useState([]);
+  const [totalRevenue, setWidgetsTotalRevenue] = React.useState([]);
+  const [totalFees, setWidgetsTotalFees] = React.useState([]);
+  const [mapData, setSalesCountry] = React.useState({});
+  const [pieChart, setPieProducts] = React.useState({});
+  const [bar, setBar] = React.useState(null);
+  const [tr, setTR] = React.useState(false);
+  const [alert, setAlert] = React.useState(null);
+  const [redirect, setRedirect] = React.useState(false);
+  const ct_series_colors = [
+    '#d70206',
+    '#f05b4f',
+    '#f4c63d',
+    '#d17905',
+    '#453d3f',
+    '#59922b',
+    '#0544d3',
+    '#6b0392',
+    '#f05b4f',
+    '#dda458',
+    '#eacf7d',
+    '#86797d',
+    '#b2c326',
+    '#6188e2',
+    '#a748ca'] 
+
+
+
+  const progressBar = () => {
+    setBar(
+      <CustomLinearProgress
+        variant="indeterminate"
+        color="primary"
+        value={30}
+      />
+    );
+  };
+
+  const removeProgressBar = () => {
+    setBar(null);
+  };
+
+
+
+  useEffect(() => {
+      progressBar();
+      var sum = function(a, b) { return a + b };
+      getRequest('widgets').then((response) => {
+          let responseData = response.data
+
+          if(responseData.code === 403) {
+              redirectToUnforbidden(props);
+          }
+          //setWidgets(responseData.data);
+          setWidgetsTotalSales(responseData.data.find(f => f.widget === 'Total Sales').totalsales ?? 0)
+          setWidgetsTotalRevenue(responseData.data.find(f => f.widget === 'Total Revenue').totalsales ?? 0)
+          setWidgetsTotalFees(responseData.data.find(f => f.widget === 'Total Fees').totalsales ?? 0)
+          removeProgressBar();
+      }).catch(e => {
+          props.history.push('/auth/forbidden')
+      });
+      getRequest('salesCountry').then((response) => {
+        let responseData = response.data
+
+        if(responseData.code === 403) {
+            redirectToUnforbidden(props);
+        }
+        //setWidgets(responseData.data);
+        let data = {};
+        responseData.data.forEach(element => {
+          data[element.key] = element.totalsales
+        });
+        setSalesCountry(data)
+        removeProgressBar();
+      }).catch(e => {
+          props.history.push('/auth/forbidden')
+      });     
+      getRequest('salesProduct').then((response) => {
+        let responseData = response.data
+
+        if(responseData.code === 403) {
+            redirectToUnforbidden(props);
+        }
+        //setWidgets(responseData.data);
+        let pieChart = {
+          data : {
+            labels : [],
+            series : []
+          },
+          options : {
+            height:  "230px",
+            donut: true,
+            donutWidth: 60,
+            donutSolid: true,
+            startAngle: 270,
+            showLabel: true,
+            labelInterpolationFnc: function(value) {
+              return  pieChart.data.series[pieChart.data.labels.indexOf(value)];
+            }            
+          },
+          responsiveOptions : [
+            ['screen and (min-width: 640px)', {
+              chartPadding: 30,
+              labelOffset: 100,
+              labelDirection: 'explode'
+            }],
+            ['screen and (min-width: 1024px)', {
+              labelOffset: 80,
+              chartPadding: 20
+            }]
+          ]
+        };
+        responseData.data.forEach(element => {
+          pieChart.data.labels.push(element.key)
+          pieChart.data.series.push(element.totalsales)
+        });
+        setPieProducts(pieChart)
+        removeProgressBar();
+      }).catch(e => {
+          props.history.push('/auth/forbidden')
+      });         
+  }, [])  
+  
   return (
     <div>
+      {bar}
       <GridContainer>
-        <GridItem xs={12} sm={6} md={6} lg={3}>
+        <GridItem xs={12} sm={6} md={6} lg={4}>
           <Card>
             <CardHeader color="warning" stats icon>
               <CardIcon color="warning">
-                <Icon>content_copy</Icon>
+                <Icon>receipt</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Used Space</p>
+              <p className={classes.cardCategory}>Total Sales</p>
               <h3 className={classes.cardTitle}>
-                49/50 <small>GB</small>
+               $ {totalSales}
               </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <Danger>
-                  <Warning />
-                </Danger>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Get more space
-                </a>
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={6} lg={3}>
-          <Card>
-            <CardHeader color="success" stats icon>
-              <CardIcon color="success">
-                <Store />
-              </CardIcon>
-              <p className={classes.cardCategory}>Revenue</p>
-              <h3 className={classes.cardTitle}>$34,245</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -117,36 +220,40 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={6} lg={3}>
+        <GridItem xs={12} sm={6} md={6} lg={4}>
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
-                <Icon>info_outline</Icon>
+                <Icon>monetization_on</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Fixed Issues</p>
-              <h3 className={classes.cardTitle}>75</h3>
+              <p className={classes.cardCategory}>Total Revenue</p>
+              <h3 className={classes.cardTitle}>
+                $  {totalRevenue}
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <LocalOffer />
-                Tracked from Github
+                <DateRange />
+                Last 24 Hours
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={6} lg={3}>
+        <GridItem xs={12} sm={6} md={6} lg={4}>
           <Card>
-            <CardHeader color="info" stats icon>
-              <CardIcon color="info">
-                <i className="fab fa-twitter" />
+            <CardHeader color="success" stats icon>
+              <CardIcon color="success">
+                <Icon>local_atm</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Followers</p>
-              <h3 className={classes.cardTitle}>+245</h3>
+              <p className={classes.cardCategory}>Total Fees</p>
+              <h3 className={classes.cardTitle}>
+                $  {totalFees}
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <Update />
-                Just Updated
+                <DateRange />
+                Last 24 Hours
               </div>
             </CardFooter>
           </Card>
@@ -160,7 +267,7 @@ export default function Dashboard() {
                 <Language />
               </CardIcon>
               <h4 className={classes.cardIconTitle}>
-                Global Sales by Top Locations
+                Sales by Location
               </h4>
             </CardHeader>
             <CardBody>
@@ -243,332 +350,54 @@ export default function Dashboard() {
         </GridItem>
       </GridContainer>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart className={classes.cardHover}>
-            <CardHeader color="info" className={classes.cardHeaderHover}>
+        <GridItem xs={12} sm={12} md={7}>
+          <Card>
+            <CardHeader color="warning" icon>
+              <CardIcon color="warning">
+                <Timeline />
+              </CardIcon>
+              <h4 className={classesChart.cardIconTitle}>
+                Coloured Lines Chart <small>- Rounded</small>
+              </h4>
+            </CardHeader>
+            <CardBody>
               <ChartistGraph
-                className="ct-chart-white-colors"
-                data={dailySalesChart.data}
+                data={colouredLinesChart.data}
                 type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
+                options={colouredLinesChart.options}
+                listener={colouredLinesChart.animation}
               />
-            </CardHeader>
-            <CardBody>
-              <div className={classes.cardHoverUnder}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Refresh"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button simple color="info" justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Change Date"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-              </div>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                </span>{" "}
-                increase in today sales.
-              </p>
             </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart className={classes.cardHover}>
-            <CardHeader color="warning" className={classes.cardHeaderHover}>
+        <GridItem xs={12} sm={12} md={5}>
+          <Card>
+            <CardHeader color="danger" icon>
+              <CardIcon color="danger">
+                <Timeline />
+              </CardIcon>
+              <h4 className={classesChart.cardIconTitle}>Totalizado de Productos Vendidos</h4>
+            </CardHeader>
+            <CardBody>
               <ChartistGraph
-                className="ct-chart-white-colors"
-                data={emailsSubscriptionChart.data}
-                type="Bar"
-                options={emailsSubscriptionChart.options}
-                responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                listener={emailsSubscriptionChart.animation}
+                data={pieChart.data}
+                type="Pie"
+                options={pieChart.options}
+                responsiveOptions={pieChart.responsiveOptions}
               />
-            </CardHeader>
-            <CardBody>
-              <div className={classes.cardHoverUnder}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Refresh"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button simple color="info" justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Change Date"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-              </div>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
             </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
+            <CardFooter stats className={classesChart.cardFooter}>
+              <h6 className={classesChart.legendTitle}>Leyenda</h6>
+              {
+                pieChart.data != undefined ? 
+                  pieChart.data.labels.map((item, i) => {
+                    return <i className={"fas fa-circle " } style={{ color : ct_series_colors[i] }}> <i style={{color : blackColor}}>{item}{` `}</i>  </i>
+                  }) : <></>
+              }
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart className={classes.cardHover}>
-            <CardHeader color="danger" className={classes.cardHeaderHover}>
-              <ChartistGraph
-                className="ct-chart-white-colors"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <div className={classes.cardHoverUnder}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Refresh"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button simple color="info" justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Change Date"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-              </div>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
-      <h3>Manage Listings</h3>
-      <br />
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card product className={classes.cardHover}>
-            <CardHeader image className={classes.cardHeaderHover}>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={priceImage1} alt="..." />
-              </a>
-            </CardHeader>
-            <CardBody>
-              <div className={classes.cardHoverUnder}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="View"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <ArtTrack className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Edit"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="success" simple justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Remove"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="danger" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-              </div>
-              <h4 className={classes.cardProductTitle}>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Cozy 5 Stars Apartment
-                </a>
-              </h4>
-              <p className={classes.cardProductDesciprion}>
-                The place is close to Barceloneta Beach and bus stop just 2 min
-                by walk and near to {'"'}Naviglio{'"'} where you can enjoy the
-                main night life in Barcelona.
-              </p>
-            </CardBody>
-            <CardFooter product>
-              <div className={classes.price}>
-                <h4>$899/night</h4>
-              </div>
-              <div className={`${classes.stats} ${classes.productStats}`}>
-                <Place /> Barcelona, Spain
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card product className={classes.cardHover}>
-            <CardHeader image className={classes.cardHeaderHover}>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={priceImage2} alt="..." />
-              </a>
-            </CardHeader>
-            <CardBody>
-              <div className={classes.cardHoverUnder}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="View"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <ArtTrack className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Edit"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="success" simple justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Remove"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="danger" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-              </div>
-              <h4 className={classes.cardProductTitle}>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Office Studio
-                </a>
-              </h4>
-              <p className={classes.cardProductDesciprion}>
-                The place is close to Metro Station and bus stop just 2 min by
-                walk and near to {'"'}Naviglio{'"'} where you can enjoy the
-                night life in London, UK.
-              </p>
-            </CardBody>
-            <CardFooter product>
-              <div className={classes.price}>
-                <h4>$1.119/night</h4>
-              </div>
-              <div className={`${classes.stats} ${classes.productStats}`}>
-                <Place /> London, UK
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card product className={classes.cardHover}>
-            <CardHeader image className={classes.cardHeaderHover}>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={priceImage3} alt="..." />
-              </a>
-            </CardHeader>
-            <CardBody>
-              <div className={classes.cardHoverUnder}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="View"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <ArtTrack className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Edit"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="success" simple justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Remove"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="danger" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-              </div>
-              <h4 className={classes.cardProductTitle}>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Beautiful Castle
-                </a>
-              </h4>
-              <p className={classes.cardProductDesciprion}>
-                The place is close to Metro Station and bus stop just 2 min by
-                walk and near to {'"'}Naviglio{'"'} where you can enjoy the main
-                night life in Milan.
-              </p>
-            </CardBody>
-            <CardFooter product>
-              <div className={classes.price}>
-                <h4>$459/night</h4>
-              </div>
-              <div className={`${classes.stats} ${classes.productStats}`}>
-                <Place /> Milan, Italy
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
+      </GridContainer>      
     </div>
   );
 }

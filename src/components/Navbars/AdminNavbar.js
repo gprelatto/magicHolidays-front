@@ -14,16 +14,21 @@ import Menu from "@material-ui/icons/Menu";
 import MoreVert from "@material-ui/icons/MoreVert";
 import ViewList from "@material-ui/icons/ViewList";
 
+
 // core components
 import AdminNavbarLinks from "./AdminNavbarLinks";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/components/adminNavbarStyle.js";
 
+
+import { useTranslation } from 'react-i18next';
+
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbar(props) {
   const classes = useStyles();
+  const { t, i18n } = useTranslation();
   const { color, rtlActive, brandText } = props;
   const appBarClasses = cx({
     [" " + classes[color]]: color
@@ -63,7 +68,7 @@ export default function AdminNavbar(props) {
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
           <Button href="#" className={classes.title} color="transparent">
-            {brandText}
+            {t(brandText)}
           </Button>
         </div>
         <Hidden smDown implementation="css">
