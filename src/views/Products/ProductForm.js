@@ -28,11 +28,14 @@ import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsSt
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, postProduct, redirectToUnforbidden } from 'common/Request/Requests.js'
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function ProductForm(props) {
+    const { t, i18n } = useTranslation();
+
     const [suppliers, setSuppliers] = React.useState([]);
     const [supplierId, setSupplierId] = React.useState(0);
 
@@ -66,7 +69,7 @@ export default function ProductForm(props) {
             responseData.unshift(
                 {
                     id: 0,
-                    description: 'Please select a supplier *'
+                    description: t('common.dropdown.selectSupplier')
                 }
             )
 
@@ -84,7 +87,7 @@ export default function ProductForm(props) {
                 {
                     id: 0,
                     supplier: 0,
-                    description: 'Please select a Product Category *'
+                    description: t('common.dropdown.selectProductCategory')
                 }
             )
 
@@ -161,7 +164,7 @@ export default function ProductForm(props) {
           <SweetAlert
             success
             style={{ display: "block", marginTop: "-100px" }}
-            title="Product Added!"
+            title={t('product.alert.added')}
             onConfirm={() => {
               setRedirect(<Redirect to='/admin/productTable' />);
             }}
@@ -173,11 +176,11 @@ export default function ProductForm(props) {
             }}
             confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
             cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-            confirmBtnText="Done"
-            cancelBtnText="Add another"
+            confirmBtnText={t('common.alert.done')}
+            cancelBtnText={t('common.alert.cancel')}
             showCancel
           >
-            Product Category added!
+            {t('product.alert.added')}
           </SweetAlert>
         );
       };
@@ -211,12 +214,12 @@ export default function ProductForm(props) {
                     <CardIcon color="rose">
                     <MailOutline />
                     </CardIcon>
-                    <h4 className={classes.cardIconTitle}>Product</h4>
+                    <h4 className={classes.cardIconTitle}>{t('product.form.title')}</h4>
                 </CardHeader>
                 <CardBody>
                     <form>
                          <InputLabel htmlFor="supplier-select" className={classes.selectLabel}>
-                            Supplier
+                            {t('product.form.supplier')}
                         </InputLabel>
                         <Select
                             success={(registerSupplierState === "success").toString()}
@@ -251,7 +254,7 @@ export default function ProductForm(props) {
                         </Select>
 
                         <InputLabel htmlFor="product-category-select" className={classes.selectLabel}>
-                            Product Category
+                            {t('product.form.prodCat')}
                         </InputLabel>
                         <Select
                             disabled={!isProductCategoryEnabled}
@@ -286,7 +289,7 @@ export default function ProductForm(props) {
                             })}
                         </Select>
                         <CustomInput
-                            labelText="Product *"
+                            labelText={t('product.form.product')}
                             id="description"
                             formControlProps={{
                                 fullWidth: true
@@ -302,13 +305,13 @@ export default function ProductForm(props) {
                             }}
                         />
                         <div className={classes.formCategory}>
-                            <small>*</small> Required fields
+                            <small>*</small> {t('common.requiredFields')}
                         </div>
                         <Button 
                             color="rose"
                             onClick={submitClick}
                         >
-                            Submit
+                            {t('common.button.submit')}
                         </Button>
                     </form>
                 </CardBody>

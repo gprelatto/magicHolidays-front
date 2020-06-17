@@ -29,6 +29,7 @@ import styles from "assets/jss/material-dashboard-pro-react/views/extendedTables
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, editProductCategory, deleteProductCategory, redirectToUnforbidden } from 'common/Request/Requests.js'
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -36,6 +37,8 @@ const useAlertStyles = makeStyles(alertStyles);
 export default function ProductCategoryTable(props) {
   const classes = useStyles();
   const alertClasses = useAlertStyles();
+  
+  const { t, i18n } = useTranslation();
 
   const [tableData, setTableData] = React.useState([]);
   const [suppliersData, setSuppliersData] = React.useState('');

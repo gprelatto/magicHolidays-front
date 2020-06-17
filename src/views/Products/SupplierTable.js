@@ -77,7 +77,7 @@ export default function SupplierTable(props) {
         cancelBtnText={t('common.alert.cancel')}
         showCancel
       >
-        Please confirm deleting supplier.
+        {t('supplier.list.alert.confirmDelete')}
       </SweetAlert>
     );
   };
@@ -89,12 +89,12 @@ export default function SupplierTable(props) {
         <SweetAlert
           success
           style={{ display: "block", marginTop: "-100px" }}
-          title="Deleted!"
+          title={t('common.alert.deleted')}
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
           confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         >
-          Supplier deleted.
+          {t('common.alert.deleted')}
         </SweetAlert>
       );
     })
@@ -110,7 +110,7 @@ export default function SupplierTable(props) {
         onCancel={() => hideAlert()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
       >
-        Canceled deleting supplier.
+        {t('common.alert.canceled')}
       </SweetAlert>
     );
   };
@@ -223,7 +223,7 @@ export default function SupplierTable(props) {
                 <CardIcon color="rose">
                   <Assignment />
                 </CardIcon>
-                <h4 className={classes.cardIconTitle}>Suppliers</h4>
+                <h4 className={classes.cardIconTitle}>{t('supplier.list.title')}</h4>
               </CardHeader>
               <CardBody>
               <ReactTable
@@ -232,15 +232,15 @@ export default function SupplierTable(props) {
                   defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   columns={[
                     {
-                      Header: "ID",
+                      Header: t('common.table.header.id'),
                       accessor: "id"
                     },
                     {
-                      Header: "Description",
+                      Header: t('common.table.header.description'),
                       accessor: "description"
                     },
                     {
-                      Header: "Actions",
+                      Header: t('common.table.header.actions'),
                       accessor: "actions",
                       sortable: false,
                       filterable: false
@@ -267,7 +267,7 @@ export default function SupplierTable(props) {
               <CardBody>
                 <form>
                   <CustomInput
-                    labelText="Supplier Name"
+                    labelText={t('supplier.form.name')}
                     id="description"
                     formControlProps={{
                       fullWidth: true
@@ -286,10 +286,10 @@ export default function SupplierTable(props) {
                   <GridItem xs={12} sm={12} md={6}>
                       <div className={classes.cardContentRight}>
                         <Button color="primary" className={classes.marginRight} onClick={submitEditButton}>
-                          Submit
+                          {t('common.button.submit')}
                         </Button>
                         <Button color="primary" className={classes.marginRight} onClick={() => setShowEdit(false)}>
-                          Return to table
+                          {t('common.button.returnToTable')}
                         </Button>
                       </div>
                     </GridItem>

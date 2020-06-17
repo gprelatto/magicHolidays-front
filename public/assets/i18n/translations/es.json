@@ -35,7 +35,6 @@
     "customers.add.phone": "Telefono *",
     "customers.add.alert.added": "Cliente agregado.",
     "customers.add.mail": "Mail *",
-
     "customer.list.alert.confirm": "Por favor confirme para eliminar el cliente.",
     "customer.list.alert.deleted": "Cliente eliminado",
     "customer.list.alert.canceled": "El cliente no fue eliminado",
@@ -45,11 +44,21 @@
     "supplier.add.alert.added": "Proveedor agregado.",
     "supplier.add.title": "Agregar Nuevo Proveedor",
     "supplier.form.name": "Nombre del Proveedor *",
+    "supplier.list.alert.confirmDelete": "Por favor, confirme accion de borrar proveedor.",
+    "supplier.list.title": "Proveedores",
+
+    "product.form.title": "Agregar Nuevo Producto",
+    "product.form.supplier": "Proveedor",
+    "product.form.prodCat": "Categoria de Producto",
+    "product.form.product": "Producto *",
+    "product.alert.added": "Producto agregado.",
+    
 
     "common.alert.done": "Aceptar",
     "common.alert.addAnother": "Agregar otro.",
     "common.alert.areUSure": "Esta seguro de eliminar dicho registro?",
     "common.alert.confirmDelete": "Confirmar eliminar",
+    "common.alert.deleted": "Eliminado.",
     "common.alert.cancel": "Cancelar",
     "common.alert.canceled": "Cancelado",
     "common.button.submit": "Enviar",
@@ -66,10 +75,13 @@
     "common.snackbar.missingAlertWithMail": "Por favor corrobore que todos los campos obligatorios fueron completados. Tambien corrobore que el email es valido",
     "common.snackbar.passwords": "Las contraseñas ingresadas no coinciden.",
     "common.dropdown.pleaseSelectCountry": "Por favor seleccione un pais *",
+    "common.dropdown.selectSupplier": "Por favor seleccione un proveedor *",
+    "common.dropdown.selectProductCategory": "Por favor seleccione una categoria de producto *",
     "common.table.header.id": "ID",
     "common.table.header.fullName": "Nombre Completo",
     "common.table.header.mail": "Mail",
     "common.table.header.phone": "Telefono",
     "common.table.header.country": "Pais",
-    "common.table.header.actions": "Acciones"
+    "common.table.header.actions": "Acciones",
+    "common.table.header.description": "Descripcion"
 }

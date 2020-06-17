@@ -341,6 +341,7 @@ export default function RezTable(props) {
                                     confirmationDate: prop.confirmationDate,
                                     arrivalDate: prop.arrivalDate,
                                     customer: prop.customerMail,
+                                    customerFullName: prop.customerFullName,
                                     total: prop.total,
                                     feeTotal: prop.feeTotal,
                                     feeAgency: prop.feeAgency,
@@ -424,7 +425,7 @@ export default function RezTable(props) {
                 <CardIcon color="rose">
                   <Assignment />
                 </CardIcon>
-                <h4 className={classes.cardIconTitle}>Suppliers</h4>
+                <h4 className={classes.cardIconTitle}>Reservaciones</h4>
               </CardHeader>
               <CardBody>
               <ReactTable
@@ -437,32 +438,36 @@ export default function RezTable(props) {
                         accessor: "id"
                     },
                     {
-                      Header: "Product",
-                      accessor: "product"
+                      Header: "Confirmation Date",
+                      accessor: "confirmationDate"
                     },
                     {
-                        Header: "Supplier",
-                        accessor: "supplier"
+                      Header: "Customer Mail",
+                      accessor: "customer"
+                    },
+                    {
+                      Header: "Nombre Customer",
+                      accessor: "customerFullName"
+                    },
+                    {
+                      Header: "Supplier",
+                      accessor: "supplier"
+                    },
+                    {
+                      Header: "Product",
+                      accessor: "product"
                     },
                     {
                         Header: "Product Category",
                         accessor: "productCategory"
                     },
                     {
-                        Header: "Confirmation Number",
-                        accessor: "confirmationNumber"
+                      Header: "Arrival Date",
+                      accessor: "arrivalDate"
                     },
                     {
-                        Header: "Confirmation Date",
-                        accessor: "confirmationDate"
-                    },
-                    {
-                        Header: "Arrival Date",
-                        accessor: "arrivalDate"
-                    },
-                    {
-                        Header: "Customer Mail",
-                        accessor: "customer"
+                      Header: "Confirmation Number",
+                      accessor: "confirmationNumber"
                     },
                     {
                         Header: "Total",
@@ -473,12 +478,12 @@ export default function RezTable(props) {
                         accessor: "feeTotal"
                     },
                     {
-                        Header: "Agency Fee",
-                        accessor: "feeAgency"
+                      Header: "User Fee",
+                      accessor: "feeUser"
                     },
                     {
-                        Header: "User Fee",
-                        accessor: "feeUser"
+                        Header: "Agency Fee",
+                        accessor: "feeAgency"
                     },
                     {
                       Header: "Deleted at",
