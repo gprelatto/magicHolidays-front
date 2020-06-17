@@ -41,15 +41,6 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 // @material-ui/icons
 import Timeline from "@material-ui/icons/Timeline";
 
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart,
-  colouredLinesChart
-} from "variables/charts";
-
-
-
 import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.js";
 import chartStyles from "assets/jss/material-dashboard-pro-react/views/chartsStyle.js";
 
@@ -121,6 +112,7 @@ export default function Dashboard(props) {
   useEffect(() => {
       progressBar();
       var sum = function(a, b) { return a + b };
+      
       getRequest('widgets').then((response) => {
           let responseData = response.data
 
@@ -135,6 +127,7 @@ export default function Dashboard(props) {
       }).catch(e => {
           props.history.push('/auth/forbidden')
       });
+
       getRequest('salesCountry').then((response) => {
         let responseData = response.data
 
@@ -151,6 +144,7 @@ export default function Dashboard(props) {
       }).catch(e => {
           props.history.push('/auth/forbidden')
       });     
+
       getRequest('salesProduct').then((response) => {
         let responseData = response.data
 
@@ -164,7 +158,7 @@ export default function Dashboard(props) {
             series : []
           },
           options : {
-            height:  "230px",
+            height:  "300px",
             donut: true,
             donutWidth: 60,
             donutSolid: true,
@@ -197,6 +191,14 @@ export default function Dashboard(props) {
       });         
   }, [])  
   
+
+
+  
+
+
+
+
+
   return (
     <div>
       {bar}
@@ -350,27 +352,7 @@ export default function Dashboard(props) {
         </GridItem>
       </GridContainer>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={7}>
-          <Card>
-            <CardHeader color="warning" icon>
-              <CardIcon color="warning">
-                <Timeline />
-              </CardIcon>
-              <h4 className={classesChart.cardIconTitle}>
-                Coloured Lines Chart <small>- Rounded</small>
-              </h4>
-            </CardHeader>
-            <CardBody>
-              <ChartistGraph
-                data={colouredLinesChart.data}
-                type="Line"
-                options={colouredLinesChart.options}
-                listener={colouredLinesChart.animation}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={5}>
+        <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="danger" icon>
               <CardIcon color="danger">

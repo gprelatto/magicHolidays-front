@@ -32,6 +32,7 @@ import RezTable from 'views/Rez/rezTable';
 import EditProfilePassword from 'views/Pages/EditProfilePassword';
 import PrepaidTable from 'views/Payment/prepaidTable';
 import PaymentTable from 'views/Payment/paymentTable';
+import monthlySalesTable from 'views/Reports/monthlySalesTable';
 
 export const routes = [
   {
@@ -341,6 +342,32 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: PaymentTable,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    collapse: true,
+    render: true,
+    name: "menu.label.reports",
+    rtlName: "",
+    icon: Place,
+    state: "reportsManagement",
+    permissions: [
+      1
+    ],
+    views: [
+      {
+        render: true,
+        path: "/montlySales",
+        name: "menu.label.reports.monthlySales",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: monthlySalesTable,
         layout: "/admin",
         permissions: [
           1
