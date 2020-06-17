@@ -48,42 +48,31 @@ export const routes = [
     ]
   },
   {
-    collapse: true,
-    render: false,
-    name: "menu.label.profile",
+    render: true,
+    path: "/userProfile",
+    name: "menu.label.profile.edit",
     rtlName: "",
-    icon: DashboardIcon,
+    mini: "RF",
+    rtlMini: "",
+    component: UserProfile,
     layout: "/admin",
+    isProfile: true,
     permissions: [
       1,2,3
-    ],
-    views: [
-      {
-        render: true,
-        path: "/userProfile",
-        name: "menu.label.profile.edit",
-        rtlName: "",
-        mini: "RF",
-        rtlMini: "",
-        component: UserProfile,
-        layout: "/admin",
-        permissions: [
-          1,2,3
-        ]
-      },
-      {
-        render: true,
-        path: "/editProfilePassword",
-        name: "menu.label.profile.editPw",
-        rtlName: "",
-        mini: "RF",
-        rtlMini: "",
-        component: EditProfilePassword,
-        layout: "/admin",
-        permissions: [
-          1,2,3
-        ]
-      }
+    ]
+  },
+  {
+    render: true,
+    path: "/editProfilePassword",
+    name: "menu.label.profile.editPw",
+    rtlName: "",
+    mini: "RF",
+    rtlMini: "",
+    component: EditProfilePassword,
+    layout: "/admin",
+    isProfile: true,
+    permissions: [
+      1,2,3
     ]
   },
   {
@@ -373,6 +362,29 @@ export const routes = [
     ]
   },
 ];
+
+export const profileRoutes = [
+  {
+    render: true,
+    path: "/userProfile",
+    name: "menu.label.profile.edit",
+    rtlName: "",
+    mini: "RF",
+    rtlMini: "",
+    component: UserProfile,
+    layout: "/admin"
+  },
+  {
+    render: true,
+    path: "/editProfilePassword",
+    name: "menu.label.profile.editPw",
+    rtlName: "",
+    mini: "RF",
+    rtlMini: "",
+    component: EditProfilePassword,
+    layout: "/admin"
+  }
+]
 
 function PrivateRoute({ component: Component, ...rest }) { 
   const isAuthenticated = useAuth();

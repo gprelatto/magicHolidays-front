@@ -23,6 +23,7 @@ import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sid
 
 import avatar from "assets/img/faces/avatar.jpg";
 
+import PrivateRoute, { profileRoutes } from "routes.js";
 import { withTranslation } from 'react-i18next'
 
 var ps;
@@ -118,8 +119,8 @@ class Sidebar extends React.Component {
   createLinks = routes => {
     const { classes, color, rtlActive, t } = this.props;
 
-    return routes.map((prop, key) => {
-      if (prop.redirect) {
+    return routes.map((prop, key) => {      
+      if (prop.redirect || prop.isProfile === true) {
         return null;
       }
 
@@ -321,7 +322,8 @@ class Sidebar extends React.Component {
       logoText,
       routes,
       bgColor,
-      rtlActive
+      rtlActive,
+      t
     } = this.props;
 
     const { userFullName} = this.state;
@@ -399,59 +401,29 @@ class Sidebar extends React.Component {
             </NavLink>
             <Collapse in={this.state.openAvatar} unmountOnExit>
               <List className={classes.list + " " + classes.collapseList}>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "مع" : "MP"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "ملفي" : "My Profile"}
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "هوع" : "EP"}
-                    </span>
-                    <ListItemText
-                      primary={
-                        rtlActive ? "تعديل الملف الشخصي" : "Edit Profile"
-                      }
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "و" : "S"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "إعدادات" : "Settings"}
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
+                  {
+                    profileRoutes.map((prop, key) => {
+                      return (
+                        <ListItem className={classes.collapseItem}>
+                          <NavLink
+                            to={prop.layout + prop.path}
+                            className={
+                              classes.itemLink + " " + classes.userCollapseLinks
+                            }
+                          >
+                            <span className={collapseItemMini}>
+                              {rtlActive ? "مع" : "MP"}
+                            </span>
+                            <ListItemText
+                              primary={t(prop.name)}
+                              disableTypography={true}
+                              className={collapseItemText}
+                            />
+                          </NavLink>
+                        </ListItem>
+                      )
+                    })
+                  }
               </List>
             </Collapse>
           </ListItem>

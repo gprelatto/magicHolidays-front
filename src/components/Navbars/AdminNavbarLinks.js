@@ -72,28 +72,6 @@ export default function HeaderLinks(props) {
   });
   return (
     <div className={wrapper}>
-      <CustomInput
-        rtlActive={rtlActive}
-        formControlProps={{
-          className: classes.top + " " + classes.search
-        }}
-        inputProps={{
-          placeholder: rtlActive ? "بحث" : "Search",
-          inputProps: {
-            "aria-label": rtlActive ? "بحث" : "Search",
-            className: classes.searchInput
-          }
-        }}
-      />
-      <Button
-        color="white"
-        aria-label="edit"
-        justIcon
-        round
-        className={searchButton}
-      >
-        <Search className={classes.headerLinksSvg + " " + classes.searchIcon} />
-      </Button>
       <Button
         color="transparent"
         simple
