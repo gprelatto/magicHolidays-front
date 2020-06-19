@@ -23,6 +23,8 @@
     "menu.label.payments": "Pagos",
     "menu.label.payments.prepay": "Pre-Pagar Reservaciones",
     "menu.label.payments.pay": "Pagar Reservaciones",
+    "menu.label.reports": "Reportes",
+    "menu.label.reports.monthlySales": "Ventas por Mes",
     "menu.label.logout": "Cerrar Sesion",
     
     "profile.title.edit": "Editar Perfil",
@@ -40,6 +42,19 @@
     "customer.list.alert.canceled": "El cliente no fue eliminado",
     "customer.list.title": "Listado de Clientes",
     "customer.list.edit.title": "Editar Cliente",
+
+    "monthlyTotals.list.title": "Distribucion de Ventas por Mes",
+    "monthlyTotals.table.header.year": "Año",
+    "monthlyTotals.table.header.month": "Mes",
+    "monthlyTotals.table.header.totalsales": "Ventas",
+    "monthlyTotals.table.header.totalfees": "Com.",
+    "monthlyTotals.table.header.totalfeeagency": "Com. Agencia",
+    "monthlyTotals.table.header.totalfeeuser": "Com. Empleado",
+    "monthlyTotals.table.header.totaltopay": "A Pagar",
+    "monthlyTotals.table.header.totalpaid": "Pago",
+    "monthlyTotals.table.header.totaltocollect": "Por Cobrar",
+    "monthlyTotals.table.header.totalcancelled": "Cancelado",
+
 
     "supplier.add.alert.added": "Proveedor agregado.",
     "supplier.add.title": "Agregar Nuevo Proveedor",
