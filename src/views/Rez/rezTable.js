@@ -43,6 +43,69 @@ export default function RezTable(props) {
   const classes = useStyles();
   const alertClasses = useAlertStyles();
 
+  const columns = [
+    {
+      Header: "Confirmation Date",
+      accessor: "confirmationDate"
+    },
+    {
+      Header: "Customer Mail",
+      accessor: "customer"
+    },
+    {
+      Header: "Nombre Customer",
+      accessor: "customerFullName"
+    },
+    {
+      Header: "Supplier",
+      accessor: "supplier"
+    },
+    {
+      Header: "Product",
+      accessor: "product"
+    },
+    {
+        Header: "Product Category",
+        accessor: "productCategory"
+    },
+    {
+      Header: "Arrival Date",
+      accessor: "arrivalDate"
+    },
+    {
+      Header: "Confirmation Number",
+      accessor: "confirmationNumber"
+    },
+    {
+        Header: "Total",
+        accessor: "total"
+    },
+    {
+        Header: "Total Fee",
+        accessor: "feeTotal"
+    },
+    {
+      Header: "User Fee",
+      accessor: "feeUser"
+    },
+    {
+        Header: "Agency Fee",
+        accessor: "feeAgency"
+    },
+    {
+      Header: "Deleted at",
+      accessor: "deleted_at",
+      id: "deleted_at",
+      isVisible: false
+    },
+    {
+      Header: "Action",
+      accessor: "actions",
+      sortable: false,
+      filterable: false
+    }
+  ];
+
   const [customers, setCustomers] = React.useState();
   const [selectedCustomer, setSelectedCustomer] = React.useState({
     mail: '',
@@ -294,7 +357,6 @@ export default function RezTable(props) {
                             redirectToUnforbidden(props);
                           }
                             let usersResponseData = usersResponse.data.data;
-
                             let data = [];
 
                             reservationsResponseData.forEach(rez => {
@@ -303,6 +365,8 @@ export default function RezTable(props) {
                                 let sup = suppliersResponseData.find(s => prodCategory.supplier === s.id);
                                 let cus = customersResponseData.find(c => c.id === rez.customer);
                                 let user = usersResponseData.find(u => u.id === rez.user);
+                                let confirmationDate = rez.confirmationDate != null ? rez.confirmationDate.split('T')[0] : '';
+                                let arrivalDate = rez.arrivalDate != null ? rez.arrivalDate.split('T')[0] : '';
         
                                 data.push(
                                 {
@@ -318,9 +382,9 @@ export default function RezTable(props) {
                                     customerMail: cus.mail,
                                     user: rez.user,
                                     userFullName: user.name + ' ' + user.lastname,
-                                    arrivalDate: rez.arrivalDate,
+                                    arrivalDate: arrivalDate,
                                     confirmationNumber: rez.confirmationNumber,
-                                    confirmationDate: rez.confirmationDate,
+                                    confirmationDate: confirmationDate,
                                     total: rez.total,
                                     feeTotal: rez.feeTotal,
                                     feeAgency: rez.feeAgency,
@@ -404,7 +468,6 @@ export default function RezTable(props) {
 
   const getTrProps = (state, rowInfo, instance) => {
     if (rowInfo) {
-      console.log('rowinfo', rowInfo)
       return {
         style: {
           background: rowInfo.row.deleted_at === null ? '' : '#ff6666',
@@ -432,82 +495,14 @@ export default function RezTable(props) {
                   data={tableData}
                   filterable
                   defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
-                  columns={[
-                    {
-                        Header: "ID",
-                        accessor: "id"
-                    },
-                    {
-                      Header: "Confirmation Date",
-                      accessor: "confirmationDate"
-                    },
-                    {
-                      Header: "Customer Mail",
-                      accessor: "customer"
-                    },
-                    {
-                      Header: "Nombre Customer",
-                      accessor: "customerFullName"
-                    },
-                    {
-                      Header: "Supplier",
-                      accessor: "supplier"
-                    },
-                    {
-                      Header: "Product",
-                      accessor: "product"
-                    },
-                    {
-                        Header: "Product Category",
-                        accessor: "productCategory"
-                    },
-                    {
-                      Header: "Arrival Date",
-                      accessor: "arrivalDate"
-                    },
-                    {
-                      Header: "Confirmation Number",
-                      accessor: "confirmationNumber"
-                    },
-                    {
-                        Header: "Total",
-                        accessor: "total"
-                    },
-                    {
-                        Header: "Total Fee",
-                        accessor: "feeTotal"
-                    },
-                    {
-                      Header: "User Fee",
-                      accessor: "feeUser"
-                    },
-                    {
-                        Header: "Agency Fee",
-                        accessor: "feeAgency"
-                    },
-                    {
-                      Header: "Deleted at",
-                      accessor: "deleted_at",
-                      isVisible: false
-                    },
-                    {
-                      Header: "Action",
-                      accessor: "actions",
-                      sortable: false,
-                      filterable: false
-                    }
-                  ]}
+                  columns={columns}
                   defaultPageSize={10}
                   showPaginationTop
                   showPaginationBottom={false}
                   className="-striped -highlight"
                   getTrProps={getTrProps}
-                  useTable={{
-                    initialState: {
-                      hiddenColumns: [
-                        'deleted_at'
-                      ]
-                    }
+                  initialState={{
+                    hiddenColumns: ["deleted_at"]
                   }}
                 />
               </CardBody>

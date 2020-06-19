@@ -32,6 +32,7 @@ import RezTable from 'views/Rez/rezTable';
 import EditProfilePassword from 'views/Pages/EditProfilePassword';
 import PrepaidTable from 'views/Payment/prepaidTable';
 import PaymentTable from 'views/Payment/paymentTable';
+import PaymentListTable from 'views/Payment/paymentListTable';
 import monthlySalesTable from 'views/Reports/monthlySalesTable';
 
 export const routes = [
@@ -342,6 +343,19 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: PaymentTable,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      },
+      {
+        render: true,
+        path: "/paymentListTable",
+        name: "Listado de pagos",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: PaymentListTable,
         layout: "/admin",
         permissions: [
           1

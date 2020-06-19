@@ -33,6 +33,9 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
 
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -72,9 +75,21 @@ export default function PrepaidTable(props) {
   const [alert, setAlert] = React.useState(null);
   const [showEdit, setShowEdit] = React.useState(false);
 
+  const [tableDataByUser, setTableDataByUser] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  const [selectedUser, setSelectedUser] = React.useState();
+  const [open, setOpen] = React.useState(false);
+  const loading = open && users.length === 0;
+
   useEffect(() => {
     populateTable();
   }, [])
+
+  useEffect(() => {
+    let filteredData = tableData.filter(f => f.user === selectedUser.id)
+    
+    setTableDataByUser(filteredData);
+  }, [selectedUser]);
 
   const submit = () => {
     submitProgressBar();
@@ -85,7 +100,6 @@ export default function PrepaidTable(props) {
     }
 
     postPrepay(data).then((response) => {
-      console.log('res',response)
       populateTable();
       setAlert(
         <SweetAlert
@@ -178,56 +192,79 @@ export default function PrepaidTable(props) {
       if(prepayResponseData.code === 403) {
         redirectToUnforbidden(props);
       }
-      
-      getRequest('users').then((response) => {
-        let users = response.data;
-        
-        if (users.code === 403) {
+
+      getRequest('customers').then(customersResponse => {
+        let customers = customersResponse.data;
+
+        if (customers.code === 403) {
           redirectToUnforbidden(props);
         }
 
-        let data = prepayResponseData.data.map((prop, key) => {
-            let usr = users.data.find(f => f.id === prop.user);
-            prop.user = usr;
+        getRequest('users').then((response) => {
+          let users = response.data;
+          
+          if (users.code === 403) {
+            redirectToUnforbidden(props);
+          }
 
+          let usersCombo = users.data.map(prop => {
             return {
                 id: prop.id,
-                name: usr.name,
-                lastname: usr.lastname,
-                confirmationNumber: prop.confirmationNumber,
-                total: prop.total,
-                feeTotal: prop.feeTotal,
-                feeAgency: prop.feeAgency,
-                feeUser: prop.feeUser,
-                prepay: (
-                    <div>
-                        <Checkbox
-                            key={prop.id}
-                            tabIndex={-1}
-                            onClick={(e) => {
-                              let existingRezIdx = selectedReservationsRef.current.map(function(item) { return item.id; }).indexOf(prop.id);
-                              
-                              if(existingRezIdx === -1) {
-                                selectedReservationsRef.current.push(prop)
-                              }
-                              else {
-                                selectedReservationsRef.current.splice(existingRezIdx, 1);
-                              }
-                            }}
-                            checkedIcon={<Check className={classes.checkedIcon} />}
-                            icon={<Check className={classes.uncheckedIcon} />}
-                            classes={{
-                                checked: classes.checked,
-                                root: classes.checkRoot
-                            }}
-                        />
-                    </div>
-                )
+                mail: prop.mail,
+                fullname: prop.name + ' ' + prop.lastname
             }
-        });
+          })
 
-        setTableData(data);
-        removeProgressBar();
+          setUsers(usersCombo);
+  
+          let data = prepayResponseData.data.map((prop, key) => {
+              let usr = users.data.find(f => f.id === prop.user);
+              prop.user = usr;
+
+              let cus = customers.data.find(f => f.id === prop.customer);
+              prop.customer = cus;
+  
+              return {
+                  id: prop.id,
+                  user: usr.id,
+                  fullName: usr.name + ' ' + usr.lastname,
+                  customerFullName: cus.fullname,
+                  confirmationNumber: prop.confirmationNumber,
+                  total: prop.total,
+                  feeTotal: prop.feeTotal,
+                  feeAgency: prop.feeAgency,
+                  feeUser: prop.feeUser,
+                  prepay: (
+                      <div>
+                          <Checkbox
+                              key={prop.id}
+                              tabIndex={-1}
+                              onClick={(e) => {
+                                let existingRezIdx = selectedReservationsRef.current.map(function(item) { return item.id; }).indexOf(prop.id);
+                                
+                                if(existingRezIdx === -1) {
+                                  selectedReservationsRef.current.push(prop)
+                                }
+                                else {
+                                  selectedReservationsRef.current.splice(existingRezIdx, 1);
+                                }
+                              }}
+                              checkedIcon={<Check className={classes.checkedIcon} />}
+                              icon={<Check className={classes.uncheckedIcon} />}
+                              classes={{
+                                  checked: classes.checked,
+                                  root: classes.checkRoot
+                              }}
+                          />
+                      </div>
+                  )
+              }
+          });
+  
+          setTableDataByUser(data);
+          setTableData(data);
+          removeProgressBar();
+      })
       });
     })
 
@@ -241,19 +278,57 @@ export default function PrepaidTable(props) {
     <GridContainer>
       {alert}
       { !showEdit ?
-          <GridItem xs={12}>
+      <>
+          <GridItem xs={12} sm={12} md={6}>
+            <div className={classes.cardContentRight}>
+            <Autocomplete
+              id="customerMail-box"
+              options={users}
+              getOptionLabel={(option) => option.fullname}
+              onChange={(event, newValue) => {
+                  if(newValue !== null)
+                    setSelectedUser(newValue);
+                  else
+                    setTableDataByUser(tableData)
+              }}
+              open={open}
+              onOpen={() => {
+                  setOpen(true);
+              }}
+              onClose={(e) => {
+                  setOpen(false);
+              }}
+              loading={loading}
+              style={{ width: 300 }}
+              renderInput={(params) => (<TextField {...params} 
+                  label="Seleccionar agente"
+                  variant="outlined" 
+                  InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                          <React.Fragment>
+                          {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                          {params.InputProps.endAdornment}
+                          </React.Fragment>
+                      ),
+                      }}
+                  />)}
+            />
             <Button color="info"
-                className={classes.marginRight}
-                onClick={() => {
-                  let ids = selectedReservationsRef.current.map((i, k) => {
-                    return i.id;
-                  });
+                  className={classes.marginRight}
+                  onClick={() => {
+                    let ids = selectedReservationsRef.current.map((i, k) => {
+                      return i.id;
+                    });
 
-                  setSelectedReservations(ids);
-                  setShowEdit(true);
-                }} >
-                Mark as prepaid checked reservations
-            </Button>
+                    setSelectedReservations(ids);
+                    setShowEdit(true);
+                  }} >
+                  Mark as prepaid checked reservations
+              </Button>
+              </div>
+          </GridItem>
+          <GridItem xs={12}>
             {bar}
             <Card>
               <CardHeader color="rose" icon>
@@ -264,7 +339,7 @@ export default function PrepaidTable(props) {
               </CardHeader>
               <CardBody>
               <ReactTable
-                  data={tableData}
+                  data={tableDataByUser}
                   filterable
                   defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   ref={(r) => {
@@ -277,16 +352,12 @@ export default function PrepaidTable(props) {
                   }}
                   columns={[
                     {
-                      Header: "ID",
-                      accessor: "id"
+                      Header: "Nombre Agente",
+                      accessor: "fullName"
                     },
                     {
-                      Header: "Name",
-                      accessor: "name"
-                    },
-                    {
-                        Header: "Last Name",
-                        accessor: "lastname"
+                      Header: "Cliente",
+                      accessor: "customerFullName"
                     },
                     {
                         Header: "Confirmation Number",
@@ -301,7 +372,7 @@ export default function PrepaidTable(props) {
                         accessor: "feeTotal"
                     },
                     {
-                        Header: "Agemcy Fee",
+                        Header: "Agency Fee",
                         accessor: "feeAgency"
                     },
                     {
@@ -322,7 +393,7 @@ export default function PrepaidTable(props) {
                 />
               </CardBody>
             </Card>
-          </GridItem>
+          </GridItem></>
           : 
           <GridItem xs={12} sm={12} md={4}>
             {editBar}
