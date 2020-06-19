@@ -94,7 +94,8 @@ export const postCustomer = (data) => {
         fullname: data.fullname,
         mail: data.mail,
         phone: data.phone,
-        country: data.country
+        country: data.country,
+        created_by: data.created_by
     }, getAuthHeaders())
 }
 

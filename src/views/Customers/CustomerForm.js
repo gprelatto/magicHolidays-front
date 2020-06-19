@@ -108,7 +108,8 @@ export default function CustomerForm(props) {
                 fullname: fullName,
                 mail: email,
                 phone: phone,
-                country: selectedCountryId
+                country: selectedCountryId,
+                created_by: 0
             }
             
             postCustomer(customer).then((response) => {
