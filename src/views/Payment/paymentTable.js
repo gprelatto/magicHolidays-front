@@ -43,6 +43,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
@@ -74,9 +77,21 @@ export default function PaymentTable(props) {
   const [payDate, setPayDate] = React.useState(new Date());
   const [transactionNumber, setTransactionNumber] = React.useState('');
 
+  const [tableDataByUser, setTableDataByUser] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  const [selectedUser, setSelectedUser] = React.useState();
+  const [open, setOpen] = React.useState(false);
+  const loading = open && users.length === 0;
+
   useEffect(() => {
     populateTable();
   }, [])
+
+  useEffect(() => {
+    let filteredData = tableData.filter(f => f.user === selectedUser.id)
+    
+    setTableDataByUser(filteredData);
+  }, [selectedUser]);
 
   const submit = () => {
     submitProgressBar();
@@ -189,17 +204,30 @@ export default function PaymentTable(props) {
           redirectToUnforbidden(props);
         }
 
+        let usersCombo = usersResponseData.data.map(prop => {
+          return {
+              id: prop.id,
+              mail: prop.mail,
+              fullname: prop.name + ' ' + prop.lastname
+          }
+        })
+
+        setUsers(usersCombo);
+
         let tableData = payResponseData.data.map((prop, key) => {
           let user = usersResponseData.data.find(f => f.id === prop.rez.user);
           prop.user = user;
 
+          let prepaidDate = prop.prepaidDate != null ? prop.prepaidDate.split('T')[0] : '';
+
           return {
             id: prop.id,
             rez_id: prop.rez.id,
+            user: user.id,
             name: user.name,
             lastname: user.lastname,
             confirmationNumber: prop.rez.confirmationNumber,
-            prepaidDate: prop.prepaidDate,
+            prepaidDate: prepaidDate,
             total: prop.rez.total,
             feeTotal: prop.rez.feeTotal,
             feeAgency: prop.rez.feeAgency,
@@ -232,6 +260,7 @@ export default function PaymentTable(props) {
       });
 
       setTableData(tableData);
+      setTableDataByUser(tableData);
       removeProgressBar();      
     })
     })
@@ -256,7 +285,43 @@ export default function PaymentTable(props) {
     <GridContainer>
       {alert}
       { !showEdit ?
-          <GridItem xs={12}>
+        <>
+          <GridItem xs={12} sm={12} md={6}>
+          <div className={classes.cardContentRight}>
+            <Autocomplete
+              id="customerMail-box"
+              options={users}
+              getOptionLabel={(option) => option.fullname}
+              onChange={(event, newValue) => {
+                  if(newValue !== null)
+                    setSelectedUser(newValue);
+                  else
+                    setTableDataByUser(tableData)
+              }}
+              open={open}
+              onOpen={() => {
+                  setOpen(true);
+              }}
+              onClose={(e) => {
+                  setOpen(false);
+              }}
+              loading={loading}
+              style={{ width: 300 }}
+              renderInput={(params) => (<TextField {...params} 
+                  label="Seleccionar agente"
+                  variant="outlined" 
+                  InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                          <React.Fragment>
+                          {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                          {params.InputProps.endAdornment}
+                          </React.Fragment>
+                      ),
+                      }}
+                  />)}
+            />
+
             <Button color="info"
                 className={classes.marginRight}
                 onClick={() => {
@@ -308,6 +373,9 @@ export default function PaymentTable(props) {
                 }} >
                 PAY checked reservations
             </Button>
+            </div>
+          </GridItem>
+          <GridItem xs={12}>
             <Card>
             {bar}
               <CardHeader color="rose" icon>
@@ -318,7 +386,7 @@ export default function PaymentTable(props) {
               </CardHeader>
               <CardBody>
               <ReactTable
-                  data={tableData}
+                  data={tableDataByUser}
                   filterable
                   defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   ref={(r) => {
@@ -385,6 +453,7 @@ export default function PaymentTable(props) {
               </CardBody>
             </Card>
           </GridItem>
+          </>
           : 
           <GridItem xs={12} sm={12} md={4}>
             {editBar}
