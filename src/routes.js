@@ -34,6 +34,9 @@ import PrepaidTable from 'views/Payment/prepaidTable';
 import PaymentTable from 'views/Payment/paymentTable';
 import PaymentListTable from 'views/Payment/paymentListTable';
 import monthlySalesTable from 'views/Reports/monthlySalesTable';
+import collectedTable from 'views/Cobranzas/collectedTable';
+import toCollectTable from 'views/Cobranzas/toCollectTable';
+
 
 export const routes = [
   {
@@ -124,7 +127,7 @@ export const routes = [
     icon: Place,
     state: "suppliersCollapse",
     permissions: [
-      1,2
+      1
     ],
     views: [
       {
@@ -137,7 +140,7 @@ export const routes = [
         component: SupplierForm,
         layout: "/admin",
         permissions: [
-          1,2
+          1
         ]
       },
       {
@@ -304,6 +307,45 @@ export const routes = [
         mini: "RF",
         rtlMini: "",
         component: RezTable,
+        layout: "/admin",
+        permissions: [
+          1,2
+        ]
+      }
+    ]
+  },
+  {
+    collapse: true,
+    render: true,
+    name: "menu.label.cobranzas",
+    rtlName: "",
+    icon: Place,
+    state: "cobranzasManagement",
+    permissions: [
+      1,2
+    ],
+    views: [
+      {
+        render: true,
+        path: "/collectedTable",
+        name: "menu.label.cobranzas.cobrado",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: collectedTable,
+        layout: "/admin",
+        permissions: [
+          1,2
+        ]
+      },
+      {
+        render: true,
+        path: "/toCollectTable",
+        name: "menu.label.cobranzas.aCobrar",
+        rtlName: "",
+        mini: "RF",
+        rtlMini: "",
+        component: toCollectTable,
         layout: "/admin",
         permissions: [
           1,2

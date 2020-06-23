@@ -36,70 +36,76 @@ import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAler
 
 import { getRequest, editRez, deleteRez, redirectToUnforbidden } from 'common/Request/Requests.js'
 
+
+import { useTranslation } from 'react-i18next';
+
+
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
+
 export default function RezTable(props) {
+  const { t, i18n } = useTranslation();
+
   const classes = useStyles();
   const alertClasses = useAlertStyles();
-
+  
   const columns = [
     {
-      Header: "Confirmation Date",
-      accessor: "confirmationDate"
+      Header:  t('rez.table.header.confirmDate'),
+      accessor: "confirmationDate",
     },
     {
-      Header: "Customer Mail",
-      accessor: "customer"
+      Header:  t('rez.table.header.fullname'),
+      accessor: "customerFullName",
+      width: 150
     },
     {
-      Header: "Nombre Customer",
-      accessor: "customerFullName"
-    },
+      Header:  t('rez.table.header.arrivalDate'),
+      accessor: "arrivalDate"
+    },    
     {
-      Header: "Supplier",
+      Header:  t('rez.table.header.supplier'),
       accessor: "supplier"
     },
     {
-      Header: "Product",
+      Header:  t('rez.table.header.category'),
+      accessor: "productCategory",
+      width: 200
+    },
+    {
+      Header:  t('rez.table.header.product'),
       accessor: "product"
     },
     {
-        Header: "Product Category",
-        accessor: "productCategory"
+      Header:  t('rez.table.header.total'),
+      accessor: "total"
+    },    
+    {
+      Header:  t('rez.table.header.confirmNumber'),
+      accessor: "confirmationNumber",
+      width: 170
+    }, 
+    {
+      Header:  t('rez.table.header.feeTotal'),
+      accessor: "feeTotal"
     },
     {
-      Header: "Arrival Date",
-      accessor: "arrivalDate"
-    },
-    {
-      Header: "Confirmation Number",
-      accessor: "confirmationNumber"
-    },
-    {
-        Header: "Total",
-        accessor: "total"
-    },
-    {
-        Header: "Total Fee",
-        accessor: "feeTotal"
-    },
-    {
-      Header: "User Fee",
+      Header:  t('rez.table.header.feeUser'),
       accessor: "feeUser"
     },
     {
-        Header: "Agency Fee",
-        accessor: "feeAgency"
+      Header:  t('rez.table.header.feeAgency'),
+      accessor: "feeAgency"
     },
     {
-      Header: "Deleted at",
+      Header:  t('rez.table.header.deleted'),
       accessor: "deleted_at",
       id: "deleted_at",
       isVisible: false
     },
     {
-      Header: "Action",
+      Header:  t('rez.table.header.actions'),
       accessor: "actions",
       sortable: false,
       filterable: false
