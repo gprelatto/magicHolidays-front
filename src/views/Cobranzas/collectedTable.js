@@ -24,6 +24,7 @@ import { getRequest, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 import { useTranslation } from 'react-i18next';
 
+import {CSVLink} from "react-csv";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -188,6 +189,7 @@ export default function RezTable(props) {
                 <h4 className={classes.cardIconTitle}> {t('cobranzas.table.title')} </h4>
               </CardHeader>
               <CardBody>
+              <CSVLink data={tableData} >Download Data</CSVLink>              
               <ReactTable
                   data={tableData}
                   filterable

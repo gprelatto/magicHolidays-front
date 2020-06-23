@@ -32,7 +32,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
-
+import {CSVLink} from "react-csv";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -385,6 +385,7 @@ export default function PaymentTable(props) {
                 <h4 className={classes.cardIconTitle}>Prepaid Reservations to be paid</h4>
               </CardHeader>
               <CardBody>
+              <CSVLink data={tableDataByUser} >Download Data</CSVLink>      
               <ReactTable
                   data={tableDataByUser}
                   filterable

@@ -39,6 +39,7 @@ import { getRequest, editRez, deleteRez, redirectToUnforbidden } from 'common/Re
 
 import { useTranslation } from 'react-i18next';
 
+import {CSVLink} from "react-csv";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -497,6 +498,7 @@ export default function RezTable(props) {
                 <h4 className={classes.cardIconTitle}>Reservaciones</h4>
               </CardHeader>
               <CardBody>
+              <CSVLink data={tableData} >Download Data</CSVLink>              
               <ReactTable
                   data={tableData}
                   filterable

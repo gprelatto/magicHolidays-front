@@ -19,6 +19,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import InputLabel from "@material-ui/core/InputLabel";
+import {CSVLink} from "react-csv";
 
 // core components
 import Check from "@material-ui/icons/Check";
@@ -338,6 +339,7 @@ export default function PrepaidTable(props) {
                 <h4 className={classes.cardIconTitle}>Reservations unpaid</h4>
               </CardHeader>
               <CardBody>
+              <CSVLink data={tableDataByUser} >Download Data</CSVLink>      
               <ReactTable
                   data={tableDataByUser}
                   filterable

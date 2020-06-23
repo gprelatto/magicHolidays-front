@@ -31,6 +31,7 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
+import {CSVLink} from "react-csv";
 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -290,6 +291,7 @@ export default function PaymentListTable(props) {
                 <h4 className={classes.cardIconTitle}>Listado completo de pagos</h4>
               </CardHeader>
               <CardBody>
+              <CSVLink data={tableDataByUser} >Download Data</CSVLink>              
               <ReactTable
                   data={tableDataByUser}
                   filterable

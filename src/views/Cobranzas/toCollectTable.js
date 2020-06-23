@@ -24,6 +24,7 @@ import { getRequest, redirectToUnforbidden } from 'common/Request/Requests.js'
 
 import { useTranslation } from 'react-i18next';
 
+import {CSVLink} from "react-csv";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -34,7 +35,7 @@ export default function RezTable(props) {
   
   const [reservationsData, setReservationsData] = React.useState([]);
   const [toCollectTotal, setToCollect] = React.useState(0);
-  
+
   const classes = useStyles();
   const alertClasses = useAlertStyles();
   
@@ -111,7 +112,7 @@ export default function RezTable(props) {
 
   const populateTable = () => {
     progressBar();
-    getRequest('userPaid').then((reservationsResponse) => {
+    getRequest('userToPay').then((reservationsResponse) => {
         if(reservationsResponse.data.code === 403) {
           redirectToUnforbidden(props);
         }
@@ -163,7 +164,6 @@ export default function RezTable(props) {
       props.history.push('/auth/forbidden')
     });
   }
-
   return (
     <GridContainer>
       {alert}
@@ -178,6 +178,7 @@ export default function RezTable(props) {
                 <h4 className={classes.cardIconTitle}> {t('cobranzas.table.title.toCollect')} {Math.round(toCollectTotal,2)} </h4>
               </CardHeader>
               <CardBody>
+              <CSVLink data={tableData} >Download Data</CSVLink>              
               <ReactTable
                   data={tableData}
                   filterable
