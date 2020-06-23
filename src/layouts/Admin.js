@@ -37,7 +37,7 @@ export default function AdminLayout(props) {
   const [bgColor, setBgColor] = React.useState("black");
   // const [hasImage, setHasImage] = React.useState(true);
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
-  const [logo, setLogo] = React.useState(require("assets/img/logo-white.svg"));
+  const [logo, setLogo] = React.useState(require("assets/img/Magic_fondo_transparente.png"));
   const [auth, setAuth] = React.useState(useAuth());
   // styles
   const classes = useStyles();
