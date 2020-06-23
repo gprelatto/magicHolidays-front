@@ -120,6 +120,8 @@ export default function RezTable(props) {
     phone: ''
   });
 
+  const [permissions, setPermissions] = React.useState({})
+
   const [suppliers, setSuppliers] = React.useState([]);
   const [supplierId, setSupplierId] = React.useState(0);
 
@@ -168,6 +170,8 @@ export default function RezTable(props) {
 
   useEffect(() => {
     populateProductsTable();
+
+    setPermissions(JSON.parse(localStorage.getItem("auth")))
   }, [])
 
   useEffect(() => {
@@ -219,8 +223,8 @@ export default function RezTable(props) {
     let rez = {
       id: rezEditId,
       confirmationNumber: confirmationNumber,
-      confirmationDate: confirmationDate,
-      arrivalDate: arrivalDate,
+      confirmationDate: confirmationDate + 'T03:00:00Z',
+      arrivalDate: arrivalDate + 'T03:00:00Z',
       total: total,
       feeTotal: feeTotal,
       feeAgency: feeAgency,
@@ -514,74 +518,75 @@ export default function RezTable(props) {
     <GridContainer>
       {alert}
       { !showEdit ?
-      <>
-        <GridItem xs={12} sm={12} md={6}>
-          <Autocomplete
-              id="agent-box"
-              options={users}
-              getOptionLabel={(option) => option.fullname}
-              onChange={(event, newValue) => {
-                  if(newValue !== null)
-                      setSelectedUser(newValue);
-                  else
-                    setTableDataByUser(tableData)
-              }}
-              open={openAgent}
-              onOpen={() => {
-                  setAgentOpen(true);
-              }}
-              onClose={() => {
-                  setAgentOpen(false);
-              }}
-              loading={loadingAgent}
-              style={{ width: 300 }}
-              renderInput={(params) => (<TextField {...params} 
-                  label="Seleccionar agente"
-                  variant="outlined" 
-                  InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                          <React.Fragment>
-                          {loadingAgent ? <CircularProgress color="inherit" size={20} /> : null}
-                          {params.InputProps.endAdornment}
-                          </React.Fragment>
-                      ),
-                      }}
-                  />)}
-          />
-          </GridItem>
-          <GridItem xs={12}>
-            {bar}
-            <Card>
-              <CardHeader color="rose" icon>
-                <CardIcon color="rose">
-                  <Assignment />
-                </CardIcon>
-                <h4 className={classes.cardIconTitle}>Reservaciones</h4>
-              </CardHeader>
-              <CardBody>
-              <CSVLink data={tableData} >Download Data</CSVLink>              
-              <ReactTable
-                  data={tableDataByUser}
-                  filterable
-                  defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
-                  columns={columns}
-                  defaultPageSize={10}
-                  showPaginationTop
-                  showPaginationBottom={false}
-                  className="-striped -highlight"
-                  getTrProps={getTrProps}
-                  getTdProps={(state, row, col, instance) => ({
-                    
-                })}
-                  initialState={{
-                    hiddenColumns: ["deleted_at"]
-                  }}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
-        </>
+        <>
+          { permissions.user_type === 1 ?
+          <GridItem xs={12} sm={12} md={6}>
+            <Autocomplete
+                id="agent-box"
+                options={users}
+                getOptionLabel={(option) => option.fullname}
+                onChange={(event, newValue) => {
+                    if(newValue !== null)
+                        setSelectedUser(newValue);
+                    else
+                      setTableDataByUser(tableData)
+                }}
+                open={openAgent}
+                onOpen={() => {
+                    setAgentOpen(true);
+                }}
+                onClose={() => {
+                    setAgentOpen(false);
+                }}
+                loading={loadingAgent}
+                style={{ width: 300 }}
+                renderInput={(params) => (<TextField {...params} 
+                    label="Seleccionar agente"
+                    variant="outlined" 
+                    InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                            <React.Fragment>
+                            {loadingAgent ? <CircularProgress color="inherit" size={20} /> : null}
+                            {params.InputProps.endAdornment}
+                            </React.Fragment>
+                        ),
+                        }}
+                    />)}
+            />
+            </GridItem> : <></> }
+            <GridItem xs={12}>
+              {bar}
+              <Card>
+                <CardHeader color="rose" icon>
+                  <CardIcon color="rose">
+                    <Assignment />
+                  </CardIcon>
+                  <h4 className={classes.cardIconTitle}>Reservaciones</h4>
+                </CardHeader>
+                <CardBody>
+                <CSVLink data={tableDataByUser} >Download Data</CSVLink>              
+                <ReactTable
+                    data={tableDataByUser}
+                    filterable
+                    defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
+                    columns={columns}
+                    defaultPageSize={10}
+                    showPaginationTop
+                    showPaginationBottom={false}
+                    className="-striped -highlight"
+                    getTrProps={getTrProps}
+                    getTdProps={(state, row, col, instance) => ({
+                      
+                  })}
+                    initialState={{
+                      hiddenColumns: ["deleted_at"]
+                    }}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem>
+          </>
           : 
           <GridItem xs={12} sm={12} md={6}>
             {bar}
