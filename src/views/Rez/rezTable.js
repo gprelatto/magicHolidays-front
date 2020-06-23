@@ -159,9 +159,21 @@ export default function RezTable(props) {
   const [open, setOpen] = React.useState(false);
   const loading = open && customers.length === 0;
 
+  const [tableDataByUser, setTableDataByUser] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  const [selectedUser, setSelectedUser] = React.useState();
+  const [openAgent, setAgentOpen] = React.useState(false);
+  const loadingAgent = openAgent && users.length === 0;
+
   useEffect(() => {
     populateProductsTable();
   }, [])
+
+  useEffect(() => {
+    let filteredData = tableData.filter(f => f.user === selectedUser.id)
+    
+    setTableDataByUser(filteredData);
+  }, [selectedUser]);
 
   useEffect(() => {
     if(rezToEdit !== null) {
@@ -363,6 +375,15 @@ export default function RezTable(props) {
                             redirectToUnforbidden(props);
                           }
                             let usersResponseData = usersResponse.data.data;
+
+                            let agents = usersResponseData.map(prop => {
+                              return {
+                                id: prop.id,
+                                fullname: prop.name + ' ' + prop.lastname
+                              }
+                            })
+
+                            setUsers(agents);
                             let data = [];
 
                             reservationsResponseData.forEach(rez => {
@@ -417,6 +438,7 @@ export default function RezTable(props) {
                                     feeAgency: prop.feeAgency,
                                     feeUser: prop.feeUser,
                                     deleted_at: prop.deleted_at,
+                                    user: prop.user.id,
                                     actions: (
                                       <div className="actions-right">
                                             <Button
@@ -424,7 +446,7 @@ export default function RezTable(props) {
                                                 justIcon
                                                 simple
                                                 color="success"
-                                                className={"edit " + classes.actionButtonRound}
+                                                className="edit"
                                                 key={key}
                                                 onClick={() => {
                                                     let rez = data.find(f => f.id === prop.id)
@@ -457,6 +479,7 @@ export default function RezTable(props) {
                             });
 
                             removeProgressBar();
+                            setTableDataByUser(tableData);
                             setTableData(tableData);
                         })
                     })
@@ -477,6 +500,9 @@ export default function RezTable(props) {
       return {
         style: {
           background: rowInfo.row.deleted_at === null ? '' : '#ff6666',
+          border: "solid 1px black",
+          width: '100%',
+          height: '100%',
         }
       }
     }
@@ -487,6 +513,42 @@ export default function RezTable(props) {
     <GridContainer>
       {alert}
       { !showEdit ?
+      <>
+        <GridItem xs={12} sm={12} md={6}>
+          <Autocomplete
+              id="agent-box"
+              options={users}
+              getOptionLabel={(option) => option.fullname}
+              onChange={(event, newValue) => {
+                  if(newValue !== null)
+                      setSelectedUser(newValue);
+                  else
+                    setTableDataByUser(tableData)
+              }}
+              open={openAgent}
+              onOpen={() => {
+                  setAgentOpen(true);
+              }}
+              onClose={() => {
+                  setAgentOpen(false);
+              }}
+              loading={loadingAgent}
+              style={{ width: 300 }}
+              renderInput={(params) => (<TextField {...params} 
+                  label="Seleccionar agente"
+                  variant="outlined" 
+                  InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                          <React.Fragment>
+                          {loadingAgent ? <CircularProgress color="inherit" size={20} /> : null}
+                          {params.InputProps.endAdornment}
+                          </React.Fragment>
+                      ),
+                      }}
+                  />)}
+          />
+          </GridItem>
           <GridItem xs={12}>
             {bar}
             <Card>
@@ -498,7 +560,7 @@ export default function RezTable(props) {
               </CardHeader>
               <CardBody>
               <ReactTable
-                  data={tableData}
+                  data={tableDataByUser}
                   filterable
                   defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                   columns={columns}
@@ -507,6 +569,9 @@ export default function RezTable(props) {
                   showPaginationBottom={false}
                   className="-striped -highlight"
                   getTrProps={getTrProps}
+                  getTdProps={(state, row, col, instance) => ({
+                    
+                })}
                   initialState={{
                     hiddenColumns: ["deleted_at"]
                   }}
@@ -514,6 +579,7 @@ export default function RezTable(props) {
               </CardBody>
             </Card>
           </GridItem>
+        </>
           : 
           <GridItem xs={12} sm={12} md={6}>
             {bar}
