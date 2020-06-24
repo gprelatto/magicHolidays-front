@@ -191,6 +191,10 @@ export default function RezTable(props) {
   useEffect(() => {
     let filteredData = tableData.filter(f => f.user === selectedUser.id)
 
+    console.log('data', tableData)
+    console.log('user', selectedUser)
+    console.log('fdata', filteredData)
+
     setTableDataByUser(filteredData);
   }, [selectedUser]);
 
@@ -514,7 +518,7 @@ export default function RezTable(props) {
                     feeAgency: prop.feeAgency,
                     feeUser: prop.feeUser,
                     deleted_at: prop.deleted_at,
-                    user: prop.user.id,
+                    user: prop.user,
                     actions: (
                       <div className="actions-right">
                         <Button
@@ -595,42 +599,6 @@ export default function RezTable(props) {
       {alert}
       {!showEdit ?
         <>
-          {permissions.user_type === 1 ?
-            <GridItem xs={12} sm={12} md={6}>
-              <Autocomplete
-                id="agent-box"
-                options={users}
-                getOptionLabel={(option) => option.fullname}
-                onChange={(event, newValue) => {
-                  if (newValue !== null)
-                    setSelectedUser(newValue);
-                  else
-                    setTableDataByUser(tableData)
-                }}
-                open={openAgent}
-                onOpen={() => {
-                  setAgentOpen(true);
-                }}
-                onClose={() => {
-                  setAgentOpen(false);
-                }}
-                loading={loadingAgent}
-                style={{ width: 300 }}
-                renderInput={(params) => (<TextField {...params}
-                  label="Seleccionar agente"
-                  variant="outlined"
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <React.Fragment>
-                        {loadingAgent ? <CircularProgress color="inherit" size={20} /> : null}
-                        {params.InputProps.endAdornment}
-                      </React.Fragment>
-                    ),
-                  }}
-                />)}
-              />
-            </GridItem> : <></>}
           <GridItem xs={12}>
             {bar}
             <Card>
@@ -641,7 +609,49 @@ export default function RezTable(props) {
                 <h4 className={classes.cardIconTitle}>Reservaciones</h4>
               </CardHeader>
               <CardBody>
-                <CSVLink data={tableDataByUser} >Download Data</CSVLink>
+                <GridContainer>
+                  <GridItem xs={5} sm={5} md={5} lg={5}>
+                    {permissions.user_type === 1 ?
+                      <Autocomplete
+                        id="agent-box"
+                        options={users}
+                        getOptionLabel={(option) => option.fullname}
+                        onChange={(event, newValue) => {
+                          if (newValue !== null)
+                            setSelectedUser(newValue);
+                          else
+                            setTableDataByUser(tableData)
+                        }}
+                        open={openAgent}
+                        onOpen={() => {
+                          setAgentOpen(true);
+                        }}
+                        onClose={() => {
+                          setAgentOpen(false);
+                        }}
+                        loading={loadingAgent}
+                        style={{ width: 300 }}
+                        renderInput={(params) => (<TextField {...params}
+                          label="Seleccionar agente"
+                          variant="outlined"
+                          InputProps={{
+                            ...params.InputProps,
+                            endAdornment: (
+                              <React.Fragment>
+                                {loadingAgent ? <CircularProgress color="inherit" size={20} /> : null}
+                                {params.InputProps.endAdornment}
+                              </React.Fragment>
+                            ),
+                          }}
+                        />)}
+                      />
+                      : <></>
+                    }
+                  </GridItem>
+                  <GridItem xs={7} sm={7} md={7} lg={7}>
+                    <CSVLink data={tableDataByUser} >Exportar datos</CSVLink>
+                  </GridItem>
+                </GridContainer>
                 <ReactTable
                   data={tableDataByUser}
                   filterable
@@ -667,7 +677,6 @@ export default function RezTable(props) {
         <GridItem xs={12} sm={12} md={6}>
           {bar}
           {alert}
-          {/* {redirect} */}
           <Card>
             <CardHeader color="rose" icon>
               <CardIcon color="rose">
