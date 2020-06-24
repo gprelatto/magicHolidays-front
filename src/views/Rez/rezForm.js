@@ -266,7 +266,7 @@ export default function RezForm(props) {
                 confirmationDate: confirmationDate,
                 arrivalDate: arrivalDate,
                 total: Number(total),
-                feeTotal: feeTotal,
+                feeTotal: Number(feeTotal),
                 feeAgency: feeAgency,
                 feeUser: feeUser,
                 product: productId,
@@ -277,7 +277,6 @@ export default function RezForm(props) {
                 if (response.data.code === 403) {
                     redirectToUnforbidden(props);
                 }
-                console.log('res', response)
                 removeProgressBar();
                 successAlert()
             }).catch(e => {
@@ -416,13 +415,8 @@ export default function RezForm(props) {
                                     formControlProps={{
                                         fullWidth: true
                                     }}
-                                    // success={registerPhone === "success"}
-                                    // error={registerPhone === "error"}
                                     inputProps={{
                                         type: "text",
-                                        // onChange: event => {
-                                        //     setPhone(event.target.value)
-                                        // },
                                         disabled: true,
                                         value: selectedCustomer.fullname ?? ''
                                     }}
