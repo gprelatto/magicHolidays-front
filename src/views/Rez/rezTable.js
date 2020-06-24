@@ -191,10 +191,6 @@ export default function RezTable(props) {
   useEffect(() => {
     let filteredData = tableData.filter(f => f.user === selectedUser.id)
 
-    console.log('data', tableData)
-    console.log('user', selectedUser)
-    console.log('fdata', filteredData)
-
     setTableDataByUser(filteredData);
   }, [selectedUser]);
 
