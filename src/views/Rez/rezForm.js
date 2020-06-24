@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SweetAlert from "react-bootstrap-sweetalert";
 
 // @material-ui/icons
-import MailOutline from "@material-ui/icons/MailOutline";
+import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import AddAlert from "@material-ui/icons/AddAlert";
 
 import Datetime from "react-datetime";
@@ -17,6 +17,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // core components
+import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
@@ -30,7 +31,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Snackbar from "components/Snackbar/Snackbar.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
-import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
@@ -42,7 +44,7 @@ const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function RezForm(props) {
-    
+
     const [customers, setCustomers] = React.useState([]);
     const [selectedCustomer, setSelectedCustomer] = React.useState({
         mail: '',
@@ -65,13 +67,13 @@ export default function RezForm(props) {
     const [products, setProducts] = React.useState([]);
     const [filteredProducts, setFilteredProducts] = React.useState([]);
     const [productId, setProductId] = React.useState(0);
-    
+
     const [isProductCategoryEnabled, setIsProductCategoryEnabled] = React.useState(false);
     const [isProductEnabled, setIsProductEnabled] = React.useState(false);
 
     const [selectedDate, setSelectedDate] = React.useState('');
-    const [total, setTotal] = React.useState(0);
-    const [feeTotal, setFeeTotal] = React.useState(0);
+    const [total, setTotal] = React.useState('');
+    const [feeTotal, setFeeTotal] = React.useState('');
     const [feeAgency, setFeeAgency] = React.useState(0);
     const [feeUser, setFeeUser] = React.useState(0);
 
@@ -80,14 +82,18 @@ export default function RezForm(props) {
     const [arrivalDate, setArrivalDate] = React.useState('');
 
     const [registerProductDescriptionState, setRegisterProductDescriptionState] = React.useState("");
-    const [registerProductCategoryState, setRegisterProductCategorytionState] = React.useState("");
+    const [registerProductCategoryState, setRegisterProductCategoryState] = React.useState("");
+    const [confirmationNumberState, setConfirmationNumberState] = React.useState("");
     const [registerSupplierState, setRegisterSupplierState] = React.useState("");
+    const [totalState, setTotalState] = React.useState("");
+    const [totalFeeState, setTotalFeeState] = React.useState("");
+    const [arrivalDateState, setArrivalDateState] = React.useState("error");
 
     const [bar, setBar] = React.useState(null);
     const [tr, setTR] = React.useState(false);
     const [alert, setAlert] = React.useState(null);
     const [redirect, setRedirect] = React.useState(false);
-    
+
     const classes = useStyles();
     const alertClasses = useAlertStyles();
 
@@ -95,14 +101,14 @@ export default function RezForm(props) {
         progressBar();
 
         getRequest('suppliers').then((response) => {
-            if(response.data.code === 403) {
+            if (response.data.code === 403) {
                 redirectToUnforbidden(props);
-              }
+            }
             let responseData = response.data.data;
             responseData.unshift(
                 {
                     id: 0,
-                    description: 'Please select a supplier *'
+                    description: 'Seleccione un Proovedor *'
                 }
             )
 
@@ -112,15 +118,15 @@ export default function RezForm(props) {
         });
 
         getRequest('productCategories').then((response) => {
-            if(response.data.code === 403) {
+            if (response.data.code === 403) {
                 redirectToUnforbidden(props);
-              }
+            }
             let responseData = response.data.data;
             responseData.unshift(
                 {
                     id: 0,
                     supplier: 0,
-                    description: 'Please select a Product Category *'
+                    description: 'Seleccione Categoria de Producto *'
                 }
             )
 
@@ -131,15 +137,15 @@ export default function RezForm(props) {
         });
 
         getRequest('products').then((response) => {
-            if(response.data.code === 403) {
+            if (response.data.code === 403) {
                 redirectToUnforbidden(props);
-              }
+            }
             let responseData = response.data.data;
             responseData.unshift(
                 {
                     id: 0,
                     supplier: 0,
-                    description: 'Please select a Product *'
+                    description: 'Seleccione Producto *'
                 }
             )
 
@@ -152,34 +158,34 @@ export default function RezForm(props) {
 
     useEffect(() => {
         let active = true;
-    
+
         if (!loading) {
-          return undefined;
+            return undefined;
         }
 
         getRequest('customers').then((customerResponse) => {
-            if(customerResponse.data.code === 403) {
+            if (customerResponse.data.code === 403) {
                 redirectToUnforbidden(props);
-              }
+            }
             setCustomers(customerResponse.data.data);
         });
-    
+
         return () => {
-          active = false;
+            active = false;
         };
-      }, [loading]);
+    }, [loading]);
 
     useEffect(() => {
         if (!open) {
-          setCustomers([]);
+            setCustomers([]);
         }
     }, [open]);
 
     useEffect(() => {
-        if(supplierId === 0) {
+        if (supplierId === 0) {
             setRegisterSupplierState("error");
             setFilteredProductCategories(productCategories.filter(p => p.id === 0));
-        } 
+        }
         else {
             setRegisterSupplierState("success");
             setIsProductCategoryEnabled(true);
@@ -189,10 +195,10 @@ export default function RezForm(props) {
     }, [supplierId]);
 
     useEffect(() => {
-        if(productCategoryId === 0) {
+        if (productCategoryId === 0) {
             setRegisterSupplierState("error");
             setFilteredProducts(products.filter(p => p.id === 0));
-        } 
+        }
         else {
             setRegisterSupplierState("success");
             setIsProductEnabled(true);
@@ -202,40 +208,64 @@ export default function RezForm(props) {
     }, [productCategoryId]);
 
     useEffect(() => {
-        if(feeTotal !== 0) {
-            setFeeAgency(feeTotal * 0.3);
-            setFeeUser(feeTotal * 0.7);
+        if (feeTotal !== 0 && !isNaN(feeTotal)) {
+            let ft = Number(feeTotal);
+            setFeeAgency((ft * 0.3).toFixed(2));
+            setFeeUser((ft * 0.7).toFixed(2));
         }
     }, [feeTotal]);
 
-    // useEffect(() => {
-    //     if (productCategoryId === 0) {
-    //         setRegisterProductCategorytionState("error");
-    //     }
-    //     else {
-    //         setRegisterProductCategorytionState("success");
-    //     }
-    // }, [productCategoryId]);
+    useEffect(() => {
+        console.log('conf',confirmationNumber.length)
+        if (confirmationNumber.length == 0) {
+            setConfirmationNumberState("error");
+        }
+        else {
+            setConfirmationNumberState("success");
+        }
+    }, [confirmationNumber]);
 
-    // useEffect(() => {
-    //     if (productDescription === "") {
-    //         setRegisterProductDescriptionState("error");
-    //     }
-    //     else {
-    //         setRegisterProductDescriptionState("success");
-    //     }
-    // }, [productDescription]);
+    useEffect(() => {
+        if (total.toString().length == 0) {
+            setTotalState("error");
+        }
+        else {
+            setTotalState("success");
+        }
+    }, [total]);
+
+    useEffect(() => {
+        if (feeTotal.toString().length == 0) {
+            setTotalFeeState("error");
+        }
+        else {
+            setTotalFeeState("success");
+        }
+    }, [feeTotal]);
+
+    useEffect(() => {
+        if (arrivalDate == "") {
+            setArrivalDateState("error");
+        }
+        else {
+            setArrivalDateState("success");
+        }
+    }, [arrivalDate]);
 
     const submitClick = () => {
         if (registerProductCategoryState !== "error"
             && registerProductDescriptionState !== "error"
-            && registerSupplierState !== "error") {
+            && registerSupplierState !== "error"
+            && confirmationNumberState !== "error"
+            && totalState !== "error"
+            && totalFeeState !== "error"
+            && arrivalDateState !== "error") {
             progressBar();
             let rez = {
                 confirmationNumber: confirmationNumber,
                 confirmationDate: confirmationDate,
                 arrivalDate: arrivalDate,
-                total: total,
+                total: Number(total),
                 feeTotal: feeTotal,
                 feeAgency: feeAgency,
                 feeUser: feeUser,
@@ -243,12 +273,10 @@ export default function RezForm(props) {
                 customer: selectedCustomer.id
             }
 
-            console.log('rez',rez)
-    
             postRez(rez).then((response) => {
-                if(response.data.code === 403) {
+                if (response.data.code === 403) {
                     redirectToUnforbidden(props);
-                  }
+                }
                 console.log('res', response)
                 removeProgressBar();
                 successAlert()
@@ -259,384 +287,513 @@ export default function RezForm(props) {
         else {
             if (!tr) {
                 setTR(true);
-                setTimeout(function() {
-                  setTR(false);
+                setTimeout(function () {
+                    setTR(false);
                 }, 3000);
-              }
+            }
         }
     };
 
     const successAlert = () => {
         setAlert(
-          <SweetAlert
-            success
-            style={{ display: "block", marginTop: "-100px" }}
-            title="Product Added!"
-            onConfirm={() => {
-              setRedirect(<Redirect to='/admin/rezTable' />);
-            }}
-            onCancel={() => {
-              setProductDescription("");
-              setProductCategoryId(0);
-              setSupplierId(0);
-              hideAlert();
-            }}
-            confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
-            cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-            confirmBtnText="Done"
-            cancelBtnText="Add another"
-            showCancel
-          >
-            Product Category added!
+            <SweetAlert
+                success
+                style={{ display: "block", marginTop: "-100px" }}
+                title="Reserva Creada!"
+                onConfirm={() => {
+                    setRedirect(<Redirect to='/admin/rezTable' />);
+                }}
+                onCancel={() => {
+                    setProductDescription("");
+                    setProductCategoryId(0);
+                    setSupplierId(0);
+                    setArrivalDate('');
+                    setConfirmationDate(new Date());
+                    setTotal(0);
+                    setFeeTotal('0');
+                    setConfirmationNumber('');
+                    setSelectedCustomer({
+                        mail: '',
+                        fullname: '',
+                        phone: ''
+                    });
+                    hideAlert();
+                }}
+                confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
+                cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
+                confirmBtnText="Aceptar"
+                cancelBtnText="Agregar Otra"
+                showCancel
+            >
+                Reserva Agregada!
           </SweetAlert>
         );
-      };
+    };
 
-      const hideAlert = () => {
+    const hideAlert = () => {
         setAlert(null);
-      };    
+    };
 
     const progressBar = () => {
         setBar(
-          <CustomLinearProgress
-            variant="indeterminate"
-            color="primary"
-            value={30}
-          />
+            <CustomLinearProgress
+                variant="indeterminate"
+                color="primary"
+                value={30}
+            />
         );
-      };
+    };
 
-      const removeProgressBar = () => {
+    const removeProgressBar = () => {
         setBar(null);
-      };
+    };
 
 
     return (
-        <GridItem xs={12} sm={12} md={6}>
+        <GridItem xs={12} sm={12} md={12} lg={12}>
             {bar}
             {alert}
             {redirect}
-
-
-                <Card>
+            <Card>
                 <CardHeader color="rose" icon>
                     <CardIcon color="rose">
-                    <MailOutline />
+                        <FlightTakeoffIcon />
                     </CardIcon>
-                    <h4 className={classes.cardIconTitle}>Reservation</h4>
+                    <h4 className={classes.cardIconTitle}>Generar nueva reserva</h4>
                 </CardHeader>
                 <CardBody>
                     <form>
-                    <Autocomplete
-                        id="customerMail-box"
-                        options={customers}
-                        getOptionLabel={(option) => option.mail}
-                        onChange={(event, newValue) => {
-                            if(newValue !== null)
-                                setSelectedCustomer(newValue);
-                        }}
-                        open={open}
-                        onOpen={() => {
-                            setOpen(true);
-                        }}
-                        onClose={() => {
-                            setOpen(false);
-                        }}
-                        loading={loading}
-                        style={{ width: 300 }}
-                        renderInput={(params) => (<TextField {...params} 
-                            label="Select customer mail *"
-                            variant="outlined" 
-                            InputProps={{
-                                ...params.InputProps,
-                                endAdornment: (
-                                  <React.Fragment>
-                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                                    {params.InputProps.endAdornment}
-                                  </React.Fragment>
-                                ),
-                              }}
-                            />)}
-                    />
+                        <GridContainer>
+                            <GridItem xs={12} sm={12} md={2} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
 
-                        <CustomInput
-                            labelText="Full name *"
-                            id="fullname"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            // success={registerPhone === "success"}
-                            // error={registerPhone === "error"}
-                            inputProps={{
-                                type: "text",
-                                // onChange: event => {
-                                //     setPhone(event.target.value)
-                                // },
-                                disabled: true,
-                                value: selectedCustomer.fullname ?? ''
-                            }}
-                        />
-
-                        <CustomInput
-                            labelText="Phone *"
-                            id="phone"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            // success={registerPhone === "success"}
-                            // error={registerPhone === "error"}
-                            inputProps={{
-                                type: "text",
-                                // onChange: event => {
-                                //     setPhone(event.target.value)
-                                // },
-                                disabled: true,
-                                value: selectedCustomer.phone ?? ''
-                            }}
-                        />
-
-                        <br />
-                            <Datetime
-                            timeFormat={false}
-                            closeOnSelect={true}
-                            inputProps={{ 
-                                placeholder: "Confirmation Date",
-                            }}
-                            onChange={(event) => {
-                                setConfirmationDate(event._d)
-                            }}
-                            value={confirmationDate}
-                        />
-
-                        <br />
-                            <Datetime
-                            timeFormat={false}
-                            closeOnSelect={true}
-                            inputProps={{ 
-                                placeholder: "Arrival Date",
-                            }}
-                            onChange={(event) => {
-                                setArrivalDate(event._d)
-                            }}
-                            value={arrivalDate}
-                        />
-
-                         <InputLabel htmlFor="supplier-select" className={classes.selectLabel}>
-                            Supplier
-                        </InputLabel>
-                        <Select
-                            success={(registerSupplierState === "success").toString()}
-                            error={registerSupplierState === "error"}
-                            MenuProps={{
-                                className: classes.selectMenu
-                            }}
-                            classes={{
-                                select: classes.select
-                            }}
-                            value={supplierId}
-                            onChange={e => setSupplierId(e.target.value)}
-                            inputProps={{
-                                name: "supplierSelect",
-                                id: "supplierSelect"
-                            }}  
-                            >   
-                            {suppliers.map((sup, i) => {     
-                                return (
-                                    <MenuItem
-                                        key={i}
-                                        classes={{
-                                            root: classes.selectMenuItem,
-                                            selected: classes.selectMenuItemSelected
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={6} lg={6}>
+                                <Autocomplete
+                                    id="customerMail-box"
+                                    options={customers}
+                                    getOptionLabel={(option) => option.mail}
+                                    onChange={(event, newValue) => {
+                                        if (newValue !== null)
+                                            setSelectedCustomer(newValue);
+                                    }}
+                                    open={open}
+                                    onOpen={() => {
+                                        setOpen(true);
+                                    }}
+                                    onClose={() => {
+                                        setOpen(false);
+                                    }}
+                                    loading={loading}
+                                    style={{ width: 300 }}
+                                    renderInput={(params) => (<TextField {...params}
+                                        label="Select customer mail *"
+                                        variant="outlined"
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <React.Fragment>
+                                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                                    {params.InputProps.endAdornment}
+                                                </React.Fragment>
+                                            ),
                                         }}
-                                        value = {sup.id}
-                                        >
-                                        {sup.description}
-                                    </MenuItem>
-                                ) 
-                            })}
-                        </Select>
+                                    />)}
+                                />
+                            </GridItem>
+                        </GridContainer>
 
-                        <InputLabel htmlFor="product-category-select" className={classes.selectLabel}>
-                            Product Category
-                        </InputLabel>
-                        <Select
-                            disabled={!isProductCategoryEnabled}
-                            success={(registerProductCategoryState === "success").toString()}
-                            error={registerProductCategoryState === "error"}
-                            MenuProps={{
-                                className: classes.selectMenu
-                            }}
-                            classes={{
-                                select: classes.select
-                            }}
-                            value={productCategoryId}
-                            onChange={e => setProductCategoryId(e.target.value)}
-                            inputProps={{
-                                name: "productCategorySelect",
-                                id: "productCategorySelect"
-                            }}
-                            >   
-                            {filteredProductCategories.map((productCategory, i) => {     
-                                return (
-                                    <MenuItem
-                                        key={i}
-                                        classes={{
-                                            root: classes.selectMenuItem,
-                                            selected: classes.selectMenuItemSelected
-                                        }}
-                                        value = {productCategory.id}
-                                        >
-                                        {productCategory.description}
-                                    </MenuItem>
-                                ) 
-                            })}
-                        </Select>
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Nombre Completo *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="fullname"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    // success={registerPhone === "success"}
+                                    // error={registerPhone === "error"}
+                                    inputProps={{
+                                        type: "text",
+                                        // onChange: event => {
+                                        //     setPhone(event.target.value)
+                                        // },
+                                        disabled: true,
+                                        value: selectedCustomer.fullname ?? ''
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Telefono *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="phone"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    // success={registerPhone === "success"}
+                                    // error={registerPhone === "error"}
+                                    inputProps={{
+                                        type: "text",
+                                        // onChange: event => {
+                                        //     setPhone(event.target.value)
+                                        // },
+                                        disabled: true,
+                                        value: selectedCustomer.phone ?? ''
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Fecha de Confirmacion *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <Datetime
+                                    timeFormat={false}
+                                    closeOnSelect={true}
+                                    inputProps={{
+                                    }}
+                                    onChange={(event) => {
+                                        setConfirmationDate(event._d);
+                                    }}
+                                    value={confirmationDate}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Fecha de Llegada *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <Datetime
+                                    timeFormat={false}
+                                    closeOnSelect={true}
+                                    inputProps={{
+                                        placeholder: "Seleccione fecha de llegada",
+                                    }}
+                                    onChange={(event) => {
+                                        setArrivalDate(event._d);
+                                        setArrivalDateState("success");
+                                    }}
+                                    value={arrivalDate}
+                                />
+                            </GridItem>
+                        </GridContainer>
 
 
-                        <InputLabel htmlFor="product-category-select" className={classes.selectLabel}>
-                            Product
-                        </InputLabel>
-                        <Select
-                            disabled={!isProductEnabled}
-                            // success={(registerProductState === "success").toString()}
-                            // error={registerProductState === "error"}
-                            MenuProps={{
-                                className: classes.selectMenu
-                            }}
-                            classes={{
-                                select: classes.select
-                            }}
-                            value={productId}
-                            onChange={e => setProductId(e.target.value)}
-                            inputProps={{
-                                name: "productSelect",
-                                id: "productSelect"
-                            }}
-                            >   
-                            {filteredProducts.map((product, i) => {     
-                                return (
-                                    <MenuItem
-                                        key={i}
-                                        classes={{
-                                            root: classes.selectMenuItem,
-                                            selected: classes.selectMenuItemSelected
-                                        }}
-                                        value = {product.id}
-                                        >
-                                        {product.description}
-                                    </MenuItem>
-                                ) 
-                            })}
-                        </Select>
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Proveedor
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <Select
+                                    success={(registerSupplierState === "success").toString()}
+                                    error={registerSupplierState === "error"}
+                                    MenuProps={{
+                                        className: classes.selectMenu
+                                    }}
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={supplierId}
+                                    onChange={e => setSupplierId(e.target.value)}
+                                    inputProps={{
+                                        name: "supplierSelect",
+                                        id: "supplierSelect"
+                                    }}
+                                >
+                                    {suppliers.map((sup, i) => {
+                                        return (
+                                            <MenuItem
+                                                key={i}
+                                                classes={{
+                                                    root: classes.selectMenuItem,
+                                                    selected: classes.selectMenuItemSelected
+                                                }}
+                                                value={sup.id}
+                                            >
+                                                {sup.description}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </GridItem>
+                        </GridContainer>
 
-                        <CustomInput
-                            labelText="Total Reservation *"
-                            id="rezTotal"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            // success={registerProductDescriptionState === "success"}
-                            // error={registerProductDescriptionState === "error"}
-                            inputProps={{
-                                type: "number",
-                                onChange: event => {
-                                    setTotal(Number(event.target.value))
-                                },
-                                value: total
-                            }}
-                        />
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Categoria de Producto
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <Select
+                                    disabled={!isProductCategoryEnabled}
+                                    success={(registerProductCategoryState === "success").toString()}
+                                    error={registerProductCategoryState === "error"}
+                                    MenuProps={{
+                                        className: classes.selectMenu
+                                    }}
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={productCategoryId}
+                                    onChange={e => setProductCategoryId(e.target.value)}
+                                    inputProps={{
+                                        name: "productCategorySelect",
+                                        id: "productCategorySelect"
+                                    }}
+                                >
+                                    {filteredProductCategories.map((productCategory, i) => {
+                                        return (
+                                            <MenuItem
+                                                key={i}
+                                                classes={{
+                                                    root: classes.selectMenuItem,
+                                                    selected: classes.selectMenuItemSelected
+                                                }}
+                                                value={productCategory.id}
+                                            >
+                                                {productCategory.description}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </GridItem>
+                        </GridContainer>
 
-                        <CustomInput
-                            labelText="Total Comission *"
-                            id="commisionTotal"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            // success={registerProductDescriptionState === "success"}
-                            // error={registerProductDescriptionState === "error"}
-                            inputProps={{
-                                type: "number",
-                                onChange: event => {
-                                    setFeeTotal(Number(event.target.value))
-                                },
-                                value: feeTotal
-                            }}
-                        />
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Productos
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <Select
+                                    disabled={!isProductEnabled}
+                                    // success={(registerProductState === "success").toString()}
+                                    // error={registerProductState === "error"}
+                                    MenuProps={{
+                                        className: classes.selectMenu
+                                    }}
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={productId}
+                                    onChange={e => setProductId(e.target.value)}
+                                    inputProps={{
+                                        name: "productSelect",
+                                        id: "productSelect"
+                                    }}
+                                >
+                                    {filteredProducts.map((product, i) => {
+                                        return (
+                                            <MenuItem
+                                                key={i}
+                                                classes={{
+                                                    root: classes.selectMenuItem,
+                                                    selected: classes.selectMenuItemSelected
+                                                }}
+                                                value={product.id}
+                                            >
+                                                {product.description}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </GridItem>
+                        </GridContainer>
 
-                        <CustomInput
-                            labelText="Agency Fee *"
-                            id="agencyFee"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            // success={registerProductDescriptionState === "success"}
-                            // error={registerProductDescriptionState === "error"}
-                            inputProps={{
-                                type: "number",
-                                value: feeAgency,
-                                disabled: true,
-                                onChange: event => {
-                                    setFeeAgency(event.target.value)
-                                }
-                            }}
-                        />
 
-                        <CustomInput
-                            labelText="User Fee *"
-                            id="feeUser"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            // success={registerProductDescriptionState === "success"}
-                            // error={registerProductDescriptionState === "error"}
-                            inputProps={{
-                                type: "number",
-                                value: feeUser,
-                                disabled: true,
-                                onChange: event => {
-                                    setFeeUser(event.target.value)
-                                }
-                            }}
-                        />
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Importe Total de la Reserva *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="rezTotal"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    success={totalState === "success"}
+                                    error={totalState === "error"}
+                                    inputProps={{
+                                        type: "text",
+                                        onChange: event => {
+                                            let input = event.target.value;
 
-                        <CustomInput
-                            labelText="Reservation Number *"
-                            id="rezNumber"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            // success={registerProductDescriptionState === "success"}
-                            // error={registerProductDescriptionState === "error"}
-                            inputProps={{
-                                type: "text",
-                                onChange: event => {
-                                    setConfirmationNumber(event.target.value)
-                                },
-                                value: confirmationNumber
-                            }}
-                        />
+                                            if (input.length > 0) {
+                                                input = input.replace(',', '.')
+                                            }
 
-                        <div className={classes.formCategory}>
-                            <small>*</small> Required fields
-                        </div>
-                        <Button 
-                            color="rose"
-                            onClick={submitClick}
-                        >
-                            Submit
-                        </Button>
+                                            if (!isNaN(input)) {
+                                                setTotal(input)
+                                            }
+                                        },
+                                        value: total
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Importe Total de la Comision *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="rezTotalFee"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    success={totalFeeState === "success"}
+                                    error={totalFeeState === "error"}
+                                    inputProps={{
+                                        type: "text",
+                                        onChange: event => {
+                                            let input = event.target.value;
+
+                                            if (input.length > 0) {
+                                                input = input.replace(',', '.')
+                                            }
+
+                                            if (!isNaN(input)) {
+                                                setFeeTotal(input)
+                                            }
+                                        },
+                                        value: feeTotal
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Comision de la Agencia *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="agencyFee"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "number",
+                                        value: feeAgency,
+                                        disabled: true,
+                                        onChange: event => {
+                                            setFeeAgency(event.target.value)
+                                        }
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Comision del Agente *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="agentFee"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "number",
+                                        value: feeUser,
+                                        disabled: true,
+                                        onChange: event => {
+                                            setFeeUser(event.target.value)
+                                        }
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Numero de Reserva *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="rezNumber"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    success={confirmationNumberState === "success"}
+                                    error={confirmationNumberState === "error"}
+                                    inputProps={{
+                                        type: "text",
+                                        onChange: event => {
+                                            setConfirmationNumber(event.target.value)
+                                        },
+                                        value: confirmationNumber
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={10} sm={10} md={10} lg={11}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    <small>*</small> Campos Requeridos
+                                </FormLabel>
+                            </GridItem>
+                        </GridContainer>
+                        <GridContainer>
+                            <GridItem xs={10} sm={10} md={10} lg={11}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    <Button
+                                        color="rose"
+                                        onClick={submitClick}
+                                    >
+                                        Enviar
+                                </Button>
+                                </FormLabel>
+                            </GridItem>
+                        </GridContainer>
                     </form>
                 </CardBody>
                 <Snackbar
                     place="tr"
                     color="danger"
                     icon={AddAlert}
-                    message="Missing mandatory fields."
+                    message="Complete todos los campos obligatorios."
                     open={tr}
                     closeNotification={() => setTR(false)}
                     close
                 />
             </Card>
-      </GridItem>
+        </GridItem>
     );
 }
