@@ -184,7 +184,7 @@ export const postPay = (data) => {
 }
 
 export const deletePayment = (id) => {
-    return axios.delete('https://magicholidays-api.herokuapp.com/payments/' + id + '/',
+    return axios.delete(baseUrl + 'payments/' + id + '/',
         getAuthHeaders())
 }
 
