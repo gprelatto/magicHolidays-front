@@ -31,7 +31,7 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
-import {CSVLink} from "react-csv";
+import { CSVLink } from "react-csv";
 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -52,35 +52,35 @@ import Paper from '@material-ui/core/Paper';
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, redirectToUnforbidden, postPay } from 'common/Request/Requests.js'
+import { getRequest, redirectToUnforbidden, deletePayment } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function PaymentListTable(props) {
-    const classes = useStyles();
-    const alertClasses = useAlertStyles();
+  const classes = useStyles();
+  const alertClasses = useAlertStyles();
 
-    const [tableData, setTableData] = React.useState([]);
+  const [tableData, setTableData] = React.useState([]);
 
-    const [filteredData, setFilteredData] = React.useState([]);
-    const [selectedReservations, setSelectedReservations] = React.useState([]);
-    const [summary, setSummary] = React.useState([]);
-    
-    const [bar, setBar] = React.useState(null);
-    const [editBar, setEditBar] = React.useState(null);
-    const [alert, setAlert] = React.useState(null);
-    const [showEdit, setShowEdit] = React.useState(false);
+  const [filteredData, setFilteredData] = React.useState([]);
+  const [selectedReservations, setSelectedReservations] = React.useState([]);
+  const [summary, setSummary] = React.useState([]);
 
-    const [payDate, setPayDate] = React.useState(new Date());
-    const [transactionNumber, setTransactionNumber] = React.useState('');
+  const [bar, setBar] = React.useState(null);
+  const [editBar, setEditBar] = React.useState(null);
+  const [alert, setAlert] = React.useState(null);
+  const [showEdit, setShowEdit] = React.useState(false);
 
-    const [tableDataByUser, setTableDataByUser] = React.useState([]);
-    const [users, setUsers] = React.useState([]);
+  const [payDate, setPayDate] = React.useState(new Date());
+  const [transactionNumber, setTransactionNumber] = React.useState('');
 
-    const [selectedUser, setSelectedUser] = React.useState();
-    const [open, setOpen] = React.useState(false);
-    const loading = open && users.length === 0;
+  const [tableDataByUser, setTableDataByUser] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+
+  const [selectedUser, setSelectedUser] = React.useState();
+  const [open, setOpen] = React.useState(false);
+  const loading = open && users.length === 0;
 
   useEffect(() => {
     populateTable();
@@ -88,53 +88,46 @@ export default function PaymentListTable(props) {
 
   useEffect(() => {
     let filteredData = tableData.filter(f => f.user === selectedUser.id)
-    
+
     setTableDataByUser(filteredData);
   }, [selectedUser]);
 
-  const submit = () => {
+  const submit = (id) => {
     submitProgressBar();
 
-    let data = {
-      payDate: payDate,
-      transactionNumber: transactionNumber,
-      reservations: selectedReservations.map(prop => prop.rez.id)
-    }
-
-    postPay(data).then((response) => {
-      console.log('res',response)
+    deletePayment(id).then((response) => {
       populateTable();
       setAlert(
         <SweetAlert
           success
           style={{ display: "block", marginTop: "-100px" }}
-          title="Marked as prepaid!"
+          title="Pago eliminado."
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
           confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         >
         </SweetAlert>
       );
-      setShowEdit(false);
+
       removeSubmitProgressBar();
     });
   }
 
-  const warningWithConfirmAndCancelMessage = () => {
+  const warningWithConfirmAndCancelMessage = (id) => {
     setAlert(
       <SweetAlert
         warning
         style={{ display: "block", marginTop: "-100px" }}
-        title="Are you sure?"
-        onConfirm={() => submit()}
+        title="Por favor confirme eliminar pago"
+        onConfirm={() => submit(id)}
         onCancel={() => cancelDetele()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
         cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-        confirmBtnText="Confirm pay"
-        cancelBtnText="Cancel"
+        confirmBtnText="Eliminar"
+        cancelBtnText="Cancelar"
         showCancel
       >
-        Please confirm.
+        Confirme por favor.
       </SweetAlert>
     );
   };
@@ -144,16 +137,16 @@ export default function PaymentListTable(props) {
       <SweetAlert
         danger
         style={{ display: "block", marginTop: "-100px" }}
-        title="Cancelled"
+        title="Cancelado"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
         confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
       >
-        Canceled.
+        Cancelado.
       </SweetAlert>
     );
   };
-  
+
   const hideAlert = () => {
     setAlert(null);
   };
@@ -185,169 +178,204 @@ export default function PaymentListTable(props) {
   const removeSubmitProgressBar = () => {
     setEditBar(null);
   };
-  
+
   const populateTable = () => {
     progressBar();
 
     getRequest('payments').then(payResponse => {
       let payResponseData = payResponse.data;
 
-      if(payResponseData.code === 403) {
+      if (payResponseData.code === 403) {
         redirectToUnforbidden(props);
       }
 
       getRequest('users').then((usersResponse) => {
         let usersResponseData = usersResponse.data
-        
-        if(usersResponseData.code === 403) {
+
+        if (usersResponseData.code === 403) {
           redirectToUnforbidden(props);
         }
 
         let usersCombo = usersResponseData.data.map(prop => {
-            return {
-                id: prop.id,
-                mail: prop.mail,
-                fullname: prop.name + ' ' + prop.lastname
-            }
+          return {
+            id: prop.id,
+            mail: prop.mail,
+            fullname: prop.name + ' ' + prop.lastname
+          }
         })
 
         setUsers(usersCombo);
 
         let tableData = payResponseData.data.map((prop, key) => {
-            let user = usersResponseData.data.find(f => f.id === prop.rez.user);
-            prop.user = user;
+          let user = usersResponseData.data.find(f => f.id === prop.rez.user);
+          prop.user = user;
 
-            let payDate = prop.payDate != null ? prop.payDate.split('T')[0] : '';
-            let prepaidDate = prop.prepaidDate != null ? prop.prepaidDate.split('T')[0] : '';
-            let transactionNumber = prop.transactionNumber ?? '';
+          let payDate = prop.payDate != null ? prop.payDate.split('T')[0] : '';
+          let prepaidDate = prop.prepaidDate != null ? prop.prepaidDate.split('T')[0] : '';
+          let transactionNumber = prop.transactionNumber ?? '';
 
-            return {
-                id: prop.id,
-                rez_id: prop.rez.id,
-                user: prop.rez.user,
-                fullname: user.name + ' ' +user.lastname,
-                confirmationNumber: prop.rez.confirmationNumber,
-                transactionNumber: transactionNumber,
-                prepaidDate: prepaidDate,
-                payDate: payDate,
-                total: prop.rez.total,
-                feeTotal: prop.rez.feeTotal,
-                feeAgency: prop.rez.feeAgency,
-                feeUser: prop.rez.feeUser,
-                actions: ''
-            }
-      });
+          return {
+            id: prop.id,
+            rez_id: prop.rez.id,
+            user: prop.rez.user,
+            fullname: user.name + ' ' + user.lastname,
+            confirmationNumber: prop.rez.confirmationNumber,
+            transactionNumber: transactionNumber,
+            prepaidDate: prepaidDate,
+            payDate: payDate,
+            total: prop.rez.total,
+            feeTotal: prop.rez.feeTotal,
+            feeAgency: prop.rez.feeAgency,
+            feeUser: prop.rez.feeUser,
+            actions: (
+              <div className="actions-right">
+                <Button
+                  justIcon
+                  round
+                  simple
+                  onClick={() => {
+                    warningWithConfirmAndCancelMessage(prop.id);
+                  }}
+                  color="danger"
+                  className="remove"
+                >
+                  <Close />
+                </Button>
+              </div>
+            )
+          }
+        });
 
-      setTableDataByUser(tableData);
-      setTableData(tableData);
-      removeProgressBar();      
+        setTableDataByUser(tableData);
+        setTableData(tableData);
+        removeProgressBar();
+      })
     })
-    })
+  }
+
+  const getTrProps = (state, rowInfo, instance) => {
+    if (rowInfo) {
+      return {
+        style: {
+          border: "solid 1px black",
+          width: '100%',
+          height: '100%',
+        }
+      }
+    }
+    return {};
   }
 
   return (
     <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-            <Autocomplete
+      {alert}
+      <Card>
+        {bar}
+        <CardHeader color="rose" icon>
+          <CardIcon color="rose">
+            <Assignment />
+          </CardIcon>
+          <h4 className={classes.cardIconTitle}>Listado completo de pagos</h4>
+        </CardHeader>
+        <CardBody>
+          <GridContainer>
+            <GridItem xs={5} sm={5} md={5}>
+              <Autocomplete
                 id="customerMail-box"
                 options={users}
                 getOptionLabel={(option) => option.fullname}
                 onChange={(event, newValue) => {
-                    if(newValue !== null)
-                        setSelectedUser(newValue);
+                  if (newValue !== null)
+                    setSelectedUser(newValue);
+                  else
+                    setTableDataByUser(tableData)
                 }}
                 open={open}
                 onOpen={() => {
-                    setOpen(true);
+                  setOpen(true);
                 }}
                 onClose={() => {
-                    setOpen(false);
+                  setOpen(false);
                 }}
                 loading={loading}
                 style={{ width: 300 }}
-                renderInput={(params) => (<TextField {...params} 
-                    label="Seleccionar agente"
-                    variant="outlined" 
-                    InputProps={{
-                        ...params.InputProps,
-                        endAdornment: (
-                            <React.Fragment>
-                            {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                            {params.InputProps.endAdornment}
-                            </React.Fragment>
-                        ),
-                        }}
-                    />)}
-            />
-        </GridItem>
+                renderInput={(params) => (<TextField {...params}
+                  label="Seleccionar agente"
+                  variant="outlined"
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <React.Fragment>
+                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {params.InputProps.endAdornment}
+                      </React.Fragment>
+                    ),
+                  }}
+                />)}
+              />
+            </GridItem>
+            <GridItem xs={7} sm={7} md={7} lg={7}>
+              <CSVLink data={tableDataByUser} >Download Data</CSVLink>
+            </GridItem>
+          </GridContainer>
           <GridItem xs={12}>
-          {alert}
-            <Card>
-            {bar}
-              <CardHeader color="rose" icon>
-                <CardIcon color="rose">
-                  <Assignment />
-                </CardIcon>
-                <h4 className={classes.cardIconTitle}>Listado completo de pagos</h4>
-              </CardHeader>
-              <CardBody>
-              <CSVLink data={tableDataByUser} >Download Data</CSVLink>              
-              <ReactTable
-                  data={tableDataByUser}
-                  filterable
-                  defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
-                  columns={[
-                    {
-                        Header: "Nombre Completo",
-                        accessor: "fullname"
-                    },
-                    {
-                        Header: "Confirmation Number",
-                        accessor: "confirmationNumber"
-                    },
-                    {
-                        Header: "Transaccion",
-                        accessor: "transactionNumber"
-                    },
-                    {
-                        Header: "Prepaid Date",
-                        accessor: "prepaidDate"
-                    },
-                    {
-                        Header: "Fecha de pago",
-                        accessor: "payDate"
-                    },
-                    {
-                        Header: "Total",
-                        accessor: "total"
-                    },
-                    {
-                        Header: "Total Fee",
-                        accessor: "feeTotal"
-                    },
-                    {
-                        Header: "Agency Fee",
-                        accessor: "feeAgency"
-                    },
-                    {
-                        Header: "User Fee",
-                        accessor: "feeUser"
-                    },
-                    {
-                        Header: "Actions",
-                        accessor: "actions",
-                        sortable: false,
-                        filterable: false
-                    }
-                  ]}
-                  defaultPageSize={10}
-                  showPaginationTop
-                  showPaginationBottom={false}
-                  className="-striped -highlight"
-                />
-              </CardBody>
-            </Card>
+            <ReactTable
+              data={tableDataByUser}
+              filterable
+              defaultFilterMethod={(filter, row) => { return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
+              columns={[
+                {
+                  Header: "Nombre Completo",
+                  accessor: "fullname"
+                },
+                {
+                  Header: "Confirmation Number",
+                  accessor: "confirmationNumber"
+                },
+                {
+                  Header: "Transaccion",
+                  accessor: "transactionNumber"
+                },
+                {
+                  Header: "Prepaid Date",
+                  accessor: "prepaidDate"
+                },
+                {
+                  Header: "Fecha de pago",
+                  accessor: "payDate"
+                },
+                {
+                  Header: "Total",
+                  accessor: "total"
+                },
+                {
+                  Header: "C. Total",
+                  accessor: "feeTotal"
+                },
+                {
+                  Header: "C. Emp.",
+                  accessor: "feeUser"
+                },
+                {
+                  Header: "C. Agencia",
+                  accessor: "feeAgency"
+                },
+                {
+                  Header: "Eliminar",
+                  accessor: "actions",
+                  sortable: false,
+                  filterable: false
+                }
+              ]}
+              defaultPageSize={10}
+              showPaginationTop
+              showPaginationBottom={false}
+              getTrProps={getTrProps}
+              className="-striped -highlight"
+            />
           </GridItem>
+        </CardBody>
+      </Card>
     </GridContainer>
   );
 }
