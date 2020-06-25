@@ -12,27 +12,29 @@ function getAuthHeaders() {
     }
 }
 
+const baseUrl = 'http://mhtravelagency-api.herokuapp.com/';
+
 export const redirectToUnforbidden = (props) => {
     localStorage.setItem("auth", JSON.stringify({}));
     props.history.push('/auth/forbidden');
 }
 
 export const getRequest = (endpoint) => {
-    let response = axios.get('https://magicholidays-api.herokuapp.com/' + endpoint + '/',
+    let response = axios.get(baseUrl + endpoint + '/',
         getAuthHeaders())
 
     return response;
 };
 
 export const postSupplier = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/suppliers/',
+    return axios.post(baseUrl + 'suppliers/',
     {
         description: data
     }, getAuthHeaders())
 }
 
 export const editSupplier = (data) => {
-    return axios.put('https://magicholidays-api.herokuapp.com/suppliers/' + data.id + '/',
+    return axios.put(baseUrl + 'suppliers/' + data.id + '/',
     {
         id: data.id,
         description: data.description
@@ -40,12 +42,12 @@ export const editSupplier = (data) => {
 }
 
 export const deleteSupplier = (data) => {
-    return axios.delete('https://magicholidays-api.herokuapp.com/suppliers/' + data.id + '/',
+    return axios.delete(baseUrl + 'suppliers/' + data.id + '/',
         getAuthHeaders())
 }
 
 export const postProductCategory = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/productCategories/',
+    return axios.post(baseUrl + 'productCategories/',
     {
         supplier: data.supplier.id.toString(),
         description: data.description
@@ -53,7 +55,7 @@ export const postProductCategory = (data) => {
 }
 
 export const editProductCategory = (data) => {
-    return axios.put('https://magicholidays-api.herokuapp.com/productCategories/' + data.id + '/',
+    return axios.put(baseUrl + 'productCategories/' + data.id + '/',
     {
         id: data.id,
         supplier: data.supplierId.toString(),
@@ -62,12 +64,12 @@ export const editProductCategory = (data) => {
 }
 
 export const deleteProductCategory = (data) => {
-    return axios.delete('https://magicholidays-api.herokuapp.com/productCategories/' + data.id + '/',
+    return axios.delete(baseUrl + 'productCategories/' + data.id + '/',
     getAuthHeaders())
 }
 
 export const postProduct = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/products/',
+    return axios.post(baseUrl + 'products/',
     {
         product_category: data.product_category.toString(),
         description: data.description
@@ -75,7 +77,7 @@ export const postProduct = (data) => {
 }
 
 export const editProduct = (data) => {
-    return axios.put('https://magicholidays-api.herokuapp.com/products/' + data.id + '/',
+    return axios.put(baseUrl + 'products/' + data.id + '/',
     {
         id: data.id,
         product_category: data.prodCategoryId,
@@ -84,12 +86,12 @@ export const editProduct = (data) => {
 }
 
 export const deleteProduct = (data) => {
-    return axios.delete('https://magicholidays-api.herokuapp.com/products/' + data.id + '/',
+    return axios.delete(baseUrl + 'products/' + data.id + '/',
         getAuthHeaders())
 }
 
 export const postCustomer = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/customers/',
+    return axios.post(baseUrl + 'customers/',
     {
         fullname: data.fullname,
         mail: data.mail,
@@ -100,7 +102,7 @@ export const postCustomer = (data) => {
 }
 
 export const editCustomer = (data) => {
-    return axios.put('https://magicholidays-api.herokuapp.com/customers/' + data.id + '/',
+    return axios.put(baseUrl + 'customers/' + data.id + '/',
     {
         id: data.id,
         fullname: data.fullname,
@@ -111,12 +113,12 @@ export const editCustomer = (data) => {
 }
 
 export const deleteCustomer = (data) => {
-    return axios.delete('https://magicholidays-api.herokuapp.com/customers/' + data.id + '/',
+    return axios.delete(baseUrl + 'customers/' + data.id + '/',
         getAuthHeaders())
 }
 
 export const editProfile = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/getProfile/',
+    return axios.post(baseUrl + 'getProfile/',
     {
         id: data.id,
         name: data.name,
@@ -129,7 +131,7 @@ export const editProfile = (data) => {
 }
 
 export const postUser = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/users/',
+    return axios.post(baseUrl + 'users/',
     {
         name: data.name,
         lastname: data.lastname,
@@ -142,7 +144,7 @@ export const postUser = (data) => {
 }
 
 export const editUser = (data) => {
-    return axios.put('https://magicholidays-api.herokuapp.com/users/' + data.id + '/',
+    return axios.put(baseUrl + 'users/' + data.id + '/',
     {
         id: data.id,
         name: data.name,
@@ -155,29 +157,29 @@ export const editUser = (data) => {
 }
 
 export const deleteUser = (data) => {
-    return axios.delete('https://magicholidays-api.herokuapp.com/users/' + data.id + '/',
+    return axios.delete(baseUrl + 'users/' + data.id + '/',
         getAuthHeaders())
 }
 
 export const postRez = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/reservations/', data, getAuthHeaders())
+    return axios.post(baseUrl + 'reservations/', data, getAuthHeaders())
 }
 
 export const editRez = (data) => {
-    return axios.put('https://magicholidays-api.herokuapp.com/reservations/' + data.id + '/', data, getAuthHeaders())
+    return axios.put(baseUrl + 'reservations/' + data.id + '/', data, getAuthHeaders())
 }
 
 export const deleteRez = (data) => {
-    return axios.delete('https://magicholidays-api.herokuapp.com/reservations/' + data + '/', getAuthHeaders())
+    return axios.delete(baseUrl + 'reservations/' + data + '/', getAuthHeaders())
 }
 
 export const postPrepay = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/prepay/',
+    return axios.post(baseUrl + 'prepay/',
     data, getAuthHeaders())
 }
 
 export const postPay = (data) => {
-    return axios.post('https://magicholidays-api.herokuapp.com/pay/',
+    return axios.post(baseUrl + 'pay/',
     data, getAuthHeaders())
 }
 

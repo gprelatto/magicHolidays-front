@@ -43,6 +43,8 @@ export default function LoginPage(props) {
   const [tr, setTR] = React.useState(false);
   const [message, setMessage] = React.useState('');
 
+  const baseUrl = 'http://mhtravelagency-api.herokuapp.com/';
+
   const { setAuth } = useAuth();
 
   const classes = useStyles();
@@ -60,7 +62,7 @@ export default function LoginPage(props) {
 
     axios({
       method: 'post',
-      url: 'https://magicholidays-api.herokuapp.com/login/',
+      url: baseUrl + 'login/',
       data: bodyForm,
       headers: { 'Content-Type': 'multipart/form-data' }
     }).then(response => {
