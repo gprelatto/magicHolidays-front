@@ -12,7 +12,7 @@ function getAuthHeaders() {
     }
 }
 
-const baseUrl = 'http://mhtravelagency-api.herokuapp.com/';
+const baseUrl = 'https://mhtravelagency-api.herokuapp.com/';
 
 export const redirectToUnforbidden = (props) => {
     localStorage.setItem("auth", JSON.stringify({}));
