@@ -77,7 +77,7 @@ export default function EditProfilePassword(props) {
                 
                 axios({
                     method: 'post',
-                    url: 'https://magicholidays-api.herokuapp.com/updatePassword/',
+                    url: 'https://mhtravelagency-api.herokuapp.com/updatePassword/',
                     data: bodyForm,
                     headers: { 
                         'Content-Type': 'multipart/form-data',

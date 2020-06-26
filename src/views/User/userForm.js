@@ -156,8 +156,8 @@ export default function UserForm(props) {
                 let auth = JSON.parse(localStorage.getItem('auth'));
                 
                 axios({
-                    method: 'post',
-                    url: 'https://magicholidays-api.herokuapp.com/users/',
+                    method: 'post', 
+                    url: 'https://mhtravelagency-api.herokuapp.com/users/',
                     data: bodyForm,
                     headers: { 
                         'Content-Type': 'multipart/form-data',
