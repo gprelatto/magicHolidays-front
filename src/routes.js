@@ -27,7 +27,12 @@ import Face from "@material-ui/icons/Face";
 import Book from "@material-ui/icons/Book";
 import Payment from "@material-ui/icons/Payment";
 import ExitToApp from "@material-ui/icons/ExitToApp";
-
+import Public from "@material-ui/icons/Public";
+import Folder from "@material-ui/icons/Folder";
+import CardTravel from "@material-ui/icons/CardTravel";
+import People from "@material-ui/icons/People";
+import MonetizationOn from "@material-ui/icons/MonetizationOn";
+import Note from "@material-ui/icons/Note";
 
 import Timeline from "@material-ui/icons/Timeline";
 import WidgetsIcon from "@material-ui/icons/Widgets";
@@ -130,7 +135,7 @@ export const routes = [
     render: true,
     name: "menu.label.supplier",
     rtlName: "",
-    icon: Place,
+    icon: Public,
     state: "suppliersCollapse",
     permissions: [
       1
@@ -169,7 +174,7 @@ export const routes = [
     render: true,
     name: "menu.label.prodCat",
     rtlName: "",
-    icon: Place,
+    icon: Folder,
     state: "prodCategoriesCollapse",
     permissions: [
       1
@@ -208,7 +213,7 @@ export const routes = [
     render: true,
     name: "menu.label.product",
     rtlName: "",
-    icon: Place,
+    icon: CardTravel,
     state: "productsManagement",
     permissions: [
       1
@@ -247,7 +252,7 @@ export const routes = [
     render: true,
     name: "menu.label.users",
     rtlName: "",
-    icon: Place,
+    icon: People,
     state: "usersManagement",
     permissions: [
       1
@@ -364,7 +369,7 @@ export const routes = [
     render: true,
     name: "menu.label.payments",
     rtlName: "",
-    icon: Place,
+    icon: MonetizationOn,
     state: "paymentsManagement",
     permissions: [
       1
@@ -416,7 +421,7 @@ export const routes = [
     render: true,
     name: "menu.label.reports",
     rtlName: "",
-    icon: Place,
+    icon: Note,
     state: "reportsManagement",
     permissions: [
       1
