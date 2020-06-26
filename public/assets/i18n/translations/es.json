@@ -100,8 +100,9 @@
     "cobranzas.table.header.feeUser": "C. Emp.",
     "cobranzas.table.pago.header.payDate": "F. Pago",
     "cobranzas.table.pago.header.transactionNumber": "Cod. Transf.",
-    "cobranzas.table.title": "Reservas Cobradas",
+    "cobranzas.table.title": "Reservas Cobradas - Total Cobrado: $",
     "cobranzas.table.title.toCollect": "Reservas Pendientes de Cobro - Total Por Cobrar: $",
+    "cobranzas.table.title.agency": "Total Agencia: $",
     
 
     "common.alert.done": "Aceptar",

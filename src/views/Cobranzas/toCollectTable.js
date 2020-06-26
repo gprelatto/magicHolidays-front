@@ -121,6 +121,8 @@ export default function RezTable(props) {
         
         let data = [];
         let totalToCollect = 0 ;
+        let totalToCollectAgency = 0 ;
+
         reservationsResponseData.forEach(rez => {
           let confirmationDate = rez.confirmationDate != null ? rez.confirmationDate.split('T')[0] : '';
           let arrivalDate = rez.arrivalDate != null ? rez.arrivalDate.split('T')[0] : '';

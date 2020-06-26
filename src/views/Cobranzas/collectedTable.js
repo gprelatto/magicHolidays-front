@@ -34,6 +34,7 @@ export default function RezTable(props) {
   const { t, i18n } = useTranslation();
   
   const [reservationsData, setReservationsData] = React.useState([]);
+  const [toCollectTotal, setToCollect] = React.useState(0);
 
   const classes = useStyles();
   const alertClasses = useAlertStyles();
@@ -127,11 +128,13 @@ export default function RezTable(props) {
         setReservationsData(reservationsResponseData);
         
         let data = [];
-        
+        let totalToCollect = 0 ;
+
         reservationsResponseData.forEach(rez => {
           let confirmationDate = rez.confirmationDate != null ? rez.confirmationDate.split('T')[0] : '';
           let arrivalDate = rez.arrivalDate != null ? rez.arrivalDate.split('T')[0] : '';
           let payDate = rez.payDate != null ? rez.payDate.split('T')[0] : '';
+          totalToCollect = totalToCollect + rez.feeUser;
           data.push(
           {
               id: rez.id,
@@ -170,6 +173,7 @@ export default function RezTable(props) {
 
       removeProgressBar();
       setTableData(tableData);
+      setToCollect(totalToCollect);
     }).catch(e => {
       props.history.push('/auth/forbidden')
     });
@@ -186,7 +190,7 @@ export default function RezTable(props) {
                 <CardIcon color="rose">
                   <Assignment />
                 </CardIcon>
-                <h4 className={classes.cardIconTitle}> {t('cobranzas.table.title')} </h4>
+                <h4 className={classes.cardIconTitle}> {t('cobranzas.table.title')} {Math.round(toCollectTotal,2)}</h4>
               </CardHeader>
               <CardBody>
               <CSVLink data={tableData} >Download Data</CSVLink>              
