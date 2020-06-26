@@ -211,7 +211,7 @@ export default function UserForm(props) {
             style={{ display: "block", marginTop: "-100px" }}
             title="User Added!"
             onConfirm={() => {
-              setRedirect(<Redirect to='/admin/userTable' />);
+              setRedirect(<Redirect to='/admin/usersTable' />);
             }}
             onCancel={() => {
                 setName('');
