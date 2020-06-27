@@ -43,7 +43,7 @@ export default function LoginPage(props) {
   const [tr, setTR] = React.useState(false);
   const [message, setMessage] = React.useState('');
 
-  const baseUrl = 'https://mhtravelagency-api.herokuapp.com/';
+  const baseUrl = process.env.REACT_APP_API_URL;
 
   const { setAuth } = useAuth();
 

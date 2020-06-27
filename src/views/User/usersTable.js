@@ -77,7 +77,7 @@ export default function UsersTable(props) {
 
     axios({
       method: 'put',
-      url: 'https://mhtravelagency-api.herokuapp.com/users/' + userToEdit.id  + '/',
+      url: process.env.REACT_APP_API_URL + 'users/' + userToEdit.id  + '/',
       data: bodyForm,
       headers: { 
           'Content-Type': 'multipart/form-data',
