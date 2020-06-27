@@ -1,4 +1,6 @@
 import React, { useRef, useEffect } from "react";
+import { Redirect } from 'react-router-dom'
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -7,6 +9,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import PermIdentity from "@material-ui/icons/PermIdentity";
 
 import AddAlert from "@material-ui/icons/AddAlert";
+import SweetAlert from "react-bootstrap-sweetalert";
+
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -49,6 +53,9 @@ export default function UserProfile(props) {
   const [registerPhone, setRegisterPhone] = React.useState('');
   const [registerMail, setRegistermail] = React.useState('');
 
+  const [redirect, setRedirect] = React.useState(false);
+
+
   const [bar, setBar] = React.useState(null);
   const [tr, setTR] = React.useState(false);
   const [alert, setAlert] = React.useState(null);
@@ -63,29 +70,29 @@ export default function UserProfile(props) {
 
     getRequest('getProfile').then(profileResponse => {
       profile = profileResponse.data;
-      
-      if(profile.code !== 403) {
+
+      if (profile.code !== 403) {
         profileData = profileResponse.data.data[0];
         setUserProfile(profileData);
         setSelectedCountryId(profileData.country);
-  
-        if(profile.code != 200) {
+
+        if (profile.code != 200) {
           forbidden();
         }
-  
+
         getRequest('countries').then(countryResponse => {
-          if(countryResponse.data.code != 200) {
+          if (countryResponse.data.code != 200) {
             forbidden();
           }
-  
+
           setCountries(countryResponse.data.data);
         });
-  
+
         getRequest('userTypes/' + profileData.user_type).then(userTypeResponse => {
-          if(userTypeResponse.data.code !== 200) {
+          if (userTypeResponse.data.code !== 200) {
             forbidden();
           }
-  
+
           setUserType(userTypeResponse.data.data);
         });
       }
@@ -98,18 +105,20 @@ export default function UserProfile(props) {
   }, []);
 
   const submitButton = () => {
-    if(registerPhone !== "error"
+    if (registerPhone !== "error"
       && registerLastName !== "error"
       && registerMail !== "error"
       && registerName !== "error") {
-        editProfile(userProfile).then(response => {
-          setUserProfile(response.data.data);
-        })
+      progressBar();
+      editProfile(userProfile).then(response => {
+        removeProgressBar();
+        successAlert()
+      })
     }
     else {
       if (!tr) {
         setTR(true);
-        setTimeout(function() {
+        setTimeout(function () {
           setTR(false);
         }, 3000);
       }
@@ -128,10 +137,48 @@ export default function UserProfile(props) {
     props.history.push('/auth/forbidden');
   }
 
+  const successAlert = () => {
+    setAlert(
+      <SweetAlert
+        success
+        style={{ display: "block", marginTop: "-100px" }}
+        title="Perfil modificado"
+        onConfirm={() => {
+          setRedirect(<Redirect to='/admin/logout' />);
+        }}
+        onCancel={() => {
+          setRedirect(<Redirect to='/admin/logout' />);
+        }}
+        confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
+        cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
+        confirmBtnText="Aceptar"
+        cancelBtnText="Cancelar"
+        showCancel
+      >
+        Perfil modificado!
+      </SweetAlert>
+    );
+  };
+
+  const progressBar = () => {
+    setBar(
+      <CustomLinearProgress
+        variant="indeterminate"
+        color="primary"
+        value={30}
+      />
+    );
+  };
+
+  const removeProgressBar = () => {
+    setBar(null);
+  };
+
   return (
     <div>
       {bar}
       {alert}
+      {redirect}
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
@@ -144,7 +191,7 @@ export default function UserProfile(props) {
               </h4>
             </CardHeader>
             <CardBody>
-            <GridContainer>
+              <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <InputLabel htmlFor="firstname" className={classes.description}>
                     {t('common.firstname')}
@@ -190,8 +237,8 @@ export default function UserProfile(props) {
               </GridContainer>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
-                <InputLabel htmlFor="mail" className={classes.description}>
-                  {t('common.mail')}
+                  <InputLabel htmlFor="mail" className={classes.description}>
+                    {t('common.mail')}
                   </InputLabel>
                   <CustomInput
                     id="mail"
@@ -257,40 +304,40 @@ export default function UserProfile(props) {
                     // success={(registerCountryId === "success").toString()}
                     // error={registerCountryId === "error"}
                     MenuProps={{
-                        className: selectClasses.selectMenu
+                      className: selectClasses.selectMenu
                     }}
                     classes={{
-                        select: selectClasses.select
+                      select: selectClasses.select
                     }}
                     value={selectedCountryId}
                     onChange={e => {
-                        let id = e.target.value;
-                        setSelectedCountryId(id);
-                        setUserProfile({
-                            ...userProfile,
-                            country: id
-                        });
+                      let id = e.target.value;
+                      setSelectedCountryId(id);
+                      setUserProfile({
+                        ...userProfile,
+                        country: id
+                      });
                     }}
                     inputProps={{
-                        name: "countrySelect",
-                        id: "country-select"
-                    }}  
-                    >   
-                    {countries.map((c, i) => {     
-                        return (
-                            <MenuItem
-                                key={i}
-                                classes={{
-                                    root: selectClasses.selectMenuItem,
-                                    selected: selectClasses.selectMenuItemSelected
-                                }}
-                                value={c.id}
-                                >
-                                {c.description}
-                            </MenuItem>
-                        ) 
+                      name: "countrySelect",
+                      id: "country-select"
+                    }}
+                  >
+                    {countries.map((c, i) => {
+                      return (
+                        <MenuItem
+                          key={i}
+                          classes={{
+                            root: selectClasses.selectMenuItem,
+                            selected: selectClasses.selectMenuItemSelected
+                          }}
+                          value={c.id}
+                        >
+                          {c.description}
+                        </MenuItem>
+                      )
                     })}
-                    </Select>
+                  </Select>
                 </GridItem>
               </GridContainer>
 
