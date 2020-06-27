@@ -170,6 +170,9 @@ export default function RezTable(props) {
   const [arrivalDateState, setArrivalDateState] = React.useState("error");
   const [registerProductCategoryState, setRegisterProductCategoryState] = React.useState("");
 
+  const [confirmationDisplayDate, setConfirmationDisplayDate] = React.useState('');
+  const [arrivalDisplayDate, setArrivalDisplayDate] = React.useState('');
+
   const [tr, setTR] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
 
@@ -235,7 +238,6 @@ export default function RezTable(props) {
   }, [feeTotal]);
 
   useEffect(() => {
-    console.log('conf', confirmationNumber.length)
     if (confirmationNumber.length == 0) {
       setConfirmationNumberState("error");
     }
@@ -268,6 +270,34 @@ export default function RezTable(props) {
     }
     else {
       setArrivalDateState("success");
+    }
+  }, [arrivalDate]);
+
+  useEffect(() => {
+    if (typeof confirmationDate === "string") {
+      if (confirmationDate.includes('T')) {
+        setConfirmationDisplayDate(confirmationDate.toString().split('T')[0]);
+      }
+      else {
+        setConfirmationDisplayDate(confirmationDate);
+      }
+    }
+    else {
+      setConfirmationDisplayDate(confirmationDate)
+    }
+  }, [confirmationDate]);
+
+  useEffect(() => {
+    if (typeof arrivalDate === "string") {
+      if (arrivalDate.includes('T')) {
+        setArrivalDisplayDate(arrivalDate.split('T')[0]);
+      }
+      else {
+        setArrivalDisplayDate(arrivalDate);
+      }
+    }
+    else {
+      setArrivalDisplayDate(arrivalDate)
     }
   }, [arrivalDate]);
 
@@ -776,6 +806,7 @@ export default function RezTable(props) {
                   </GridItem>
                   <GridItem xs={4} sm={4} md={4} lg={8}>
                     <Datetime
+                      dateFormat="YYYY-MM-DD"
                       timeFormat={false}
                       closeOnSelect={true}
                       inputProps={{
@@ -783,7 +814,7 @@ export default function RezTable(props) {
                       onChange={(event) => {
                         setConfirmationDate(event._d);
                       }}
-                      value={confirmationDate}
+                      value={confirmationDisplayDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -797,6 +828,7 @@ export default function RezTable(props) {
                   </GridItem>
                   <GridItem xs={4} sm={4} md={4} lg={8}>
                     <Datetime
+                      dateFormat="YYYY-MM-DD"
                       timeFormat={false}
                       closeOnSelect={true}
                       inputProps={{
@@ -806,7 +838,7 @@ export default function RezTable(props) {
                         setArrivalDate(event._d);
                         setArrivalDateState("success");
                       }}
-                      value={arrivalDate}
+                      value={arrivalDisplayDate}
                     />
                   </GridItem>
                 </GridContainer>

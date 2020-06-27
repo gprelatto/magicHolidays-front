@@ -216,7 +216,6 @@ export default function RezForm(props) {
     }, [feeTotal]);
 
     useEffect(() => {
-        console.log('conf',confirmationNumber.length)
         if (confirmationNumber.length == 0) {
             setConfirmationNumberState("error");
         }
@@ -456,6 +455,7 @@ export default function RezForm(props) {
                             </GridItem>
                             <GridItem xs={4} sm={4} md={4} lg={8}>
                                 <Datetime
+                                    dateFormat="YYYY-MM-DD"
                                     timeFormat={false}
                                     closeOnSelect={true}
                                     inputProps={{
@@ -476,6 +476,7 @@ export default function RezForm(props) {
                             </GridItem>
                             <GridItem xs={4} sm={4} md={4} lg={8}>
                                 <Datetime
+                                    dateFormat="YYYY-MM-DD"
                                     timeFormat={false}
                                     closeOnSelect={true}
                                     inputProps={{
