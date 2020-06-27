@@ -463,6 +463,7 @@ export default function RezForm(props) {
                                     onChange={(event) => {
                                         setConfirmationDate(event._d);
                                     }}
+                                    className={classes.select}
                                     value={confirmationDate}
                                 />
                             </GridItem>
@@ -486,6 +487,7 @@ export default function RezForm(props) {
                                         setArrivalDate(event._d);
                                         setArrivalDateState("success");
                                     }}
+                                    className={classes.select}
                                     value={arrivalDate}
                                 />
                             </GridItem>
