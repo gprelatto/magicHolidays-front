@@ -37,6 +37,7 @@ import Datetime from "react-datetime";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
+import formStyles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
 import { getRequest, editRez, deleteRez, redirectToUnforbidden } from 'common/Request/Requests.js'
 
@@ -47,6 +48,7 @@ import { CSVLink } from "react-csv";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
+const useFormStyles = makeStyles(formStyles);
 
 
 export default function RezTable(props) {
@@ -54,6 +56,7 @@ export default function RezTable(props) {
 
   const classes = useStyles();
   const alertClasses = useAlertStyles();
+  const formStyleClasses = useFormStyles();
 
   const columns = [
     {
@@ -632,7 +635,7 @@ export default function RezTable(props) {
                 <CardIcon color="rose">
                   <Assignment />
                 </CardIcon>
-                <h4 className={classes.cardIconTitle}>Reservaciones</h4>
+                <h4 className={formStyleClasses.cardIconTitle}>Reservaciones</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
@@ -708,13 +711,13 @@ export default function RezTable(props) {
               <CardIcon color="rose">
                 <MailOutline />
               </CardIcon>
-              <h4 className={classes.cardIconTitle}>Numero de Confirmacion: {rezToEdit.confirmationNumber}</h4>
+              <h4 className={formStyleClasses.cardIconTitle}>Numero de Confirmacion: {rezToEdit.confirmationNumber}</h4>
             </CardHeader>
             <CardBody>
               <form>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={2} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
 
                     </FormLabel>
                   </GridItem>
@@ -756,7 +759,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Nombre Completo *
                                 </FormLabel>
                   </GridItem>
@@ -778,7 +781,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Telefono *
                                 </FormLabel>
                   </GridItem>
@@ -800,7 +803,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Fecha de Confirmacion *
                                 </FormLabel>
                   </GridItem>
@@ -814,6 +817,7 @@ export default function RezTable(props) {
                       onChange={(event) => {
                         setConfirmationDate(event._d);
                       }}
+                      className={formStyleClasses.select}
                       value={confirmationDisplayDate}
                     />
                   </GridItem>
@@ -822,7 +826,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Fecha de Llegada *
                                 </FormLabel>
                   </GridItem>
@@ -838,6 +842,7 @@ export default function RezTable(props) {
                         setArrivalDate(event._d);
                         setArrivalDateState("success");
                       }}
+                      className={formStyleClasses.select}
                       value={arrivalDisplayDate}
                     />
                   </GridItem>
@@ -845,7 +850,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Proveedor
                                 </FormLabel>
                   </GridItem>
@@ -854,10 +859,10 @@ export default function RezTable(props) {
                       success={(registerSupplierState === "success").toString()}
                       error={registerSupplierState === "error"}
                       MenuProps={{
-                        className: classes.selectMenu
+                        className: formStyleClasses.selectMenu
                       }}
                       classes={{
-                        select: classes.select
+                        select: formStyleClasses.select
                       }}
                       value={supplierId}
                       onChange={e => {
@@ -877,8 +882,8 @@ export default function RezTable(props) {
                           <MenuItem
                             key={i}
                             classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
+                              root: formStyleClasses.selectMenuItem,
+                              selected: formStyleClasses.selectMenuItemSelected
                             }}
                             value={sup.id}
                           >
@@ -892,7 +897,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Categoria de Producto
                                 </FormLabel>
                   </GridItem>
@@ -902,10 +907,10 @@ export default function RezTable(props) {
                       success={(registerProductCategoryState === "success").toString()}
                       error={registerProductCategoryState === "error"}
                       MenuProps={{
-                        className: classes.selectMenu
+                        className: formStyleClasses.selectMenu
                       }}
                       classes={{
-                        select: classes.select
+                        select: formStyleClasses.select
                       }}
                       value={productCategoryId}
                       onChange={e => {
@@ -923,8 +928,8 @@ export default function RezTable(props) {
                           <MenuItem
                             key={i}
                             classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
+                              root: formStyleClasses.selectMenuItem,
+                              selected: formStyleClasses.selectMenuItemSelected
                             }}
                             value={productCategory.id}
                           >
@@ -938,7 +943,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Productos
                                 </FormLabel>
                   </GridItem>
@@ -948,10 +953,10 @@ export default function RezTable(props) {
                       // success={(registerProductState === "success").toString()}
                       // error={registerProductState === "error"}
                       MenuProps={{
-                        className: classes.selectMenu
+                        className: formStyleClasses.selectMenu
                       }}
                       classes={{
-                        select: classes.select
+                        select: formStyleClasses.select
                       }}
                       value={productId}
                       onChange={e => setProductId(e.target.value)}
@@ -965,8 +970,8 @@ export default function RezTable(props) {
                           <MenuItem
                             key={i}
                             classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
+                              root: formStyleClasses.selectMenuItem,
+                              selected: formStyleClasses.selectMenuItemSelected
                             }}
                             value={product.id}
                           >
@@ -980,7 +985,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Importe Total de la Reserva *
                                 </FormLabel>
                   </GridItem>
@@ -1014,7 +1019,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Importe Total de la Comision *
                                 </FormLabel>
                   </GridItem>
@@ -1047,7 +1052,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Comision de la Agencia *
                                 </FormLabel>
                   </GridItem>
@@ -1071,7 +1076,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Comision del Agente *
                                 </FormLabel>
                   </GridItem>
@@ -1095,7 +1100,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Numero de Reserva *
                                 </FormLabel>
                   </GridItem>
@@ -1120,14 +1125,14 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={10} sm={10} md={10} lg={11}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       <small>*</small> Campos Requeridos
                                 </FormLabel>
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={10} sm={10} md={10} lg={11}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       <Button
                         color="rose"
                         onClick={submitEditButton}
