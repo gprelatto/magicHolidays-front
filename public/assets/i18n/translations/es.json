@@ -46,6 +46,9 @@
     "customer.list.alert.canceled": "El cliente no fue eliminado",
     "customer.list.title": "Listado de Clientes",
     "customer.list.edit.title": "Editar Cliente",
+    "customer.list.sourceContactLabel": "Fuente de contacto",
+    "customer.add.sourceContactSelect": "Seleccione fuente de contacto",
+    "customer.add.sourceContactSelectLabel": "Fuente de contacto",
 
     "monthlyTotals.list.title": "Distribucion de Ventas por Mes",
     "monthlyTotals.table.header.year": "Año",
