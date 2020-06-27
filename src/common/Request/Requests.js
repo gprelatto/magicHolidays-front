@@ -97,7 +97,8 @@ export const postCustomer = (data) => {
         mail: data.mail,
         phone: data.phone,
         country: data.country,
-        created_by: data.created_by
+        created_by: data.created_by,
+        contact_source: data.contact_source
     }, getAuthHeaders())
 }
 
@@ -108,7 +109,8 @@ export const editCustomer = (data) => {
         fullname: data.fullname,
         mail: data.mail,
         phone: data.phone,
-        country: data.country
+        country: data.country,
+        contact_source: data.contact_source
     }, getAuthHeaders())
 }
 

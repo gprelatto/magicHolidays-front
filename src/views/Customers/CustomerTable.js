@@ -25,10 +25,13 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
+import FormLabel from "@material-ui/core/FormLabel";
+
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, editCustomer, deleteCustomer } from 'common/Request/Requests.js'
+import sourceContactList from 'common/Variables/ContactSourceList.js'
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(styles);
@@ -44,6 +47,7 @@ export default function CustomerTable(props) {
   const [customersData, setCustomersData] = React.useState('');
   const [countryData, setCountryData] = React.useState('');
   const [showEdit, setShowEdit] = React.useState(false);
+  const [selectedSourceContact, setSelectedSourceContact] = React.useState();
 
   const [customerToEdit, setCustomerToEdit] = React.useState({});
   const [countryId, setCountryId] = React.useState('');
@@ -59,6 +63,7 @@ export default function CustomerTable(props) {
 
   const submitEditButton = () => {
     editProgressBar();
+    console.log('toedit',customerToEdit)
     editCustomer(customerToEdit).then((response) => {
       populateCustomersTable();
       setShowEdit(false);
@@ -174,7 +179,8 @@ export default function CustomerTable(props) {
                 mail: element.mail,
                 phone: element.phone,
                 country: element.country,
-                countryDescription: country.description
+                countryDescription: country.description,
+                contact_source: element.contact_source !== null ? element.contact_source : ''
               }
             );
           }
@@ -187,6 +193,7 @@ export default function CustomerTable(props) {
             mail: prop.mail,
             phone: prop.phone,
             countryDescription: prop.countryDescription,
+            contactSource: prop.contact_source,
             actions: (
               <div className="actions-right">
                 <Button
@@ -202,6 +209,9 @@ export default function CustomerTable(props) {
                       setCustomerToEdit(cus);
                       setCountryId(cus.country);
                       setShowEdit(true);
+
+                      let sourceContact = sourceContactList.find(f => f === cus.contact_source);
+                      sourceContact !== undefined ? setSelectedSourceContact(sourceContact) : setSelectedSourceContact(sourceContactList[0]);
                     }
                   }}
                 >
@@ -279,6 +289,10 @@ export default function CustomerTable(props) {
                     accessor: "countryDescription"
                   },
                   {
+                    Header: t('customer.list.sourceContactLabel'),
+                    accessor: "contactSource"
+                  },
+                  {
                     Header: t('common.table.header.actions'),
                     accessor: "actions",
                     sortable: false,
@@ -305,99 +319,178 @@ export default function CustomerTable(props) {
             </CardHeader>
             <CardBody>
               <form>
-                <CustomInput
-                  labelText={t('customers.add.fullName')}
-                  id="fullname"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    type: "text",
-                    onChange: event => {
-                      setCustomerToEdit({
-                        ...customerToEdit,
-                        fullname: event.target.value
-                      })
-                    },
-                    value: customerToEdit.fullname
-                  }}
-                />
-                <CustomInput
-                  labelText={t('customers.add.mail')}
-                  id="mail"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    type: "text",
-                    onChange: event => {
-                      setCustomerToEdit({
-                        ...customerToEdit,
-                        mail: event.target.value
-                      })
-                    },
-                    value: customerToEdit.mail
-                  }}
-                />
-                <CustomInput
-                  labelText={t('customers.add.phone')}
-                  id="phone"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    type: "text",
-                    onChange: event => {
-                      setCustomerToEdit({
-                        ...customerToEdit,
-                        phone: event.target.value
-                      })
-                    },
-                    value: customerToEdit.phone
-                  }}
-                />
-                <InputLabel htmlFor="country-select" className={classes.selectLabel}>
-                  {t('common.country')}
-                </InputLabel>
-                <Select
-                  MenuProps={{
-                    className: classes.selectMenu
-                  }}
-                  classes={{
-                    select: classes.select
-                  }}
-                  value={countryId}
-                  onChange={e => {
-                    let id = e.target.value;
-                    setCountryId(id);
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={classes.labelHorizontal}>
+                      {t('customers.add.fullName')}
+                    </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <CustomInput
+                      id="fullname"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        onChange: event => {
+                          setCustomerToEdit({
+                            ...customerToEdit,
+                            fullname: event.target.value
+                          })
+                        },
+                        value: customerToEdit.fullname
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
 
-                    let c = countryData.find(s => s.id === id);
-                    setCustomerToEdit({
-                      ...customerToEdit,
-                      country: c.id,
-                      countryDescription: c.description
-                    })
-                  }}
-                  inputProps={{
-                    name: "countrySelect",
-                    id: "country-select"
-                  }}
-                >
-                  {countryData.map((c, i) => {
-                    return (
-                      <MenuItem
-                        key={i}
-                        classes={{
-                          root: classes.selectMenuItem,
-                          selected: classes.selectMenuItemSelected
-                        }}
-                        value={c.id}
-                      >
-                        {c.description}
-                      </MenuItem>
-                    )
-                  })}
-                </Select>
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={classes.labelHorizontal}>
+                      {t('customers.add.mail')}
+                    </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <CustomInput
+                      id="mail"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        onChange: event => {
+                          setCustomerToEdit({
+                            ...customerToEdit,
+                            mail: event.target.value
+                          })
+                        },
+                        value: customerToEdit.mail
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={classes.labelHorizontal}>
+                      {t('customers.add.phone')}
+                    </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <CustomInput
+                      id="phone"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        onChange: event => {
+                          setCustomerToEdit({
+                            ...customerToEdit,
+                            phone: event.target.value
+                          })
+                        },
+                        value: customerToEdit.phone
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={classes.labelHorizontal}>
+                      {t('common.country')}
+                    </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <Select
+                      MenuProps={{
+                        className: classes.selectMenu
+                      }}
+                      classes={{
+                        select: classes.select
+                      }}
+                      value={countryId}
+                      onChange={e => {
+                        let id = e.target.value;
+                        setCountryId(id);
+
+                        let c = countryData.find(s => s.id === id);
+                        setCustomerToEdit({
+                          ...customerToEdit,
+                          country: c.id,
+                          countryDescription: c.description
+                        })
+                      }}
+                      inputProps={{
+                        name: "countrySelect",
+                        id: "country-select"
+                      }}
+                    >
+                      {countryData.map((c, i) => {
+                        return (
+                          <MenuItem
+                            key={i}
+                            classes={{
+                              root: classes.selectMenuItem,
+                              selected: classes.selectMenuItemSelected
+                            }}
+                            value={c.id}
+                          >
+                            {c.description}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={classes.labelHorizontal}>
+                      {t('customer.add.sourceContactSelectLabel')}
+                    </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <Select
+                      MenuProps={{
+                        className: classes.selectMenu
+                      }}
+                      classes={{
+                        select: classes.select
+                      }}
+                      value={selectedSourceContact}
+                      onChange={e => {
+                        setSelectedSourceContact(e.target.value);
+                        setCustomerToEdit({
+                          ...customerToEdit,
+                          contact_source: e.target.value
+                        })
+                      }}
+                      inputProps={{
+                        name: "countrySelect",
+                        id: "country-select"
+                      }}
+                    >
+                      {sourceContactList.map((c, i) => {
+                        return (
+                          <MenuItem
+                            key={i}
+                            classes={{
+                              root: classes.selectMenuItem,
+                              selected: classes.selectMenuItemSelected
+                            }}
+                            value={c}
+                          >
+                            {c}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </GridItem>
+                </GridContainer>
+
                 <GridItem xs={12} sm={12} md={6}>
                   <div className={classes.cardContentRight}>
                     <Button color="primary" className={classes.marginRight} onClick={submitEditButton}>
