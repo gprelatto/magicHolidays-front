@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React,  { useEffect } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // react plugin for creating vector maps
@@ -61,6 +61,11 @@ const br_flag = require("assets/img/flags/BR.png");
 const useStyles = makeStyles(styles);
 const useChartStyles = makeStyles(chartStyles);
 
+var delays = 80,
+  durations = 500;
+var delays2 = 80,
+  durations2 = 500;
+
 export default function Dashboard(props) {
   const classes = useStyles();
   const classesChart = useChartStyles();
@@ -77,9 +82,11 @@ export default function Dashboard(props) {
   // widgets for employee
 
 
-  const [mapData, setSalesCountry] = React.useState({});
+  const [mapData, setSalesCountry] = React.useState([]);
   const [pieChart, setPieProducts] = React.useState({});
   const [pieChartProviders, setPieProviders] = React.useState({});
+  const [barChartEmployee, setBarEmployees] = React.useState({});
+  
   const [bar, setBar] = React.useState(null);
   const [tr, setTR] = React.useState(false);
   const [alert, setAlert] = React.useState(null);
@@ -161,17 +168,88 @@ export default function Dashboard(props) {
         if(responseData.code === 403) {
             redirectToUnforbidden(props);
         }
-        //setWidgets(responseData.data);
-        let data = {};
+
+        
+        let dataContent = [];
+
         responseData.data.forEach(element => {
-          data[element.key] = element.totalsales
+          let dataChild = [];
+          dataChild.push(element.key)
+          dataChild.push(element.totalsales)
+          dataContent.push(dataChild)
         });
-        setSalesCountry(data)
+
+        setSalesCountry(dataContent)
+
         removeProgressBar();
       }).catch(e => {
           props.history.push('/auth/forbidden')
       });     
- 
+
+      getRequest('salesEmployee').then((response) => {
+        let responseData = response.data
+
+        if(responseData.code === 403) {
+            redirectToUnforbidden(props);
+        }
+        //setWidgets(responseData.data);
+        let salesBarChart = {
+          data: {
+            labels: [],
+            series: []
+          },
+          options: {
+            seriesBarDistance: 10,
+            axisX: {
+              showGrid: false
+            },
+            height: "300px"
+          },
+          responsiveOptions: [
+            [
+              "screen and (max-width: 640px)",
+              {
+                seriesBarDistance: 5,
+                axisX: {
+                  labelInterpolationFnc: function(value) {
+                    return value[0];
+                  }
+                }
+              }
+            ]
+          ],
+          animation: {
+            draw: function(data) {
+              if (data.type === "bar") {
+                data.element.animate({
+                  opacity: {
+                    begin: (data.index + 1) * delays2,
+                    dur: durations2,
+                    from: 0,
+                    to: 1,
+                    easing: "ease"
+                  }
+                });
+              }
+            }
+          }
+        };
+
+        let serieData = [];
+
+        responseData.data.forEach(element => {
+          salesBarChart.data.labels.push(element.key)
+          serieData.push(element.totalsales)
+        });
+
+        salesBarChart.data.series.push(serieData)
+
+        setBarEmployees(salesBarChart)
+        removeProgressBar();
+      }).catch(e => {
+          props.history.push('/auth/forbidden')
+      });         
+
       getRequest('salesProvider').then((response) => {
         let responseData = response.data
 
@@ -449,6 +527,33 @@ export default function Dashboard(props) {
 
       {
         permissions.user_type === 1 ?
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card>
+              <CardHeader color="rose" icon>
+                <CardIcon color="rose">
+                  <Timeline />
+                </CardIcon>
+                <h4 className={classes.cardIconTitle}>
+                  Ventas Mensuales <small>- Categorizado por Empleado</small>
+                </h4>
+              </CardHeader>
+              <CardBody>
+                <ChartistGraph
+                  data={barChartEmployee.data}
+                  type="Bar"
+                  options={barChartEmployee.options}
+                  listener={barChartEmployee.animation}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>          
+        </GridContainer>
+      :
+        <></>
+      }
+      {
+        permissions.user_type === 1 ?
       <GridContainer>
         <GridItem xs={12}>
           <Card>
@@ -457,81 +562,14 @@ export default function Dashboard(props) {
                 <Language />
               </CardIcon>
               <h4 className={classes.cardIconTitle}>
-                Sales by Location
+                Ventas por Pais
               </h4>
             </CardHeader>
             <CardBody>
               <GridContainer justify="space-between">
-                <GridItem xs={12} sm={12} md={5}>
+                <GridItem xs={12} sm={12} md={12}>
                   <Table
-                    tableData={[
-                      [
-                        <img src={us_flag} alt="us_flag" key={"flag"} />,
-                        "USA",
-                        "2.920",
-                        "53.23%"
-                      ],
-                      [
-                        <img src={de_flag} alt="us_flag" key={"flag"} />,
-                        "Germany",
-                        "1.300",
-                        "20.43%"
-                      ],
-                      [
-                        <img src={au_flag} alt="us_flag" key={"flag"} />,
-                        "Australia",
-                        "760",
-                        "10.35%"
-                      ],
-                      [
-                        <img src={gb_flag} alt="us_flag" key={"flag"} />,
-                        "United Kingdom",
-                        "690",
-                        "7.87%"
-                      ],
-                      [
-                        <img src={ro_flag} alt="us_flag" key={"flag"} />,
-                        "Romania",
-                        "600",
-                        "5.94%"
-                      ],
-                      [
-                        <img src={br_flag} alt="us_flag" key={"flag"} />,
-                        "Brasil",
-                        "550",
-                        "4.34%"
-                      ]
-                    ]}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <VectorMap
-                    map={"world_mill"}
-                    backgroundColor="transparent"
-                    zoomOnScroll={false}
-                    containerStyle={{
-                      width: "100%",
-                      height: "280px"
-                    }}
-                    containerClassName="map"
-                    regionStyle={{
-                      initial: {
-                        fill: "#e4e4e4",
-                        "fill-opacity": 0.9,
-                        stroke: "none",
-                        "stroke-width": 0,
-                        "stroke-opacity": 0
-                      }
-                    }}
-                    series={{
-                      regions: [
-                        {
-                          values: mapData,
-                          scale: ["#AAAAAA", "#444444"],
-                          normalizeFunction: "polynomial"
-                        }
-                      ]
-                    }}
+                    tableData={mapData}
                   />
                 </GridItem>
               </GridContainer>
@@ -542,6 +580,7 @@ export default function Dashboard(props) {
       :
         <></>
       }
+
       <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
           <Card>
