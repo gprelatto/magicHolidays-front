@@ -65,15 +65,27 @@ export default function Dashboard(props) {
   const classes = useStyles();
   const classesChart = useChartStyles();
   const [widgets, setWidgets] = React.useState([]);
-  const [totalSales, setWidgetsTotalSales] = React.useState([]);
-  const [totalRevenue, setWidgetsTotalRevenue] = React.useState([]);
-  const [totalFees, setWidgetsTotalFees] = React.useState([]);
+  
+  // widgets for admin
+  const [totalSalesDay, setWidgetsTotalSalesDay] = React.useState(0);
+  const [totalSalesMonth, setWidgetsTotalSalesMonth] = React.useState(0);
+  const [totalSalesHistoric, setWidgetsTotalSalesHistoric] = React.useState(0);
+  const [totalIncomeDay, setWidgetsTotalIncomeDay] = React.useState(0);
+  const [totalIncomeMonth, setWidgetsTotalIncomeMonth] = React.useState(0);
+  const [totalPaidMonth, setWidgetsTotalPaidMonth] = React.useState(0);
+
+  // widgets for employee
+
+
   const [mapData, setSalesCountry] = React.useState({});
   const [pieChart, setPieProducts] = React.useState({});
+  const [pieChartProviders, setPieProviders] = React.useState({});
   const [bar, setBar] = React.useState(null);
   const [tr, setTR] = React.useState(false);
   const [alert, setAlert] = React.useState(null);
   const [redirect, setRedirect] = React.useState(false);
+  const [permissions, setPermissions] = React.useState({})
+
   const ct_series_colors = [
     '#d70206',
     '#f05b4f',
@@ -113,16 +125,31 @@ export default function Dashboard(props) {
       progressBar();
       var sum = function(a, b) { return a + b };
       
+      let permissionData = JSON.parse(localStorage.getItem("auth"))
+      setPermissions(permissionData)
+
       getRequest('widgets').then((response) => {
           let responseData = response.data
 
           if(responseData.code === 403) {
               redirectToUnforbidden(props);
           }
-          //setWidgets(responseData.data);
-          setWidgetsTotalSales(responseData.data.find(f => f.widget === 'Total Sales').totalsales ?? 0)
-          setWidgetsTotalRevenue(responseData.data.find(f => f.widget === 'Total Revenue').totalsales ?? 0)
-          setWidgetsTotalFees(responseData.data.find(f => f.widget === 'Total Fees').totalsales ?? 0)
+
+          if (permissionData.user_type === 1 ) {
+            setWidgetsTotalSalesDay(responseData.data.find(f => f.widget === 'Total Sales 24 Hs').totalsales ?? 0)
+            setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month').totalsales ?? 0)
+            setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic').totalsales ?? 0)
+            setWidgetsTotalIncomeDay(responseData.data.find(f => f.widget === 'Total Income 24 Hs').totalsales ?? 0)
+            setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month').totalsales ?? 0)
+          } 
+          else {
+            setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month').totalsales ?? 0)
+            setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic').totalsales ?? 0)
+            setWidgetsTotalPaidMonth(responseData.data.find(f => f.widget === 'Total Paid Month').totalsales ?? 0)
+            setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month').totalsales ?? 0)
+          }
+
+          
           removeProgressBar();
       }).catch(e => {
           props.history.push('/auth/forbidden')
@@ -144,6 +171,51 @@ export default function Dashboard(props) {
       }).catch(e => {
           props.history.push('/auth/forbidden')
       });     
+ 
+      getRequest('salesProvider').then((response) => {
+        let responseData = response.data
+
+        if(responseData.code === 403) {
+            redirectToUnforbidden(props);
+        }
+        //setWidgets(responseData.data);
+        let pieChart = {
+          data : {
+            labels : [],
+            series : []
+          },
+          options : {
+            height:  "300px",
+            donut: true,
+            donutWidth: 60,
+            donutSolid: true,
+            startAngle: 270,
+            showLabel: true,
+            labelInterpolationFnc: function(value) {
+              return  pieChart.data.series[pieChart.data.labels.indexOf(value)];
+            }            
+          },
+          responsiveOptions : [
+            ['screen and (min-width: 640px)', {
+              chartPadding: 30,
+              labelOffset: 100,
+              labelDirection: 'explode'
+            }],
+            ['screen and (min-width: 1024px)', {
+              labelOffset: 80,
+              chartPadding: 20
+            }]
+          ]
+        };
+        responseData.data.forEach(element => {
+          pieChart.data.labels.push(element.key)
+          pieChart.data.series.push(element.totalsales)
+        });
+        setPieProviders(pieChart)
+        removeProgressBar();
+      }).catch(e => {
+          props.history.push('/auth/forbidden')
+      });         
 
       getRequest('salesProduct').then((response) => {
         let responseData = response.data
@@ -191,76 +263,192 @@ export default function Dashboard(props) {
       });         
   }, [])  
   
-
-
-  
-
-
-
-
-
   return (
     <div>
       {bar}
-      <GridContainer>
+
+      {
+        permissions.user_type === 1 ?
+        <GridContainer>
         <GridItem xs={12} sm={6} md={6} lg={4}>
           <Card>
             <CardHeader color="warning" stats icon>
               <CardIcon color="warning">
                 <Icon>receipt</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Total Sales</p>
+              <p className={classes.cardCategory}>Venta Total ultimas 24hs.</p>
               <h3 className={classes.cardTitle}>
-               $ {totalSales}
+               $ {totalSalesDay}
               </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <DateRange />
-                Last 24 Hours
+                Ultimas 24 hs
               </div>
             </CardFooter>
           </Card>
         </GridItem>
         <GridItem xs={12} sm={6} md={6} lg={4}>
+          <Card>
+            <CardHeader color="warning" stats icon>
+              <CardIcon color="warning">
+                <Icon>receipt</Icon>
+              </CardIcon>
+              <p className={classes.cardCategory}>Venta Total del Mes</p>
+              <h3 className={classes.cardTitle}>
+               $ {totalSalesMonth}
+              </h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <DateRange />
+                Este Mes
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={6} md={6} lg={4}>
+          <Card>
+            <CardHeader color="warning" stats icon>
+              <CardIcon color="warning">
+                <Icon>receipt</Icon>
+              </CardIcon>
+              <p className={classes.cardCategory}>Venta Total Historica</p>
+              <h3 className={classes.cardTitle}>
+               $ {totalSalesHistoric}
+              </h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <DateRange />
+                Todo el tiempo
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={6} md={6} lg={6}>
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
-                <Icon>monetization_on</Icon>
+                <Icon>receipt</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Total Revenue</p>
+              <p className={classes.cardCategory}>Ganancia Total ultimas 24hs.</p>
               <h3 className={classes.cardTitle}>
-                $  {totalRevenue}
+               $ {totalIncomeDay}
               </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <DateRange />
-                Last 24 Hours
+                Ultimas 24 hs.
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={6} lg={4}>
+        <GridItem xs={12} sm={6} md={6} lg={6}>
+          <Card>
+            <CardHeader color="danger" stats icon>
+              <CardIcon color="danger">
+                <Icon>receipt</Icon>
+              </CardIcon>
+              <p className={classes.cardCategory}>Ganancia Total del mes</p>
+              <h3 className={classes.cardTitle}>
+               $ {totalIncomeMonth}
+              </h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <DateRange />
+                Este Mes
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>                                          
+        </GridContainer>
+        :
+        <GridContainer>
+        <GridItem xs={12} sm={6} md={6} lg={6}>
+          <Card>
+            <CardHeader color="warning" stats icon>
+              <CardIcon color="warning">
+                <Icon>receipt</Icon>
+              </CardIcon>
+              <p className={classes.cardCategory}>Venta Total Historica</p>
+              <h3 className={classes.cardTitle}>
+               $ {totalSalesHistoric}
+              </h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <DateRange />
+                Todo el tiempo
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>          
+        <GridItem xs={12} sm={6} md={6} lg={6}>
+          <Card>
+            <CardHeader color="warning" stats icon>
+              <CardIcon color="warning">
+                <Icon>receipt</Icon>
+              </CardIcon>
+              <p className={classes.cardCategory}>Venta Total del Mes</p>
+              <h3 className={classes.cardTitle}>
+               $ {totalSalesMonth}
+              </h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <DateRange />
+                Este Mes
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={6} md={6} lg={6}>
           <Card>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
-                <Icon>local_atm</Icon>
+                <Icon>receipt</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Total Fees</p>
+              <p className={classes.cardCategory}>Ganancia del Mes</p>
               <h3 className={classes.cardTitle}>
-                $  {totalFees}
+               $ {totalIncomeMonth}
               </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <DateRange />
-                Last 24 Hours
+                Mes Actual
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-      </GridContainer>
+        <GridItem xs={12} sm={6} md={6} lg={6}>
+          <Card>
+            <CardHeader color="danger" stats icon>
+              <CardIcon color="danger">
+                <Icon>receipt</Icon>
+              </CardIcon>
+              <p className={classes.cardCategory}>Cobranzas Mes Anterior</p>
+              <h3 className={classes.cardTitle}>
+               $ {totalPaidMonth}
+              </h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <DateRange />
+                Mes Anterior
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        </GridContainer>
+      }
+
+      {
+        permissions.user_type === 1 ?
       <GridContainer>
         <GridItem xs={12}>
           <Card>
@@ -351,14 +539,17 @@ export default function Dashboard(props) {
           </Card>
         </GridItem>
       </GridContainer>
+      :
+        <></>
+      }
       <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
+        <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color="danger" icon>
               <CardIcon color="danger">
                 <Timeline />
               </CardIcon>
-              <h4 className={classesChart.cardIconTitle}>Totalizado de Productos Vendidos</h4>
+              <h4 className={classesChart.cardIconTitle}>Totalizado de Ventas por Producto</h4>
             </CardHeader>
             <CardBody>
               <ChartistGraph
@@ -379,6 +570,33 @@ export default function Dashboard(props) {
             </CardFooter>
           </Card>
         </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <Card>
+            <CardHeader color="danger" icon>
+              <CardIcon color="danger">
+                <Timeline />
+              </CardIcon>
+              <h4 className={classesChart.cardIconTitle}>Totalizado de Ventas por Proveedor</h4>
+            </CardHeader>
+            <CardBody>
+              <ChartistGraph
+                data={pieChartProviders.data}
+                type="Pie"
+                options={pieChartProviders.options}
+                responsiveOptions={pieChartProviders.responsiveOptions}
+              />
+            </CardBody>
+            <CardFooter stats className={classesChart.cardFooter}>
+              <h6 className={classesChart.legendTitle}>Leyenda</h6>
+              {
+                pieChartProviders.data != undefined ? 
+                pieChartProviders.data.labels.map((item, i) => {
+                    return <i className={"fas fa-circle " } style={{ color : ct_series_colors[i] }}> <i style={{color : blackColor}}>{item}{` `}</i>  </i>
+                  }) : <></>
+              }
+            </CardFooter>
+          </Card>
+        </GridItem>        
       </GridContainer>      
     </div>
   );
