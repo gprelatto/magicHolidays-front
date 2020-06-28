@@ -47,6 +47,8 @@ import PaymentListTable from 'views/Payment/paymentListTable';
 import monthlySalesTable from 'views/Reports/monthlySalesTable';
 import collectedTable from 'views/Cobranzas/collectedTable';
 import toCollectTable from 'views/Cobranzas/toCollectTable';
+import UserTypeForm from 'views/User/userTypeForm';
+import UserTypesTable from 'views/User/userTypesTable';
 
 
 export const routes = [
@@ -279,6 +281,32 @@ export const routes = [
         mini: "LU",
         rtlMini: "",
         component: UsersTable,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      },
+      {
+        render: true,
+        path: "/userTypeForm",
+        name: "menu.label.userTypes.add",
+        rtlName: "",
+        mini: "AU",
+        rtlMini: "",
+        component: UserTypeForm,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      },
+      {
+        render: true,
+        path: "/userTypesTable",
+        name: "menu.label.userTypes.table",
+        rtlName: "",
+        mini: "AU",
+        rtlMini: "",
+        component: UserTypesTable,
         layout: "/admin",
         permissions: [
           1

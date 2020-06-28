@@ -26,6 +26,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Snackbar from "components/Snackbar/Snackbar.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
+import GridContainer from "components/Grid/GridContainer.js";
+import FormLabel from "@material-ui/core/FormLabel";
+
 import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
@@ -54,7 +57,7 @@ export default function UserForm(props) {
     const [registerEmail, setRegisterEmail] = React.useState('');
     const [registerPassword, setRegisterPassword] = React.useState('');
     const [registerPasswordConfirmation, setRegisterPasswordConfirmation] = React.useState('');
-    
+
     const [bar, setBar] = React.useState(null);
     const [tr, setTR] = React.useState(false);
     const [pwTr, setPwTr] = React.useState(false);
@@ -154,12 +157,12 @@ export default function UserForm(props) {
                 bodyForm.append('mail', email);
 
                 let auth = JSON.parse(localStorage.getItem('auth'));
-                
+
                 axios({
-                    method: 'post', 
+                    method: 'post',
                     url: process.env.REACT_APP_API_URL + 'users/',
                     data: bodyForm,
-                    headers: { 
+                    headers: {
                         'Content-Type': 'multipart/form-data',
                         'mail': auth.mail,
                         'token': auth.token
@@ -174,17 +177,17 @@ export default function UserForm(props) {
             else {
                 if (!pwTr) {
                     setPwTr(true);
-                    setTimeout(function() {
-                      setTR(false);
+                    setTimeout(function () {
+                        setTR(false);
                     }, 3000);
-                }    
+                }
             }
         }
         else {
             if (!tr) {
                 setTR(true);
-                setTimeout(function() {
-                  setTR(false);
+                setTimeout(function () {
+                    setTR(false);
                 }, 3000);
             }
         }
@@ -192,57 +195,57 @@ export default function UserForm(props) {
 
     const progressBar = () => {
         setBar(
-          <CustomLinearProgress
-            variant="indeterminate"
-            color="primary"
-            value={30}
-          />
+            <CustomLinearProgress
+                variant="indeterminate"
+                color="primary"
+                value={30}
+            />
         );
-      };
+    };
 
-      const removeProgressBar = () => {
+    const removeProgressBar = () => {
         setBar(null);
-      };
+    };
 
-      const successAlert = () => {
+    const successAlert = () => {
         setAlert(
-          <SweetAlert
-            success
-            style={{ display: "block", marginTop: "-100px" }}
-            title="User Added!"
-            onConfirm={() => {
-              setRedirect(<Redirect to='/admin/usersTable' />);
-            }}
-            onCancel={() => {
-                setName('');
-                setLastName('');
-                setSelectedCountryId(0);
-                setPhone('');
-                setEmail('');
-                hideAlert();
-            }}
-            confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
-            cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
-            confirmBtnText="Done"
-            cancelBtnText="Add another"
-            showCancel
-          >
-            Customer added!
+            <SweetAlert
+                success
+                style={{ display: "block", marginTop: "-100px" }}
+                title="User Added!"
+                onConfirm={() => {
+                    setRedirect(<Redirect to='/admin/usersTable' />);
+                }}
+                onCancel={() => {
+                    setName('');
+                    setLastName('');
+                    setSelectedCountryId(0);
+                    setPhone('');
+                    setEmail('');
+                    hideAlert();
+                }}
+                confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
+                cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
+                confirmBtnText="Done"
+                cancelBtnText="Add another"
+                showCancel
+            >
+                Customer added!
           </SweetAlert>
         );
-      };
+    };
 
-      const hideAlert = () => {
+    const hideAlert = () => {
         setAlert(null);
-      };    
+    };
 
-      const verifyEmail = value => {
+    const verifyEmail = value => {
         var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (emailRex.test(value)) {
-          return true;
+            return true;
         }
         return false;
-      };
+    };
 
     return (
         <GridItem xs={12} sm={12} md={6}>
@@ -252,189 +255,267 @@ export default function UserForm(props) {
             <Card>
                 <CardHeader color="rose" icon>
                     <CardIcon color="rose">
-                    <MailOutline />
+                        <MailOutline />
                     </CardIcon>
                     <h4 className={classes.cardIconTitle}>User</h4>
                 </CardHeader>
                 <CardBody>
                     <form>
-                        <CustomInput
-                            labelText="Name *"
-                            id="name"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            success={registerName === "success"}
-                            error={registerName === "error"}
-                            inputProps={{
-                                type: "text",
-                                autoComplete: "new-password",
-                                onChange: event => {
-                                    setName(event.target.value)
-                                },
-                                value: name
-                            }}
-                        />
-                        <CustomInput
-                            labelText="Last Name"
-                            id="lastname"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            inputProps={{
-                                type: "text",
-                                autoComplete: "new-password",
-                                onChange: event => {
-                                    setLastName(event.target.value)
-                                },
-                                value: lastName
-                            }}
-                        />
-                        <CustomInput
-                            labelText="Mail *"
-                            id="mail"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            success={registerEmail === "success"}
-                            error={registerEmail === "error"}
-                            inputProps={{
-                                type: "email",
-                                autoComplete: "new-password",
-                                onChange: event => {
-                                    setEmail(event.target.value)
-                                },
-                                value: email
-                            }}
-                        />
-                        <CustomInput
-                            labelText="Phone"
-                            id="phone"
-                            formControlProps={{
-                                fullWidth: true,
-                            }}
-                            inputProps={{
-                                type: "text",
-                                autoComplete: "new-password",
-                                onChange: event => {
-                                    setPhone(event.target.value)
-                                },
-                                value: phone
-                            }}
-                        />
-                        <InputLabel htmlFor="country-select" className={classes.selectLabel}>
-                            Country
-                        </InputLabel>
-                        <Select
-                            success={(registerCountryId === "success").toString()}
-                            error={registerCountryId === "error"}
-                            MenuProps={{
-                                className: classes.selectMenu
-                            }}
-                            classes={{
-                                select: classes.select
-                            }}
-                            value={selectedCountryId}
-                            onChange={e => {
-                                let id = e.target.value;
-                                setSelectedCountryId(id);
-                            }}
-                            inputProps={{
-                                name: "countrySelect",
-                                id: "country-select"
-                            }}  
-                            >   
-                            {countries.map((c, i) => {     
-                                return (
-                                    <MenuItem
-                                        key={i}
-                                        classes={{
-                                            root: classes.selectMenuItem,
-                                            selected: classes.selectMenuItemSelected
-                                        }}
-                                        value={c.id}
-                                        >
-                                        {c.description}
-                                    </MenuItem>
-                                ) 
-                            })}
-                        </Select>
-                        <InputLabel htmlFor="usert-select" className={classes.selectLabel}>
-                            User Type
-                        </InputLabel>
-                        <Select
-                            success={(registerUserTypeId === "success").toString()}
-                            error={registerUserTypeId === "error"}
-                            MenuProps={{
-                                className: classes.selectMenu
-                            }}
-                            classes={{
-                                select: classes.select
-                            }}
-                            value={selectedUserTypeId}
-                            onChange={e => {
-                                let id = e.target.value;
-                                setSelectedUserTypeId(id);
-                            }}
-                            inputProps={{
-                                name: "userTypeSelect",
-                                id: "userType-select"
-                            }}  
-                            >   
-                            {userTypes.map((c, i) => {     
-                                return (
-                                    <MenuItem
-                                        key={i}
-                                        classes={{
-                                            root: classes.selectMenuItem,
-                                            selected: classes.selectMenuItemSelected
-                                        }}
-                                        value={c.id}
-                                        >
-                                        {c.description}
-                                    </MenuItem>
-                                ) 
-                            })}
-                        </Select>
-                        <CustomInput
-                            labelText="Password *"
-                            id="pw"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            inputProps={{
-                                type: "password",
-                                autoComplete: "new-password",
-                                onChange: event => {
-                                    setPassword(event.target.value)
-                                },
-                                value: password
-                            }}
-                        />
-                        <CustomInput
-                            labelText="Repeat Password *"
-                            id="pw2"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            inputProps={{
-                                type: "password",
-                                autoComplete: "new-password",
-                                onChange: event => {
-                                    setPasswordConfirmation(event.target.value)
-                                },
-                                value: passwordConfirmation
-                            }}
-                        />
-                        <div className={classes.formCategory}>
-                            <small>*</small> Required fields
-                        </div>
-                        <Button 
-                            color="rose"
-                            onClick={submitClick}
-                        >
-                            Submit
-                        </Button>
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Nombre *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <CustomInput
+                                    id="name"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    success={registerName === "success"}
+                                    error={registerName === "error"}
+                                    inputProps={{
+                                        type: "text",
+                                        autoComplete: "new-password",
+                                        onChange: event => {
+                                            setName(event.target.value)
+                                        },
+                                        value: name
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Apellido *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <CustomInput
+                                    id="lastname"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "text",
+                                        autoComplete: "new-password",
+                                        onChange: event => {
+                                            setLastName(event.target.value)
+                                        },
+                                        value: lastName
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Mail *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <CustomInput
+                                    id="mail"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    success={registerEmail === "success"}
+                                    error={registerEmail === "error"}
+                                    inputProps={{
+                                        type: "email",
+                                        autoComplete: "new-password",
+                                        onChange: event => {
+                                            setEmail(event.target.value)
+                                        },
+                                        value: email
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Telefono
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <CustomInput
+                                    id="phone"
+                                    formControlProps={{
+                                        fullWidth: true,
+                                    }}
+                                    inputProps={{
+                                        type: "text",
+                                        autoComplete: "new-password",
+                                        onChange: event => {
+                                            setPhone(event.target.value)
+                                        },
+                                        value: phone
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Pais
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <Select
+                                    success={(registerCountryId === "success").toString()}
+                                    error={registerCountryId === "error"}
+                                    MenuProps={{
+                                        className: classes.selectMenu
+                                    }}
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={selectedCountryId}
+                                    onChange={e => {
+                                        let id = e.target.value;
+                                        setSelectedCountryId(id);
+                                    }}
+                                    inputProps={{
+                                        name: "countrySelect",
+                                        id: "country-select"
+                                    }}
+                                >
+                                    {countries.map((c, i) => {
+                                        return (
+                                            <MenuItem
+                                                key={i}
+                                                classes={{
+                                                    root: classes.selectMenuItem,
+                                                    selected: classes.selectMenuItemSelected
+                                                }}
+                                                value={c.id}
+                                            >
+                                                {c.description}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Tipo de Usuario
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <Select
+                                    success={(registerUserTypeId === "success").toString()}
+                                    error={registerUserTypeId === "error"}
+                                    MenuProps={{
+                                        className: classes.selectMenu
+                                    }}
+                                    classes={{
+                                        select: classes.select
+                                    }}
+                                    value={selectedUserTypeId}
+                                    onChange={e => {
+                                        let id = e.target.value;
+                                        setSelectedUserTypeId(id);
+                                    }}
+                                    inputProps={{
+                                        name: "userTypeSelect",
+                                        id: "userType-select"
+                                    }}
+                                >
+                                    {userTypes.map((c, i) => {
+                                        return (
+                                            <MenuItem
+                                                key={i}
+                                                classes={{
+                                                    root: classes.selectMenuItem,
+                                                    selected: classes.selectMenuItemSelected
+                                                }}
+                                                value={c.id}
+                                            >
+                                                {c.description}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Contraseña *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <CustomInput
+                                    id="pw"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "password",
+                                        autoComplete: "new-password",
+                                        onChange: event => {
+                                            setPassword(event.target.value)
+                                        },
+                                        value: password
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Repita la Contraseña *
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <CustomInput
+                                    id="pw2"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "password",
+                                        autoComplete: "new-password",
+                                        onChange: event => {
+                                            setPasswordConfirmation(event.target.value)
+                                        },
+                                        value: passwordConfirmation
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={10} sm={10} md={10} lg={11}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    <small>*</small> Campos requeridos
+                                </FormLabel>
+                            </GridItem>
+                        </GridContainer>
+                        <GridContainer>
+                            <GridItem xs={10} sm={10} md={10} lg={11}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    <Button
+                                        color="rose"
+                                        onClick={submitClick}
+                                    >
+                                        Enviar
+                                </Button>
+                                </FormLabel>
+                            </GridItem>
+                        </GridContainer>
                     </form>
                 </CardBody>
                 <Snackbar
@@ -456,6 +537,6 @@ export default function UserForm(props) {
                     close
                 />
             </Card>
-      </GridItem>
+        </GridItem>
     );
 }

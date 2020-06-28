@@ -40,7 +40,7 @@ import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAler
 import formStyles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
 import { getRequest, editRez, deleteRez, redirectToUnforbidden } from 'common/Request/Requests.js'
-
+import { useAuth } from "../../context/auth";
 
 import { useTranslation } from 'react-i18next';
 
@@ -53,6 +53,7 @@ const useFormStyles = makeStyles(formStyles);
 
 export default function RezTable(props) {
   const { t, i18n } = useTranslation();
+  const authData = useAuth();
 
   const classes = useStyles();
   const alertClasses = useAlertStyles();
@@ -179,6 +180,8 @@ export default function RezTable(props) {
   const [tr, setTR] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
 
+  const [feePercentage, setFeePercentage] = React.useState(null);
+
   const [open, setOpen] = React.useState(false);
   const loading = open && customers.length === 0;
 
@@ -190,7 +193,7 @@ export default function RezTable(props) {
 
   useEffect(() => {
     populateProductsTable();
-
+    setFeePercentage(authData.auth.feePercentage);
     setPermissions(JSON.parse(localStorage.getItem("auth")))
   }, [])
 
@@ -235,8 +238,14 @@ export default function RezTable(props) {
   useEffect(() => {
     if (feeTotal !== 0 && !isNaN(feeTotal)) {
       let ft = Number(feeTotal);
-      setFeeAgency((ft * 0.3).toFixed(2));
-      setFeeUser((ft * 0.7).toFixed(2));
+      if (feePercentage !== null) {
+        setFeeAgency((ft * ((100 - feePercentage) / 100)).toFixed(2));
+        setFeeUser((ft * (feePercentage / 100)).toFixed(2));
+      }
+      else {
+        setFeeAgency((ft * 0.3).toFixed(2));
+        setFeeUser((ft * 0.7).toFixed(2));
+      }
     }
   }, [feeTotal]);
 

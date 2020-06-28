@@ -190,4 +190,19 @@ export const deletePayment = (id) => {
         getAuthHeaders())
 }
 
+export const postUserType = (data) => {
+    return axios.post(baseUrl + 'userTypes/',
+    data, getAuthHeaders())
+}
+
+export const editUserType = (data) => {
+    return axios.put(baseUrl + 'userTypes/' + data.id + '/',
+    data, getAuthHeaders())
+}
+
+export const deleteUserType = (data) => {
+    return axios.delete(baseUrl + 'userTypes/' + data.id + '/',
+    getAuthHeaders())
+}
+
 export default getRequest;
