@@ -128,12 +128,14 @@ export default function AdminLayout(props) {
   };
 
   const getRoutes = routes => {
+    let userType = auth.auth.user_type;
+
     return routes.map((prop, key) => {
-      if (prop.collapse && prop.permissions.find(f => f === auth.auth.user_type) !== undefined) 
+      if (prop.collapse && (userType === 1 || prop.permissions.length > 1)) 
       {
         return getRoutes(prop.views);
       }
-      if (prop.layout === "/admin" && prop.permissions.find(f => f === auth.auth.user_type) !== undefined) 
+      if (prop.layout === "/admin" && (userType === 1 || prop.permissions.length > 1)) 
       {
         return (
           <PrivateRoute
@@ -161,15 +163,16 @@ export default function AdminLayout(props) {
 
   const getFileteredRoutes = () => {
     let filteredRoutes = [];
-    
+    let userType = auth.auth.user_type;
+
     routes.forEach((r,i) => {
       if(!r.collapse) {
-        if(r.permissions.find(f => f === auth.auth.user_type) !== undefined) {
+        if(userType === 1 || r.permissions.length > 1) {
           filteredRoutes.push(r);
         }
       }
       else {
-        if(r.permissions.find(f => f === auth.auth.user_type) !== undefined) {
+        if(userType === 1 || r.permissions.length > 1) {
           let route = {
             collapse: r.collapse,
             name: r.name,
@@ -182,7 +185,7 @@ export default function AdminLayout(props) {
           };
 
           r.views.forEach((v) => {
-            if(v.permissions.find(f => f === auth.auth.user_type) !== undefined) {
+            if(userType === 1 || r.permissions.length > 1) {
               route.views.push(v);
             }
           });
