@@ -28,6 +28,8 @@
     "menu.label.cobranzas": "Cobranzas",
     "menu.label.cobranzas.aCobrar": "A Cobrar",
     "menu.label.cobranzas.cobrado": "Cobrado",
+    "menu.label.userTypes.add": "Agregar Tipo de Usuario",
+    "menu.label.userTypes.table": "Listado Tipo de Usuario",
 
     "menu.label.logout": "Cerrar Sesion",
     
@@ -106,6 +108,13 @@
     "cobranzas.table.title": "Reservas Cobradas - Total Cobrado: $",
     "cobranzas.table.title.toCollect": "Reservas Pendientes de Cobro - Total Por Cobrar: $",
     "cobranzas.table.title.agency": "Total Agencia: $",
+
+    "userType.add.userType": "Tipo de usuario",
+    "userType.add.title": "Tipos de Usuario",
+    "userType.edit.title": "Editar Tipos de Usuario",
+    "userType.add.percentage": "Porcentage de ganancia",
+    "userType.add.alert.added": "Tipos de Usuario Creado",
+    "userType.list.alert.confirmDelete": "Confirme eliminar tipo de usuario",
     
 
     "common.alert.done": "Aceptar",
@@ -137,5 +146,6 @@
     "common.table.header.phone": "Telefono",
     "common.table.header.country": "Pais",
     "common.table.header.actions": "Acciones",
-    "common.table.header.description": "Descripcion"
+    "common.table.header.description": "Descripcion",
+    "common.table.header.feePercentage": "Porcentage"
 }

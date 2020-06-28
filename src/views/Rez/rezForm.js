@@ -39,11 +39,13 @@ import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsSt
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, postRez, redirectToUnforbidden } from 'common/Request/Requests.js'
+import { useAuth } from "../../context/auth";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function RezForm(props) {
+    const authData = useAuth();
 
     const [customers, setCustomers] = React.useState([]);
     const [selectedCustomer, setSelectedCustomer] = React.useState({
@@ -94,11 +96,15 @@ export default function RezForm(props) {
     const [alert, setAlert] = React.useState(null);
     const [redirect, setRedirect] = React.useState(false);
 
+    const [feePercentage, setFeePercentage] = React.useState(null);
+
     const classes = useStyles();
     const alertClasses = useAlertStyles();
 
     useEffect(() => {
         progressBar();
+
+        setFeePercentage(authData.auth.feePercentage);
 
         getRequest('suppliers').then((response) => {
             if (response.data.code === 403) {
@@ -210,8 +216,15 @@ export default function RezForm(props) {
     useEffect(() => {
         if (feeTotal !== 0 && !isNaN(feeTotal)) {
             let ft = Number(feeTotal);
-            setFeeAgency((ft * 0.3).toFixed(2));
-            setFeeUser((ft * 0.7).toFixed(2));
+
+            if(feePercentage !== null) {
+                setFeeAgency((ft * ((100-feePercentage) / 100)).toFixed(2));
+                setFeeUser((ft * (feePercentage/100)).toFixed(2));    
+            }
+            else {
+                setFeeAgency((ft * 0.3).toFixed(2));
+                setFeeUser((ft * 0.7).toFixed(2));
+            }
         }
     }, [feeTotal]);
 
