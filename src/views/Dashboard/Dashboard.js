@@ -141,22 +141,21 @@ export default function Dashboard(props) {
           if(responseData.code === 403) {
               redirectToUnforbidden(props);
           }
-
-          if (permissionData.user_type === 1 ) {
-            setWidgetsTotalSalesDay(responseData.data.find(f => f.widget === 'Total Sales 24 Hs').totalsales ?? 0)
-            setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month').totalsales ?? 0)
-            setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic').totalsales ?? 0)
-            setWidgetsTotalIncomeDay(responseData.data.find(f => f.widget === 'Total Income 24 Hs').totalsales ?? 0)
-            setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month').totalsales ?? 0)
-          } 
-          else {
-            setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month').totalsales ?? 0)
-            setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic').totalsales ?? 0)
-            setWidgetsTotalPaidMonth(responseData.data.find(f => f.widget === 'Total Paid Month').totalsales ?? 0)
-            setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month').totalsales ?? 0)
+          if(responseData.message !== 'No Data To Display') {
+            if (permissionData.user_type === 1 ) {
+              setWidgetsTotalSalesDay(responseData.data.find(f => f.widget === 'Total Sales 24 Hs').totalsales ?? 0)
+              setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month').totalsales ?? 0)
+              setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic').totalsales ?? 0)
+              setWidgetsTotalIncomeDay(responseData.data.find(f => f.widget === 'Total Income 24 Hs').totalsales ?? 0)
+              setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month').totalsales ?? 0)
+            } 
+            else {
+              setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month').totalsales ?? 0)
+              setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic').totalsales ?? 0)
+              setWidgetsTotalPaidMonth(responseData.data.find(f => f.widget === 'Total Paid Month').totalsales ?? 0)
+              setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month').totalsales ?? 0)
+            }
           }
-
-          
           removeProgressBar();
       }).catch(e => {
           props.history.push('/auth/forbidden')
@@ -172,15 +171,16 @@ export default function Dashboard(props) {
         
         let dataContent = [];
 
-        responseData.data.forEach(element => {
-          let dataChild = [];
-          dataChild.push(element.key)
-          dataChild.push(element.totalsales)
-          dataContent.push(dataChild)
-        });
-
-        setSalesCountry(dataContent)
-
+        if(responseData.message !== 'No Data To Display') {
+          responseData.data.forEach(element => {
+            let dataChild = [];
+            dataChild.push(element.key)
+            dataChild.push(element.totalsales)
+            dataContent.push(dataChild)
+          });
+  
+          setSalesCountry(dataContent)
+        }
         removeProgressBar();
       }).catch(e => {
           props.history.push('/auth/forbidden')
@@ -237,14 +237,16 @@ export default function Dashboard(props) {
 
         let serieData = [];
 
-        responseData.data.forEach(element => {
-          salesBarChart.data.labels.push(element.key)
-          serieData.push(element.totalsales)
-        });
-
-        salesBarChart.data.series.push(serieData)
-
-        setBarEmployees(salesBarChart)
+        if(responseData.message !== 'No Data To Display') {
+          responseData.data.forEach(element => {
+            salesBarChart.data.labels.push(element.key)
+            serieData.push(element.totalsales)
+          });
+  
+          salesBarChart.data.series.push(serieData)
+  
+          setBarEmployees(salesBarChart)
+        }
         removeProgressBar();
       }).catch(e => {
           props.history.push('/auth/forbidden')
@@ -285,11 +287,14 @@ export default function Dashboard(props) {
             }]
           ]
         };
-        responseData.data.forEach(element => {
-          pieChart.data.labels.push(element.key)
-          pieChart.data.series.push(element.totalsales)
-        });
-        setPieProviders(pieChart)
+
+        if(responseData.message !== 'No Data To Display') {
+          responseData.data.forEach(element => {
+            pieChart.data.labels.push(element.key)
+            pieChart.data.series.push(element.totalsales)
+          });
+          setPieProviders(pieChart)
+        }
         removeProgressBar();
       }).catch(e => {
           props.history.push('/auth/forbidden')
@@ -330,11 +335,16 @@ export default function Dashboard(props) {
             }]
           ]
         };
-        responseData.data.forEach(element => {
-          pieChart.data.labels.push(element.key)
-          pieChart.data.series.push(element.totalsales)
-        });
-        setPieProducts(pieChart)
+
+
+        if(responseData.message !== 'No Data To Display') {
+          responseData.data.forEach(element => {
+            pieChart.data.labels.push(element.key)
+            pieChart.data.series.push(element.totalsales)
+          });
+          setPieProducts(pieChart)
+        }        
+
         removeProgressBar();
       }).catch(e => {
           props.history.push('/auth/forbidden')
