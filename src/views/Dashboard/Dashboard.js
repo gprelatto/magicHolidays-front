@@ -163,15 +163,10 @@ export default function Dashboard(props) {
 
       getRequest('salesCountry').then((response) => {
         let responseData = response.data
-
-        if(responseData.code === 403) {
-            redirectToUnforbidden(props);
-        }
-
-        
+      
         let dataContent = [];
 
-        if(responseData.message !== 'No Data To Display') {
+        if(responseData.message !== 'No Data To Display' && responseData.code !== 403) {
           responseData.data.forEach(element => {
             let dataChild = [];
             dataChild.push(element.key)
@@ -189,9 +184,6 @@ export default function Dashboard(props) {
       getRequest('salesEmployee').then((response) => {
         let responseData = response.data
 
-        if(responseData.code === 403) {
-            redirectToUnforbidden(props);
-        }
         //setWidgets(responseData.data);
         let salesBarChart = {
           data: {
@@ -237,7 +229,7 @@ export default function Dashboard(props) {
 
         let serieData = [];
 
-        if(responseData.message !== 'No Data To Display') {
+        if(responseData.message !== 'No Data To Display' && responseData.code !== 403) {
           responseData.data.forEach(element => {
             salesBarChart.data.labels.push(element.key)
             serieData.push(element.totalsales)
