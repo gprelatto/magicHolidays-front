@@ -27,17 +27,22 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
+import FormLabel from "@material-ui/core/FormLabel";
+
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
+import formStyles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
-import { getRequest, editUser, deleteUser } from 'common/Request/Requests.js'
+import { getRequest, deleteUser } from 'common/Request/Requests.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
+const useFormStyle = makeStyles(formStyles);
 
 export default function UsersTable(props) {
   const classes = useStyles();
   const alertClasses = useAlertStyles();
+  const formClasses = useFormStyle();
 
   const [tableData, setTableData] = React.useState([]);
   const [userData, setUseData] = React.useState('');
@@ -45,13 +50,13 @@ export default function UsersTable(props) {
   const [countryData, setCountryData] = React.useState('');
   const [countryId, setCountryId] = React.useState('');
   const [showEdit, setShowEdit] = React.useState(false);
-  
+
   const [userToEdit, setUserToEdit] = React.useState({});
   const [userTypeId, setUserTypeId] = React.useState('');
 
   const [password, setPassword] = React.useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = React.useState('');  
-  
+  const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
+
   const [alert, setAlert] = React.useState(null);
   const [bar, setBar] = React.useState(null);
   const [editBar, setEditBar] = React.useState(null);
@@ -77,20 +82,20 @@ export default function UsersTable(props) {
 
     axios({
       method: 'put',
-      url: process.env.REACT_APP_API_URL + 'users/' + userToEdit.id  + '/',
+      url: process.env.REACT_APP_API_URL + 'users/' + userToEdit.id + '/',
       data: bodyForm,
-      headers: { 
-          'Content-Type': 'multipart/form-data',
-          'mail': auth.mail,
-          'token': auth.token
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'mail': auth.mail,
+        'token': auth.token
       }
-      }).then((response) => {
-          removeProgressBar();
-          populateUsersTable();
-          setShowEdit(false);
-      }).catch(e => {
-          props.history.push('/auth/forbidden')
-      });
+    }).then((response) => {
+      removeProgressBar();
+      populateUsersTable();
+      setShowEdit(false);
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
+    });
   }
 
   const warningWithConfirmAndCancelMessage = (cus) => {
@@ -114,7 +119,7 @@ export default function UsersTable(props) {
 
   const successDelete = (usr) => {
     deleteUser(usr).then((response) => {
-        populateUsersTable();
+      populateUsersTable();
       setAlert(
         <SweetAlert
           success
@@ -180,100 +185,100 @@ export default function UsersTable(props) {
   const populateUsersTable = () => {
     progressBar();
     getRequest('users').then((usersResponse) => {
-        let userDataResponse = usersResponse.data.data;
+      let userDataResponse = usersResponse.data.data;
 
-        setUseData(userDataResponse);
-        getRequest('userTypes').then((userTypeResponse) => {
-            let userTypeDataResponse = userTypeResponse.data.data;
-            setUserTypeData(userTypeDataResponse);
+      setUseData(userDataResponse);
+      getRequest('userTypes').then((userTypeResponse) => {
+        let userTypeDataResponse = userTypeResponse.data.data;
+        setUserTypeData(userTypeDataResponse);
 
-            getRequest('countries').then((countryResponse) => {
-                let countriesDataResponse = countryResponse.data.data;
-                setCountryData(countriesDataResponse);
-                let data = [];
+        getRequest('countries').then((countryResponse) => {
+          let countriesDataResponse = countryResponse.data.data;
+          setCountryData(countriesDataResponse);
+          let data = [];
 
-                userDataResponse.forEach(element => {
-                    let userType = userTypeDataResponse.find(c => c.id === element.user_type);
-                    let country = countriesDataResponse.find(c => c.id === element.country);
-    
-                    if(userType != null) {
-                        data.push(
-                            {
-                                id: element.id,
-                                name: element.name,
-                                lastname: element.lastname,
-                                mail: element.mail,
-                                phone: element.phone,
-                                country: element.country,
-                                countryDescription: country.description,
-                                user_type: userType.id,
-                                user_typeDescription: userType.description,
-                                created_at: element.created_at,
-                                updated_at: element.updated_at,
-                                deleted_at: element.deleted_at
-                            }
-                        );
-                    }
-                });
-                
-                let tableData = data.map((prop, key) => {
-                    return {
-                        id: prop.id,
-                        name: prop.name,
-                        lastname: prop.lastname,
-                        mail: prop.mail,
-                        phone: prop.phone,
-                        countryDescription: prop.countryDescription,
-                        userTypeDescription: prop.user_typeDescription,
-                        actions: (
-                          <div className="actions-right">
-                                <Button
-                                    round
-                                    justIcon
-                                    simple
-                                    color="success"
-                                    className={"edit " + classes.actionButtonRound}
-                                    key={key}
-                                    onClick={() => {
-                                        let usr = data.find(f => f.id === prop.id)
-                                        if (usr != null) {
-                                            setUserToEdit(usr);
-                                            setCountryId(usr.country);
-                                            setUserTypeId(usr.user_type);
-                                            setShowEdit(true);
-                                        }
-                                    }}
-                                >
-                                    <Edit />
-                                </Button>
-                                <>{" "}</>
-                                <Button
-                                    justIcon
-                                    round
-                                    simple
-                                    onClick={() => {
-                                        let usr = data.find(f => f.id === prop.id);
-                                        if (usr != null) {
-                                          warningWithConfirmAndCancelMessage(usr);
-                                        }
-                                    }}
-                                    color="danger"
-                                    className="remove"
-                                >
-                                    <Close />
-                                </Button>
-                                <>{" "}</>
-                            </div>
-                        )
-                    }
-                });
-                
-                setTableData(tableData);
-                removeProgressBar();  
-            })
-        }).catch(e => {
-          props.history.push('/auth/forbidden')
-        });
+          userDataResponse.forEach(element => {
+            let userType = userTypeDataResponse.find(c => c.id === element.user_type);
+            let country = countriesDataResponse.find(c => c.id === element.country);
+
+            if (userType != null) {
+              data.push(
+                {
+                  id: element.id,
+                  name: element.name,
+                  lastname: element.lastname,
+                  mail: element.mail,
+                  phone: element.phone,
+                  country: element.country,
+                  countryDescription: country.description,
+                  user_type: userType.id,
+                  user_typeDescription: userType.description,
+                  created_at: element.created_at,
+                  updated_at: element.updated_at,
+                  deleted_at: element.deleted_at
+                }
+              );
+            }
+          });
+
+          let tableData = data.map((prop, key) => {
+            return {
+              id: prop.id,
+              name: prop.name,
+              lastname: prop.lastname,
+              mail: prop.mail,
+              phone: prop.phone,
+              countryDescription: prop.countryDescription,
+              userTypeDescription: prop.user_typeDescription,
+              actions: (
+                <div className="actions-right">
+                  <Button
+                    round
+                    justIcon
+                    simple
+                    color="success"
+                    className={"edit " + classes.actionButtonRound}
+                    key={key}
+                    onClick={() => {
+                      let usr = data.find(f => f.id === prop.id)
+                      if (usr != null) {
+                        setUserToEdit(usr);
+                        setCountryId(usr.country);
+                        setUserTypeId(usr.user_type);
+                        setShowEdit(true);
+                      }
+                    }}
+                  >
+                    <Edit />
+                  </Button>
+                  <>{" "}</>
+                  <Button
+                    justIcon
+                    round
+                    simple
+                    onClick={() => {
+                      let usr = data.find(f => f.id === prop.id);
+                      if (usr != null) {
+                        warningWithConfirmAndCancelMessage(usr);
+                      }
+                    }}
+                    color="danger"
+                    className="remove"
+                  >
+                    <Close />
+                  </Button>
+                  <>{" "}</>
+                </div>
+              )
+            }
+          });
+
+          setTableData(tableData);
+          removeProgressBar();
+        })
+      }).catch(e => {
+        props.history.push('/auth/forbidden')
+      });
     }).catch(e => {
       props.history.push('/auth/forbidden')
     });
@@ -282,272 +287,346 @@ export default function UsersTable(props) {
   return (
     <GridContainer>
       {alert}
-      { !showEdit ?
-          <GridItem xs={12}>
-            {bar}
-            <Card>
-              <CardHeader color="rose" icon>
-                <CardIcon color="rose">
-                  <Assignment />
-                </CardIcon>
-                <h4 className={classes.cardIconTitle}>Customers</h4>
-              </CardHeader>
-              <CardBody>
+      {!showEdit ?
+        <GridItem xs={12}>
+          {bar}
+          <Card>
+            <CardHeader color="rose" icon>
+              <CardIcon color="rose">
+                <Assignment />
+              </CardIcon>
+              <h4 className={classes.cardIconTitle}>Customers</h4>
+            </CardHeader>
+            <CardBody>
               <ReactTable
-                  data={tableData}
-                  filterable
-                  defaultFilterMethod={(filter, row) =>{ return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
-                  columns={[
-                    {
-                        Header: "ID",
-                        accessor: "id"
-                    },
-                    {
-                        Header: "Name",
-                        accessor: "name"
-                    },
-                    {
-                        Header: "Last Name",
-                        accessor: "lastname"
-                    },
-                    {
-                        Header: "Mail",
-                        accessor: "mail"
-                    },
-                    {
-                        Header: "Phone",
-                        accessor: "phone"
-                    },
-                    {
-                        Header: "Country",
-                        accessor: "countryDescription"
-                    },
-                    {
-                        Header: "User Type",
-                        accessor: "userTypeDescription"
-                    },
-                    {
-                        Header: "Actions",
-                        accessor: "actions",
-                        sortable: false,
-                        filterable: false
-                    }
-                  ]}
-                  defaultPageSize={10}
-                  showPaginationTop
-                  showPaginationBottom={false}
-                  className="-striped -highlight"
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
-          : 
-          <GridItem xs={12} sm={12} md={6}>
-            {editBar}
-            <Card>
-              <CardHeader color="rose" icon>
-                <CardIcon color="rose">
-                  <MailOutline />
-                </CardIcon>
-                <h4 className={classes.cardIconTitle}>Edit User</h4>
-              </CardHeader>
-              <CardBody>
-                <form>
+                data={tableData}
+                filterable
+                defaultFilterMethod={(filter, row) => { return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
+                columns={[
+                  {
+                    Header: "ID",
+                    accessor: "id"
+                  },
+                  {
+                    Header: "Name",
+                    accessor: "name"
+                  },
+                  {
+                    Header: "Last Name",
+                    accessor: "lastname"
+                  },
+                  {
+                    Header: "Mail",
+                    accessor: "mail"
+                  },
+                  {
+                    Header: "Phone",
+                    accessor: "phone"
+                  },
+                  {
+                    Header: "Country",
+                    accessor: "countryDescription"
+                  },
+                  {
+                    Header: "User Type",
+                    accessor: "userTypeDescription"
+                  },
+                  {
+                    Header: "Actions",
+                    accessor: "actions",
+                    sortable: false,
+                    filterable: false
+                  }
+                ]}
+                defaultPageSize={10}
+                showPaginationTop
+                showPaginationBottom={false}
+                className="-striped -highlight"
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+        :
+        <GridItem xs={12} sm={12} md={6}>
+          {editBar}
+          <Card>
+            <CardHeader color="rose" icon>
+              <CardIcon color="rose">
+                <MailOutline />
+              </CardIcon>
+              <h4 className={formClasses.cardIconTitle}>Edit User</h4>
+            </CardHeader>
+            <CardBody>
+              <form>
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Nombre *
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
                     <CustomInput
-                        labelText="Name"
-                        id="fullname"
-                        formControlProps={{
+                      id="fullname"
+                      formControlProps={{
                         fullWidth: true
-                        }}
-                        inputProps={{
+                      }}
+                      inputProps={{
                         type: "text",
                         onChange: event => {
-                            setUserToEdit({
-                                ...userToEdit,
-                                name: event.target.value
-                            })
+                          setUserToEdit({
+                            ...userToEdit,
+                            name: event.target.value
+                          })
                         },
                         value: userToEdit.name
-                        }}
+                      }}
                     />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Apellido *
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
                     <CustomInput
-                        labelText="Last Name"
-                        id="lastname"
-                        formControlProps={{
+                      id="lastname"
+                      formControlProps={{
                         fullWidth: true
-                        }}
-                        inputProps={{
+                      }}
+                      inputProps={{
                         type: "text",
                         onChange: event => {
-                            setUserToEdit({
-                                ...userToEdit,
-                                lastname: event.target.value
-                            })
+                          setUserToEdit({
+                            ...userToEdit,
+                            lastname: event.target.value
+                          })
                         },
                         value: userToEdit.lastname
-                        }}
+                      }}
                     />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Mail *
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
                     <CustomInput
-                        labelText="Mail"
-                        id="mail"
-                        formControlProps={{
+                      id="mail"
+                      formControlProps={{
                         fullWidth: true
-                        }}
-                        inputProps={{
+                      }}
+                      inputProps={{
                         type: "text",
                         onChange: event => {
-                            setUserToEdit({
-                                ...userToEdit,
-                                mail: event.target.value
-                            })
+                          setUserToEdit({
+                            ...userToEdit,
+                            mail: event.target.value
+                          })
                         },
                         value: userToEdit.mail
-                        }}
+                      }}
                     />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Telefono *
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
                     <CustomInput
-                        labelText="Phone"
-                        id="phone"
-                        formControlProps={{
+                      id="phone"
+                      formControlProps={{
                         fullWidth: true
-                        }}
-                        inputProps={{
+                      }}
+                      inputProps={{
                         type: "text",
                         onChange: event => {
-                            setUserToEdit({
-                                ...userToEdit,
-                                phone: event.target.value
-                            })
+                          setUserToEdit({
+                            ...userToEdit,
+                            phone: event.target.value
+                          })
                         },
                         value: userToEdit.phone
-                        }}
+                      }}
                     />
-                    <InputLabel htmlFor="country-select" className={classes.selectLabel}>
-                        Country
-                    </InputLabel>
-                    <Select
-                        MenuProps={{
-                            className: classes.selectMenu
-                        }}
-                        classes={{
-                            select: classes.select
-                        }}
-                        value={countryId}
-                        onChange={e => {
-                            let id = e.target.value;
-                            setCountryId(id);
+                  </GridItem>
+                </GridContainer>
 
-                            let c = countryData.find(s => s.id === id);
-                            setUserToEdit({
-                                ...userToEdit,
-                                country: c.id,
-                                countryDescription: c.description
-                            })
-                        }}
-                        inputProps={{
-                            name: "countrySelect",
-                            id: "country-select"
-                        }}  
-                        >   
-                        {countryData.map((c, i) => {     
-                            return (
-                                <MenuItem
-                                    key={i}
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value={c.id}
-                                    >
-                                    {c.description}
-                                </MenuItem>
-                            ) 
-                        })}
-                    </Select>
-                    <InputLabel htmlFor="userType-select" className={classes.selectLabel}>
-                        User Type
-                    </InputLabel>
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Pais *
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
                     <Select
-                        MenuProps={{
-                            className: classes.selectMenu
-                        }}
-                        classes={{
-                            select: classes.select
-                        }}
-                        value={userTypeId}
-                        onChange={e => {
-                            let id = e.target.value;
-                            setUserTypeId(id);
+                      MenuProps={{
+                        className: formClasses.selectMenu
+                      }}
+                      classes={{
+                        select: formClasses.select
+                      }}
+                      value={countryId}
+                      onChange={e => {
+                        let id = e.target.value;
+                        setCountryId(id);
 
-                            let c = userTypeData.find(s => s.id === id);
-                            setUserToEdit({
-                                ...userToEdit,
-                                user_type: c.id,
-                                user_typeDescription: c.description
-                            })
-                        }}
-                        inputProps={{
-                            name: "userTypeSelect",
-                            id: "usert-select"
-                        }}  
-                        >   
-                        {userTypeData.map((c, i) => {     
-                            return (
-                                <MenuItem
-                                    key={i}
-                                    classes={{
-                                        root: classes.selectMenuItem,
-                                        selected: classes.selectMenuItemSelected
-                                    }}
-                                    value={c.id}
-                                    >
-                                    {c.description}
-                                </MenuItem>
-                            ) 
-                        })}
+                        let c = countryData.find(s => s.id === id);
+                        setUserToEdit({
+                          ...userToEdit,
+                          country: c.id,
+                          countryDescription: c.description
+                        })
+                      }}
+                      inputProps={{
+                        name: "countrySelect",
+                        id: "country-select"
+                      }}
+                    >
+                      {countryData.map((c, i) => {
+                        return (
+                          <MenuItem
+                            key={i}
+                            classes={{
+                              root: formClasses.selectMenuItem,
+                              selected: formClasses.selectMenuItemSelected
+                            }}
+                            value={c.id}
+                          >
+                            {c.description}
+                          </MenuItem>
+                        )
+                      })}
                     </Select>
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Tipo de Usuario *
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <Select
+                      MenuProps={{
+                        className: formClasses.selectMenu
+                      }}
+                      classes={{
+                        select: formClasses.select
+                      }}
+                      value={userTypeId}
+                      onChange={e => {
+                        let id = e.target.value;
+                        setUserTypeId(id);
+
+                        let c = userTypeData.find(s => s.id === id);
+                        setUserToEdit({
+                          ...userToEdit,
+                          user_type: c.id,
+                          user_typeDescription: c.description
+                        })
+                      }}
+                      inputProps={{
+                        name: "userTypeSelect",
+                        id: "usert-select"
+                      }}
+                    >
+                      {userTypeData.map((c, i) => {
+                        return (
+                          <MenuItem
+                            key={i}
+                            classes={{
+                              root: formClasses.selectMenuItem,
+                              selected: formClasses.selectMenuItemSelected
+                            }}
+                            value={c.id}
+                          >
+                            {c.description}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Contraseña *
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
                     <CustomInput
-                            labelText="Password *"
-                            id="pw"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            inputProps={{
-                                type: "password",
-                                autoComplete: "new-password",
-                                onChange: event => {
-                                    setPassword(event.target.value)
-                                },
-                                value: password
-                            }}
-                        />
-                        <CustomInput
-                            labelText="Repeat Password *"
-                            id="pw2"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            inputProps={{
-                                type: "password",
-                                autoComplete: "new-password",
-                                onChange: event => {
-                                    setPasswordConfirmation(event.target.value)
-                                },
-                                value: passwordConfirmation
-                            }}
-                        />
-                    <GridItem xs={12} sm={12} md={6}>
-                      <div className={classes.cardContentRight}>
-                        <Button color="primary" className={classes.marginRight} onClick={submitEditButton}>
-                          Submit
+                      id="pw"
+                      labelText="Deje en blanco si no quiere cambiarla"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "password",
+                        autoComplete: "new-password",
+                        onChange: event => {
+                          setPassword(event.target.value)
+                        },
+                        value: password
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Repita contraseña *
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <CustomInput
+                      labelText="Deje en blanco si no quiere cambiarla"
+                      id="pw2"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "password",
+                        autoComplete: "new-password",
+                        onChange: event => {
+                          setPasswordConfirmation(event.target.value)
+                        },
+                        value: passwordConfirmation
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={10} sm={10} md={10} lg={9}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      <div className={formClasses.cardContentRight}>
+                        <Button color="primary" className={formClasses.marginRight} onClick={submitEditButton}>
+                          Aceptar
                         </Button>
-                        <Button color="primary" className={classes.marginRight} onClick={() => setShowEdit(false)}>
-                          Return to table
+                        <Button color="primary" className={formClasses.marginRight} onClick={() => setShowEdit(false)}>
+                          Volver a la tabla
                         </Button>
                       </div>
-                    </GridItem>
-                </form>
+                    </FormLabel>
+                  </GridItem>
+                </GridContainer>
+              </form>
             </CardBody>
-            </Card>
+          </Card>
         </GridItem>
       }
     </GridContainer>
