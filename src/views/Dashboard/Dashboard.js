@@ -24,6 +24,7 @@ import Edit from "@material-ui/icons/Edit";
 import Place from "@material-ui/icons/Place";
 import ArtTrack from "@material-ui/icons/ArtTrack";
 import Language from "@material-ui/icons/Language";
+import ReactTable from "react-table";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -37,6 +38,7 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
+import CardText from "components/Card/CardText.js";
 
 // @material-ui/icons
 import Timeline from "@material-ui/icons/Timeline";
@@ -86,7 +88,9 @@ export default function Dashboard(props) {
   const [pieChart, setPieProducts] = React.useState({});
   const [pieChartProviders, setPieProviders] = React.useState({});
   const [barChartEmployee, setBarEmployees] = React.useState({});
+  const [travelAlerts, setTravelAlerts] = React.useState([]);
   
+
   const [bar, setBar] = React.useState(null);
   const [tr, setTR] = React.useState(false);
   const [alert, setAlert] = React.useState(null);
@@ -134,6 +138,48 @@ export default function Dashboard(props) {
       
       let permissionData = JSON.parse(localStorage.getItem("auth"))
       setPermissions(permissionData)
+
+      getRequest('travelAlerts').then((response) => {
+        let responseData = response.data.data
+        let dataContent = [];
+
+        if(responseData.message !== 'No Data To Display' && responseData.code !== 403) {
+          responseData.forEach(element => {
+            let arrivalDate = element.arrivalDate != null ? element.arrivalDate.split('T')[0] : '';
+            dataContent.push(
+                {
+                  daystotravel: element.daystotravel,
+                  arrivalDate: arrivalDate,
+                  confirmationNumber: element.confirmationNumber,
+                  fullname: element.fullname,
+                  supplier: element.supplier,
+                  category: element.category,
+                  product: element.product,
+                  message: element.message
+                }
+              );
+          });
+          
+          let tableData = dataContent.map((prop, key) => {
+            return {
+              daystotravel: prop.daystotravel,
+              arrivalDate: prop.arrivalDate,
+              confirmationNumber: prop.confirmationNumber,
+              fullname: prop.fullname,
+              supplier: prop.supplier,
+              category: prop.category,
+              product: prop.product,
+              message: prop.message
+            }
+          });
+          setTravelAlerts(tableData)
+        }
+        removeProgressBar();
+    }).catch(e => {
+        props.history.push('/auth/forbidden')
+    });
+
+
 
       getRequest('widgets').then((response) => {
           let responseData = response.data
@@ -346,7 +392,75 @@ export default function Dashboard(props) {
   return (
     <div>
       {bar}
-
+      {
+        permissions.user_type !== 1 ?
+        <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+           <Card>
+             <CardHeader color="danger" text>
+               <CardText color="danger">
+                 <h4 className={classes.cardTitleWhite}>Alertas de Viaje</h4>
+                 <h4 className={classes.cardCategoryWhite}>
+                   Tareas destacadas para viajeros proximos a arrivar
+                 </h4>
+               </CardText>
+             </CardHeader>
+             <CardBody>
+             <ReactTable
+               data={travelAlerts}
+               filterable
+               columns={[
+                 {
+                   Header: "Dias",
+                   accessor: "daystotravel",
+                   width: 80
+                 },
+                 {
+                   Header: "F. Arrivo",
+                   accessor: "arrivalDate",
+                   width: 90
+                 },
+                 {
+                   Header: "N. Reserva",
+                   accessor: "confirmationNumber",
+                   width: 170
+                 },
+                 {
+                   Header: "Pasajero",
+                   accessor: "fullname",
+                   width: 150
+                 },
+                 {
+                   Header: "Proveedor",
+                   accessor: "supplier"
+                 },
+                 {
+                   Header: "Categoria",
+                   accessor: "category",
+                   width: 200
+                 },
+                 {
+                   Header: "Producto",
+                   accessor: "product",
+                   width: 150
+                 },
+                 {
+                   Header: "Tarea",
+                   accessor: "message"
+                 }
+               ]}
+               defaultPageSize={5}
+               showPaginationTop
+               showPaginationBottom={false}
+               className="-striped -highlight"
+             />    
+             </CardBody>
+           </Card>
+         </GridItem>
+       </GridContainer>
+        :
+        <></>
+      }  
       {
         permissions.user_type === 1 ?
         <GridContainer>
