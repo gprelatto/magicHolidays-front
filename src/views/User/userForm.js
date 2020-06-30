@@ -26,6 +26,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Snackbar from "components/Snackbar/Snackbar.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 
+import Datetime from "react-datetime";
+
 import GridContainer from "components/Grid/GridContainer.js";
 import FormLabel from "@material-ui/core/FormLabel";
 
@@ -47,6 +49,7 @@ export default function UserForm(props) {
     const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
+    const [birthDate, setBirthDate] = React.useState('');
 
     const [password, setPassword] = React.useState('');
     const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
@@ -137,14 +140,10 @@ export default function UserForm(props) {
 
             if (password === passwordConfirmation) {
                 progressBar();
-                let user = {
-                    name: name,
-                    lastname: lastName,
-                    mail: email,
-                    phone: phone,
-                    country: selectedCountryId,
-                    user_type: selectedUserTypeId,
-                    password: password
+                let birth = null;
+
+                if (birthDate !== '') {
+                    birth = birthDate.getFullYear() + '-' + (birthDate.getMonth() + 1) + '-' + birthDate.getDate() + 'T00:00:00Z'
                 }
 
                 const bodyForm = new FormData();
@@ -155,6 +154,7 @@ export default function UserForm(props) {
                 bodyForm.append('country', selectedCountryId);
                 bodyForm.append('user_type', selectedUserTypeId);
                 bodyForm.append('mail', email);
+                bodyForm.append('birth_date', birth);
 
                 let auth = JSON.parse(localStorage.getItem('auth'));
 
@@ -357,6 +357,30 @@ export default function UserForm(props) {
                                         },
                                         value: phone
                                     }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Fecha de Nacimiento
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <Datetime
+                                    id="bd"
+                                    dateFormat="YYYY-MM-DD"
+                                    timeFormat={false}
+                                    closeOnSelect={true}
+                                    inputProps={{
+                                        autoComplete: "new-password"
+                                    }}
+                                    onChange={(event) => {
+                                        setBirthDate(event._d);
+                                    }}
+                                    className={classes.select}
+                                    value={birthDate}
                                 />
                             </GridItem>
                         </GridContainer>
