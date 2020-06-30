@@ -29,6 +29,8 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 
 import FormLabel from "@material-ui/core/FormLabel";
 
+import Datetime from "react-datetime";
+
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 import formStyles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
@@ -54,6 +56,8 @@ export default function UsersTable(props) {
   const [userToEdit, setUserToEdit] = React.useState({});
   const [userTypeId, setUserTypeId] = React.useState('');
 
+  const [displayDate, setDisplayDate] = React.useState('');
+
   const [password, setPassword] = React.useState('');
   const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
 
@@ -65,8 +69,30 @@ export default function UsersTable(props) {
     populateUsersTable();
   }, [])
 
+  useEffect(() => {
+    if (typeof userToEdit.birth_date === "string") {
+      if (userToEdit.birth_date.includes('T')) {
+        setDisplayDate(userToEdit.birth_date.split('T')[0]);
+      }
+      else {
+        setDisplayDate(userToEdit.birth_date);
+      }
+    }
+    else {
+      setDisplayDate(userToEdit.birth_date)
+    }
+  }, [userToEdit.birth_date]);
+
   const submitEditButton = () => {
     editProgressBar();
+
+    let birth = null;
+
+    if(userToEdit.birth_date != null) {
+      birth = userToEdit.birth_date.getFullYear() + '-' + (userToEdit.birth_date.getMonth()+1) + '-' + userToEdit.birth_date.getDate() + 'T00:00:00Z'
+    }
+
+    console.log('data',birth)
 
     const bodyForm = new FormData();
     bodyForm.append('id', userToEdit.id);
@@ -77,6 +103,7 @@ export default function UsersTable(props) {
     bodyForm.append('country', userToEdit.country);
     bodyForm.append('user_type', userToEdit.user_type);
     bodyForm.append('mail', userToEdit.mail);
+    bodyForm.append('birth_date', birth);
 
     let auth = JSON.parse(localStorage.getItem('auth'));
 
@@ -200,6 +227,7 @@ export default function UsersTable(props) {
           userDataResponse.forEach(element => {
             let userType = userTypeDataResponse.find(c => c.id === element.user_type);
             let country = countriesDataResponse.find(c => c.id === element.country);
+            let birthDate = element.birth_date != null ? element.birth_date.split('T')[0] : '';
 
             if (userType != null) {
               data.push(
@@ -209,6 +237,7 @@ export default function UsersTable(props) {
                   lastname: element.lastname,
                   mail: element.mail,
                   phone: element.phone,
+                  birth_date: birthDate,
                   country: element.country,
                   countryDescription: country.description,
                   user_type: userType.id,
@@ -228,6 +257,7 @@ export default function UsersTable(props) {
               lastname: prop.lastname,
               mail: prop.mail,
               phone: prop.phone,
+              birth_date: prop.birth_date,
               countryDescription: prop.countryDescription,
               userTypeDescription: prop.user_typeDescription,
               actions: (
@@ -308,11 +338,11 @@ export default function UsersTable(props) {
                     accessor: "id"
                   },
                   {
-                    Header: "Name",
+                    Header: "Nombre",
                     accessor: "name"
                   },
                   {
-                    Header: "Last Name",
+                    Header: "Apellido",
                     accessor: "lastname"
                   },
                   {
@@ -320,19 +350,23 @@ export default function UsersTable(props) {
                     accessor: "mail"
                   },
                   {
-                    Header: "Phone",
+                    Header: "Telefono",
                     accessor: "phone"
                   },
                   {
-                    Header: "Country",
+                    Header: "Fec. Nacimiento",
+                    accessor: "birth_date"
+                  },
+                  {
+                    Header: "Pais",
                     accessor: "countryDescription"
                   },
                   {
-                    Header: "User Type",
+                    Header: "Tipo de Usuario",
                     accessor: "userTypeDescription"
                   },
                   {
-                    Header: "Actions",
+                    Header: "Acciones",
                     accessor: "actions",
                     sortable: false,
                     filterable: false
@@ -458,6 +492,33 @@ export default function UsersTable(props) {
                         },
                         value: userToEdit.phone
                       }}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formClasses.labelHorizontal}>
+                      Fecha de Nacimiento
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <Datetime
+                      id="bd"
+                      dateFormat="YYYY-MM-DD"
+                      timeFormat={false}
+                      closeOnSelect={true}
+                      inputProps={{
+                        autoComplete: "new-password"
+                      }}
+                      onChange={(event) => {
+                        setUserToEdit({
+                          ...userToEdit,
+                          birth_date: event._d
+                        })
+                      }}
+                      className={formClasses.select}
+                      value={displayDate}
                     />
                   </GridItem>
                 </GridContainer>

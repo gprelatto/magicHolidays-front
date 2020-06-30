@@ -28,6 +28,7 @@ import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearPr
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Datetime from "react-datetime";
 
 import { getRequest, editProfile } from "common/Request/Requests.js";
 import { useTranslation } from 'react-i18next';
@@ -35,10 +36,12 @@ import { useTranslation } from 'react-i18next';
 import styles from "assets/jss/material-dashboard-pro-react/views/userProfileStyles.js";
 import selectStyles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
+import formStyles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
 const useStyles = makeStyles(styles);
 const useSelectStyles = makeStyles(selectStyles);
 const useAlertStyles = makeStyles(alertStyles);
+const useFormStyle = makeStyles(formStyles);
 
 export default function UserProfile(props) {
   const { t, i18n } = useTranslation();
@@ -53,8 +56,9 @@ export default function UserProfile(props) {
   const [registerPhone, setRegisterPhone] = React.useState('');
   const [registerMail, setRegistermail] = React.useState('');
 
-  const [redirect, setRedirect] = React.useState(false);
+  const [displayDate, setDisplayDate] = React.useState('');
 
+  const [redirect, setRedirect] = React.useState(false);
 
   const [bar, setBar] = React.useState(null);
   const [tr, setTR] = React.useState(false);
@@ -63,6 +67,7 @@ export default function UserProfile(props) {
   const classes = useStyles();
   const selectClasses = useSelectStyles();
   const alertClasses = useAlertStyles();
+  const formClasses = useFormStyle();
 
   useEffect(() => {
     let profile = {};
@@ -104,12 +109,31 @@ export default function UserProfile(props) {
     })
   }, []);
 
+  useEffect(() => {
+    if (typeof userProfile.birth_date === "string") {
+      if (userProfile.birth_date.includes('T')) {
+        setDisplayDate(userProfile.birth_date.split('T')[0]);
+      }
+      else {
+        setDisplayDate(userProfile.birth_date);
+      }
+    }
+    else {
+      setDisplayDate(userProfile.birth_date)
+    }
+  }, [userProfile.birth_date]);
+
   const submitButton = () => {
     if (registerPhone !== "error"
       && registerLastName !== "error"
       && registerMail !== "error"
       && registerName !== "error") {
       progressBar();
+
+      if (userProfile.birth_date !== '') {
+        userProfile.birth_date = userProfile.birth_date.getFullYear() + '-' + (userProfile.birth_date.getMonth() + 1) + '-' + userProfile.birth_date.getDate() + 'T00:00:00Z'
+      }
+
       editProfile(userProfile).then(response => {
         removeProgressBar();
         successAlert()
@@ -180,7 +204,7 @@ export default function UserProfile(props) {
       {alert}
       {redirect}
       <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
+        <GridItem xs={12} sm={12} md={12} log={12}>
           <Card>
             <CardHeader color="rose" icon>
               <CardIcon color="rose">
@@ -192,7 +216,7 @@ export default function UserProfile(props) {
             </CardHeader>
             <CardBody>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
+                <GridItem xs={4} sm={4} md={4} lg={4}>
                   <InputLabel htmlFor="firstname" className={classes.description}>
                     {t('common.firstname')}
                   </InputLabel>
@@ -213,7 +237,7 @@ export default function UserProfile(props) {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
+                <GridItem xs={4} sm={4} md={4} lg={4}>
                   <InputLabel htmlFor="lastname" className={classes.description}>
                     {t('common.lastname')}
                   </InputLabel>
@@ -234,9 +258,31 @@ export default function UserProfile(props) {
                     }}
                   />
                 </GridItem>
+                <GridItem xs={4} sm={4} md={4} lg={4}>
+                  <InputLabel htmlFor="birthDate" className={classes.description}>
+                    {t('common.birthDate')}
+                  </InputLabel>
+                  <Datetime
+                    id="bd"
+                    dateFormat="YYYY-MM-DD"
+                    timeFormat={false}
+                    closeOnSelect={true}
+                    inputProps={{
+                      autoComplete: "new-password"
+                    }}
+                    onChange={(event) => {
+                      setUserProfile({
+                        ...userProfile,
+                        birth_date: event._d
+                      })
+                    }}
+                    className={formClasses.select}
+                    value={displayDate}
+                  />
+                </GridItem>
               </GridContainer>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
+                <GridItem xs={4} sm={4} md={4} lg={4}>
                   <InputLabel htmlFor="mail" className={classes.description}>
                     {t('common.mail')}
                   </InputLabel>
@@ -257,7 +303,7 @@ export default function UserProfile(props) {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
+                <GridItem xs={4} sm={4} md={4} lg={4}>
                   <InputLabel htmlFor="phone" className={classes.description}>
                     {t('common.phone')}
                   </InputLabel>
@@ -280,7 +326,7 @@ export default function UserProfile(props) {
                 </GridItem>
               </GridContainer>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
+                <GridItem xs={4} sm={4} md={4} lg={4}>
                   <InputLabel htmlFor="userType" className={classes.description}>
                     {t('common.user_type')}
                   </InputLabel>
@@ -296,7 +342,7 @@ export default function UserProfile(props) {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
+                <GridItem xs={4} sm={4} md={4} lg={4}>
                   <InputLabel htmlFor="country" className={classes.description}>
                     {t('common.country')}
                   </InputLabel>
