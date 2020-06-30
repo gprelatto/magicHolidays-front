@@ -159,6 +159,9 @@ export default function RezTable(props) {
 
   const [selectedCustomerId, setSelectedCustomerId] = React.useState('');
 
+  const [ticketsCount, setTicketsCount] = React.useState('');
+  const [peopleClount, setPeopleCount] = React.useState('');
+
   const [alert, setAlert] = React.useState(null);
   const [bar, setBar] = React.useState(null);
   const [editBar, setEditBar] = React.useState(null);
@@ -226,6 +229,9 @@ export default function RezTable(props) {
 
       setTotal(rezToEdit.total);
       setFeeTotal(rezToEdit.feeTotal);
+
+      setTicketsCount(rezToEdit.tickets_count);
+      setPeopleCount(rezToEdit.people_count);
 
       setConfirmationNumber(rezToEdit.confirmationNumber);
       setConfirmationDate(rezToEdit.confirmationDate);
@@ -334,7 +340,9 @@ export default function RezTable(props) {
         feeUser: feeUser,
         product: productId,
         customer: selectedCustomer.id,
-        user: rezToEdit.user
+        user: rezToEdit.user,
+        tickets_count: Number(ticketsCount),
+        people_count: Number(peopleClount)
       }
 
       editRez(rez).then((response) => {
@@ -535,7 +543,9 @@ export default function RezTable(props) {
                       feeTotal: rez.feeTotal,
                       feeAgency: rez.feeAgency,
                       feeUser: rez.feeUser,
-                      deleted_at: deleted_at
+                      deleted_at: deleted_at,
+                      tickets_count: rez.tickets_count ?? '',
+                      people_count: rez.people_count ?? ''
                     });
                 })
 
@@ -558,6 +568,8 @@ export default function RezTable(props) {
                     feeUser: prop.feeUser,
                     deleted_at: prop.deleted_at,
                     user: prop.user,
+                    tickets_count: prop.tickets_count,
+                    people_count: prop.people_count,
                     actions: (
                       <div className="actions-right">
                         <Button
@@ -572,8 +584,8 @@ export default function RezTable(props) {
                             if (rez != null) {
                               let r = {
                                 ...rez,
-                                confirmationDate: rez.confirmationDate + 'T03:00:00Z',
-                                arrivalDate: rez.arrivalDate + 'T03:00:00Z'
+                                confirmationDate: rez.confirmationDate + 'T00:00:00Z',
+                                arrivalDate: rez.arrivalDate + 'T00:00:00Z'
                               }
                               setRezToEdit(r);
                               setSelectedCustomerId(rez.customer);
@@ -854,6 +866,68 @@ export default function RezTable(props) {
                       }}
                       className={formStyleClasses.select}
                       value={arrivalDisplayDate}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={classes.labelHorizontal}>
+                      Cantidad de Pasajeros
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <CustomInput
+                      id="peopleCount"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        onChange: event => {
+                          let input = event.target.value;
+
+                          if (input.length > 0) {
+                            input = input.replace(',', '.')
+                          }
+
+                          if (!isNaN(input)) {
+                            setPeopleCount(input)
+                          }
+                        },
+                        value: peopleClount.includes('.') ? peopleClount.split('.')[0] : peopleClount
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={classes.labelHorizontal}>
+                      Cantidad Tickets de la Reserva
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <CustomInput
+                      id="ticketCount"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        onChange: event => {
+                          let input = event.target.value;
+
+                          if (input.length > 0) {
+                            input = input.replace(',', '.')
+                          }
+
+                          if (!isNaN(input)) {
+                            setTicketsCount(input)
+                          }
+                        },
+                        value: ticketsCount.includes('.') ? ticketsCount.split('.')[0] : ticketsCount
+                      }}
                     />
                   </GridItem>
                 </GridContainer>

@@ -83,6 +83,9 @@ export default function RezForm(props) {
     const [confirmationDate, setConfirmationDate] = React.useState(new Date());
     const [arrivalDate, setArrivalDate] = React.useState('');
 
+    const [ticketsCount, setTicketsCount] = React.useState('');
+    const [peopleClount, setPeopleCount] = React.useState('');
+
     const [registerProductDescriptionState, setRegisterProductDescriptionState] = React.useState("");
     const [registerProductCategoryState, setRegisterProductCategoryState] = React.useState("");
     const [confirmationNumberState, setConfirmationNumberState] = React.useState("");
@@ -283,7 +286,9 @@ export default function RezForm(props) {
                 feeAgency: feeAgency,
                 feeUser: feeUser,
                 product: productId,
-                customer: selectedCustomer.id
+                customer: selectedCustomer.id,
+                tickets_count: ticketsCount.length > 0 ? Number(ticketsCount) : null,
+                people_count: peopleClount.length > 0 ? Number(peopleClount): null
             }
 
             postRez(rez).then((response) => {
@@ -507,6 +512,67 @@ export default function RezForm(props) {
                             </GridItem>
                         </GridContainer>
 
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Cantidad de Pasajeros
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="peopleCount"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "text",
+                                        onChange: event => {
+                                            let input = event.target.value;
+
+                                            if (input.length > 0) {
+                                                input = input.replace(',', '.')
+                                            }
+
+                                            if (!isNaN(input)) {
+                                                setPeopleCount(input)
+                                            }
+                                        },
+                                        value: peopleClount
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Cantidad Tickets de la Reserva
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="ticketCount"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "text",
+                                        onChange: event => {
+                                            let input = event.target.value;
+
+                                            if (input.length > 0) {
+                                                input = input.replace(',', '.')
+                                            }
+
+                                            if (!isNaN(input)) {
+                                                setTicketsCount(input)
+                                            }
+                                        },
+                                        value: ticketsCount
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
 
                         <GridContainer>
                             <GridItem xs={4} sm={4} md={4} lg={4}>
@@ -632,7 +698,6 @@ export default function RezForm(props) {
                                 </Select>
                             </GridItem>
                         </GridContainer>
-
 
                         <GridContainer>
                             <GridItem xs={4} sm={4} md={4} lg={4}>
