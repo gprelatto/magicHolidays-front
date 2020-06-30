@@ -273,10 +273,11 @@ export default function RezForm(props) {
             && totalFeeState !== "error"
             && arrivalDateState !== "error") {
             progressBar();
+
             let rez = {
                 confirmationNumber: confirmationNumber,
-                confirmationDate: confirmationDate,
-                arrivalDate: arrivalDate,
+                confirmationDate: confirmationDate.getFullYear() + '-' + (confirmationDate.getMonth() + 1) + '-' + confirmationDate.getDate() + 'T00:00:00Z',
+                arrivalDate: arrivalDate.getFullYear() + '-' + (arrivalDate.getMonth() + 1) + '-' + arrivalDate.getDate() + 'T00:00:00Z',
                 total: Number(total),
                 feeTotal: Number(feeTotal),
                 feeAgency: feeAgency,

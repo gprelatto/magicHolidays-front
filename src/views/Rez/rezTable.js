@@ -512,6 +512,7 @@ export default function RezTable(props) {
                   let user = usersResponseData.find(u => u.id === rez.user);
                   let confirmationDate = rez.confirmationDate != null ? rez.confirmationDate.split('T')[0] : '';
                   let arrivalDate = rez.arrivalDate != null ? rez.arrivalDate.split('T')[0] : '';
+                  let deleted_at = rez.deleted_at != null ? rez.deleted_at.split('T')[0] : '';
 
                   data.push(
                     {
@@ -534,7 +535,7 @@ export default function RezTable(props) {
                       feeTotal: rez.feeTotal,
                       feeAgency: rez.feeAgency,
                       feeUser: rez.feeUser,
-                      deleted_at: rez.deleted_at
+                      deleted_at: deleted_at
                     });
                 })
 
@@ -622,7 +623,7 @@ export default function RezTable(props) {
     if (rowInfo) {
       return {
         style: {
-          background: rowInfo.row.deleted_at === null ? '' : '#ff6666',
+          background: rowInfo.row.deleted_at.length === 0 ? '' : '#ff6666',
           border: "solid 1px black",
           width: '100%',
           height: '100%',
