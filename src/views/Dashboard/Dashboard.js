@@ -143,17 +143,17 @@ export default function Dashboard(props) {
           }
           if(responseData.message !== 'No Data To Display') {
             if (permissionData.user_type === 1 ) {
-              setWidgetsTotalSalesDay(responseData.data.find(f => f.widget === 'Total Sales 24 Hs').totalsales ?? 0)
-              setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month').totalsales ?? 0)
-              setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic').totalsales ?? 0)
-              setWidgetsTotalIncomeDay(responseData.data.find(f => f.widget === 'Total Income 24 Hs').totalsales ?? 0)
-              setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month').totalsales ?? 0)
+              setWidgetsTotalSalesDay(responseData.data.find(f => f.widget === 'Total Sales 24 Hs' ?? 0).totalsales ?? 0)
+              setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month' ?? 0).totalsales ?? 0)
+              setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic' ?? 0).totalsales ?? 0)
+              setWidgetsTotalIncomeDay(responseData.data.find(f => f.widget === 'Total Income 24 Hs' ?? 0).totalsales ?? 0)
+              setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month' ?? 0).totalsales ?? 0)
             } 
             else {
-              setWidgetsTotalSalesMonth(responseData.data.find(f => f.widget === 'Total Sales Month').totalsales ?? 0)
-              setWidgetsTotalSalesHistoric(responseData.data.find(f => f.widget === 'Total Sales Historic').totalsales ?? 0)
-              setWidgetsTotalPaidMonth(responseData.data.find(f => f.widget === 'Total Paid Month').totalsales ?? 0)
-              setWidgetsTotalIncomeMonth(responseData.data.find(f => f.widget === 'Total Income Month').totalsales ?? 0)
+              setWidgetsTotalSalesMonth((responseData.data.find(f => f.widget === 'Total Sales Month') ?? 0).totalsales ?? 0)
+              setWidgetsTotalSalesHistoric((responseData.data.find(f => f.widget === 'Total Sales Historic') ?? 0).totalsales ?? 0)
+              setWidgetsTotalPaidMonth((responseData.data.find(f => f.widget === 'Total Paid Month') ?? 0).totalsales ?? 0)
+              setWidgetsTotalIncomeMonth((responseData.data.find(f => f.widget === 'Total Income Month') ?? 0).totalsales ?? 0)
             }
           }
           removeProgressBar();
