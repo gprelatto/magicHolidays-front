@@ -132,6 +132,7 @@
     "common.phone": "Telefono",
     "common.user_type": "Tipo de usuario",
     "common.country": "Pais",
+    "common.birthDate": "Fecha de Nacimiento",
     "common.updateButton": "Actualizar",
     "common.requiredFields": "Campos Requeridos",
     "common.snackbar.missingAlert": "Por favor corrobore que todos los campos obligatorios fueron completados.",

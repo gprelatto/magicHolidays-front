@@ -128,7 +128,8 @@ export const editProfile = (data) => {
         mail: data.mail,
         phone: data.phone,
         country: data.country,
-        user_type: data.user_type
+        user_type: data.user_type,
+        birth_date: data.birth_date
     }, getAuthHeaders())
 }
 
