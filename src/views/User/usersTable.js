@@ -88,12 +88,6 @@ export default function UsersTable(props) {
 
     let birth = null;
 
-    if(userToEdit.birth_date != null) {
-      birth = userToEdit.birth_date.getFullYear() + '-' + (userToEdit.birth_date.getMonth()+1) + '-' + userToEdit.birth_date.getDate() + 'T00:00:00Z'
-    }
-
-    console.log('data',birth)
-
     const bodyForm = new FormData();
     bodyForm.append('id', userToEdit.id);
     bodyForm.append('name', userToEdit.name);
@@ -103,7 +97,13 @@ export default function UsersTable(props) {
     bodyForm.append('country', userToEdit.country);
     bodyForm.append('user_type', userToEdit.user_type);
     bodyForm.append('mail', userToEdit.mail);
-    bodyForm.append('birth_date', birth);
+
+    console.log('f', userToEdit.birth_date)
+
+    if(typeof userToEdit.birth_date !== "string") {
+      birth = userToEdit.birth_date.getFullYear() + '-' + (userToEdit.birth_date.getMonth()+1) + '-' + userToEdit.birth_date.getDate() + 'T00:00:00Z'
+      bodyForm.append('birth_date', birth);
+    }
 
     let auth = JSON.parse(localStorage.getItem('auth'));
 
