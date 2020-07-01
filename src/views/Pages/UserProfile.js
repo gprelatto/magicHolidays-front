@@ -130,7 +130,7 @@ export default function UserProfile(props) {
       && registerName !== "error") {
       progressBar();
 
-      if (userProfile.birth_date !== '') {
+      if (userProfile.birth_date != null) {
         userProfile.birth_date = userProfile.birth_date.getFullYear() + '-' + (userProfile.birth_date.getMonth() + 1) + '-' + userProfile.birth_date.getDate() + 'T00:00:00Z'
       }
 

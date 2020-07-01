@@ -142,10 +142,6 @@ export default function UserForm(props) {
                 progressBar();
                 let birth = null;
 
-                if (birthDate !== '') {
-                    birth = birthDate.getFullYear() + '-' + (birthDate.getMonth() + 1) + '-' + birthDate.getDate() + 'T00:00:00Z'
-                }
-
                 const bodyForm = new FormData();
                 bodyForm.append('name', name);
                 bodyForm.append('password', password);
@@ -154,7 +150,11 @@ export default function UserForm(props) {
                 bodyForm.append('country', selectedCountryId);
                 bodyForm.append('user_type', selectedUserTypeId);
                 bodyForm.append('mail', email);
-                bodyForm.append('birth_date', birth);
+
+                if (birthDate !== '') {
+                    birth = birthDate.getFullYear() + '-' + (birthDate.getMonth() + 1) + '-' + birthDate.getDate() + 'T00:00:00Z'
+                    bodyForm.append('birth_date', birth);
+                }
 
                 let auth = JSON.parse(localStorage.getItem('auth'));
 
