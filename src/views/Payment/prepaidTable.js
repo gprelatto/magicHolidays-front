@@ -48,6 +48,7 @@ export default function PrepaidTable(props) {
 
   let filteredDataRef = React.useRef([]);
   let selectedReservationsRef = React.useRef([]);
+  let feeSumRef = React.useRef(0);
 
   const [tableData, setTableData] = React.useState([]);
 
@@ -67,6 +68,8 @@ export default function PrepaidTable(props) {
   const [selectedUser, setSelectedUser] = React.useState();
   const [open, setOpen] = React.useState(false);
   const loading = open && users.length === 0;
+
+  const [feeSum, setFeeSum] = React.useState(0);
 
   useEffect(() => {
     populateTable();
@@ -231,9 +234,13 @@ export default function PrepaidTable(props) {
 
                       if (existingRezIdx === -1) {
                         selectedReservationsRef.current.push(prop)
+                        feeSumRef.current = feeSumRef.current + Number(prop.feeUser)
+                        sumFees();
                       }
                       else {
                         selectedReservationsRef.current.splice(existingRezIdx, 1);
+                        feeSumRef.current = feeSumRef.current - Number(prop.feeUser)
+                        sumFees();
                       }
                     }}
                     checkedIcon={<Check className={classes.checkedIcon} />}
@@ -260,6 +267,9 @@ export default function PrepaidTable(props) {
     // });
   }
 
+  const sumFees = () => {
+    setFeeSum(feeSumRef.current.toFixed(2));
+  }
 
   return (
     <GridContainer>
@@ -273,7 +283,7 @@ export default function PrepaidTable(props) {
                 <CardIcon color="rose">
                   <Assignment />
                 </CardIcon>
-                <h4 className={classes.cardIconTitle}>Reservations unpaid</h4>
+                <h4 className={classes.cardIconTitle}>Reservas Sin Pagar - Seleccionado: <b>$ {feeSum}</b></h4>
               </CardHeader>
               <CardBody>
 
