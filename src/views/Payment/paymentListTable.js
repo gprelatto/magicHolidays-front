@@ -1,27 +1,16 @@
 import React, { useEffect } from "react";
-import { withRouter } from "react-router-dom";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
-import ReactTable, { useTable } from "react-table";
+import ReactTable from "react-table";
 import SweetAlert from "react-bootstrap-sweetalert";
-import Checkbox from "@material-ui/core/Checkbox";
 
 // material-ui icons
 import Assignment from "@material-ui/icons/Assignment";
-import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
-import MailOutline from "@material-ui/icons/MailOutline";
-
-import Datetime from "react-datetime";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import InputLabel from "@material-ui/core/InputLabel";
 
 // core components
-import Check from "@material-ui/icons/Check";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
@@ -29,7 +18,6 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
 import { CSVLink } from "react-csv";
 
@@ -37,22 +25,11 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
-
-
-
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, redirectToUnforbidden, deletePayment } from 'common/Request/Requests.js'
+import getTrProps from 'common/Styles/TableProps.js'
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
@@ -251,19 +228,6 @@ export default function PaymentListTable(props) {
         removeProgressBar();
       })
     })
-  }
-
-  const getTrProps = (state, rowInfo, instance) => {
-    if (rowInfo) {
-      return {
-        style: {
-          border: "solid 1px black",
-          width: '100%',
-          height: '100%',
-        }
-      }
-    }
-    return {};
   }
 
   return (
