@@ -211,7 +211,7 @@ export default function PaymentTable(props) {
   };
 
   const sumFees = () => {
-    setFeeSum(feeSumRef.current);
+    setFeeSum(feeSumRef.current.toFixed(2));
   }
 
   const populateTable = () => {
