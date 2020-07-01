@@ -46,7 +46,7 @@ import PaymentTable from 'views/Payment/paymentTable';
 import PaymentListTable from 'views/Payment/paymentListTable';
 import monthlySalesTable from 'views/Reports/monthlySalesTable';
 import CollectedTable from 'views/Cobranzas/collectedTable';
-import toCollectTable from 'views/Cobranzas/toCollectTable';
+import ToCollectTable from 'views/Cobranzas/toCollectTable';
 import UserTypeForm from 'views/User/userTypeForm';
 import UserTypesTable from 'views/User/userTypesTable';
 
@@ -384,7 +384,7 @@ export const routes = [
         rtlName: "",
         mini: "LN",
         rtlMini: "",
-        component: toCollectTable,
+        component: ToCollectTable,
         layout: "/admin",
         permissions: [
           1,2
