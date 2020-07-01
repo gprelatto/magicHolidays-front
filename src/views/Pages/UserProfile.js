@@ -260,7 +260,7 @@ export default function UserProfile(props) {
                 </GridItem>
                 <GridItem xs={4} sm={4} md={4} lg={4}>
                   <InputLabel htmlFor="birthDate" className={classes.description}>
-                    {t('common.birthDate')}
+                    {t('common.birthDate')} <i>(AAAA-MM-DD)</i>
                   </InputLabel>
                   <Datetime
                     id="bd"
