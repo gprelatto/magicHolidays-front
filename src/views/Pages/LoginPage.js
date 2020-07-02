@@ -70,7 +70,8 @@ export default function LoginPage(props) {
         let responseJson = response.data.data;
         removeProgressBar();
         setAuth(response.data.data || {});
-        changeLanguage(responseJson.lang ?? 'es');
+        let lang = responseJson.lang;
+        changeLanguage(lang != null ? lang.toLowerCase() : 'es');
         props.history.push('/admin');
       } else {
         removeProgressBar();
