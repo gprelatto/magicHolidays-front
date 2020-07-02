@@ -16,9 +16,6 @@ import Hidden from "@material-ui/core/Hidden";
 import Collapse from "@material-ui/core/Collapse";
 import Icon from "@material-ui/core/Icon";
 
-// core components
-import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
-
 import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.js";
 
 import avatar from "assets/img/default-avatar.png";
@@ -510,7 +507,7 @@ class Sidebar extends React.Component {
             <SidebarWrapper
               className={sidebarWrapper}
               user={user}
-              headerLinks={<AdminNavbarLinks rtlActive={rtlActive} />}
+              headerLinks={null}
               links={links}
             />
             {image !== undefined ? (

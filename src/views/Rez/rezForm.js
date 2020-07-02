@@ -39,11 +39,13 @@ import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsSt
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
 import { getRequest, postRez, redirectToUnforbidden } from 'common/Request/Requests.js'
+import { useAuth } from "../../context/auth";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
 export default function RezForm(props) {
+    const authData = useAuth();
 
     const [customers, setCustomers] = React.useState([]);
     const [selectedCustomer, setSelectedCustomer] = React.useState({
@@ -81,6 +83,9 @@ export default function RezForm(props) {
     const [confirmationDate, setConfirmationDate] = React.useState(new Date());
     const [arrivalDate, setArrivalDate] = React.useState('');
 
+    const [ticketsCount, setTicketsCount] = React.useState('');
+    const [peopleClount, setPeopleCount] = React.useState('');
+
     const [registerProductDescriptionState, setRegisterProductDescriptionState] = React.useState("");
     const [registerProductCategoryState, setRegisterProductCategoryState] = React.useState("");
     const [confirmationNumberState, setConfirmationNumberState] = React.useState("");
@@ -94,11 +99,15 @@ export default function RezForm(props) {
     const [alert, setAlert] = React.useState(null);
     const [redirect, setRedirect] = React.useState(false);
 
+    const [feePercentage, setFeePercentage] = React.useState(null);
+
     const classes = useStyles();
     const alertClasses = useAlertStyles();
 
     useEffect(() => {
         progressBar();
+
+        setFeePercentage(authData.auth.feePercentage);
 
         getRequest('suppliers').then((response) => {
             if (response.data.code === 403) {
@@ -210,13 +219,19 @@ export default function RezForm(props) {
     useEffect(() => {
         if (feeTotal !== 0 && !isNaN(feeTotal)) {
             let ft = Number(feeTotal);
-            setFeeAgency((ft * 0.3).toFixed(2));
-            setFeeUser((ft * 0.7).toFixed(2));
+
+            if(feePercentage !== null) {
+                setFeeAgency((ft * ((100-feePercentage) / 100)).toFixed(2));
+                setFeeUser((ft * (feePercentage/100)).toFixed(2));    
+            }
+            else {
+                setFeeAgency((ft * 0.3).toFixed(2));
+                setFeeUser((ft * 0.7).toFixed(2));
+            }
         }
     }, [feeTotal]);
 
     useEffect(() => {
-        console.log('conf',confirmationNumber.length)
         if (confirmationNumber.length == 0) {
             setConfirmationNumberState("error");
         }
@@ -261,16 +276,19 @@ export default function RezForm(props) {
             && totalFeeState !== "error"
             && arrivalDateState !== "error") {
             progressBar();
+
             let rez = {
                 confirmationNumber: confirmationNumber,
-                confirmationDate: confirmationDate,
-                arrivalDate: arrivalDate,
+                confirmationDate: confirmationDate.getFullYear() + '-' + (confirmationDate.getMonth() + 1) + '-' + confirmationDate.getDate() + 'T00:00:00Z',
+                arrivalDate: arrivalDate.getFullYear() + '-' + (arrivalDate.getMonth() + 1) + '-' + arrivalDate.getDate() + 'T00:00:00Z',
                 total: Number(total),
                 feeTotal: Number(feeTotal),
                 feeAgency: feeAgency,
                 feeUser: feeUser,
                 product: productId,
-                customer: selectedCustomer.id
+                customer: selectedCustomer.id,
+                tickets_count: ticketsCount.length > 0 ? Number(ticketsCount) : null,
+                people_count: peopleClount.length > 0 ? Number(peopleClount): null
             }
 
             postRez(rez).then((response) => {
@@ -456,6 +474,7 @@ export default function RezForm(props) {
                             </GridItem>
                             <GridItem xs={4} sm={4} md={4} lg={8}>
                                 <Datetime
+                                    dateFormat="YYYY-MM-DD"
                                     timeFormat={false}
                                     closeOnSelect={true}
                                     inputProps={{
@@ -463,6 +482,7 @@ export default function RezForm(props) {
                                     onChange={(event) => {
                                         setConfirmationDate(event._d);
                                     }}
+                                    className={classes.select}
                                     value={confirmationDate}
                                 />
                             </GridItem>
@@ -476,6 +496,7 @@ export default function RezForm(props) {
                             </GridItem>
                             <GridItem xs={4} sm={4} md={4} lg={8}>
                                 <Datetime
+                                    dateFormat="YYYY-MM-DD"
                                     timeFormat={false}
                                     closeOnSelect={true}
                                     inputProps={{
@@ -485,11 +506,73 @@ export default function RezForm(props) {
                                         setArrivalDate(event._d);
                                         setArrivalDateState("success");
                                     }}
+                                    className={classes.select}
                                     value={arrivalDate}
                                 />
                             </GridItem>
                         </GridContainer>
 
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Cantidad de Pasajeros
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="peopleCount"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "text",
+                                        onChange: event => {
+                                            let input = event.target.value;
+
+                                            if (input.length > 0) {
+                                                input = input.replace(',', '.')
+                                            }
+
+                                            if (!isNaN(input)) {
+                                                setPeopleCount(input)
+                                            }
+                                        },
+                                        value: peopleClount
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
+
+                        <GridContainer>
+                            <GridItem xs={4} sm={4} md={4} lg={4}>
+                                <FormLabel className={classes.labelHorizontal}>
+                                    Cantidad Tickets de la Reserva
+                                </FormLabel>
+                            </GridItem>
+                            <GridItem xs={4} sm={4} md={4} lg={8}>
+                                <CustomInput
+                                    id="ticketCount"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: "text",
+                                        onChange: event => {
+                                            let input = event.target.value;
+
+                                            if (input.length > 0) {
+                                                input = input.replace(',', '.')
+                                            }
+
+                                            if (!isNaN(input)) {
+                                                setTicketsCount(input)
+                                            }
+                                        },
+                                        value: ticketsCount
+                                    }}
+                                />
+                            </GridItem>
+                        </GridContainer>
 
                         <GridContainer>
                             <GridItem xs={4} sm={4} md={4} lg={4}>
@@ -615,7 +698,6 @@ export default function RezForm(props) {
                                 </Select>
                             </GridItem>
                         </GridContainer>
-
 
                         <GridContainer>
                             <GridItem xs={4} sm={4} md={4} lg={4}>

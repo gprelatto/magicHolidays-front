@@ -37,9 +37,10 @@ import Datetime from "react-datetime";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
+import formStyles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
 import { getRequest, editRez, deleteRez, redirectToUnforbidden } from 'common/Request/Requests.js'
-
+import { useAuth } from "../../context/auth";
 
 import { useTranslation } from 'react-i18next';
 
@@ -47,13 +48,16 @@ import { CSVLink } from "react-csv";
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
+const useFormStyles = makeStyles(formStyles);
 
 
 export default function RezTable(props) {
   const { t, i18n } = useTranslation();
+  const authData = useAuth();
 
   const classes = useStyles();
   const alertClasses = useAlertStyles();
+  const formStyleClasses = useFormStyles();
 
   const columns = [
     {
@@ -155,6 +159,9 @@ export default function RezTable(props) {
 
   const [selectedCustomerId, setSelectedCustomerId] = React.useState('');
 
+  const [ticketsCount, setTicketsCount] = React.useState('');
+  const [peopleClount, setPeopleCount] = React.useState('');
+
   const [alert, setAlert] = React.useState(null);
   const [bar, setBar] = React.useState(null);
   const [editBar, setEditBar] = React.useState(null);
@@ -170,8 +177,13 @@ export default function RezTable(props) {
   const [arrivalDateState, setArrivalDateState] = React.useState("error");
   const [registerProductCategoryState, setRegisterProductCategoryState] = React.useState("");
 
+  const [confirmationDisplayDate, setConfirmationDisplayDate] = React.useState('');
+  const [arrivalDisplayDate, setArrivalDisplayDate] = React.useState('');
+
   const [tr, setTR] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
+
+  const [feePercentage, setFeePercentage] = React.useState(null);
 
   const [open, setOpen] = React.useState(false);
   const loading = open && customers.length === 0;
@@ -184,7 +196,7 @@ export default function RezTable(props) {
 
   useEffect(() => {
     populateProductsTable();
-
+    setFeePercentage(authData.auth.feePercentage);
     setPermissions(JSON.parse(localStorage.getItem("auth")))
   }, [])
 
@@ -218,6 +230,9 @@ export default function RezTable(props) {
       setTotal(rezToEdit.total);
       setFeeTotal(rezToEdit.feeTotal);
 
+      setTicketsCount(rezToEdit.tickets_count);
+      setPeopleCount(rezToEdit.people_count);
+
       setConfirmationNumber(rezToEdit.confirmationNumber);
       setConfirmationDate(rezToEdit.confirmationDate);
       setArrivalDate(rezToEdit.arrivalDate);
@@ -229,13 +244,18 @@ export default function RezTable(props) {
   useEffect(() => {
     if (feeTotal !== 0 && !isNaN(feeTotal)) {
       let ft = Number(feeTotal);
-      setFeeAgency((ft * 0.3).toFixed(2));
-      setFeeUser((ft * 0.7).toFixed(2));
+      if (feePercentage !== null) {
+        setFeeAgency((ft * ((100 - feePercentage) / 100)).toFixed(2));
+        setFeeUser((ft * (feePercentage / 100)).toFixed(2));
+      }
+      else {
+        setFeeAgency((ft * 0.3).toFixed(2));
+        setFeeUser((ft * 0.7).toFixed(2));
+      }
     }
   }, [feeTotal]);
 
   useEffect(() => {
-    console.log('conf', confirmationNumber.length)
     if (confirmationNumber.length == 0) {
       setConfirmationNumberState("error");
     }
@@ -271,6 +291,34 @@ export default function RezTable(props) {
     }
   }, [arrivalDate]);
 
+  useEffect(() => {
+    if (typeof confirmationDate === "string") {
+      if (confirmationDate.includes('T')) {
+        setConfirmationDisplayDate(confirmationDate.toString().split('T')[0]);
+      }
+      else {
+        setConfirmationDisplayDate(confirmationDate);
+      }
+    }
+    else {
+      setConfirmationDisplayDate(confirmationDate)
+    }
+  }, [confirmationDate]);
+
+  useEffect(() => {
+    if (typeof arrivalDate === "string") {
+      if (arrivalDate.includes('T')) {
+        setArrivalDisplayDate(arrivalDate.split('T')[0]);
+      }
+      else {
+        setArrivalDisplayDate(arrivalDate);
+      }
+    }
+    else {
+      setArrivalDisplayDate(arrivalDate)
+    }
+  }, [arrivalDate]);
+
 
   const submitEditButton = () => {
     if (registerProductCategoryState !== "error"
@@ -292,7 +340,9 @@ export default function RezTable(props) {
         feeUser: feeUser,
         product: productId,
         customer: selectedCustomer.id,
-        user: rezToEdit.user
+        user: rezToEdit.user,
+        tickets_count: Number(ticketsCount),
+        people_count: Number(peopleClount)
       }
 
       editRez(rez).then((response) => {
@@ -470,6 +520,7 @@ export default function RezTable(props) {
                   let user = usersResponseData.find(u => u.id === rez.user);
                   let confirmationDate = rez.confirmationDate != null ? rez.confirmationDate.split('T')[0] : '';
                   let arrivalDate = rez.arrivalDate != null ? rez.arrivalDate.split('T')[0] : '';
+                  let deleted_at = rez.deleted_at != null ? rez.deleted_at.split('T')[0] : '';
 
                   data.push(
                     {
@@ -492,7 +543,9 @@ export default function RezTable(props) {
                       feeTotal: rez.feeTotal,
                       feeAgency: rez.feeAgency,
                       feeUser: rez.feeUser,
-                      deleted_at: rez.deleted_at
+                      deleted_at: deleted_at,
+                      tickets_count: rez.tickets_count ?? '',
+                      people_count: rez.people_count ?? ''
                     });
                 })
 
@@ -515,6 +568,8 @@ export default function RezTable(props) {
                     feeUser: prop.feeUser,
                     deleted_at: prop.deleted_at,
                     user: prop.user,
+                    tickets_count: prop.tickets_count,
+                    people_count: prop.people_count,
                     actions: (
                       <div className="actions-right">
                         <Button
@@ -529,8 +584,8 @@ export default function RezTable(props) {
                             if (rez != null) {
                               let r = {
                                 ...rez,
-                                confirmationDate: rez.confirmationDate + 'T03:00:00Z',
-                                arrivalDate: rez.arrivalDate + 'T03:00:00Z'
+                                confirmationDate: rez.confirmationDate + 'T00:00:00Z',
+                                arrivalDate: rez.arrivalDate + 'T00:00:00Z'
                               }
                               setRezToEdit(r);
                               setSelectedCustomerId(rez.customer);
@@ -580,7 +635,7 @@ export default function RezTable(props) {
     if (rowInfo) {
       return {
         style: {
-          background: rowInfo.row.deleted_at === null ? '' : '#ff6666',
+          background: rowInfo.row.deleted_at.length === 0 ? '' : '#ff6666',
           border: "solid 1px black",
           width: '100%',
           height: '100%',
@@ -602,7 +657,7 @@ export default function RezTable(props) {
                 <CardIcon color="rose">
                   <Assignment />
                 </CardIcon>
-                <h4 className={classes.cardIconTitle}>Reservaciones</h4>
+                <h4 className={formStyleClasses.cardIconTitle}>Reservaciones</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
@@ -678,13 +733,13 @@ export default function RezTable(props) {
               <CardIcon color="rose">
                 <MailOutline />
               </CardIcon>
-              <h4 className={classes.cardIconTitle}>Numero de Confirmacion: {rezToEdit.confirmationNumber}</h4>
+              <h4 className={formStyleClasses.cardIconTitle}>Numero de Confirmacion: {rezToEdit.confirmationNumber}</h4>
             </CardHeader>
             <CardBody>
               <form>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={2} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
 
                     </FormLabel>
                   </GridItem>
@@ -726,7 +781,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Nombre Completo *
                                 </FormLabel>
                   </GridItem>
@@ -748,7 +803,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Telefono *
                                 </FormLabel>
                   </GridItem>
@@ -770,12 +825,13 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Fecha de Confirmacion *
                                 </FormLabel>
                   </GridItem>
                   <GridItem xs={4} sm={4} md={4} lg={8}>
                     <Datetime
+                      dateFormat="YYYY-MM-DD"
                       timeFormat={false}
                       closeOnSelect={true}
                       inputProps={{
@@ -783,7 +839,8 @@ export default function RezTable(props) {
                       onChange={(event) => {
                         setConfirmationDate(event._d);
                       }}
-                      value={confirmationDate}
+                      className={formStyleClasses.select}
+                      value={confirmationDisplayDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -791,12 +848,13 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Fecha de Llegada *
                                 </FormLabel>
                   </GridItem>
                   <GridItem xs={4} sm={4} md={4} lg={8}>
                     <Datetime
+                      dateFormat="YYYY-MM-DD"
                       timeFormat={false}
                       closeOnSelect={true}
                       inputProps={{
@@ -806,7 +864,8 @@ export default function RezTable(props) {
                         setArrivalDate(event._d);
                         setArrivalDateState("success");
                       }}
-                      value={arrivalDate}
+                      className={formStyleClasses.select}
+                      value={arrivalDisplayDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -814,6 +873,68 @@ export default function RezTable(props) {
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
                     <FormLabel className={classes.labelHorizontal}>
+                      Cantidad de Pasajeros
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <CustomInput
+                      id="peopleCount"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        onChange: event => {
+                          let input = event.target.value;
+
+                          if (input.length > 0) {
+                            input = input.replace(',', '.')
+                          }
+
+                          if (!isNaN(input)) {
+                            setPeopleCount(input)
+                          }
+                        },
+                        value: peopleClount.includes('.') ? peopleClount.split('.')[0] : peopleClount
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={classes.labelHorizontal}>
+                      Cantidad Tickets de la Reserva
+                                </FormLabel>
+                  </GridItem>
+                  <GridItem xs={4} sm={4} md={4} lg={8}>
+                    <CustomInput
+                      id="ticketCount"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        onChange: event => {
+                          let input = event.target.value;
+
+                          if (input.length > 0) {
+                            input = input.replace(',', '.')
+                          }
+
+                          if (!isNaN(input)) {
+                            setTicketsCount(input)
+                          }
+                        },
+                        value: ticketsCount.includes('.') ? ticketsCount.split('.')[0] : ticketsCount
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+
+                <GridContainer>
+                  <GridItem xs={4} sm={4} md={4} lg={4}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Proveedor
                                 </FormLabel>
                   </GridItem>
@@ -822,10 +943,10 @@ export default function RezTable(props) {
                       success={(registerSupplierState === "success").toString()}
                       error={registerSupplierState === "error"}
                       MenuProps={{
-                        className: classes.selectMenu
+                        className: formStyleClasses.selectMenu
                       }}
                       classes={{
-                        select: classes.select
+                        select: formStyleClasses.select
                       }}
                       value={supplierId}
                       onChange={e => {
@@ -845,8 +966,8 @@ export default function RezTable(props) {
                           <MenuItem
                             key={i}
                             classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
+                              root: formStyleClasses.selectMenuItem,
+                              selected: formStyleClasses.selectMenuItemSelected
                             }}
                             value={sup.id}
                           >
@@ -860,7 +981,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Categoria de Producto
                                 </FormLabel>
                   </GridItem>
@@ -870,10 +991,10 @@ export default function RezTable(props) {
                       success={(registerProductCategoryState === "success").toString()}
                       error={registerProductCategoryState === "error"}
                       MenuProps={{
-                        className: classes.selectMenu
+                        className: formStyleClasses.selectMenu
                       }}
                       classes={{
-                        select: classes.select
+                        select: formStyleClasses.select
                       }}
                       value={productCategoryId}
                       onChange={e => {
@@ -891,8 +1012,8 @@ export default function RezTable(props) {
                           <MenuItem
                             key={i}
                             classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
+                              root: formStyleClasses.selectMenuItem,
+                              selected: formStyleClasses.selectMenuItemSelected
                             }}
                             value={productCategory.id}
                           >
@@ -906,7 +1027,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Productos
                                 </FormLabel>
                   </GridItem>
@@ -916,10 +1037,10 @@ export default function RezTable(props) {
                       // success={(registerProductState === "success").toString()}
                       // error={registerProductState === "error"}
                       MenuProps={{
-                        className: classes.selectMenu
+                        className: formStyleClasses.selectMenu
                       }}
                       classes={{
-                        select: classes.select
+                        select: formStyleClasses.select
                       }}
                       value={productId}
                       onChange={e => setProductId(e.target.value)}
@@ -933,8 +1054,8 @@ export default function RezTable(props) {
                           <MenuItem
                             key={i}
                             classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
+                              root: formStyleClasses.selectMenuItem,
+                              selected: formStyleClasses.selectMenuItemSelected
                             }}
                             value={product.id}
                           >
@@ -948,7 +1069,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Importe Total de la Reserva *
                                 </FormLabel>
                   </GridItem>
@@ -982,7 +1103,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Importe Total de la Comision *
                                 </FormLabel>
                   </GridItem>
@@ -1015,7 +1136,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Comision de la Agencia *
                                 </FormLabel>
                   </GridItem>
@@ -1039,7 +1160,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Comision del Agente *
                                 </FormLabel>
                   </GridItem>
@@ -1063,7 +1184,7 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={4} sm={4} md={4} lg={4}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       Numero de Reserva *
                                 </FormLabel>
                   </GridItem>
@@ -1088,14 +1209,14 @@ export default function RezTable(props) {
 
                 <GridContainer>
                   <GridItem xs={10} sm={10} md={10} lg={11}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       <small>*</small> Campos Requeridos
                                 </FormLabel>
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={10} sm={10} md={10} lg={11}>
-                    <FormLabel className={classes.labelHorizontal}>
+                    <FormLabel className={formStyleClasses.labelHorizontal}>
                       <Button
                         color="rose"
                         onClick={submitEditButton}

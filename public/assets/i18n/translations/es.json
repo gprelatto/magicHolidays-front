@@ -28,6 +28,8 @@
     "menu.label.cobranzas": "Cobranzas",
     "menu.label.cobranzas.aCobrar": "A Cobrar",
     "menu.label.cobranzas.cobrado": "Cobrado",
+    "menu.label.userTypes.add": "Agregar Tipo de Usuario",
+    "menu.label.userTypes.table": "Listado Tipo de Usuario",
 
     "menu.label.logout": "Cerrar Sesion",
     
@@ -46,6 +48,9 @@
     "customer.list.alert.canceled": "El cliente no fue eliminado",
     "customer.list.title": "Listado de Clientes",
     "customer.list.edit.title": "Editar Cliente",
+    "customer.list.sourceContactLabel": "Fuente de contacto",
+    "customer.add.sourceContactSelect": "Seleccione fuente de contacto",
+    "customer.add.sourceContactSelectLabel": "Fuente de contacto",
 
     "monthlyTotals.list.title": "Distribucion de Ventas por Mes",
     "monthlyTotals.table.header.year": "Año",
@@ -103,6 +108,13 @@
     "cobranzas.table.title": "Reservas Cobradas - Total Cobrado: $",
     "cobranzas.table.title.toCollect": "Reservas Pendientes de Cobro - Total Por Cobrar: $",
     "cobranzas.table.title.agency": "Total Agencia: $",
+
+    "userType.add.userType": "Tipo de usuario",
+    "userType.add.title": "Tipos de Usuario",
+    "userType.edit.title": "Editar Tipos de Usuario",
+    "userType.add.percentage": "Porcentage de ganancia",
+    "userType.add.alert.added": "Tipos de Usuario Creado",
+    "userType.list.alert.confirmDelete": "Confirme eliminar tipo de usuario",
     
 
     "common.alert.done": "Aceptar",
@@ -120,6 +132,7 @@
     "common.phone": "Telefono",
     "common.user_type": "Tipo de usuario",
     "common.country": "Pais",
+    "common.birthDate": "Fecha de Nacimiento",
     "common.updateButton": "Actualizar",
     "common.requiredFields": "Campos Requeridos",
     "common.snackbar.missingAlert": "Por favor corrobore que todos los campos obligatorios fueron completados.",
@@ -134,5 +147,6 @@
     "common.table.header.phone": "Telefono",
     "common.table.header.country": "Pais",
     "common.table.header.actions": "Acciones",
-    "common.table.header.description": "Descripcion"
+    "common.table.header.description": "Descripcion",
+    "common.table.header.feePercentage": "Porcentage"
 }

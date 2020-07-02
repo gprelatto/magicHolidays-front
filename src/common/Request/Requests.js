@@ -12,7 +12,7 @@ function getAuthHeaders() {
     }
 }
 
-const baseUrl = 'https://mhtravelagency-api.herokuapp.com/';
+const baseUrl = process.env.REACT_APP_API_URL;
 
 export const redirectToUnforbidden = (props) => {
     localStorage.setItem("auth", JSON.stringify({}));
@@ -97,7 +97,8 @@ export const postCustomer = (data) => {
         mail: data.mail,
         phone: data.phone,
         country: data.country,
-        created_by: data.created_by
+        created_by: data.created_by,
+        contact_source: data.contact_source
     }, getAuthHeaders())
 }
 
@@ -108,7 +109,8 @@ export const editCustomer = (data) => {
         fullname: data.fullname,
         mail: data.mail,
         phone: data.phone,
-        country: data.country
+        country: data.country,
+        contact_source: data.contact_source
     }, getAuthHeaders())
 }
 
@@ -126,7 +128,8 @@ export const editProfile = (data) => {
         mail: data.mail,
         phone: data.phone,
         country: data.country,
-        user_type: data.user_type
+        user_type: data.user_type,
+        birth_date: data.birth_date
     }, getAuthHeaders())
 }
 
@@ -186,6 +189,21 @@ export const postPay = (data) => {
 export const deletePayment = (id) => {
     return axios.delete(baseUrl + 'payments/' + id + '/',
         getAuthHeaders())
+}
+
+export const postUserType = (data) => {
+    return axios.post(baseUrl + 'userTypes/',
+    data, getAuthHeaders())
+}
+
+export const editUserType = (data) => {
+    return axios.put(baseUrl + 'userTypes/' + data.id + '/',
+    data, getAuthHeaders())
+}
+
+export const deleteUserType = (data) => {
+    return axios.delete(baseUrl + 'userTypes/' + data.id + '/',
+    getAuthHeaders())
 }
 
 export default getRequest;

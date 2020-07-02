@@ -41,6 +41,9 @@ const regularFormsStyle = {
   },
   inputAdornmentIconError: {
     color: dangerColor[0] + "!important"
+  },
+  select: {
+    marginTop: "25px"
   }
 };
 
