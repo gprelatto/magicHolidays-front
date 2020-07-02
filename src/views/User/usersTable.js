@@ -118,6 +118,7 @@ export default function UsersTable(props) {
       }
     }).then((response) => {
       removeProgressBar();
+      removeEditProgressBar();
       populateUsersTable();
       setShowEdit(false);
     }).catch(e => {
