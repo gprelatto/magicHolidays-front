@@ -217,6 +217,7 @@ export default function Dashboard(props) {
             let dataChild = [];
             dataChild.push(element.key)
             dataChild.push(element.totalsales)
+            dataChild.push(element.percentage.toString() + '%')
             dataContent.push(dataChild)
           });
   
@@ -241,7 +242,13 @@ export default function Dashboard(props) {
             axisX: {
               showGrid: false
             },
-            height: "300px"
+            height: "300px",
+            legend: {
+              "display": false
+            },
+            tooltips: {
+              "enabled": false
+            }
           },
           responsiveOptions: [
             [
@@ -644,7 +651,7 @@ export default function Dashboard(props) {
       {
         permissions.user_type === 1 ?
         <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
+          <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="rose" icon>
                 <CardIcon color="rose">
@@ -663,15 +670,8 @@ export default function Dashboard(props) {
                 />
               </CardBody>
             </Card>
-          </GridItem>          
-        </GridContainer>
-      :
-        <></>
-      }
-      {
-        permissions.user_type === 1 ?
-      <GridContainer>
-        <GridItem xs={12}>
+          </GridItem>         
+          <GridItem xs={12} sm={12} md={4}>
           <Card>
             <CardHeader color="success" icon>
               <CardIcon color="success">
@@ -691,8 +691,8 @@ export default function Dashboard(props) {
               </GridContainer>
             </CardBody>
           </Card>
-        </GridItem>
-      </GridContainer>
+        </GridItem>           
+        </GridContainer>
       :
         <></>
       }
