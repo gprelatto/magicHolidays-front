@@ -130,6 +130,8 @@ export default function PaymentTable(props) {
         </SweetAlert>
       );
       setShowEdit(false);
+      selectedReservationsRef.current= [];
+      setSelectedReservations([]);
       removeSubmitProgressBar();
     });
   }
