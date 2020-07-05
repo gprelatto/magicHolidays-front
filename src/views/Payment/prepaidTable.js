@@ -103,6 +103,8 @@ export default function PrepaidTable(props) {
         </SweetAlert>
       );
       setShowEdit(false);
+      selectedReservationsRef.current = [];
+      setSelectedReservations([]);
       removeSubmitProgressBar();
     });
   }
