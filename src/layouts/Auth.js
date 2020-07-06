@@ -15,7 +15,7 @@ import { routes } from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/authStyle.js";
 
-import login from "assets/img/login.jpeg";
+import login from "assets/img/login-2.jpg";
 import lock from "assets/img/lock.jpeg";
 import error from "assets/img/clint-mckoy.jpg";
 
@@ -27,10 +27,10 @@ export default function Pages(props) {
   const wrapper = React.createRef();
   // styles
   const classes = useStyles();
-  
+
   React.useEffect(() => {
     document.body.style.overflow = "unset";
-    return function cleanup() {};
+    return function cleanup() { };
   });
 
   const getRoutes = routes => {
@@ -81,13 +81,21 @@ export default function Pages(props) {
 
   return (
     <div>
-      <AuthNavbar brandText="Magic Holiday Travel Agency" {...rest} />
+      <AuthNavbar brandText="" {...rest} />
       <div className={classes.wrapper} ref={wrapper}>
         <div
           className={classes.fullPage}
-          style={{ backgroundImage: "url(" + getBgImage() + ")" }}
+          style={
+            {
+              'backgroundImage': "url(" + getBgImage() + ")",
+              'background-position': 'center center',
+              'background-repeat': 'no-repeat',
+              'background-attachment': 'fixed',
+              'background-size': 'cover'
+            }
+          }
         >
-          <Route path= "/auth/login-page/" component={LoginPage} />
+          <Route path="/auth/login-page/" component={LoginPage} />
           <Route path="/auth/forbidden/" component={ForbiddenPage} />
           {/* <Redirect exact from="/auth" to="/auth/login-page/" /> */}
           <Footer white />
