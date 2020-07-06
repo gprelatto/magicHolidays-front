@@ -88,10 +88,10 @@ export default function Pages(props) {
           style={
             {
               'backgroundImage': "url(" + getBgImage() + ")",
-              'background-position': 'center center',
-              'background-repeat': 'no-repeat',
-              'background-attachment': 'fixed',
-              'background-size': 'cover'
+              'backgroundPosition': 'center center',
+              'backgroundRepeat': 'no-repeat',
+              'backgroundAttachment': 'fixed',
+              'backgroundSize': 'cover'
             }
           }
         >
