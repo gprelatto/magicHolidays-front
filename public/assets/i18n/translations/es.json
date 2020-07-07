@@ -25,6 +25,7 @@
     "menu.label.payments.pay": "Pagar Reservaciones",
     "menu.label.reports": "Reportes",
     "menu.label.reports.monthlySales": "Ventas por Mes",
+    "menu.label.reports.salesReportByDate": "Ventas Detalladas",
     "menu.label.cobranzas": "Cobranzas",
     "menu.label.cobranzas.aCobrar": "A Cobrar",
     "menu.label.cobranzas.cobrado": "Cobrado",
@@ -63,7 +64,6 @@
     "monthlyTotals.table.header.totalpaid": "Pago",
     "monthlyTotals.table.header.totaltocollect": "Por Cobrar",
     "monthlyTotals.table.header.totalcancelled": "Cancelado",
-
 
     "supplier.add.alert.added": "Proveedor agregado.",
     "supplier.add.title": "Agregar Nuevo Proveedor",
@@ -109,6 +109,29 @@
     "cobranzas.table.title.toCollect": "Reservas Pendientes de Cobro - Total Por Cobrar: $",
     "cobranzas.table.title.agency": "Total Agencia: $",
 
+    "salesReport.table.header.name": "Nombre",
+    "salesReport.table.header.lastname": "Apellido",
+    "salesReport.table.header.confirmDate": "Fec. Venta",
+    "salesReport.table.header.fullname": "Vendedor",
+    "salesReport.table.header.arrivalDate": "Fec. Viaje",
+    "salesReport.table.header.supplier": "Proveedor",
+    "salesReport.table.header.category": "Categoria",
+    "salesReport.table.header.product": "Producto",
+    "salesReport.table.header.total": "Total",
+    "salesReport.table.header.confirmNumber": "Reserva",
+    "salesReport.table.header.feeTotal": "C. Total",
+    "salesReport.table.header.totalFeeAgency": "C. Agencia",
+    "salesReport.table.header.feeUser": "C. Emp.",
+    "salesReport.table.header.totalToPay": "T. A Pagar.",
+    "salesReport.table.header.totalPaid": "T. Pagado.",
+    "salesReport.table.header.totalToCollect": "Por Cobrar",
+    "salesReport.table.header.totalCancelled": "Cancelado",
+    "salesReport.table.header.transactionNumber": "Cod. Transf.",
+    "salesReport.table.title": "Ventas detalladas por periodo",
+    "salesReport.table.title.toCollect": "Reservas Pendientes de Cobro - Total Por Cobrar: $",
+    "salesReport.table.title.agency": "Total Agencia: $",
+    "salesReport.table.alert": "Complete las fechas antes de continuar, tambien verifique la fecha DESDE sea anterior a la de HASTA.",
+
     "userType.add.userType": "Tipo de usuario",
     "userType.add.title": "Tipos de Usuario",
     "userType.edit.title": "Editar Tipos de Usuario",
@@ -148,5 +171,6 @@
     "common.table.header.country": "Pais",
     "common.table.header.actions": "Acciones",
     "common.table.header.description": "Descripcion",
-    "common.table.header.feePercentage": "Porcentage"
+    "common.table.header.feePercentage": "Porcentage",
+    "common.download": "Descargar datos"
 }
