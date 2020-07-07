@@ -206,4 +206,9 @@ export const deleteUserType = (data) => {
     getAuthHeaders())
 }
 
+export const postDetailedSales = (data) => {
+    return axios.post(baseUrl + 'detailedSales/', data,
+    getAuthHeaders())
+}
+
 export default getRequest;
