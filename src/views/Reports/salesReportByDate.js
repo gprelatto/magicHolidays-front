@@ -32,9 +32,11 @@ import { useTranslation } from 'react-i18next';
 
 import { CSVLink } from "react-csv";
 
+import Webdatarocks from "webdatarocks";
+
+
 const useStyles = makeStyles(styles);
 const useFormStyles = makeStyles(formStyles);
-
 
 export default function SalesReportByDate(props) {
     const { t, i18n } = useTranslation();
@@ -48,6 +50,8 @@ export default function SalesReportByDate(props) {
 
     const [dateFrom, setDateFrom] = React.useState('');
     const [dateTo, setDateTo] = React.useState('');
+
+    const [pivot, setPivotData] = React.useState(null);
 
     const columns = [
         {
@@ -125,6 +129,30 @@ export default function SalesReportByDate(props) {
 
     ];
 
+    useEffect(() => {
+        setPivotData(
+            new Webdatarocks({
+                container: "#wdr-component",
+                toolbar: true,
+                report: {
+                    dataSource: {
+                        data: tableData
+                    }
+                }
+            })
+        );
+
+        const link_style_webrock = document.createElement('link');
+        link_style_webrock.href = "https://cdn.webdatarocks.com/latest/webdatarocks.min.css";
+        link_style_webrock.rel = "stylesheet";
+      
+        document.body.appendChild(link_style_webrock);
+
+        return () => {
+          document.body.removeChild(link_style_webrock);
+        }
+      }, []);
+
     const progressBar = () => {
         setBar(
             <CustomLinearProgress
@@ -192,6 +220,17 @@ export default function SalesReportByDate(props) {
 
                     removeProgressBar();
                     setTableData(tableData);
+                    setPivotData(
+                        new Webdatarocks({
+                            container: "#wdr-component",
+                            toolbar: true,
+                            report: {
+                                dataSource: {
+                                    data: tableData
+                                }
+                            }
+                        })
+                    );                    
                 });
             }
         }
@@ -267,17 +306,26 @@ export default function SalesReportByDate(props) {
                                     <br />
                                 </GridItem>
                             </GridContainer>
-                            <ReactTable
-                                data={tableData}
-                                filterable
-                                defaultFilterMethod={(filter, row) => { return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
-                                columns={columns}
-                                defaultPageSize={10}
-                                showPaginationTop
-                                showPaginationBottom={false}
-                                getTrProps={getTrProps}
-                                className="-striped -highlight" S
-                            />
+                            <GridContainer>
+                                <GridItem xs={12} sm={12} md={12}>
+                                    <ReactTable
+                                        data={tableData}
+                                        filterable
+                                        defaultFilterMethod={(filter, row) => { return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
+                                        columns={columns}
+                                        defaultPageSize={10}
+                                        showPaginationTop
+                                        showPaginationBottom={false}
+                                        getTrProps={getTrProps}
+                                        className="-striped -highlight" S
+                                    />
+                                </GridItem>
+                            </GridContainer>
+                            <GridContainer>
+                                <GridItem xs={12} sm={12} md={12}>
+                                    <div id="wdr-component"></div>
+                                </GridItem>
+                            </GridContainer>                                                        
                         </CardBody>
                         <Snackbar
                             place="tr"
