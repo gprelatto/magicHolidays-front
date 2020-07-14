@@ -33,7 +33,7 @@ import { useTranslation } from 'react-i18next';
 import { CSVLink } from "react-csv";
 
 import Webdatarocks from "webdatarocks";
-
+import "webdatarocks/webdatarocks.css"
 
 const useStyles = makeStyles(styles);
 const useFormStyles = makeStyles(formStyles);
@@ -141,16 +141,6 @@ export default function SalesReportByDate(props) {
                 }
             })
         );
-
-        const link_style_webrock = document.createElement('link');
-        link_style_webrock.href = "https://cdn.webdatarocks.com/latest/webdatarocks.min.css";
-        link_style_webrock.rel = "stylesheet";
-      
-        document.body.appendChild(link_style_webrock);
-
-        return () => {
-          document.body.removeChild(link_style_webrock);
-        }
       }, []);
 
     const progressBar = () => {
