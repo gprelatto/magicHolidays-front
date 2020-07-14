@@ -750,8 +750,10 @@ export default function RezTable(props) {
                       getOptionLabel={(option) => option.mail}
                       onChange={(event, newValue) => {
                         if (newValue !== null)
+                        {
                           setSelectedCustomer(newValue);
-                        setSelectedCustomerId(newValue.id)
+                          setSelectedCustomerId(newValue.id);
+                        }
                       }}
                       open={open}
                       onOpen={() => {
