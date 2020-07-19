@@ -32,8 +32,9 @@ import { useTranslation } from 'react-i18next';
 
 import { CSVLink } from "react-csv";
 
-import Webdatarocks from "webdatarocks";
-import "webdatarocks/webdatarocks.css"
+import ReactDOM from 'react-dom';
+import PivotTableUI from 'react-pivottable/PivotTableUI';
+import 'react-pivottable/pivottable.css';
 
 const useStyles = makeStyles(styles);
 const useFormStyles = makeStyles(formStyles);
@@ -47,6 +48,8 @@ export default function SalesReportByDate(props) {
     const [tableData, setTableData] = React.useState([]);
     const [bar, setBar] = React.useState(null);
     const [tr, setTR] = React.useState(false);
+    
+    const [tablaNueva, setTablaNueva] = React.useState(props);
 
     const [dateFrom, setDateFrom] = React.useState('');
     const [dateTo, setDateTo] = React.useState('');
@@ -129,19 +132,11 @@ export default function SalesReportByDate(props) {
 
     ];
 
+
     useEffect(() => {
-        setPivotData(
-            new Webdatarocks({
-                container: "#wdr-component",
-                toolbar: true,
-                report: {
-                    dataSource: {
-                        data: tableData
-                    }
-                }
-            })
-        );
-      }, []);
+        setTablaNueva(props);
+    }, [tableData]);
+
 
     const progressBar = () => {
         setBar(
@@ -210,17 +205,6 @@ export default function SalesReportByDate(props) {
 
                     removeProgressBar();
                     setTableData(tableData);
-                    setPivotData(
-                        new Webdatarocks({
-                            container: "#wdr-component",
-                            toolbar: true,
-                            report: {
-                                dataSource: {
-                                    data: tableData
-                                }
-                            }
-                        })
-                    );                    
                 });
             }
         }
@@ -313,7 +297,7 @@ export default function SalesReportByDate(props) {
                             </GridContainer>
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={12}>
-                                    <div id="wdr-component"></div>
+                                    <PivotTableUI data={tableData} onChange={s => setTablaNueva(s)}{...tablaNueva}/>
                                 </GridItem>
                             </GridContainer>                                                        
                         </CardBody>
