@@ -49,6 +49,7 @@ import CollectedTable from 'views/Cobranzas/collectedTable';
 import ToCollectTable from 'views/Cobranzas/toCollectTable';
 import UserTypeForm from 'views/User/userTypeForm';
 import UserTypesTable from 'views/User/userTypesTable';
+import SalesReportByDate from 'views/Reports/salesReportByDate';
 
 
 export const routes = [
@@ -463,6 +464,19 @@ export const routes = [
         mini: "MS",
         rtlMini: "",
         component: monthlySalesTable,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      },
+      {
+        render: true,
+        path: "/salesReportByDate",
+        name: "menu.label.reports.salesReportByDate",
+        rtlName: "",
+        mini: "MS",
+        rtlMini: "",
+        component: SalesReportByDate,
         layout: "/admin",
         permissions: [
           1
