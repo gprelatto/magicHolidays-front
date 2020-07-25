@@ -211,4 +211,9 @@ export const postDetailedSales = (data) => {
     getAuthHeaders())
 }
 
+export const notificationsDone = (data) => {
+    return axios.post(baseUrl + 'notificationsDone/', data,
+    getAuthHeaders())
+}
+
 export default getRequest;
