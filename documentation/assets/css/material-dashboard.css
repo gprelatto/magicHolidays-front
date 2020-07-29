@@ -2296,7 +2296,7 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 }
 
 .navbar-default:not(.navbar-transparent) .navbar-nav>li>a.btn.btn-white.btn-simple {
-    color: #555555;
+    color: #f7eeee;
 }
 
 .btn-group,
@@ -2386,7 +2386,7 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 }
 
 body {
-    background-color: #EEEEEE;
+    background-color: #3e3e3e;
     color: #3C4858;
 }
 
@@ -3312,7 +3312,7 @@ select.form-control[multiple],
 .alert,
 .alert.alert-default {
     background-color: white;
-    color: #555555;
+    color: #f7eeee;
     border-radius: 3px;
     box-shadow: 0 12px 20px -10px rgba(255, 255, 255, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(255, 255, 255, 0.2);
 }
@@ -3321,7 +3321,7 @@ select.form-control[multiple],
 .alert .alert-link,
 .alert.alert-default a,
 .alert.alert-default .alert-link {
-    color: #555555;
+    color: #f7eeee;
 }
 
 .alert.alert-inverse {
@@ -4062,7 +4062,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
     font-weight: 500;
     min-width: 100px;
     text-align: center;
-    color: #555555;
+    color: #f7eeee;
     transition: all .3s;
 }
 
@@ -4396,7 +4396,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .navbar.navbar-default .logo-container .brand {
-    color: #555555;
+    color: #f7eeee;
 }
 
 .navbar .navbar-link {
@@ -4456,28 +4456,28 @@ fieldset[disabled] .navbar .btn-link:focus {
 .navbar,
 .navbar.navbar-default {
     background-color: #FFFFFF;
-    color: #555555;
+    color: #f7eeee;
 }
 
 .navbar .navbar-form .form-group input.form-control::-moz-placeholder,
 .navbar .navbar-form input.form-control::-moz-placeholder,
 .navbar.navbar-default .navbar-form .form-group input.form-control::-moz-placeholder,
 .navbar.navbar-default .navbar-form input.form-control::-moz-placeholder {
-    color: #555555;
+    color: #f7eeee;
 }
 
 .navbar .navbar-form .form-group input.form-control:-ms-input-placeholder,
 .navbar .navbar-form input.form-control:-ms-input-placeholder,
 .navbar.navbar-default .navbar-form .form-group input.form-control:-ms-input-placeholder,
 .navbar.navbar-default .navbar-form input.form-control:-ms-input-placeholder {
-    color: #555555;
+    color: #f7eeee;
 }
 
 .navbar .navbar-form .form-group input.form-control::-webkit-input-placeholder,
 .navbar .navbar-form input.form-control::-webkit-input-placeholder,
 .navbar.navbar-default .navbar-form .form-group input.form-control::-webkit-input-placeholder,
 .navbar.navbar-default .navbar-form input.form-control::-webkit-input-placeholder {
-    color: #555555;
+    color: #f7eeee;
 }
 
 .navbar .dropdown-menu,
@@ -4497,7 +4497,7 @@ fieldset[disabled] .navbar .btn-link:focus {
 .navbar .dropdown-menu .active>a,
 .navbar.navbar-default .dropdown-menu .active>a {
     background-color: #FFFFFF;
-    color: #555555;
+    color: #f7eeee;
     box-shadow: 0 12px 20px -10px rgba(255, 255, 255, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(255, 255, 255, 0.2);
 }
 
@@ -4505,7 +4505,7 @@ fieldset[disabled] .navbar .btn-link:focus {
 .navbar .dropdown-menu .active>a:focus,
 .navbar.navbar-default .dropdown-menu .active>a:hover,
 .navbar.navbar-default .dropdown-menu .active>a:focus {
-    color: #555555;
+    color: #f7eeee;
 }
 
 .navbar.navbar-inverse {
@@ -4879,7 +4879,7 @@ fieldset[disabled] .navbar .btn-link:focus {
 
 .popover,
 .tooltip-inner {
-    color: #555555;
+    color: #f7eeee;
     line-height: 1.5em;
     background: #FFFFFF;
     border: none;

@@ -148,7 +148,7 @@ const grayColor = [
   "#AAAAAA",
   "#D2D2D2",
   "#DDD",
-  "#555555",
+  "#f7eeee",
   "#333",
   "#eee",
   "#ccc",
