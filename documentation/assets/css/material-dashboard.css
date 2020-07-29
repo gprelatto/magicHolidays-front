@@ -2387,7 +2387,7 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 
 body {
     background-color: #3e3e3e;
-    color: #3C4858;
+    color: #ffffff;
 }
 
 body.inverse {
@@ -4052,7 +4052,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .section-dark .nav-pills>li>a:focus,
 .section-image .nav-pills>li>a:hover,
 .section-image .nav-pills>li>a:focus {
-    background-color: #EEEEEE;
+    background-color: #3e3e3e;
 }
 
 .nav-pills>li>a {
@@ -5215,7 +5215,7 @@ footer .btn {
 .card .card-footer {
     margin: 0 20px 10px;
     padding-top: 10px;
-    border-top: 1px solid #eeeeee;
+    border-top: 1px solid #3e3e3e;
 }
 
 .card .card-footer .content {
