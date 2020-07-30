@@ -163,7 +163,7 @@ export default function ProductForm(props) {
         setAlert(
           <SweetAlert
             success
-            style={{ display: "block", marginTop: "-100px" }}
+            style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
             title={t('product.alert.added')}
             onConfirm={() => {
               setRedirect(<Redirect to='/admin/productTable' />);

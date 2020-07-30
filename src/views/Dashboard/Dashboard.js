@@ -66,6 +66,8 @@ export default function Dashboard(props) {
 
   const [widgets, setWidgets] = React.useState([]);
 
+  const [alertNotifications, setAlertNotifications] = React.useState([]);
+
   // widgets for admin
   const [totalSalesDay, setWidgetsTotalSalesDay] = React.useState(0);
   const [totalSalesMonth, setWidgetsTotalSalesMonth] = React.useState(0);
@@ -163,10 +165,10 @@ export default function Dashboard(props) {
                   round
                   simple
                   onClick={() => {
-                      warningWithConfirmAndCancelMessage({
-                        rez_id: prop.rez_id,
-                        message: prop.message
-                      });
+                    warningWithConfirmAndCancelMessage({
+                      rez_id: prop.rez_id,
+                      message: prop.message
+                    });
                   }}
                   color="success"
                   className="success"
@@ -408,13 +410,31 @@ export default function Dashboard(props) {
     }).catch(e => {
       props.history.push('/auth/forbidden')
     });
+
+
+    getRequest('notifications').then(notificationAlertResponse => {
+      let responseData = notificationAlertResponse.data
+
+      if (responseData.code === 403) {
+        redirectToUnforbidden(props);
+      }
+
+      let alertNotificationMessages = responseData.data.map(r => r.message);
+      let alertNotificationData = [];
+      alertNotificationMessages.forEach(r => {
+        let n = [r];
+        alertNotificationData.push(n);
+      });
+      setAlertNotifications(alertNotificationData);
+    })
+
   }, [])
 
   const warningWithConfirmAndCancelMessage = (sup) => {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title='Marcar como tarea completada'
         onConfirm={() => successDelete(sup)}
         onCancel={() => cancelDetele()}
@@ -439,7 +459,7 @@ export default function Dashboard(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title='Operacion realizada con exito!'
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -455,7 +475,7 @@ export default function Dashboard(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Cancelled"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
@@ -477,6 +497,25 @@ export default function Dashboard(props) {
         permissions.user_type !== 1 ?
           <GridContainer>
             {alert}
+            { alertNotifications.length >= 1 ?
+            <GridItem xs={12} sm={12} md={12}>
+              <Card>
+                <CardHeader color="warning" text>
+                  <CardText color="warning">
+                    <h4 className={classes.cardTitleWhite}>Panel de Notificaciones</h4>
+                    <h4 className={classes.cardCategoryWhite}></h4>
+                  </CardText>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    hover
+                    tableHeaderColor="warning"
+                    tableHead={["Mensaje"]}
+                    tableData={alertNotifications}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem> : <></> }
             <GridItem xs={12} sm={12} md={12}>
               <Card>
                 <CardHeader color="danger" text>

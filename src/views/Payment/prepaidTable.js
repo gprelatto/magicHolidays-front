@@ -232,7 +232,7 @@ export default function PrepaidTable(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title="Marked as prepaid!"
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -266,7 +266,7 @@ export default function PrepaidTable(props) {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Are you sure?"
         onConfirm={() => submit()}
         onCancel={() => cancelDetele()}
@@ -285,7 +285,7 @@ export default function PrepaidTable(props) {
     setEditAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Desea confirmar la edicion?"
         onConfirm={() => submitEditButton()}
         onCancel={() => cancelEdit()}
@@ -304,7 +304,7 @@ export default function PrepaidTable(props) {
     setEditAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Cancelado"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
@@ -319,7 +319,7 @@ export default function PrepaidTable(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Cancelado"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}

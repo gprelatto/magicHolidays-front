@@ -121,7 +121,7 @@ export default function PaymentTable(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title="Marked as prepaid!"
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -141,7 +141,7 @@ export default function PaymentTable(props) {
       setAlert(
         <SweetAlert
           warning
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title="Are you sure?"
           onConfirm={() => submit()}
           onCancel={() => cancelDetele()}
@@ -169,7 +169,7 @@ export default function PaymentTable(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Cancelled"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}

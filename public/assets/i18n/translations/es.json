@@ -31,6 +31,9 @@
     "menu.label.cobranzas.cobrado": "Cobrado",
     "menu.label.userTypes.add": "Agregar Tipo de Usuario",
     "menu.label.userTypes.table": "Listado Tipo de Usuario",
+    "menu.label.newAlert": "Alertas",
+    "menu.label.newAlert.add": "Nueva Alerta",
+    "menu.label.newAlert.list": "Alertas",
 
     "menu.label.logout": "Cerrar Sesion",
     
@@ -172,5 +175,8 @@
     "common.table.header.actions": "Acciones",
     "common.table.header.description": "Descripcion",
     "common.table.header.feePercentage": "Porcentage",
+    "common.table.header.date_from": "Fecha Desde",
+    "common.table.header.date_to": "Fecha Hasta",
+    "common.table.header.message": "Mensaje",
     "common.download": "Descargar datos"
 }

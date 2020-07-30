@@ -37,7 +37,7 @@ export default function Calendar() {
       <SweetAlert
         input
         showCancel
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Input something"
         onConfirm={e => addNewEvent(e, slotInfo)}
         onCancel={() => hideAlert()}

@@ -216,4 +216,19 @@ export const notificationsDone = (data) => {
     getAuthHeaders())
 }
 
+export const postNewNotification = (data) => {
+    return axios.post(baseUrl + 'notifications/', data,
+    getAuthHeaders())
+}
+
+export const editNotification = (data) => {
+    return axios.put(baseUrl + 'notifications/' + data.id + '/',
+    data, getAuthHeaders())
+}
+
+export const deleteNotification = (data) => {
+    return axios.delete(baseUrl + 'notifications/' + data.id + '/',
+    getAuthHeaders())
+}
+
 export default getRequest;
