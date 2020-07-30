@@ -45,6 +45,7 @@ import UserTypeForm from 'views/User/userTypeForm';
 import UserTypesTable from 'views/User/userTypesTable';
 import SalesReportByDate from 'views/Reports/salesReportByDate';
 import NewAlertForm from 'views/CustomAlerts/NewAlertForm';
+import AlertsTable from 'views/CustomAlerts/NewAlertTable';
 
 
 export const routes = [
@@ -329,6 +330,19 @@ export const routes = [
         mini: "AU",
         rtlMini: "",
         component: NewAlertForm,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      },
+      {
+        render: true,
+        path: "/customAlerts",
+        name: "menu.label.newAlert.list",
+        rtlName: "",
+        mini: "AU",
+        rtlMini: "",
+        component: AlertsTable,
         layout: "/admin",
         permissions: [
           1
