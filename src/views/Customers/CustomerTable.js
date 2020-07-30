@@ -77,7 +77,7 @@ export default function CustomerTable(props) {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title={t('common.alert.areUSure')}
         onConfirm={() => successDelete(cus)}
         onCancel={() => cancelDetele()}
@@ -98,7 +98,7 @@ export default function CustomerTable(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title="Deleted!"
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -114,7 +114,7 @@ export default function CustomerTable(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title={t('common.alert.canceled')}
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}

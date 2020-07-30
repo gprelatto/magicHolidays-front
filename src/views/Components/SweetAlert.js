@@ -26,7 +26,7 @@ export default function SweetAlertPage() {
   const basicAlert = () => {
     setAlert(
       <SweetAlert
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Here's a message!"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
@@ -37,7 +37,7 @@ export default function SweetAlertPage() {
   const titleAndTextAlert = () => {
     setAlert(
       <SweetAlert
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Here's a message!"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
@@ -51,7 +51,7 @@ export default function SweetAlertPage() {
     setAlert(
       <SweetAlert
         success
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Good job!"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
@@ -64,7 +64,7 @@ export default function SweetAlertPage() {
   const htmlAlert = () => {
     setAlert(
       <SweetAlert
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="HTML example"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
@@ -85,7 +85,7 @@ export default function SweetAlertPage() {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Are you sure?"
         onConfirm={() => successDelete()}
         onCancel={() => hideAlert()}
@@ -103,7 +103,7 @@ export default function SweetAlertPage() {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Are you sure?"
         onConfirm={() => successDelete()}
         onCancel={() => cancelDetele()}
@@ -120,7 +120,7 @@ export default function SweetAlertPage() {
   const autoCloseAlert = () => {
     setAlert(
       <SweetAlert
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Auto close alert!"
         onConfirm={() => hideAlert()}
         showConfirm={false}

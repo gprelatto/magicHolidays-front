@@ -216,4 +216,9 @@ export const notificationsDone = (data) => {
     getAuthHeaders())
 }
 
+export const postNewNotification = (data) => {
+    return axios.post(baseUrl + 'notifications/', data,
+    getAuthHeaders())
+}
+
 export default getRequest;

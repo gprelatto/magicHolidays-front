@@ -31,6 +31,8 @@
     "menu.label.cobranzas.cobrado": "Cobrado",
     "menu.label.userTypes.add": "Agregar Tipo de Usuario",
     "menu.label.userTypes.table": "Listado Tipo de Usuario",
+    "menu.label.newAlert": "Alertas",
+    "menu.label.newAlert.add": "Nueva Alerta",
 
     "menu.label.logout": "Cerrar Sesion",
     

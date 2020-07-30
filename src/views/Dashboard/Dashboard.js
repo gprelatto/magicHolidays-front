@@ -414,7 +414,7 @@ export default function Dashboard(props) {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title='Marcar como tarea completada'
         onConfirm={() => successDelete(sup)}
         onCancel={() => cancelDetele()}
@@ -439,7 +439,7 @@ export default function Dashboard(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title='Operacion realizada con exito!'
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -455,7 +455,7 @@ export default function Dashboard(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px" , color: "#3e3e3e"}}
         title="Cancelled"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}

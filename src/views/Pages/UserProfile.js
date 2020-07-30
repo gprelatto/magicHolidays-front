@@ -165,7 +165,7 @@ export default function UserProfile(props) {
     setAlert(
       <SweetAlert
         success
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px" , color: "#3e3e3e"}}
         title="Perfil modificado"
         onConfirm={() => {
           setRedirect(<Redirect to='/admin/logout' />);
