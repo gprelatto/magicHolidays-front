@@ -23,56 +23,65 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.js";
-
 import FormLabel from "@material-ui/core/FormLabel";
+import Datetime from "react-datetime";
 
-import styles from "assets/jss/material-dashboard-pro-react/views/extendedTablesStyle.js";
+import styles from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle.js";
 import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.js";
 
-import { getRequest, editUserType, deleteUserType, redirectToUnforbidden } from 'common/Request/Requests.js'
+import { getRequest, editNotification, deleteNotification, redirectToUnforbidden } from 'common/Request/Requests.js'
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(styles);
 const useAlertStyles = makeStyles(alertStyles);
 
-export default function UserTypesTable(props) {
+export default function AlertsTable(props) {
     const { t, i18n } = useTranslation();
 
     const classes = useStyles();
     const alertClasses = useAlertStyles();
 
-    const [percentageInputState, setPercentageInputState] = React.useState('');
     const [tableData, setTableData] = React.useState([]);
-    const [userTypesData, setUserTypesData] = React.useState('');
+    const [notificationsData, setNotificationsData] = React.useState('');
     const [showEdit, setShowEdit] = React.useState(false);
-    const [userType, setUserType] = React.useState({});
+    const [notification, setNotification] = React.useState({});
     const [alert, setAlert] = React.useState(null);
     const [bar, setBar] = React.useState(null);
     const [editBar, setEditBar] = React.useState(null);
 
     useEffect(() => {
-        populateUserTypesTable();
+        populateTable();
     }, [])
 
     const submitEditButton = () => {
         editProgressBar();
-        editUserType(userType).then((response) => {
+
+        console.log('not', notification)
+
+        let data = {
+            id: notification.id,
+            message: notification.message,
+            date_to: new Date(notification.date_to),
+            date_from: new Date(notification.date_from),
+        }
+
+        editNotification(data).then((response) => {
             if (response.data.code === 403) {
                 redirectToUnforbidden(props);
             }
-            populateUserTypesTable();
+            populateTable();
             setShowEdit(false);
             removeEditProgressBar();
         });
     }
 
-    const warningWithConfirmAndCancelMessage = (sup) => {
+    const warningWithConfirmAndCancelMessage = (not) => {
         setAlert(
             <SweetAlert
                 warning
                 style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
                 title={t('common.alert.areUSure')}
-                onConfirm={() => successDelete(sup)}
+                onConfirm={() => successDelete(not)}
                 onCancel={() => cancelDetele()}
                 confirmBtnCssClass={alertClasses.button + " " + alertClasses.success}
                 cancelBtnCssClass={alertClasses.button + " " + alertClasses.danger}
@@ -80,18 +89,18 @@ export default function UserTypesTable(props) {
                 cancelBtnText={t('common.alert.cancel')}
                 showCancel
             >
-                {t('userType.list.alert.confirmDelete')}
+                Confirmar eliminar alerta
             </SweetAlert>
         );
     };
 
-    const successDelete = (sup) => {
-        deleteUserType(sup).then((response) => {
-            populateUserTypesTable();
+    const successDelete = (not) => {
+        deleteNotification(not).then((response) => {
+            populateTable();
             setAlert(
                 <SweetAlert
                     success
-                    style={{ display: "block", marginTop: "-100px" , color: "#3e3e3e"}}
+                    style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
                     title={t('common.alert.deleted')}
                     onConfirm={() => hideAlert()}
                     onCancel={() => hideAlert()}
@@ -150,20 +159,28 @@ export default function UserTypesTable(props) {
         setEditBar(null);
     };
 
-    const populateUserTypesTable = () => {
+    const populateTable = () => {
         progressBar();
-        getRequest('userTypes').then((response) => {
+        getRequest('notifications').then((response) => {
             if (response.data.code === 403) {
                 redirectToUnforbidden(props);
             }
-            let responseData = response.data.data;
+            let responseData = response.data.data.map(r => {
+                return {
+                    id: r.id,
+                    message: r.message,
+                    date_from: r.date_from != null ? r.date_from.split('T')[0] : '',
+                    date_to: r.date_to != null ? r.date_to.split('T')[0] : ''
+                }
+            });
 
-            setUserTypesData(responseData);
+            setNotificationsData(responseData);
             let data = responseData.map((prop, key) => {
                 return {
                     id: prop.id,
-                    description: prop.description,
-                    feePercentage: prop.feePercentage,
+                    message: prop.message,
+                    date_from: prop.date_from,
+                    date_to: prop.date_to,
                     actions: (
                         <div className="actions-right">
                             <Button
@@ -174,12 +191,13 @@ export default function UserTypesTable(props) {
                                 className={"edit " + classes.actionButtonRound}
                                 key={key}
                                 onClick={() => {
-                                    let ut = responseData.find(f => f.id === prop.id);
-                                    if (ut != null) {
-                                        setUserType({
-                                            id: ut.id,
-                                            description: ut.description,
-                                            feePercentage: ut.feePercentage
+                                    let not = responseData.find(f => f.id === prop.id);
+                                    if (not != null) {
+                                        setNotification({
+                                            id: not.id,
+                                            message: not.message,
+                                            date_from: not.date_from,
+                                            date_to: not.date_to
                                         });
                                         setShowEdit(true);
                                     }
@@ -193,9 +211,9 @@ export default function UserTypesTable(props) {
                                 round
                                 simple
                                 onClick={() => {
-                                    let ut = responseData.find(f => f.id === prop.id);
-                                    if (ut != null) {
-                                        warningWithConfirmAndCancelMessage(ut);
+                                    let not = responseData.find(f => f.id === prop.id);
+                                    if (not != null) {
+                                        warningWithConfirmAndCancelMessage(not);
                                     }
                                 }}
                                 color="danger"
@@ -237,16 +255,16 @@ export default function UserTypesTable(props) {
                                 defaultFilterMethod={(filter, row) => { return row[filter.id].toString().toLowerCase().includes(filter.value.toLowerCase()) }}
                                 columns={[
                                     {
-                                        Header: t('common.table.header.id'),
-                                        accessor: "id"
+                                        Header: t('common.table.header.message'),
+                                        accessor: "message"
                                     },
                                     {
-                                        Header: t('common.table.header.description'),
-                                        accessor: "description"
+                                        Header: t('common.table.header.date_from'),
+                                        accessor: "date_from"
                                     },
                                     {
-                                        Header: t('common.table.header.feePercentage'),
-                                        accessor: "feePercentage"
+                                        Header: t('common.table.header.date_to'),
+                                        accessor: "date_to"
                                     },
                                     {
                                         Header: t('common.table.header.actions'),
@@ -271,32 +289,63 @@ export default function UserTypesTable(props) {
                             <CardIcon color="rose">
                                 <MailOutline />
                             </CardIcon>
-                            <h4 className={classes.cardIconTitle}>{t('userType.edit.title')}</h4>
+                            <h4 className={classes.cardIconTitle}>Editar Alerta</h4>
                         </CardHeader>
                         <CardBody>
                             <form>
                                 <GridContainer>
                                     <GridItem xs={4} sm={4} md={4} lg={4}>
                                         <FormLabel className={classes.labelHorizontal}>
-                                            {t('userType.add.userType')}
-                                        </FormLabel>
+                                            Descripcion
+                                </FormLabel>
                                     </GridItem>
                                     <GridItem xs={4} sm={4} md={4} lg={8}>
                                         <CustomInput
-                                            id="description"
+                                            id='description'
                                             formControlProps={{
                                                 fullWidth: true
                                             }}
                                             inputProps={{
-                                                type: "text",
+                                                type: 'textarea',
+                                                rows: 5,
+                                                cols: 5,
                                                 onChange: event => {
-                                                    setUserType({
-                                                        ...userType,
-                                                        description: event.target.value
-                                                    })
+                                                    setNotification(prev => ({
+                                                        ...prev,
+                                                        message: event.target.value
+                                                    }))
                                                 },
-                                                value: userType.description
+                                                value: notification.message
                                             }}
+                                        />
+                                    </GridItem>
+                                </GridContainer>
+                                <GridContainer>
+                                    <GridItem xs={4} sm={4} md={4} lg={4}>
+                                        <FormLabel className={classes.labelHorizontal}>
+                                            Fecha desde
+                                </FormLabel>
+                                    </GridItem>
+                                    <GridItem xs={4} sm={4} md={4} lg={8}>
+                                        <Datetime
+                                            dateFormat="YYYY-MM-DD"
+                                            timeFormat={false}
+                                            closeOnSelect={true}
+                                            inputProps={{
+                                                placeholder: "Seleccione fecha desde",
+                                            }}
+                                            onChange={(event) => {
+                                                let year = event._d.getFullYear().toString();
+                                                let month = (event._d.getMonth()+1) < 10 ? '0' + (event._d.getMonth()+1) : (event._d.getMonth()+1).toString();
+                                                let day = event._d.getDate();
+
+                                                setNotification(prev => ({
+                                                    ...prev,
+                                                    date_from: year + '-' + month + '-' + day
+                                                }))
+                                            }}
+                                            className={classes.select}
+                                            value={notification.date_from}
                                         />
                                     </GridItem>
                                 </GridContainer>
@@ -304,35 +353,29 @@ export default function UserTypesTable(props) {
                                 <GridContainer>
                                     <GridItem xs={4} sm={4} md={4} lg={4}>
                                         <FormLabel className={classes.labelHorizontal}>
-                                            {t('userType.add.percentage')}
-                                        </FormLabel>
+                                            Fecha hasta
+                                </FormLabel>
                                     </GridItem>
                                     <GridItem xs={4} sm={4} md={4} lg={8}>
-                                        <CustomInput
-                                            success={percentageInputState === "success"}
-                                            error={percentageInputState === "error"}
-                                            id='percentage'
-                                            formControlProps={{
-                                                fullWidth: true
-                                            }}
+                                        <Datetime
+                                            dateFormat="YYYY-MM-DD"
+                                            timeFormat={false}
+                                            closeOnSelect={true}
                                             inputProps={{
-                                                type: 'text',
-                                                onChange: event => {
-                                                    let input = event.target.value;
-
-                                                    if (input.length > 0) {
-                                                        input = input.replace(',', '.')
-                                                    }
-
-                                                    if (!isNaN(input)) {
-                                                        setUserType({
-                                                            ...userType,
-                                                            feePercentage: input
-                                                        });
-                                                    }
-                                                },
-                                                value: userType.feePercentage
+                                                placeholder: "Seleccione fecha hasta",
                                             }}
+                                            onChange={(event) => {
+                                                let year = event._d.getFullYear().toString();
+                                                let month = (event._d.getMonth()+1) < 10 ? '0' + (event._d.getMonth()+1) : (event._d.getMonth()+1).toString();
+                                                let day = event._d.getDate();
+
+                                                setNotification(prev => ({
+                                                    ...prev,
+                                                    date_to: year + '-' + month + '-' + day
+                                                }))
+                                            }}
+                                            className={classes.select}
+                                            value={notification.date_to}
                                         />
                                     </GridItem>
                                 </GridContainer>

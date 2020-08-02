@@ -17,12 +17,7 @@ import LogOut from "views/Pages/LogOut.js"
 import UserProfile from "views/Pages/UserProfile.js"
 
 // @material-ui/icons
-import Apps from "@material-ui/icons/Apps";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import DateRange from "@material-ui/icons/DateRange";
-import GridOn from "@material-ui/icons/GridOn";
-import Image from "@material-ui/icons/Image";
-import Place from "@material-ui/icons/Place";
 import Face from "@material-ui/icons/Face";
 import Book from "@material-ui/icons/Book";
 import Payment from "@material-ui/icons/Payment";
@@ -33,9 +28,8 @@ import CardTravel from "@material-ui/icons/CardTravel";
 import People from "@material-ui/icons/People";
 import MonetizationOn from "@material-ui/icons/MonetizationOn";
 import Note from "@material-ui/icons/Note";
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 
-import Timeline from "@material-ui/icons/Timeline";
-import WidgetsIcon from "@material-ui/icons/Widgets";
 import UsersTable from 'views/User/usersTable';
 import UserForm from 'views/User/userForm';
 import RezForm from 'views/Rez/rezForm';
@@ -50,6 +44,8 @@ import ToCollectTable from 'views/Cobranzas/toCollectTable';
 import UserTypeForm from 'views/User/userTypeForm';
 import UserTypesTable from 'views/User/userTypesTable';
 import SalesReportByDate from 'views/Reports/salesReportByDate';
+import NewAlertForm from 'views/CustomAlerts/NewAlertForm';
+import AlertsTable from 'views/CustomAlerts/NewAlertTable';
 
 
 export const routes = [
@@ -308,6 +304,45 @@ export const routes = [
         mini: "AU",
         rtlMini: "",
         component: UserTypesTable,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    collapse: true,
+    render: true,
+    name: "menu.label.newAlert",
+    rtlName: "",
+    icon: NotificationsActiveIcon,
+    state: "newAlertManagement",
+    permissions: [
+      1
+    ],
+    views: [
+      {
+        render: true,
+        path: "/newAlertForm",
+        name: "menu.label.newAlert.add",
+        rtlName: "",
+        mini: "AU",
+        rtlMini: "",
+        component: NewAlertForm,
+        layout: "/admin",
+        permissions: [
+          1
+        ]
+      },
+      {
+        render: true,
+        path: "/customAlerts",
+        name: "menu.label.newAlert.list",
+        rtlName: "",
+        mini: "AU",
+        rtlMini: "",
+        component: AlertsTable,
         layout: "/admin",
         permissions: [
           1

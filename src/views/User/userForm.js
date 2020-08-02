@@ -211,7 +211,7 @@ export default function UserForm(props) {
         setAlert(
             <SweetAlert
                 success
-                style={{ display: "block", marginTop: "-100px" }}
+                style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
                 title="User Added!"
                 onConfirm={() => {
                     setRedirect(<Redirect to='/admin/usersTable' />);

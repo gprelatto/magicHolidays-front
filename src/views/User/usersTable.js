@@ -130,7 +130,7 @@ export default function UsersTable(props) {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Are you sure?"
         onConfirm={() => successDelete(cus)}
         onCancel={() => cancelDetele()}
@@ -151,7 +151,7 @@ export default function UsersTable(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title="Deleted!"
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -167,7 +167,7 @@ export default function UsersTable(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Cancelled"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}

@@ -118,7 +118,14 @@ export default function CollectedTable(props) {
 
   useEffect(() => {
     let filteredData = tableData.filter(f => f.id === selectedUser.id)
-
+    let collected = 0;
+    if(filteredData.length > 0) {
+      filteredData.forEach(d => {
+        collected += d.feeUser
+      })
+    }
+    
+    setToCollect(collected);
     setTableDataByUser(filteredData);
   }, [selectedUser]);
 

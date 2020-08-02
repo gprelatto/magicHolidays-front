@@ -77,7 +77,7 @@ export default function PaymentListTable(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title="Pago eliminado."
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -94,7 +94,7 @@ export default function PaymentListTable(props) {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Por favor confirme eliminar pago"
         onConfirm={() => submit(id)}
         onCancel={() => cancelDetele()}
@@ -113,7 +113,7 @@ export default function PaymentListTable(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Cancelado"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}

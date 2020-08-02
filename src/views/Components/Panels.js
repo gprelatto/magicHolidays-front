@@ -24,7 +24,7 @@ import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
 const styles = {
   cardTitle,
   pageSubcategoriesTitle: {
-    color: "#3C4858",
+    color: "#ffffff",
     textDecoration: "none",
     textAlign: "center"
   },

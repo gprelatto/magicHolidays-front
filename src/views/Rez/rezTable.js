@@ -365,7 +365,7 @@ export default function RezTable(props) {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Esta seguro que desea cancelar la reserva?"
         onConfirm={() => successDelete(id)}
         onCancel={() => cancelDetele()}
@@ -389,7 +389,7 @@ export default function RezTable(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title="Reserva cancelada!"
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -405,7 +405,7 @@ export default function RezTable(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Operacion abortada."
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}

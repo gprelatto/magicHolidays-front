@@ -67,7 +67,7 @@ export default function SupplierTable(props) {
     setAlert(
       <SweetAlert
         warning
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title={t('common.alert.areUSure')}
         onConfirm={() => successDelete(sup)}
         onCancel={() => cancelDetele()}
@@ -88,7 +88,7 @@ export default function SupplierTable(props) {
       setAlert(
         <SweetAlert
           success
-          style={{ display: "block", marginTop: "-100px" }}
+          style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
           title={t('common.alert.deleted')}
           onConfirm={() => hideAlert()}
           onCancel={() => hideAlert()}
@@ -104,7 +104,7 @@ export default function SupplierTable(props) {
     setAlert(
       <SweetAlert
         danger
-        style={{ display: "block", marginTop: "-100px" }}
+        style={{ display: "block", marginTop: "-100px", color: "#3e3e3e" }}
         title="Cancelled"
         onConfirm={() => hideAlert()}
         onCancel={() => hideAlert()}
