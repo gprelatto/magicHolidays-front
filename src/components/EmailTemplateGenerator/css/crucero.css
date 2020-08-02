@@ -1,0 +1,130 @@
+#crucero {
+	padding-left: 3em;
+	margin-left: auto;
+	margin-right: 10px;
+	margin-top: 1em;
+}
+	
+#tabla {
+	width: 100%;
+	margin-top: 1em;
+	text-align: center;
+	justify-content: center;
+}
+
+table {
+	width: 70%;
+	margin: auto;
+	padding: auto;
+	border-collapse: collapse;
+}
+
+th, td {
+	border-right:2px solid #A28100;
+	border-left: 2px solid #A28100;
+}
+	
+h2, th, td {
+	font-size: 4vw;
+}
+	
+#cabina {
+	width: 90%;
+	border-color: #27A99F;
+	border-style: solid;
+	border-radius: 15px;
+	margin:auto;
+	margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.precios {
+	width: 90%;
+}
+
+.inc {
+	width:90%;
+	margin-bottom: 10px;
+}
+
+	#plan-crucero {
+	width: 100%;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+@media (min-width:488px) {
+	#cabina {
+		width: 350px;
+	}
+	h2, th, td {
+	font-size: 11.4pt;
+}
+}
+
+@media (min-width:768px) {
+	h2, th, td {
+	font-size: 14pt;
+}
+	#cabina {
+		width: 400px;
+	}
+}
+
+@media (min-width: 1028px){
+	
+	#cabina {
+		width: 80%;
+	}
+	
+	.precios {
+		width: 40%;
+		padding-left: 1px;
+	}
+	.inc {
+		width: 50%;
+	}
+}
+
+@media (min-width:1200px) {
+
+#tabla {
+	width: 100%;
+	margin-top: 1em;
+}
+
+table {
+	width: 60%;
+}
+
+th, td {
+	border-right:4px solid #A28100;
+	border-left: 4px solid #A28100;
+}
+	
+h2, th, td {
+	font-size: 16pt;
+}	
+
+#cabina {
+	width: 900px;
+}
+
+.precios {
+	width: 45%;
+	margin-left: 5em;
+}
+
+.inc {
+	width: 45%;
+	padding-top: 0.5em;
+} 
+
+#plan-crucero {
+	width: 98%;
+	margin-top: 4em;
+}	
+	
+}

@@ -189,6 +189,7 @@ export default function Dashboard(props) {
   }
 
   useEffect(() => {
+   
     progressBar();
     var sum = function (a, b) { return a + b };
 
@@ -497,25 +498,25 @@ export default function Dashboard(props) {
         permissions.user_type !== 1 ?
           <GridContainer>
             {alert}
-            { alertNotifications.length >= 1 ?
-            <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                <CardHeader color="warning" text>
-                  <CardText color="warning">
-                    <h4 className={classes.cardTitleWhite}>Panel de Notificaciones</h4>
-                    <h4 className={classes.cardCategoryWhite}></h4>
-                  </CardText>
-                </CardHeader>
-                <CardBody>
-                  <Table
-                    hover
-                    tableHeaderColor="warning"
-                    tableHead={["Mensaje"]}
-                    tableData={alertNotifications}
-                  />
-                </CardBody>
-              </Card>
-            </GridItem> : <></> }
+            {alertNotifications.length >= 1 ?
+              <GridItem xs={12} sm={12} md={12}>
+                <Card>
+                  <CardHeader color="warning" text>
+                    <CardText color="warning">
+                      <h4 className={classes.cardTitleWhite}>Panel de Notificaciones</h4>
+                      <h4 className={classes.cardCategoryWhite}></h4>
+                    </CardText>
+                  </CardHeader>
+                  <CardBody>
+                    <Table
+                      hover
+                      tableHeaderColor="warning"
+                      tableHead={["Mensaje"]}
+                      tableData={alertNotifications}
+                    />
+                  </CardBody>
+                </Card>
+              </GridItem> : <></>}
             <GridItem xs={12} sm={12} md={12}>
               <Card>
                 <CardHeader color="danger" text>

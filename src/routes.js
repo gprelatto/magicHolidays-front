@@ -46,6 +46,7 @@ import UserTypesTable from 'views/User/userTypesTable';
 import SalesReportByDate from 'views/Reports/salesReportByDate';
 import NewAlertForm from 'views/CustomAlerts/NewAlertForm';
 import AlertsTable from 'views/CustomAlerts/NewAlertTable';
+import EmailTemplateGenerator from 'views/EmailTemplateGenerator/EmailTemplateGenerator';
 
 
 export const routes = [
@@ -421,6 +422,32 @@ export const routes = [
         mini: "LN",
         rtlMini: "",
         component: ToCollectTable,
+        layout: "/admin",
+        permissions: [
+          1,2
+        ]
+      }
+    ]
+  },
+  {
+    collapse: true,
+    render: true,
+    name: "EMAIL",
+    rtlName: "",
+    icon: Payment,
+    state: "emailManagement",
+    permissions: [
+      1,2
+    ],
+    views: [
+      {
+        render: true,
+        path: "/emailTemplateGenerator",
+        name: "menu.label.cobranzas.cobrado",
+        rtlName: "",
+        mini: "LC",
+        rtlMini: "",
+        component: EmailTemplateGenerator,
         layout: "/admin",
         permissions: [
           1,2
