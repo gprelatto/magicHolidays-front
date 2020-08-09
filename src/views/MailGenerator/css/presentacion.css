@@ -1,0 +1,52 @@
+#presentacion {
+	padding-left: 3em;
+	margin-right: 10px;
+	margin-top: -27px;
+}
+
+#presentacion h2 {
+	font-size: 14pt;
+}	
+
+#logo img {
+	width: 20%;
+	padding-right: 10px;
+	margin-top: -17px;
+	float: right;
+	}
+
+
+@media (min-width:768px) {
+
+	#presentacion {
+		margin-right: 4em;
+	}	
+	
+	#presentacion h1 {
+		margin-bottom: 10px;
+	}
+	
+	#presentacion h2 {
+	font-size: 16pt;
+}
+	
+}
+
+@media (min-width:1200px) {
+	
+#presentacion {
+	margin-right: 7em;
+	margin-top: -99px;
+}
+
+#presentacion h2 {
+	font-size: 18pt;
+}	
+	
+#logo img {
+	width:227px;
+	padding-right: 25px;
+	margin-top: 25px;
+}
+	
+	}

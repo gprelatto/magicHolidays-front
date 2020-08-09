@@ -1,0 +1,128 @@
+#walt {
+	padding-left: 3em;
+	margin-left: auto;
+	margin-right: 10px;
+}
+
+.bordes-plan {
+	border-color: #A28100;
+	border-style: solid;
+	padding-right: 4px;
+	border-radius: 15px;
+}
+
+.lugar {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.datos {
+	font-family: "Comic Sans MS";
+	color: #27A99F;
+	font-size: 3.5vw;
+	padding-top: 0.4em;
+}
+
+#plan-disney {
+	width: 100%;
+	margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+#plan-disney article {
+	height: 100%;
+	margin: auto;
+}
+
+.articulo {
+	width: 90%;
+	margin: auto;
+	}
+
+.articulo1 {
+	margin: auto;
+	width: 90%;
+	padding-left: 0;
+}
+
+.estrella {
+	padding-right: 10px;
+}
+
+.beneficios {
+	border-color: #27A99F;
+	border-style: solid;
+	border-radius: 10px;
+	padding: 6px;
+}
+
+@media (max-width:320px) {
+	#plan-disney .articulo{
+		text-align: center;
+	}
+}
+
+@media (min-width:768px) {
+	
+.datos{
+	font-size: 16pt;
+}
+}
+
+@media (min-width:1028px) {
+	.lugar {
+		justify-content: none;
+	}
+}
+
+@media (min-width:1200px) {
+
+.bordes-plan {
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.datos {
+	color: #27A99F;
+	font-size: 16pt;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+#plan-disney {
+	width: 90%;
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+.article {
+	height: 100%;
+	margin: auto;
+}
+
+.articulo {
+	width: 45%;
+	margin: auto;
+	}
+
+.articulo1 {
+	margin: auto;
+	width: 45%;
+	border-left-color: #27A99F;
+	border-left-style: solid;
+	padding-left: 6%;
+}
+
+.beneficios {
+	border-color: #27A99F;
+	border-style: solid;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+	
+}
+

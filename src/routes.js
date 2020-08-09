@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from "./context/auth";
 
 import Dashboard from "views/Dashboard/Dashboard.js";
+import MailGenerator from "views/MailGenerator/mailsGenerator.js";
 
 import SupplierForm from "views/Products/SupplierForm.js";
 import SupplierTable from "views/Products/SupplierTable.js";
@@ -62,6 +63,19 @@ export const routes = [
       1,2,3
     ]
   },
+  {
+    collapse: false,
+    render: true,
+    path: "/MailGenerator",
+    name: "Generador de Mails",
+    rtlName: "لوحة القيادة",
+    icon: DashboardIcon,
+    component: MailGenerator,
+    layout: "/admin",
+    permissions: [
+      1,2,3
+    ]
+  },  
   {
     render: true,
     path: "/userProfile",

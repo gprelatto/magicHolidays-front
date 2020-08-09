@@ -1,0 +1,24 @@
+#miami {
+	padding-left: 3em;
+	margin-left: auto;
+	margin-right: 10px;
+	}
+
+#plan-miami {
+	width: 90%;
+	margin: auto;
+}
+
+@media (max-width:320px) {
+	#plan-miami .articulo-u{
+		text-align: center;
+	}
+}
+
+@media (min-width:1200px) {
+
+#plan-miami {
+	width: 100%;
+	margin-top: 2em;
+}
+}
