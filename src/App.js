@@ -7,6 +7,8 @@ import AdminLayout from "layouts/Admin.js";
 
 import PrivateRoute from "routes.js"
 
+import html2canvas from 'html2canvas';
+
 import { AuthContext } from "./context/auth";
 import './i18n';
 
@@ -21,6 +23,8 @@ function App() {
         localStorage.setItem("auth", JSON.stringify(data));
         setAuth(data);
     }
+
+    window.html2canvas = html2canvas;
 
     return (
         <AuthContext.Provider value={{ auth, setAuth: setAuthData }}>
