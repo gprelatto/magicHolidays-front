@@ -33,12 +33,8 @@ class SelectOptionWizard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      universalHotel: false,
-      universalTicket: false,
-      disneyHotel: false,
-      disneyTicket: false,
-      crucero: false,
-      otrosDestinos: false,
+      checks: [],
+      selected: ""
     };
   }
 
@@ -48,70 +44,48 @@ class SelectOptionWizard extends React.Component {
 
   handleChange = name => event => {
     if(event.target.checked == true) {
+      let checks = this.state.checks;
+      checks.push(name)
       this.setState({ 
-        [name]: event.target.checked
+        checks: checks,
+        selected: checks[0]
       });
   
-      this.props.childStateCallback(name);
+      this.props.childStateCallback(checks[0]);
+    } else {
+      let checks = this.state.checks.filter(x => x != name);
+      console.log('checks', checks)
+      this.setState({
+        checks: checks
+      });
+
+      if(checks.length == 0) {
+        this.setState({
+          selected: ""
+        });
+        this.props.childStateCallback("");
+      } else if (checks.length == 1){
+        this.setState({
+          selected: checks[0]
+        });
+        this.props.childStateCallback(checks[0]);
+      }
     }
   };
 
   isValidated() {
-    let count = 0;
-
-    if (this.state.universalHotel != false) {
-      count += 1;
-      this.setState({
-        selected: "universalHotel"
-      });
-    }
-
-    if (this.state.universalTicket != false) {
-      count += 1;
-      this.setState({
-        selected: "universalTicket"
-      });
-    }
-
-    if (this.state.disneyHotel != false) {
-      count += 1;
-      this.setState({
-        selected: "disneyHotel"
-      });
-    }
-
-    if (this.state.disneyTicket != false) {
-      count += 1;
-      this.setState({
-        selected: "disneyTicket"
-      });
-    }
-
-    if (this.state.crucero != false) {
-      count += 1;
-      this.setState({
-        selected: "crucero"
-      });
-    }
-
-    if (this.state.otrosDestinos != false) {
-      count += 1;
-      this.setState({
-        selected: "otrosDestinos"
-      });
-    }
-
-    if(count > 1 || count == 0)
-      return false;
-    else 
+    if(this.state.checks.length == 1) {
       return true;
+    }
+    
+    return false;  
   }
 
   render() {
     const { classes } = this.props;
     return (
       <div>
-        <h4 className={classes.infoText}>Elija Modelo de Tarjeta</h4>
+        <h4 className={classes.infoText}>Tarjeta seleccionada: {this.state.selected}</h4>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12} lg={10}>
             <GridContainer>
