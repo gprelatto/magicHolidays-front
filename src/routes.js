@@ -47,6 +47,7 @@ import UserTypesTable from 'views/User/userTypesTable';
 import SalesReportByDate from 'views/Reports/salesReportByDate';
 import NewAlertForm from 'views/CustomAlerts/NewAlertForm';
 import AlertsTable from 'views/CustomAlerts/NewAlertTable';
+import WizardView from 'views/MailGenerator/MailWizard';
 
 
 export const routes = [
@@ -76,6 +77,19 @@ export const routes = [
       1,2,3
     ]
   },  
+  {
+    collapse: false,
+    render: true,
+    path: "/MailWizard",
+    name: "Wizard de Mails",
+    rtlName: "",
+    icon: DashboardIcon,
+    component: WizardView,
+    layout: "/admin",
+    permissions: [
+      1,2,3
+    ]
+  }, 
   {
     render: true,
     path: "/userProfile",
