@@ -21,6 +21,7 @@ export default function ImageUpload(props) {
     reader.onloadend = () => {
       setFile(file);
       setImagePreviewUrl(reader.result);
+      props.base64(reader.result);
     };
     reader.readAsDataURL(file);
   };

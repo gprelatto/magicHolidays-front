@@ -13,6 +13,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
+import ImageUpload from "components/CustomUpload/ImageUpload";
 
 const style = {
   infoText: {
@@ -27,9 +28,11 @@ class DisneyTicket extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      nombreAgente: "",
       grupoViajero: "",
       tickets: "",
-      
+      image: "",
+      tarjeta: ""
     };
   }
   sendState() {
@@ -44,87 +47,75 @@ class DisneyTicket extends React.Component {
     return true;
   }
 
+  getImageBase64 = (base64) => {
+    this.setState({
+      image: base64
+    })
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
-          <h4 className={classes.infoText}>Are you living in a nice area?</h4>
+          <h4 className={classes.infoText}>Walt Disney World - Ticket</h4>
         </GridItem>
-        <GridItem xs={12} sm={7}>
+        <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Street Name"
-            id="streetname"
+            labelText="Nombre del Agente"
+            id="agente"
             formControlProps={{
               fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  nombreAgente: event.target.value
+                })
+              },
+              value: this.state.nombreAgente
+            }}
+          />
+        </GridItem>
+        <GridItem xs={4} sm={4}>
+          <CustomInput
+            labelText="Tickets"
+            id="tickets"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  tickets: event.target.value
+                })
+              },
+              value: this.state.tickets
             }}
           />
         </GridItem>
         <GridItem xs={12} sm={3}>
           <CustomInput
-            labelText="Street No."
-            id="streetno"
+            labelText="Grupo Viajero"
+            id="grupoViajero"
             formControlProps={{
               fullWidth: true
             }}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={5}>
-          <CustomInput
-            labelText="City"
-            id="city"
-            formControlProps={{
-              fullWidth: true
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  grupoViajero: event.target.value
+                })
+              },
+              value: this.state.grupoViajero
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={5}>
-          <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Choose City
-            </InputLabel>
-            <Select
-              MenuProps={{
-                className: classes.selectMenu
-              }}
-              classes={{
-                select: classes.select
-              }}
-              value={this.state.simpleSelect}
-              onChange={this.handleSimple}
-              inputProps={{
-                name: "simpleSelect",
-                id: "simple-select"
-              }}
-            >
-              <MenuItem
-                disabled
-                classes={{
-                  root: classes.selectMenuItem
-                }}
-              >
-                Country
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="2"
-              >
-                France
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="3"
-              >
-                Romania
-              </MenuItem>
-            </Select>
-          </FormControl>
+        <GridItem xs={12} sm={4}>
+          <ImageUpload base64={this.getImageBase64} />
         </GridItem>
       </GridContainer>
     );
