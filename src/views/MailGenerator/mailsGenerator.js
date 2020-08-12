@@ -125,7 +125,7 @@ class Template extends React.Component {
     return (
       <>
         <button onClick={this.exportPDF}>download</button>
-        <PDFExport scale={0.4}
+        <PDFExport
           paperSize="auto"
           fileName="lologresolito.pdf"
           ref={(r) => this.resume = r}>
