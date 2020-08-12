@@ -93,33 +93,6 @@ class SelectOptionWizard extends React.Component {
                 <div className={classes.choiche}>
                   <Checkbox
                     tabIndex={-1}
-                    onClick={this.handleChange("universalHotel")}
-                    checkedIcon={
-                      <i
-                        className={
-                          "fas fa-hotel " + classes.iconCheckboxIcon
-                        }
-                      />
-                    }
-                    icon={
-                      <i
-                        className={
-                          "fas fa-hotel " + classes.iconCheckboxIcon
-                        }
-                      />
-                    }
-                    classes={{
-                      checked: classes.iconCheckboxChecked,
-                      root: classes.iconCheckbox
-                    }}
-                  />
-                  <h6>Universal Hotel</h6>
-                </div>
-              </GridItem>
-              <GridItem xs={12} sm={4}>
-                <div className={classes.choiche}>
-                  <Checkbox
-                    tabIndex={-1}
                     onClick={this.handleChange("universalTicket")}
                     checkedIcon={
                       <i
@@ -141,6 +114,33 @@ class SelectOptionWizard extends React.Component {
                     }}
                   />
                   <h6>Universal Ticket</h6>
+                </div>
+              </GridItem>
+              <GridItem xs={12} sm={4}>
+                <div className={classes.choiche}>
+                  <Checkbox
+                    tabIndex={-1}
+                    onClick={this.handleChange("universalHotel")}
+                    checkedIcon={
+                      <i
+                        className={
+                          "fa fa-bed " + classes.iconCheckboxIcon
+                        }
+                      />
+                    }
+                    icon={
+                      <i
+                        className={
+                          "fa fa-bed " + classes.iconCheckboxIcon
+                        }
+                      />
+                    }
+                    classes={{
+                      checked: classes.iconCheckboxChecked,
+                      root: classes.iconCheckbox
+                    }}
+                  />
+                  <h6>Universal Hotel</h6>
                 </div>
               </GridItem>
               <GridItem xs={12} sm={4}>
