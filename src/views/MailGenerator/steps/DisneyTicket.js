@@ -31,6 +31,7 @@ class DisneyTicket extends React.Component {
       nombrePlanComida: "",
       precioTotalConPlan: "",
       precioTotalSinPlan: "",
+      incluye: "",
       planDeComida: [],
       servicioOpcional: "",
       importeServicio: "",
@@ -63,13 +64,15 @@ class DisneyTicket extends React.Component {
         nombrePlanComida: this.state.nombrePlanComida,
         precioTotalConPlan: this.state.precioTotalConPlan,
         precioTotalSinPlan: this.state.precioTotalSinPlan,
+        incluye: this.state.incluye
       }
     )
 
     this.setState({
       nombrePlanComida: "",
       precioTotalConPlan: "",
-      precioTotalSinPlan: ""
+      precioTotalSinPlan: "",
+      incluye: ""
     });
   }
 
@@ -179,6 +182,22 @@ class DisneyTicket extends React.Component {
                 })
               },
               value: this.state.precioTotalSinPlan
+            }}
+          />
+          <CustomInput
+            labelText="Que incluye el plan?"
+            id="incluye"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  incluye: event.target.value
+                })
+              },
+              value: this.state.incluye
             }}
           />
           <Button onClick={this.agregarPlanDeComida}>Agregar Plan</Button>

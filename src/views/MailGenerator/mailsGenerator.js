@@ -26,6 +26,79 @@ class Template extends React.Component {
     this.resume.save();
   }
 
+  beneficiosDisney = () => {
+    return (
+      <div>
+        <h3 className="beneficios">
+          <b>Además, alojándose en Disney tienen los siguientes beneficios:</b>
+          <br />
+          <br />
+          <img
+            src={require("./img/estrella.png")}
+            alt="estrella"
+            width="19px"
+            className="estrella"
+          />
+        Transporte de cortesía del aeropuerto de Orlando al hotel, ida y
+        vuelta en el caso de llegar allí.
+        <br />
+          <img
+            src={require("./img/estrella.png")}
+            alt="estrella"
+            width="19px"
+            className="estrella"
+          />
+        Transporte gratuito dentro de Disney World con micros exclusivos a
+        todos los parques desde y hacia el hotel, a Disney Springs, y
+        estacionamiento gratuito en parques.
+        <br />
+          <img
+            src={require("./img/estrella.png")}
+            alt="estrella"
+            width="19px"
+            className="estrella"
+          />
+        Horas mágicas extra (pueden disfrutar de los parques durante más horas
+        que el resto de los visitantes).
+        <br />
+          <img
+            src={require("./img/estrella.png")}
+            alt="estrella"
+            width="19px"
+            className="estrella"
+          />
+        Selección de Fast Pass (pases rápidos para las atracciones más
+        populares) 60 días antes del viaje.
+        <br />
+          <br />
+          <strong className="strong">PLANIFICACIÓN TOTAL:</strong>
+          <br />
+        La planificación incluye la preparación de una guía de viaje, la
+        vinculación del paquete a la cuenta My Disney Experience, la
+        realización del Check in Online, la confección de un plan día por día
+        para que visiten los parques en las fechas adecuadas, la selección y
+        reserva de Fast Pass, sugerencias de los mejores restaurantes para
+        comer y las estrategias de recorrido para cada parque, bajando esperas
+        y evitando multitudes.
+        <br />
+          <br />
+          <strong className="strong">CONDICIONES DE PAGO:</strong>
+          <br />
+        Para reservar los paquetes Disney se necesita un pago mínimo de USD
+        200 por habitación. El saldo tiene que estar cancelado 30 días antes
+        del check in. Hasta ese momento se pueden hacer pagos parciales de los
+        montos que ustedes definan y modificar la fecha de la reserva si fuera
+        necesario. Incluso en el caso de que deseen cancelar, se puede hacer
+        también sin cargo alguno y se devuelve todo el dinero hasta 30 días
+        antes del viaje. Se puede hacer una reserva por 72 horas sin seña para
+        los servicios elegidos. La reserva se hace directamente con Disney con
+        la tarjeta de crédito de nuestros clientes. Cuando hagan la reserva a
+        través mío, obtendrán el mismo precio que ven en Disney.com.
+      </h3>
+      </div>
+    )
+  }
+
   render() {
     return (
       <>
@@ -88,134 +161,85 @@ class Template extends React.Component {
                           <h4 className="datos">
                             GRUPO VIAJERO: <span className="span">{this.state.cards.disneyTicket.grupoViajero}</span>
                             <br />
-          TICKETS: <span className="span">{this.state.cards.disneyTicket.tickets}</span>
+          TICKETS: <span className="span">  {this.state.cards.disneyTicket.tickets}</span>
                             <br />
                           </h4>
                         </div>
-                        <div id="plan-disney">
-                          <article className="articulo">
-                            {
-                              this.state.cards.disneyTicket.planDeComida.map(plan => {
-                                return (
-                                  <h3 className="h3">
-                                    <strong className="strong">PLAN DE COMIDAS: {plan.nombrePlanComida}</strong>
+                        {
+                          this.state.cards.disneyTicket.planDeComida.length > 0 || this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
+                            <div id="plan-disney">
+                              <article className="articulo">
+                                <h3 className="h3">
+                                  {
+                                    this.state.cards.disneyTicket.planDeComida.map(plan => {
+                                      return (
+                                        <>
+                                          <strong className="strong">PLAN DE COMIDAS:   {plan.nombrePlanComida}</strong>
+                                          <br />
+                                          <b>Precio Total con Plan de Comidas:   {plan.precioTotalConPlan}</b>
+                                          <br />
+                                          <b>Precio Total sin Plan de Comidas:   {plan.precioTotalSinPlan}</b>
+                                          <br />
+                                          <br />
+                                        </>
+                                      );
+                                    })
+                                  }
+                                  <h3 className="h3"></h3>
+                                  {
+                                    this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
+                                      <>
+                                        <strong className="strong">SERVICIO OPCIONALES DISNEY:</strong>
+                                        <br />
+                                      </>
+                                      : <></>
+                                  }
+                                  {
+                                    this.state.cards.disneyTicket.serviciosOpcionales.map((servicio) => {
+                                      return (
+                                        <>
+                                          <b>{servicio.servicioOpcional}: {servicio.importeServicio}</b>
+                                          <br />
+                                        </>
+                                      );
+                                    })
+                                  }
+                                </h3>
+                              </article>
+                              <article className="articulo1">
+                                <h3 className="h3">
+                                  {
+                                    this.state.cards.disneyTicket.planDeComida.length > 0 ?
+                                      <>
+                                        <strong className="strong">INFORMACIÓN PLAN DE COMIDAS:</strong>
+                                        <br />
+                                      Todas las comidas se pueden utilizar tanto en los hoteles Disney,
+                                      como en todos los parques y en Disney Springs (centro comercial de
+                                      Disney).
                                     <br />
-                                    <b>Precio Total con Plan de Comidas: {plan.precioTotalConPlan}</b>
-                                    <br />
-                                    <b>Precio Total sin Plan de Comidas: {plan.precioTotalSinPlan}</b>
-                                    <br />
-                                    <br />
-                                  </h3>
-                                );
-                              })
-                            }
-                            {
-                              this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
-                                <>
-                                  <h3 className="h3">
-                                    <strong className="strong">SERVICIO OPCIONALES DISNEY:</strong>
-                                  </h3>
-                                </>
-                                : <></>
-                            }
-                            {
-                              this.state.cards.disneyTicket.serviciosOpcionales.map((servicio) => {
-                                return (
-                                  <b className="h3">{servicio.servicioOpcional}: {servicio.importeServicio}</b>
-                                );
-                              })
-                            }
-                          </article>
-                          <article className="articulo1">
-                            <h3 className="h3">
-                              <strong className="strong">INFORMACIÓN PLAN DE COMIDAS:</strong>
-                              <br />
-            Todas las comidas se pueden utilizar tanto en los hoteles Disney,
-            como en todos los parques y en Disney Springs (centro comercial de
-            Disney).
-            <br />
-                              <br />
-            El servicio de comidas <b>(Nombre del Plan)</b> incluye:
-            <br />
-                              <b>
-                                * 2 servicio de comidas rápidas (por noche por persona)
-              <br />
-              * 2 snacks (por noche por persona)
-              <br />* 1 vaso recargable para usar en el Hotel
-            </b>
-                              <br />
-                            </h3>
-                          </article>
-                        </div>
+                                        <br />
+                                        {
+                                          this.state.cards.disneyTicket.planDeComida.map(plan => {
+                                            return (
+                                              <>
+                                                El servicio de comidas <b>{plan.nombrePlanComida}</b> incluye:
+                                          <br />
+                                                <b>{plan.incluye}</b>
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        }
+                                      </> : <></>
+                                  }
+                                  <br />
+                                </h3>
+                              </article>
+                            </div>
+                            : <></>
+                        }
                       </div>
-                      <div>
-                        <h3 className="beneficios">
-                          <b>Además, alojándose en Disney tienen los siguientes beneficios:</b>
-                          <br />
-                          <br />
-                          <img
-                            src={require("./img/estrella.png")}
-                            alt="estrella"
-                            width="19px"
-                            className="estrella"
-                          />
-        Transporte de cortesía del aeropuerto de Orlando al hotel, ida y
-        vuelta en el caso de llegar allí.
-        <br />
-                          <img
-                            src={require("./img/estrella.png")}
-                            alt="estrella"
-                            width="19px"
-                            className="estrella"
-                          />
-        Transporte gratuito dentro de Disney World con micros exclusivos a
-        todos los parques desde y hacia el hotel, a Disney Springs, y
-        estacionamiento gratuito en parques.
-        <br />
-                          <img
-                            src={require("./img/estrella.png")}
-                            alt="estrella"
-                            width="19px"
-                            className="estrella"
-                          />
-        Horas mágicas extra (pueden disfrutar de los parques durante más horas
-        que el resto de los visitantes).
-        <br />
-                          <img
-                            src={require("./img/estrella.png")}
-                            alt="estrella"
-                            width="19px"
-                            className="estrella"
-                          />
-        Selección de Fast Pass (pases rápidos para las atracciones más
-        populares) 60 días antes del viaje.
-        <br />
-                          <br />
-                          <strong className="strong">PLANIFICACIÓN TOTAL:</strong>
-                          <br />
-        La planificación incluye la preparación de una guía de viaje, la
-        vinculación del paquete a la cuenta My Disney Experience, la
-        realización del Check in Online, la confección de un plan día por día
-        para que visiten los parques en las fechas adecuadas, la selección y
-        reserva de Fast Pass, sugerencias de los mejores restaurantes para
-        comer y las estrategias de recorrido para cada parque, bajando esperas
-        y evitando multitudes.
-        <br />
-                          <br />
-                          <strong className="strong">CONDICIONES DE PAGO:</strong>
-                          <br />
-        Para reservar los paquetes Disney se necesita un pago mínimo de USD
-        200 por habitación. El saldo tiene que estar cancelado 30 días antes
-        del check in. Hasta ese momento se pueden hacer pagos parciales de los
-        montos que ustedes definan y modificar la fecha de la reserva si fuera
-        necesario. Incluso en el caso de que deseen cancelar, se puede hacer
-        también sin cargo alguno y se devuelve todo el dinero hasta 30 días
-        antes del viaje. Se puede hacer una reserva por 72 horas sin seña para
-        los servicios elegidos. La reserva se hace directamente con Disney con
-        la tarjeta de crédito de nuestros clientes. Cuando hagan la reserva a
-        través mío, obtendrán el mismo precio que ven en Disney.com.
-      </h3>
-                      </div>
+                      {this.beneficiosDisney()}
                     </section>
                     : <></>
                 }
