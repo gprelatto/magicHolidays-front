@@ -2,10 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
 
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
@@ -14,6 +10,7 @@ import GridItem from "components/Grid/GridItem.js";
 
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
 import ImageUpload from "components/CustomUpload/ImageUpload";
+import { Button } from "@material-ui/core";
 
 const style = {
   infoText: {
@@ -28,11 +25,16 @@ class DisneyTicket extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nombreAgente: "",
       grupoViajero: "",
       tickets: "",
       image: "",
-      tarjeta: ""
+      nombrePlanComida: "",
+      precioTotalConPlan: "",
+      precioTotalSinPlan: "",
+      planDeComida: [],
+      servicioOpcional: "",
+      importeServicio: "",
+      serviciosOpcionales: []
     };
   }
   sendState() {
@@ -53,6 +55,40 @@ class DisneyTicket extends React.Component {
     })
   }
 
+  agregarPlanDeComida = () => {
+    let planes = this.state.planDeComida;
+
+    planes.push(
+      {
+        nombrePlanComida: this.state.nombrePlanComida,
+        precioTotalConPlan: this.state.precioTotalConPlan,
+        precioTotalSinPlan: this.state.precioTotalSinPlan,
+      }
+    )
+
+    this.setState({
+      nombrePlanComida: "",
+      precioTotalConPlan: "",
+      precioTotalSinPlan: ""
+    });
+  }
+
+  agregarServicioOpcional = () => {
+    let servicios = this.state.serviciosOpcionales;
+
+    servicios.push(
+      {
+        servicioOpcional: this.state.servicioOpcional,
+        importeServicio: this.state.importeServicio
+      }
+    );
+
+    this.setState({
+      servicioOpcional: "",
+      importeServicio: ""
+    });
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -60,25 +96,7 @@ class DisneyTicket extends React.Component {
         <GridItem xs={12} sm={12}>
           <h4 className={classes.infoText}>Walt Disney World - Ticket</h4>
         </GridItem>
-        <GridItem xs={4} sm={4}>
-          <CustomInput
-            labelText="Nombre del Agente"
-            id="agente"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-              onChange: event => {
-                this.setState({
-                  nombreAgente: event.target.value
-                })
-              },
-              value: this.state.nombreAgente
-            }}
-          />
-        </GridItem>
-        <GridItem xs={4} sm={4}>
+        <GridItem xs={4} sm={5}>
           <CustomInput
             labelText="Tickets"
             id="tickets"
@@ -96,7 +114,7 @@ class DisneyTicket extends React.Component {
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={3}>
+        <GridItem xs={12} sm={5}>
           <CustomInput
             labelText="Grupo Viajero"
             id="grupoViajero"
@@ -113,6 +131,96 @@ class DisneyTicket extends React.Component {
               value: this.state.grupoViajero
             }}
           />
+        </GridItem>
+        <GridItem xs={12} sm={5}>
+          <CustomInput
+            labelText="Nombre Plan de Comida"
+            id="nombrePlanComida"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  nombrePlanComida: event.target.value
+                })
+              },
+              value: this.state.nombrePlanComida
+            }}
+          />
+          <CustomInput
+            labelText="Precio Total Con Plan de Comida"
+            id="precioCon"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  precioTotalConPlan: event.target.value
+                })
+              },
+              value: this.state.precioTotalConPlan
+            }}
+          />
+          <CustomInput
+            labelText="Precio Total Sin Plan de Comida"
+            id="precioCon"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  precioTotalSinPlan: event.target.value
+                })
+              },
+              value: this.state.precioTotalSinPlan
+            }}
+          />
+          <Button onClick={this.agregarPlanDeComida}>Agregar Plan</Button>
+        </GridItem>
+        <GridItem xs={12} sm={5}>
+          <CustomInput
+            labelText="Servicio Opcional"
+            id="servicioOpcional"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  servicioOpcional: event.target.value
+                })
+              },
+              value: this.state.servicioOpcional
+            }}
+          />
+          <CustomInput
+            labelText="Importe del Servicio"
+            id="importeServicio"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  importeServicio: event.target.value
+                })
+              },
+              value: this.state.importeServicio
+            }}
+          />
+          <Button onClick={this.agregarServicioOpcional}>Agregar Servicio</Button>
+        </GridItem>
+        <GridItem xs={12} sm={12}>
+          <br />
+          <br />
         </GridItem>
         <GridItem xs={12} sm={4}>
           <ImageUpload base64={this.getImageBase64} />

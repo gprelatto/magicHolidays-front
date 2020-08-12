@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 import ReactDOM from 'react-dom';
 import "./css/estilos.css"
-import ReactPDF from '@react-pdf/renderer';
 import { PDFExport } from '@progress/kendo-react-pdf';
 
 
@@ -31,7 +30,7 @@ class Template extends React.Component {
     return (
       <>
         <button onClick={this.exportPDF}>download</button>
-        <PDFExport scale={0.6}
+        <PDFExport scale={0.4}
           paperSize="auto"
           fileName="lologresolito.pdf"
           ref={(r) => this.resume = r}>
@@ -49,7 +48,11 @@ class Template extends React.Component {
                   <img src={require("./img/logo.png")} alt="logo" />
                 </div>
                 <div id="presentacion">
-                  <h1 className="h1">Romina Zain</h1>
+                  {/* PRESENTACION */}
+                  {
+                    this.state.cards.final !== undefined ?
+                      <h1 className="h1">{this.state.cards.final.nombreAgente}</h1> : <></>
+                  }
                   <h2 className="h2">¡HOLA VIAJEROS!</h2>
                   <h3 className="h3">
                     Este es el momento de presentarnos y contarles que somos una agencia
@@ -91,19 +94,37 @@ class Template extends React.Component {
                         </div>
                         <div id="plan-disney">
                           <article className="articulo">
-                            <h3 className="h3">
-                              <strong className="strong">PLAN DE COMIDAS: (NOMBRE)</strong>
-                              <br />
-                              <b>Precio Total con Plan de Comidas: ………….</b>
-                              <br />
-                              <b>Precio Total sin Plan de Comidas: ………….</b>
-                              <br />
-                              <br />
-                              <strong className="strong">SERVICIO OPCIONALES DISNEY:</strong>
-                              <br />
-                              <b>Memory Maker (paquete de fotos): ..............USD</b>
-                              <br />
-                            </h3>
+                            {
+                              this.state.cards.disneyTicket.planDeComida.map(plan => {
+                                return (
+                                  <h3 className="h3">
+                                    <strong className="strong">PLAN DE COMIDAS: {plan.nombrePlanComida}</strong>
+                                    <br />
+                                    <b>Precio Total con Plan de Comidas: {plan.precioTotalConPlan}</b>
+                                    <br />
+                                    <b>Precio Total sin Plan de Comidas: {plan.precioTotalSinPlan}</b>
+                                    <br />
+                                    <br />
+                                  </h3>
+                                );
+                              })
+                            }
+                            {
+                              this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
+                                <>
+                                  <h3 className="h3">
+                                    <strong className="strong">SERVICIO OPCIONALES DISNEY:</strong>
+                                  </h3>
+                                </>
+                                : <></>
+                            }
+                            {
+                              this.state.cards.disneyTicket.serviciosOpcionales.map((servicio) => {
+                                return (
+                                  <b className="h3">{servicio.servicioOpcional}: {servicio.importeServicio}</b>
+                                );
+                              })
+                            }
                           </article>
                           <article className="articulo1">
                             <h3 className="h3">
@@ -332,27 +353,31 @@ class Template extends React.Component {
                     : <></>
                 }
 
-                <footer className="footer">
-                  <div id="footer">
-                    <div className="pie">
-                      <article className="final">
-                        <h2 className="h2">Quedamos a tu disposición para lo que necesites,</h2>
-                        <h1 className="h1">Romina Zain</h1>
-                      </article>
-                      <article className="imagen">
-                        <img src={require("./img/Zain.jpg")} alt="zain" className="agente" />
-                      </article>
-                    </div>
-                    <h2 className="info">
-                      <b>
-                        Para más información visitanos en{" "}
-                        <a className="footera" href="http://mhtravelagency.com/website/index.php?lang=es">
-                          www.mhtravelagency.com
+                {/* FOOTER */}
+                {
+                  this.state.cards.final !== undefined ?
+                    <footer className="footer">
+                      <div id="footer">
+                        <div className="pie">
+                          <article className="final">
+                            <h2 className="h2">Quedamos a tu disposición para lo que necesites,</h2>
+                            <h1 className="h1">{this.state.cards.final.nombreAgente}</h1>
+                          </article>
+                          <article className="imagen">
+                            <img src={this.state.cards.final.image} alt="zain" className="agente" />
+                          </article>
+                        </div>
+                        <h2 className="info">
+                          <b>
+                            Para más información visitanos en{" "}
+                            <a className="footera" href="http://mhtravelagency.com/website/index.php?lang=es">
+                              www.mhtravelagency.com
                   </a>
-                      </b>
-                    </h2>
-                  </div>
-                </footer>
+                          </b>
+                        </h2>
+                      </div>
+                    </footer> : <></>
+                }
                 <div id="zocalo" />
               </div>
             </div>

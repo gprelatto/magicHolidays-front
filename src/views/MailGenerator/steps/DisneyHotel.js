@@ -89,24 +89,6 @@ class DisneyHotel extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Nombre del Agente"
-            id="agente"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-              onChange: event => {
-                this.setState({
-                  nombreAgente: event.target.value
-                })
-              },
-              value: this.state.nombreAgente
-            }}
-          />
-        </GridItem>
-        <GridItem xs={4} sm={4}>
-          <CustomInput
             labelText="Check In"
             id="checkIn"
             formControlProps={{

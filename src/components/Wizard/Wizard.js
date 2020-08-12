@@ -81,6 +81,8 @@ class Wizard extends React.Component {
       }
     });
 
+    steps.push(this.props.steps[this.props.steps.length-1]);
+
     this.setState({
       filteredSteps: steps
     });
