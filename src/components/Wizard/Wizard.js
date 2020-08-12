@@ -53,6 +53,7 @@ class Wizard extends React.Component {
     this.previousButtonClick = this.previousButtonClick.bind(this);
     this.previousButtonClick = this.previousButtonClick.bind(this);
     this.finishButtonClick = this.finishButtonClick.bind(this);
+    this.addAnotherButtonClick = this.addAnotherButtonClick.bind(this);
     this.updateWidth = this.updateWidth.bind(this);
   }
 
@@ -76,17 +77,17 @@ class Wizard extends React.Component {
     steps.push(this.props.steps[0]);
 
     this.props.steps.forEach(e => {
-      if(e.condition == childData) {
+      if (e.condition == childData) {
         steps.push(e)
       }
     });
 
-    steps.push(this.props.steps[this.props.steps.length-1]);
+    steps.push(this.props.steps[this.props.steps.length - 1]);
 
     this.setState({
       filteredSteps: steps
     });
-  } 
+  }
 
   navigationStepChange(key) {
     if (this.state.filteredSteps) {
@@ -103,7 +104,7 @@ class Wizard extends React.Component {
               }
             });
           }
-          
+
           if (
             this[this.state.filteredSteps[i].stepId].isValidated !== undefined &&
             this[this.state.filteredSteps[i].stepId].isValidated() === false
@@ -162,7 +163,7 @@ class Wizard extends React.Component {
       this.refreshAnimation(key);
     }
   }
-  
+
   previousButtonClick() {
     if (
       this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !==
@@ -216,6 +217,44 @@ class Wizard extends React.Component {
           this.props.finishButtonClick(this.state.allStates);
         }
       );
+    }
+  }
+
+  addAnotherButtonClick() {
+    if (
+      (this.props.validate &&
+        ((this[this.state.filteredSteps[this.state.currentStep].stepId].isValidated !==
+          undefined &&
+          this[
+            this.state.filteredSteps[this.state.currentStep].stepId
+          ].isValidated()) ||
+          this[this.state.filteredSteps[this.state.currentStep].stepId].isValidated ===
+          undefined)) ||
+      this.props.validate === undefined
+    ) {
+      if (
+        this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !==
+        undefined
+      ) {
+        this.setState({
+          allStates: {
+            ...this.state.allStates,
+            [this.state.filteredSteps[this.state.currentStep].stepId]: this[
+              this.state.filteredSteps[this.state.currentStep].stepId
+            ].sendState()
+          }
+        });
+      }
+
+      var key = 0;
+
+      this.setState({
+        currentStep: key,
+        nextButton: this.state.filteredSteps.length > key + 1 ? true : false,
+        previousButton: key > 0 ? true : false,
+        finishButton: this.state.filteredSteps.length === key + 1 ? true : false
+      });
+      this.refreshAnimation(key);
     }
   }
 
@@ -336,13 +375,24 @@ class Wizard extends React.Component {
             </div>
             <div className={classes.right}>
               {this.state.nextButton ? (
-                <Button
-                  color="rose"
-                  className={this.props.nextButtonClasses}
-                  onClick={() => this.nextButtonClick()}
-                >
-                  {this.props.nextButtonText}
-                </Button>
+                <>
+                  {this.state.currentStep != 0 ?
+                    <Button
+                      color="rose"
+                      className={this.finishButtonClasses}
+                      onClick={() => this.addAnotherButtonClick()}
+                    >
+                      {this.props.addAnotherButtonText}
+                    </Button>
+                    : <></>}
+                  <Button
+                    color="rose"
+                    className={this.props.nextButtonClasses}
+                    onClick={() => this.nextButtonClick()}
+                  >
+                    {this.props.nextButtonText}
+                  </Button>
+                </>
               ) : null}
               {this.state.finishButton ? (
                 <Button
@@ -369,9 +419,10 @@ Wizard.defaultProps = {
   previousButtonText: "Previous",
   previousButtonClasses: "",
   nextButtonClasses: "",
-  nextButtonText: "Next",
+  nextButtonText: "Siguiente",
   finishButtonClasses: "",
-  finishButtonText: "Finish"
+  finishButtonText: "Finalizar",
+  addAnotherButtonText: "Agregar Otra"
 };
 
 Wizard.propTypes = {
@@ -401,6 +452,7 @@ Wizard.propTypes = {
   finishButtonClasses: PropTypes.string,
   finishButtonText: PropTypes.string,
   finishButtonClick: PropTypes.func,
+  addAnotherButtonClick: PropTypes.func,
   validate: PropTypes.bool
 };
 

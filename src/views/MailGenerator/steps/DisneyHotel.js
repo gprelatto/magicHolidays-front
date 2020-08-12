@@ -15,6 +15,8 @@ import GridItem from "components/Grid/GridItem.js";
 import ImageUpload from "components/CustomUpload/ImageUpload";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
+import { Button } from "@material-ui/core";
+
 const style = {
   infoText: {
     fontWeight: "300",
@@ -39,8 +41,15 @@ class DisneyHotel extends React.Component {
       grupoViajero: "",
       hotel: "",
       habitacion: "",
-      nombreAgente: "",
-      image: ""
+      image: "",
+      nombrePlanComida: "",
+      precioTotalConPlan: "",
+      precioTotalSinPlan: "",
+      incluye: "",
+      planDeComida: [],
+      servicioOpcional: "",
+      importeServicio: "",
+      serviciosOpcionales: []
     };
   }
 
@@ -54,30 +63,48 @@ class DisneyHotel extends React.Component {
     })
   }
 
-  // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (emailRex.test(value)) {
-      return true;
-    }
-    return false;
-  }
-  // function that verifies if a string has a given length or not
-  verifyLength(value, length) {
-    if (value.length >= length) {
-      return true;
-    }
-    return false;
-  }
-
-  change(event, stateName, type, stateNameEqualTo) {
-    
+  change(event, stateName, type, stateNameEqualTo) { 
     this.setState({ [stateName]: event.target.value });
   }
 
   isValidated() {
-    
     return true;
+  }
+
+  agregarPlanDeComida = () => {
+    let planes = this.state.planDeComida;
+
+    planes.push(
+      {
+        nombrePlanComida: this.state.nombrePlanComida,
+        precioTotalConPlan: this.state.precioTotalConPlan,
+        precioTotalSinPlan: this.state.precioTotalSinPlan,
+        incluye: this.state.incluye
+      }
+    )
+
+    this.setState({
+      nombrePlanComida: "",
+      precioTotalConPlan: "",
+      precioTotalSinPlan: "",
+      incluye: ""
+    });
+  }
+
+  agregarServicioOpcional = () => {
+    let servicios = this.state.serviciosOpcionales;
+
+    servicios.push(
+      {
+        servicioOpcional: this.state.servicioOpcional,
+        importeServicio: this.state.importeServicio
+      }
+    );
+
+    this.setState({
+      servicioOpcional: "",
+      importeServicio: ""
+    });
   }
 
   render() {
@@ -176,6 +203,108 @@ class DisneyHotel extends React.Component {
               value: this.state.habitacion
             }}
           />
+        </GridItem>
+        <GridItem xs={12} sm={5}>
+          <CustomInput
+            labelText="Nombre Plan de Comida"
+            id="nombrePlanComida"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  nombrePlanComida: event.target.value
+                })
+              },
+              value: this.state.nombrePlanComida
+            }}
+          />
+          <CustomInput
+            labelText="Precio Total Con Plan de Comida"
+            id="precioCon"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  precioTotalConPlan: event.target.value
+                })
+              },
+              value: this.state.precioTotalConPlan
+            }}
+          />
+          <CustomInput
+            labelText="Precio Total Sin Plan de Comida"
+            id="precioCon"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  precioTotalSinPlan: event.target.value
+                })
+              },
+              value: this.state.precioTotalSinPlan
+            }}
+          />
+          <CustomInput
+            labelText="Que incluye el plan?"
+            id="incluye"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  incluye: event.target.value
+                })
+              },
+              value: this.state.incluye
+            }}
+          />
+          <Button onClick={this.agregarPlanDeComida}>Agregar Plan</Button>
+        </GridItem>
+        <GridItem xs={12} sm={5}>
+          <CustomInput
+            labelText="Servicio Opcional"
+            id="servicioOpcional"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  servicioOpcional: event.target.value
+                })
+              },
+              value: this.state.servicioOpcional
+            }}
+          />
+          <CustomInput
+            labelText="Importe del Servicio"
+            id="importeServicio"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  importeServicio: event.target.value
+                })
+              },
+              value: this.state.importeServicio
+            }}
+          />
+          <Button onClick={this.agregarServicioOpcional}>Agregar Servicio</Button>
         </GridItem>
         <GridItem xs={12} sm={4}>
           <ImageUpload base64={this.getImageBase64} />
