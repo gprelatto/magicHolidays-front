@@ -14,6 +14,7 @@ import Final from "./steps/Final.js";
 import UniversalTicket from "./steps/UniversalTicket.js";
 import UniversalHotel from "./steps/UniversalHotel.js";
 import OtrosDestinos from "./steps/OtrosDestinos.js";
+import Crucero from "./steps/Crucero.js";
 
 export default function WizardView() {
   const [renderTemplate, setRenderTemplate] = React.useState(false);
@@ -39,6 +40,7 @@ export default function WizardView() {
               { stepName: "Universal Ticket", stepComponent: UniversalTicket, stepId: "universalTicket", condition: "universalTicket" },
               { stepName: "Universal Hotel", stepComponent: UniversalHotel, stepId: "universalHotel", condition: "universalHotel" },
               { stepName: "Otro Destino", stepComponent: OtrosDestinos, stepId: "otrosDestinos", condition: "otrosDestinos" },
+              { stepName: "Crucero", stepComponent: Crucero, stepId: "crucero", condition: "crucero" },
               
               //ALWAYS THE LAST STEP
               { stepName: "Final", stepComponent:Final, stepId: "final", condition: "final" }

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import ReactDOM from 'react-dom';
 import "./css/estilos.css"
 import { PDFExport } from '@progress/kendo-react-pdf';
+import { textChangeRangeIsUnchanged } from "typescript";
 
 
 class Template extends React.Component {
@@ -527,6 +528,175 @@ class Template extends React.Component {
                               <br />
                               El pago se realiza con tarjeta de crédito {this.state.cards.otrosDestinos.formaDePago}
                             </h3>
+                          </article>
+                        </div>
+                      </div>
+                    </section>
+                    : <></>
+                }
+
+                {/* CRUCERO */}
+                {
+                  this.state.cards.crucero !== undefined ?
+                    <section id="crucero">
+                      <div className="bordes-plan">
+                        <div>
+                          <h1 className="h1 titular">Crucero</h1>
+                        </div>
+                        <div className="lugar">
+                          <img
+                            src={this.state.cards.crucero.image}
+                            alt="disney"
+                            width={506}
+                            className="foto"
+                          />
+                          <h4 className="datos">
+                            NOMBRE DEL BARCO:<span className="span">{this.state.cards.crucero.nombreBarco}</span>
+                            <br />
+                            DESTINO:<span className="span">{this.state.cards.crucero.destino}</span>
+                            <br />
+                            FECHA:<span className="span">{this.state.cards.crucero.fecha}</span>
+                            <br />
+                            NÚMERO DE NOCHES:<span className="span">{this.state.cards.crucero.numeroNoches}</span>
+                            <br />
+                            VIAJEROS:<span className="span">{this.state.cards.crucero.viajeros}</span>
+                            <br />
+                            RAZÓN DEL VIAJE:<span className="span">{this.state.cards.crucero.razonViaje}</span>
+                          </h4>
+                        </div>
+                        <div id="tabla">
+                          <table className="table">
+                            <tbody>
+                              <tr className="tr">
+                                <th className="th">
+                                  <h2 className="h2">
+                                    <strong className="strong">DÍA</strong>
+                                  </h2>
+                                </th>
+                                <th className="th">
+                                  <h2 className="h2">
+                                    <strong className="strong">PUERTO</strong>
+                                  </h2>
+                                </th>
+                                <th className="th">
+                                  <h2 className="h2">
+                                    <strong className="strong">SALIDA</strong>
+                                  </h2>
+                                </th>
+                                <th className="th">
+                                  <h2 className="h2">
+                                    <strong className="strong">LLEGADA</strong>
+                                  </h2>
+                                </th>
+                              </tr>
+                              {
+                                this.state.cards.crucero.tablaDias.map((row, index) => {
+                                  return (
+                                    <tr className="tr">
+                                      <td className="td">{index}</td>
+                                      <td className="td">{row.puerto}</td>
+                                      <td className="td">{row.salida}</td>
+                                      <td className="td">{row.llegada}</td>
+                                    </tr>
+                                  )
+                                })
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                        <div id="cabina">
+                          <article className="precios">
+                            <div>
+                              <h3 className="h3">
+                                <strong className="strong">TIPO DE CABINA PRECIO</strong>
+                                <br />
+                                <br />
+                                {
+                                  this.state.cards.crucero.cabinas.map(cabina => {
+                                    return (
+                                      <>
+                                        <b>{cabina.tipoCabina}</b>: {cabina.tipoCabinaPrecio} USD
+                                        <br />
+                                      </>
+                                    );
+                                  })
+                                }
+                              </h3>
+                            </div>
+                          </article>
+                          <article className="inc">
+                            <h3 className="h3">
+                              <strong className="strong">¿QUÉ INCLUYE?</strong>
+                            </h3>
+                            <p>
+                              <img
+                                src={require("./img/estrella.png")}
+                                alt="estrella"
+                                className="estrella"
+                                width="19px"
+                              />
+                  Alojamiento
+                </p>
+                            <p>
+                              <img
+                                src={require("./img/estrella.png")}
+                                alt="estrella"
+                                className="estrella"
+                                width="19px"
+                              />
+                  Comida
+                </p>
+                            <p>
+                              <img
+                                src={require("./img/estrella.png")}
+                                alt="estrella"
+                                className="estrella"
+                                width="19px"
+                              />
+                  Bebidas no alcoholicas complementarias
+                </p>
+                            <p>
+                              <img
+                                src={require("./img/estrella.png")}
+                                alt="estrella"
+                                className="estrella"
+                                width="19px"
+                              />
+                  Entretenimiento
+                </p>
+                            <p>
+                              <img
+                                src={require("./img/estrella.png")}
+                                alt="estrella"
+                                className="estrella"
+                                width="19px"
+                              />
+                  Experiencia con Personajes
+                </p>
+                            <p>
+                              <img
+                                src={require("./img/estrella.png")}
+                                alt="estrella"
+                                className="estrella"
+                                width="19px"
+                              />
+                  Actividades seleccionadas a bordo
+                </p>
+                          </article>
+                        </div>
+                        <div id="plan-crucero">
+                          <article className="articulo-u">
+                            <h3 className="h3">
+                              <strong className="strong">FORMA DE PAGO:</strong>
+                              <br />
+                  El pago se realiza con tarjeta de débito o crédito directamente a
+                  Disney Cruise Line a través de nosotros; y para realizar la
+                  reservación es necesario un depósito del 20% del total para el
+                  {this.state.cards.crucero.fechaPago1} y liquidar el restante máximo el {this.state.cards.crucero.fechaPago2}
+                              <br />
+                  La cantidad exacta de depósito y del restante por pagar depende
+                  del tipo de habitación que elijan.
+                </h3>
                           </article>
                         </div>
                       </div>
