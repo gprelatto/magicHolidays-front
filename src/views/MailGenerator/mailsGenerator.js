@@ -99,6 +99,27 @@ class Template extends React.Component {
     )
   }
 
+  beneficioUniversal = () => {
+    return (
+      <div>
+        <h3 className="beneficios">
+          <strong className="strong">FORMA DE PAGO HOTELES UNIVERSAL:</strong>
+          <br />
+          El pago se realiza con tarjeta de crédito y para reservar los paquetes
+          Universal es necesario un depósito de 50 USD por persona y el resto
+          del total tendrá que ser liquidado 45 días antes de la fecha de
+          llegada (Del Check-in).
+          <br />
+          Hasta ese momento se pueden hacer pagos parciales de los montos que
+          ustedes definan y modificar la fecha de la reserva si fuera necesario.
+          Incluso en el caso de que deseen cancelar, se puede hacer también sin
+          cargo alguno y se devuelve todo el dinero hasta 45 días antes del
+          viaje.
+        </h3>
+      </div>
+    )
+  }
+
   render() {
     return (
       <>
@@ -342,6 +363,173 @@ class Template extends React.Component {
                         }
                       </div>
                       {this.beneficiosDisney()}
+                    </section>
+                    : <></>
+                }
+
+                {/* UNIVERSAL TICKET */}
+                {
+                  this.state.cards.universalTicket !== undefined ?
+                    <section id="universal">
+                      <div className="bordes-plan">
+                        <div>
+                          <h1 className="h1 titular">Universal - Ticket</h1>
+                        </div>
+                        <div className="lugar">
+                          <img
+                            src={this.state.cards.universalTicket.image}
+                            alt="disney"
+                            width={506}
+                            className="foto"
+                          />
+                          <h4 className="datos">
+                            GRUPO VIAJERO: <span className="span">{this.state.cards.universalTicket.grupoViajero}</span>
+                            <br />
+                            TICKETS: <span className="span">{this.state.cards.universalTicket.tickets}</span>
+                            <br />
+                            PRECIO TOTAL: <span className="span">{this.state.cards.universalTicket.precioTotal}</span>
+                          </h4>
+                        </div>
+                        <div id="plan-universal">
+                          <article className="articulo-u">
+                            <h3 className="h3">
+                              <strong className="strong">SERVICIOS EXTRAS UNIVERSAL:</strong>
+                              <br />
+                              <b>Plan de comidas Quick Service CON VASO REFILL:</b> {this.state.cards.universalTicket.vasoRefillPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                              <br />
+                              <b>Plan de comidas Universal Dining Plan:</b> {this.state.cards.universalTicket.diningPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                              <br />
+                              <b>Paquete de fotografías:</b> {this.state.cards.universalTicket.fotoPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                              <br />
+                            </h3>
+                          </article>
+                        </div>
+                      </div>
+                      {this.beneficioUniversal()}
+                    </section>
+                    : <></>
+                }
+
+                {/* UNIVERSAL TICKET */}
+                {
+                  this.state.cards.universalHotel !== undefined ?
+                    <section id="universal">
+                      <div className="bordes-plan">
+                        <div>
+                          <h1 className="h1 titular">Universal - Hotel</h1>
+                        </div>
+                        <div className="lugar">
+                          <img
+                            src={this.state.cards.universalHotel.image}
+                            alt="disney"
+                            width={506}
+                            className="foto"
+                          />
+                          <h4 className="datos">
+                            CHECK IN : <span className="span">{this.state.cards.universalHotel.checkIn}</span>
+                            <br />
+                            CHECK OUT: <span className="span">{this.state.cards.universalHotel.checkOut}</span>
+                            <br />
+                            GRUPO VIAJERO: <span className="span">{this.state.cards.universalHotel.grupoViajero}</span>
+                            <br />
+                            HOTEL: <span className="span">{this.state.cards.universalHotel.hotel}</span>
+                            <br />
+                            HABITACIÓN: <span className="span">{this.state.cards.universalHotel.habitacion}</span>
+                            <br />
+                            PRECIO TOTAL: <span className="span">{this.state.cards.universalHotel.precioTotal}</span>
+                          </h4>
+                        </div>
+                        <div id="plan-universal">
+                          <article className="articulo-u">
+                            <h3 className="h3">
+                              <strong className="strong">SERVICIOS EXTRAS UNIVERSAL:</strong>
+                              <br />
+                              <b>Plan de comidas Quick Service CON VASO REFILL:</b> {this.state.cards.universalHotel.vasoRefillPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                              <br />
+                              <b>Plan de comidas Universal Dining Plan:</b> {this.state.cards.universalHotel.diningPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                              <br />
+                              <b>Paquete de fotografías:</b> {this.state.cards.universalHotel.fotoPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                              <br />
+                            </h3>
+                          </article>
+                        </div>
+                      </div>
+                      {this.beneficioUniversal()}
+                    </section>
+                    : <></>
+                }
+
+                {/* OTROS DESTINOS */}
+                {
+                  this.state.cards.otrosDestinos !== undefined ?
+                    <section id="miami">
+                      <div className="bordes-plan">
+                        <div>
+                          <h1 className="h1 titular">{this.state.cards.otrosDestinos.destino}</h1>
+                        </div>
+                        <div className="lugar">
+                          <img src={this.state.cards.otrosDestinos.image} alt="disney" width={506} className="foto" />
+                          <h4 className="datos">
+                            CHECK IN : <span className="span">{this.state.cards.otrosDestinos.checkIn}</span>
+                            <br />
+                            CHECK OUT: <span className="span">{this.state.cards.otrosDestinos.checkOut}</span>
+                            <br />
+                            GRUPO VIAJERO: <span className="span">{this.state.cards.otrosDestinos.grupoViajero}</span>
+                            <br />
+                            HOTEL: <span className="span">{this.state.cards.otrosDestinos.hotel}</span>
+                            <br />
+                            HABITACIÓN: <span className="span">{this.state.cards.otrosDestinos.habitacion}</span>
+                            <br />
+                            PRECIO TOTAL: <span className="span">{this.state.cards.otrosDestinos.precioTotal}</span>
+                          </h4>
+                        </div>
+                        <div id="plan-miami">
+                          <article className="articulo-u">
+                            <h3 className="h3">
+                              {
+                                this.state.cards.otrosDestinos.actividadesExtra.length > 0 ?
+                                  <>
+                                    <strong className="strong">ACTIVIDADES EXTRAS:</strong>
+                                    <br />
+                                    {
+                                      this.state.cards.otrosDestinos.actividadesExtra.map(act => {
+                                        return (
+                                          <>
+                                            <b>{act.actividad}:</b> {act.precio} USD
+                                            <br />
+                                            <br />
+                                          </>
+                                        );
+                                      })
+                                    }
+                                  </>
+                                  : <></>
+                              }
+                              <strong className="strong">FORMA DE PAGO:</strong>
+                              <br />
+                              El pago se realiza con tarjeta de crédito {this.state.cards.otrosDestinos.formaDePago}
+                            </h3>
+                          </article>
+                        </div>
+                      </div>
                     </section>
                     : <></>
                 }
