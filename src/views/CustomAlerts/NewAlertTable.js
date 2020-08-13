@@ -310,9 +310,10 @@ export default function AlertsTable(props) {
                                                 rows: 5,
                                                 cols: 5,
                                                 onChange: event => {
+                                                    let input = event.target.value;
                                                     setNotification(prev => ({
                                                         ...prev,
-                                                        message: event.target.value
+                                                        message: input
                                                     }))
                                                 },
                                                 value: notification.message
