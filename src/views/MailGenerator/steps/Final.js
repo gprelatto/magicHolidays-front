@@ -27,6 +27,7 @@ class Final extends React.Component {
     this.state = {
       nombreAgente: "",
       image: "",
+      fileName: "",
       allStates: this.props.allStates
     };
   }
@@ -104,6 +105,25 @@ class Final extends React.Component {
                 })
               },
               value: this.state.nombreAgente
+            }}
+          />
+        </GridItem>
+        <GridItem xs={4} sm={4}>
+          <CustomInput
+            labelText="Nombre del Archivo"
+            id="filename"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                let filename = event.target.value
+                this.setState({
+                  fileName: filename
+                })
+              },
+              value: this.state.fileName
             }}
           />
         </GridItem>

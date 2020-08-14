@@ -254,7 +254,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Segunda Fecha de Pago"
+                        labelText="Fecha Limite de Pago"
                         id="pago2"
                         formControlProps={{
                             fullWidth: true

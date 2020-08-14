@@ -12,7 +12,8 @@ class Template extends React.Component {
     super(props);
 
     this.state = {
-      cards: {}
+      cards: {},
+      fileName: ""
     }
   }
 
@@ -25,6 +26,7 @@ class Template extends React.Component {
   }
 
   exportPDF = () => {
+    this.getFileName();
     this.resume.save();
   }
 
@@ -122,19 +124,29 @@ class Template extends React.Component {
     )
   }
 
-  render() {
+  getFileName = () => {    
+    if(this.props.cards !== undefined) {
+      if(this.props.cards.final.fileName !== "") {
+          return "Presupuesto_"+ this.props.cards.final.fileName + ".pdf"
+      }
+    }
+
     const date = new Date();
     const day = date.getDay() < 10 ? "0"+date.getDay().toString() : date.getDay().toString();
     const year = date.getFullYear().toString();
     const month = date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1).toString() : date.getMonth().toString();
 
+    return "Presupuesto_"+year+month+day+".pdf"
+  }
+
+  render() {
     return (
       <>
         <Button onClick={this.exportPDF}>Descargar</Button>
         <Button onClick={() => this.props.returnToWizard(false)}>Volver Al Wizard</Button>
         <PDFExport
           paperSize="auto"
-          fileName={"Presupuesto_"+year+month+day+".pdf"}
+          fileName={this.getFileName()}
           ref={(r) => this.resume = r}>
           <div >
             <div className="body">
@@ -698,8 +710,7 @@ class Template extends React.Component {
                               <br />
                   El pago se realiza con tarjeta de débito o crédito directamente a
                   Disney Cruise Line a través de nosotros; y para realizar la
-                  reservación es necesario un depósito del 20% del total para el
-                  {this.state.cards.crucero.fechaPago1} y liquidar el restante máximo el {this.state.cards.crucero.fechaPago2}
+                  reservación es necesario un depósito del 20% del total para el {this.state.cards.crucero.fechaPago1} y liquidar el restante máximo el {this.state.cards.crucero.fechaPago2}
                               <br />
                   La cantidad exacta de depósito y del restante por pagar depende
                   del tipo de habitación que elijan.

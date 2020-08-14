@@ -29,7 +29,7 @@
 }
 	
 #cabina {
-	width: 90%;
+	width: 100%;
 	border-color: #27A99F;
 	border-style: solid;
 	border-radius: 15px;
@@ -76,7 +76,7 @@
 @media (min-width: 1028px){
 	
 	#cabina {
-		width: 80%;
+		width: 100%;
 	}
 	
 	.precios {
@@ -107,10 +107,6 @@
 .h2, .th, .td {
 	font-size: 16pt;
 }	
-
-#cabina {
-	width: 900px;
-}
 
 .precios {
 	width: 45%;

@@ -68,7 +68,7 @@ export const routes = [
     collapse: false,
     render: true,
     path: "/MailWizard",
-    name: "Wizard de Mails",
+    name: "Presupuestos",
     rtlName: "",
     icon: DashboardIcon,
     component: WizardView,
