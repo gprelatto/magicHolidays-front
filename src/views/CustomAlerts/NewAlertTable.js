@@ -56,8 +56,6 @@ export default function AlertsTable(props) {
     const submitEditButton = () => {
         editProgressBar();
 
-        console.log('not', notification)
-
         let data = {
             id: notification.id,
             message: notification.message,

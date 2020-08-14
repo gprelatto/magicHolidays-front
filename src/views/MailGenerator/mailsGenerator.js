@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
 import ReactDOM from 'react-dom';
 import "./css/estilos.css"
 import { PDFExport } from '@progress/kendo-react-pdf';
-import { textChangeRangeIsUnchanged } from "typescript";
+import Button from "components/CustomButtons/Button.js";
 
 
 class Template extends React.Component {
@@ -122,12 +123,18 @@ class Template extends React.Component {
   }
 
   render() {
+    const date = new Date();
+    const day = date.getDay() < 10 ? "0"+date.getDay().toString() : date.getDay().toString();
+    const year = date.getFullYear().toString();
+    const month = date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1).toString() : date.getMonth().toString();
+
     return (
       <>
-        <button onClick={this.exportPDF}>download</button>
+        <Button onClick={this.exportPDF}>Descargar</Button>
+        <Button onClick={() => this.props.returnToWizard(false)}>Volver Al Wizard</Button>
         <PDFExport
           paperSize="auto"
-          fileName="lologresolito.pdf"
+          fileName={"Presupuesto_"+year+month+day+".pdf"}
           ref={(r) => this.resume = r}>
           <div >
             <div className="body">
@@ -739,6 +746,11 @@ class Template extends React.Component {
 
   }
 }
+
+Template.propTypes = {
+  cards: PropTypes.object.isRequired,
+  returnToWizard: PropTypes.func,
+};
 
 ReactDOM.render(<Template />, document.getElementById('root'));
 

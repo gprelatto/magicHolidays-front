@@ -104,6 +104,24 @@ class Crucero extends React.Component {
         });
     }
 
+    deletePuerto = (pto) => {
+        let puertos = this.state.tablaDias;
+        puertos = puertos.filter(x => x.puerto !== pto);
+        this.setState(prevState => ({
+            ...prevState,
+            tablaDias: puertos
+        }))
+    }
+
+    deleteCabina = (cab) => {
+        let cabs = this.state.cabinas;
+        cabs = cabs.filter(x => x.tipoCabina !== cab);
+        this.setState(prevState => ({
+            ...prevState,
+            cabinas: cabs
+        }))
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -304,6 +322,16 @@ class Crucero extends React.Component {
                     <Button onClick={this.agregarDias}>Agregar Dia</Button>
                 </GridItem>
                 <GridItem xs={12} sm={5}>
+                    <h3 >Dias:</h3>
+                    <ul>
+                        {
+                            this.state.tablaDias.map((p) => {
+                                return (<li><h4>{p.puerto} <Button onClick={() => this.deletePuerto(p.puerto)}>Eliminar</Button></h4></li>)
+                            })
+                        }
+                    </ul>
+                </GridItem>
+                <GridItem xs={12} sm={5}>
                     <CustomInput
                         labelText="Tipo de Cabina"
                         id="tipoCabina"
@@ -336,7 +364,17 @@ class Crucero extends React.Component {
                             value: this.state.tipoCabinaPrecio
                         }}
                     />
-                    <Button onClick={this.agregarCabinas}>Agregar Dia</Button>
+                    <Button onClick={this.agregarCabinas}>Agregar Cabina</Button>
+                </GridItem>
+                <GridItem xs={12} sm={5}>
+                    <h3 >Cabinas:</h3>
+                    <ul>
+                        {
+                            this.state.cabinas.map((p) => {
+                                return (<li><h4>{p.tipoCabina} <Button onClick={() => this.deleteCabina(p.tipoCabina)}>Eliminar</Button></h4></li>)
+                            })
+                        }
+                    </ul>
                 </GridItem>
                 <GridItem xs={12} sm={4}>
                     <ImageUpload base64={this.getImageBase64} />

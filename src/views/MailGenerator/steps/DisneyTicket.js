@@ -92,6 +92,24 @@ class DisneyTicket extends React.Component {
     });
   }
 
+  deletePlan = (plan) => {
+    let planes = this.state.planDeComida;
+    planes = planes.filter(x => x.nombrePlanComida !== plan);
+    this.setState(prevState => ({
+      ...prevState,
+      planDeComida: planes
+    }))
+  }
+
+  deleteServicio = (serv) => {
+    let servicios = this.state.serviciosOpcionales;
+    servicios = servicios.filter(x => x.servicioOpcional !== serv);
+    this.setState(prevState => ({
+      ...prevState,
+      serviciosOpcionales: servicios
+    }))
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -203,6 +221,16 @@ class DisneyTicket extends React.Component {
           <Button onClick={this.agregarPlanDeComida}>Agregar Plan</Button>
         </GridItem>
         <GridItem xs={12} sm={5}>
+          <h3 >Planes de comida:</h3>
+          <ul>
+            {
+              this.state.planDeComida.map((p) => {
+                return (<li><h4>{p.nombrePlanComida} <Button onClick={() => this.deletePlan(p.nombrePlanComida)}>Eliminar</Button></h4></li>)
+              })
+            }
+          </ul>
+        </GridItem>
+        <GridItem xs={12} sm={5}>
           <CustomInput
             labelText="Servicio Opcional"
             id="servicioOpcional"
@@ -236,6 +264,16 @@ class DisneyTicket extends React.Component {
             }}
           />
           <Button onClick={this.agregarServicioOpcional}>Agregar Servicio</Button>
+        </GridItem>
+        <GridItem xs={12} sm={5}>
+          <h3 >Servicios Opcionales:</h3>
+          <ul>
+            {
+              this.state.serviciosOpcionales.map((p) => {
+                return (<li><h4>{p.servicioOpcional} <Button onClick={() => this.deleteServicio(p.servicioOpcional)}>Eliminar</Button></h4></li>)
+              })
+            }
+          </ul>
         </GridItem>
         <GridItem xs={12} sm={12}>
           <br />

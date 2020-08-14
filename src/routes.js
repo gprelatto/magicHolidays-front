@@ -67,19 +67,6 @@ export const routes = [
   {
     collapse: false,
     render: true,
-    path: "/MailGenerator",
-    name: "Generador de Mails",
-    rtlName: "لوحة القيادة",
-    icon: DashboardIcon,
-    component: MailGenerator,
-    layout: "/admin",
-    permissions: [
-      1,2,3
-    ]
-  },  
-  {
-    collapse: false,
-    render: true,
     path: "/MailWizard",
     name: "Wizard de Mails",
     rtlName: "",

@@ -63,7 +63,6 @@ export default function CustomerTable(props) {
 
   const submitEditButton = () => {
     editProgressBar();
-    console.log('toedit',customerToEdit)
     editCustomer(customerToEdit).then((response) => {
       populateCustomersTable();
       setShowEdit(false);

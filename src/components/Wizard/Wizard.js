@@ -51,10 +51,10 @@ class Wizard extends React.Component {
     this.navigationStepChange = this.navigationStepChange.bind(this);
     this.refreshAnimation = this.refreshAnimation.bind(this);
     this.previousButtonClick = this.previousButtonClick.bind(this);
-    this.previousButtonClick = this.previousButtonClick.bind(this);
     this.finishButtonClick = this.finishButtonClick.bind(this);
     this.addAnotherButtonClick = this.addAnotherButtonClick.bind(this);
     this.updateWidth = this.updateWidth.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
   }
 
   wizard = React.createRef();
@@ -304,6 +304,12 @@ class Wizard extends React.Component {
     this.setState({ movingTabStyle: movingTabStyle });
   }
 
+  deleteCard(card) {
+    const state = this.state;
+    delete state.allStates[card];
+    this.setState(state);
+  }
+
   render() {
     const { classes, title, subtitle, color } = this.props;
     const steps = this.state.filteredSteps;
@@ -357,6 +363,7 @@ class Wizard extends React.Component {
                     innerRef={node => (this[prop.stepId] = node)}
                     allStates={this.state.allStates}
                     childStateCallback={this.getChildState}
+                    deleteCard={this.deleteCard}
                   />
                 </div>
               );
@@ -416,7 +423,7 @@ Wizard.defaultProps = {
   color: "rose",
   title: "Here should go your title",
   subtitle: "And this would be your subtitle",
-  previousButtonText: "Previous",
+  previousButtonText: "Anterior",
   previousButtonClasses: "",
   nextButtonClasses: "",
   nextButtonText: "Siguiente",

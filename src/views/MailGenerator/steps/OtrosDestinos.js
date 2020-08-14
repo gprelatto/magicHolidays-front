@@ -81,6 +81,15 @@ class OtrosDestinos extends React.Component {
         });
     }
 
+    deleteActividad = (serv) => {
+        let act = this.state.actividadesExtra;
+        act = act.filter(x => x.actividad !== serv);
+        this.setState(prevState => ({
+            ...prevState,
+            actividadesExtra: act
+        }))
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -95,8 +104,9 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let dest = event.target.value
                                 this.setState({
-                                    destino: event.target.value
+                                    destino: dest
                                 })
                             },
                             value: this.state.destino
@@ -113,8 +123,9 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let checkin = event.target.value
                                 this.setState({
-                                    checkIn: event.target.value
+                                    checkIn: checkin
                                 })
                             },
                             value: this.state.checkIn
@@ -131,8 +142,9 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let checkout = event.target.value
                                 this.setState({
-                                    checkOut: event.target.value
+                                    checkOut: checkout
                                 })
                             },
                             value: this.state.checkOut
@@ -149,8 +161,9 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let grupo = event.target.value
                                 this.setState({
-                                    grupoViajero: event.target.value
+                                    grupoViajero: grupo
                                 })
                             },
                             value: this.state.grupoViajero
@@ -167,8 +180,9 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let hotel = event.target.value
                                 this.setState({
-                                    hotel: event.target.value
+                                    hotel: hotel
                                 })
                             },
                             value: this.state.hotel
@@ -185,8 +199,9 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let hab = event.target.value
                                 this.setState({
-                                    habitacion: event.target.value
+                                    habitacion: hab
                                 })
                             },
                             value: this.state.habitacion
@@ -203,14 +218,16 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let total = event.target.value
                                 this.setState({
-                                    precioTotal: event.target.value
+                                    precioTotal: total
                                 })
                             },
                             value: this.state.precioTotal
                         }}
                     />
                 </GridItem>
+                <GridItem xs={12} sm={4}></GridItem>
                 <GridItem xs={12} sm={3}>
                     <CustomInput
                         labelText="Forma de Pago"
@@ -221,8 +238,9 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let pago = event.target.value
                                 this.setState({
-                                    formaDePago: event.target.value
+                                    formaDePago: pago
                                 })
                             },
                             value: this.state.formaDePago
@@ -239,8 +257,9 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let act = event.target.value;
                                 this.setState({
-                                    actividad: event.target.value
+                                    actividad: act
                                 })
                             },
                             value: this.state.actividad
@@ -255,14 +274,25 @@ class OtrosDestinos extends React.Component {
                         inputProps={{
                             type: "text",
                             onChange: event => {
+                                let e = event.target.value;
                                 this.setState({
-                                    precio: event.target.value
+                                    precio: e
                                 })
                             },
                             value: this.state.precio
                         }}
                     />
                     <Button onClick={this.agregarActividadExtra}>Agregar Actividad</Button>
+                </GridItem>
+                <GridItem xs={12} sm={5}>
+                    <h3 >Actividades extra:</h3>
+                    <ul>
+                        {
+                            this.state.actividadesExtra.map((p) => {
+                                return (<li><h4>{p.actividad} <Button onClick={() => this.deleteActividad(p.actividad)}>Eliminar</Button></h4></li>)
+                            })
+                        }
+                    </ul>
                 </GridItem>
                 <GridItem xs={12} sm={4}>
                     <ImageUpload base64={this.getImageBase64} />

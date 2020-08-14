@@ -20,10 +20,13 @@ export default function WizardView() {
   const [renderTemplate, setRenderTemplate] = React.useState(false);
   const [cards, setCards] = React.useState([])
 
+  const returnToWizard = (bool) => {
+    setRenderTemplate(bool);
+  }
+
   const showTemplate = () => {
-    console.log('cards', cards)
     return (
-      <Template cards={cards}/>
+      <Template cards={cards} returnToWizard={returnToWizard}/>
     )
   }
 
@@ -45,8 +48,8 @@ export default function WizardView() {
               //ALWAYS THE LAST STEP
               { stepName: "Final", stepComponent:Final, stepId: "final", condition: "final" }
             ]}
-            title="Build Your Profile"
-            subtitle="This information will let us know more about you."
+            title="Crear Template de Email"
+            subtitle="Herramienta para generar PDF a ser enviado."
             finishButtonClick={e => {
               setCards(e);
               setRenderTemplate(true);

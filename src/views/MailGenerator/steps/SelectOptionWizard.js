@@ -54,7 +54,6 @@ class SelectOptionWizard extends React.Component {
       this.props.childStateCallback(checks[0]);
     } else {
       let checks = this.state.checks.filter(x => x != name);
-      console.log('checks', checks)
       this.setState({
         checks: checks
       });
@@ -81,11 +80,30 @@ class SelectOptionWizard extends React.Component {
     return false;  
   }
 
+  tarjetaSeleccionada = () => {
+    const state = this.state;
+
+    if(state.selected === 'disneyTicket')
+      return 'Disney Ticket'
+    else if (state.selected === 'disneyHotel')
+      return 'Disney Hotel'
+    else if (state.selected === 'universalTicket')
+      return 'Universal Ticket'
+    else if (state.selected === 'universalHotel')
+      return 'Universal Hotel'
+    else if (state.selected === 'otrosDestinos')
+      return 'Otros Destinos'
+    else if (state.selected === 'crucero')
+      return 'Crucero'
+    
+    return ''
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <div>
-        <h4 className={classes.infoText}>Tarjeta seleccionada: {this.state.selected}</h4>
+        <h4 className={classes.infoText}>Tarjeta seleccionada: {this.tarjetaSeleccionada()}</h4>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12} lg={10}>
             <GridContainer>
