@@ -78,7 +78,6 @@ export default function LoginPage(props) {
         setIsError(true);
       }
     }).catch(e => {
-      console.log('e',e)
       setIsError(true);
       setMessage(e);
       removeProgressBar();
