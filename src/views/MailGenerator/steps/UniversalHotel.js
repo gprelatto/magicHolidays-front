@@ -45,7 +45,8 @@ class UniversalHotel extends React.Component {
             checkIn: "",
             checkOut: "",
             hotel: "",
-            habitacion: ""
+            habitacion: "",
+            tickets: ""
         };
     }
 
@@ -158,6 +159,24 @@ class UniversalHotel extends React.Component {
                                 })
                             },
                             value: this.state.habitacion
+                        }}
+                    />
+                </GridItem>
+                <GridItem xs={4} sm={3}>
+                    <CustomInput
+                        labelText="Tickets"
+                        id="tickets"
+                        formControlProps={{
+                            fullWidth: true
+                        }}
+                        inputProps={{
+                            type: "text",
+                            onChange: event => {
+                                this.setState({
+                                    tickets: event.target.value
+                                })
+                            },
+                            value: this.state.tickets
                         }}
                     />
                 </GridItem>

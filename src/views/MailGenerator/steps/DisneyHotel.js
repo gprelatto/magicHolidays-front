@@ -49,7 +49,8 @@ class DisneyHotel extends React.Component {
       planDeComida: [],
       servicioOpcional: "",
       importeServicio: "",
-      serviciosOpcionales: []
+      serviciosOpcionales: [],
+      tickets: ""
     };
   }
 
@@ -165,6 +166,24 @@ class DisneyHotel extends React.Component {
                 })
               },
               value: this.state.checkOut
+            }}
+          />
+        </GridItem>
+        <GridItem xs={4} sm={3}>
+          <CustomInput
+            labelText="Tickets"
+            id="tickets"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              type: "text",
+              onChange: event => {
+                this.setState({
+                  tickets: event.target.value
+                })
+              },
+              value: this.state.tickets
             }}
           />
         </GridItem>

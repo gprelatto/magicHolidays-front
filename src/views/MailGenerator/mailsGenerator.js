@@ -124,19 +124,19 @@ class Template extends React.Component {
     )
   }
 
-  getFileName = () => {    
-    if(this.props.cards !== undefined) {
-      if(this.props.cards.final.fileName !== "") {
-          return "Presupuesto_"+ this.props.cards.final.fileName + ".pdf"
+  getFileName = () => {
+    if (this.props.cards !== undefined) {
+      if (this.props.cards.final.fileName !== "") {
+        return "Presupuesto_" + this.props.cards.final.fileName + ".pdf"
       }
     }
 
     const date = new Date();
-    const day = date.getDay() < 10 ? "0"+date.getDay().toString() : date.getDay().toString();
+    const day = date.getDay() < 10 ? "0" + date.getDay().toString() : date.getDay().toString();
     const year = date.getFullYear().toString();
-    const month = date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1).toString() : date.getMonth().toString();
+    const month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1).toString() : date.getMonth().toString();
 
-    return "Presupuesto_"+year+month+day+".pdf"
+    return "Presupuesto_" + year + month + day + ".pdf"
   }
 
   render() {
@@ -306,6 +306,8 @@ class Template extends React.Component {
                             <br />
                   HABITACIÓN: <span className="span"> {this.state.cards.disneyHotel.habitacion} </span>
                             <br />
+                            TICKETS: <span className="span">{this.state.cards.disneyHotel.tickets}</span>
+                            <br />
                           </h4>
                         </div>
                         {
@@ -464,6 +466,8 @@ class Template extends React.Component {
                             HOTEL: <span className="span">{this.state.cards.universalHotel.hotel}</span>
                             <br />
                             HABITACIÓN: <span className="span">{this.state.cards.universalHotel.habitacion}</span>
+                            <br />
+                            TICKETS: <span className="span">{this.state.cards.universalHotel.tickets}</span>
                             <br />
                             PRECIO TOTAL: <span className="span">{this.state.cards.universalHotel.precioTotal}</span>
                           </h4>
