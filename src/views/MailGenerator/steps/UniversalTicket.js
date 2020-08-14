@@ -127,7 +127,7 @@ class UniversalTicket extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Precio VASO REFILL"
+            labelText="Precio de comidas Quick Service CON VASO REFILL"
             id="vasoRefill"
             formControlProps={{
               fullWidth: true
@@ -145,7 +145,7 @@ class UniversalTicket extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Precio DINNING PLAN"
+            labelText="Precio de comidas Universal Dining Plan"
             id="dinningPlan"
             formControlProps={{
               fullWidth: true
@@ -163,7 +163,7 @@ class UniversalTicket extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Precio Foto"
+            labelText="Precio Paquete de Fotos"
             id="precioFoto"
             formControlProps={{
               fullWidth: true
