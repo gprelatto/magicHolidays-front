@@ -426,7 +426,9 @@ export default function Dashboard(props) {
         alertNotificationData.push(n);
       });
       setAlertNotifications(alertNotificationData);
-    })
+    }).catch(e => {
+      props.history.push('/auth/forbidden')
+    });
 
   }, [])
 
