@@ -234,7 +234,7 @@ class UniversalHotel extends React.Component {
                         }}
                     />
                 </GridItem>
-                <GridItem xs={4} sm={4}>
+                <GridItem xs={12} sm={4}>
                     <CustomInput
                         labelText="Precio Foto"
                         id="precioFoto"
@@ -252,7 +252,9 @@ class UniversalHotel extends React.Component {
                         }}
                     />
                 </GridItem>
-                <GridItem xs={12} sm={4}>
+                <GridItem xs={4} sm={5}></GridItem>
+                <GridItem xs={4} sm={5}></GridItem>
+                <GridItem xs={12} sm={5}>
                     <ImageUpload base64={this.getImageBase64} />
                 </GridItem>
             </GridContainer>

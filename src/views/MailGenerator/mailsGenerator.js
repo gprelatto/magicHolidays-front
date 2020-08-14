@@ -207,77 +207,61 @@ class Template extends React.Component {
                           </h4>
                         </div>
                         {
-                          this.state.cards.disneyTicket.planDeComida.length > 0 || this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
-                            <div id="plan-disney">
-                              <article className="articulo">
-                                <h3 className="h3">
-                                  {
-                                    this.state.cards.disneyTicket.planDeComida.map(plan => {
-                                      return (
-                                        <>
-                                          <strong className="strong">PLAN DE COMIDAS:   {plan.nombrePlanComida}</strong>
-                                          <br />
-                                          <b>Precio Total con Plan de Comidas:   {plan.precioTotalConPlan}</b>
-                                          <br />
-                                          <b>Precio Total sin Plan de Comidas:   {plan.precioTotalSinPlan}</b>
-                                          <br />
-                                          <br />
-                                        </>
-                                      );
-                                    })
-                                  }
-                                  <h3 className="h3"></h3>
-                                  {
-                                    this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
+                          <div id="plan-disney">
+                            <article className="articulo">
+                              <h3 className="h3">
+                                <b>Precio Total: {this.state.cards.disneyTicket.precioTotalConPlan}</b>
+                                <br />
+                                {
+                                  this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
+                                    <>
+                                      <strong className="strong">SERVICIO OPCIONALES DISNEY:</strong>
+                                      <br />
+                                    </>
+                                    : <></>
+                                }
+                                {
+                                  this.state.cards.disneyTicket.serviciosOpcionales.map((servicio) => {
+                                    return (
                                       <>
-                                        <strong className="strong">SERVICIO OPCIONALES DISNEY:</strong>
+                                        <b>{servicio.servicioOpcional}: {servicio.importeServicio}</b>
                                         <br />
                                       </>
-                                      : <></>
-                                  }
-                                  {
-                                    this.state.cards.disneyTicket.serviciosOpcionales.map((servicio) => {
-                                      return (
-                                        <>
-                                          <b>{servicio.servicioOpcional}: {servicio.importeServicio}</b>
-                                          <br />
-                                        </>
-                                      );
-                                    })
-                                  }
-                                </h3>
-                              </article>
-                              <article className="articulo1">
-                                <h3 className="h3">
-                                  {
-                                    this.state.cards.disneyTicket.planDeComida.length > 0 ?
-                                      <>
-                                        <strong className="strong">INFORMACIÓN PLAN DE COMIDAS:</strong>
-                                        <br />
+                                    );
+                                  })
+                                }
+                              </h3>
+                            </article>
+                            <article className="articulo1">
+                              <h3 className="h3">
+                                {
+                                  this.state.cards.disneyTicket.planDeComida.length > 0 ?
+                                    <>
+                                      <strong className="strong">INFORMACIÓN PLAN DE COMIDAS:</strong>
+                                      <br />
                                       Todas las comidas se pueden utilizar tanto en los hoteles Disney,
                                       como en todos los parques y en Disney Springs (centro comercial de
                                       Disney).
                                     <br />
-                                        <br />
-                                        {
-                                          this.state.cards.disneyTicket.planDeComida.map(plan => {
-                                            return (
-                                              <>
-                                                El servicio de comidas <b>{plan.nombrePlanComida}</b> incluye:
+                                      <br />
+                                      {
+                                        this.state.cards.disneyTicket.planDeComida.map(plan => {
+                                          return (
+                                            <>
+                                              El servicio de comidas <b>{plan.nombrePlanComida}</b> incluye:
                                           <br />
-                                                <b>{plan.incluye}</b>
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        }
-                                      </> : <></>
-                                  }
-                                  <br />
-                                </h3>
-                              </article>
-                            </div>
-                            : <></>
+                                              <b>{plan.incluye}</b>
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      }
+                                    </> : <></>
+                                }
+                                <br />
+                              </h3>
+                            </article>
+                          </div>
                         }
                       </div>
                       {this.beneficiosDisney()}

@@ -155,23 +155,7 @@ class DisneyTicket extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={5}>
           <CustomInput
-            labelText="Nombre Plan de Comida"
-            id="nombrePlanComida"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-              onChange: event => {
-                this.setState({
-                  nombrePlanComida: event.target.value
-                })
-              },
-              value: this.state.nombrePlanComida
-            }}
-          />
-          <CustomInput
-            labelText="Precio Total Con Plan de Comida"
+            labelText="Precio Total"
             id="precioCon"
             formControlProps={{
               fullWidth: true
@@ -186,49 +170,6 @@ class DisneyTicket extends React.Component {
               value: this.state.precioTotalConPlan
             }}
           />
-          <CustomInput
-            labelText="Precio Total Sin Plan de Comida"
-            id="precioCon"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-              onChange: event => {
-                this.setState({
-                  precioTotalSinPlan: event.target.value
-                })
-              },
-              value: this.state.precioTotalSinPlan
-            }}
-          />
-          <CustomInput
-            labelText="Que incluye el plan?"
-            id="incluye"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              type: "text",
-              onChange: event => {
-                this.setState({
-                  incluye: event.target.value
-                })
-              },
-              value: this.state.incluye
-            }}
-          />
-          <Button onClick={this.agregarPlanDeComida}>Agregar Plan</Button>
-        </GridItem>
-        <GridItem xs={12} sm={5}>
-          <h3 >Planes de comida:</h3>
-          <ul>
-            {
-              this.state.planDeComida.map((p) => {
-                return (<li><h4>{p.nombrePlanComida} <Button onClick={() => this.deletePlan(p.nombrePlanComida)}>Eliminar</Button></h4></li>)
-              })
-            }
-          </ul>
         </GridItem>
         <GridItem xs={12} sm={5}>
           <CustomInput
