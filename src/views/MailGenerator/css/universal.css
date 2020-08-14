@@ -1,0 +1,33 @@
+#universal {
+	padding-left: 3em;
+	margin-left: auto;
+	margin-right: 10px;
+}
+
+#plan-universal {
+	width: 90%;
+	margin: auto;
+}
+
+.articulo-u {
+	width: 90%;
+	}
+
+@media (max-width:320px) {
+	#plan-universal .articulo-u{
+		text-align: center;
+	}
+}
+
+@media (min-width:1200px) {
+
+#plan-universal {
+	width: 100%;
+	margin-top: 2em;
+}
+	
+.articulo-u {
+	width: 100%;
+	}	
+	
+}

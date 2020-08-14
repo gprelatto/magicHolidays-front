@@ -2,7 +2,7 @@ import React from "react";
 
 import defaultImage from "assets/img/default-avatar.png";
 
-export default function PictureUpload() {
+export default function PictureUpload(props) {
   const [file, setFile] = React.useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState(defaultImage);
   const handleImageChange = e => {
@@ -12,8 +12,9 @@ export default function PictureUpload() {
     reader.onloadend = () => {
       setFile(newFile);
       setImagePreviewUrl(reader.result);
+      props.base64(reader.result);
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(newFile);
   };
   // eslint-disable-next-line
   const handleSubmit = e => {

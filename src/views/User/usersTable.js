@@ -98,8 +98,6 @@ export default function UsersTable(props) {
     bodyForm.append('user_type', userToEdit.user_type);
     bodyForm.append('mail', userToEdit.mail);
 
-    console.log('f', userToEdit.birth_date)
-
     if(typeof userToEdit.birth_date !== "string") {
       birth = userToEdit.birth_date.getFullYear() + '-' + (userToEdit.birth_date.getMonth()+1) + '-' + userToEdit.birth_date.getDate() + 'T00:00:00Z'
       bodyForm.append('birth_date', birth);

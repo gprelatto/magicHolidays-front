@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from "./context/auth";
 
 import Dashboard from "views/Dashboard/Dashboard.js";
+import MailGenerator from "views/MailGenerator/mailsGenerator.js";
 
 import SupplierForm from "views/Products/SupplierForm.js";
 import SupplierTable from "views/Products/SupplierTable.js";
@@ -46,6 +47,7 @@ import UserTypesTable from 'views/User/userTypesTable';
 import SalesReportByDate from 'views/Reports/salesReportByDate';
 import NewAlertForm from 'views/CustomAlerts/NewAlertForm';
 import AlertsTable from 'views/CustomAlerts/NewAlertTable';
+import WizardView from 'views/MailGenerator/MailWizard';
 
 
 export const routes = [
@@ -62,6 +64,19 @@ export const routes = [
       1,2,3
     ]
   },
+  {
+    collapse: false,
+    render: true,
+    path: "/MailWizard",
+    name: "Presupuestos",
+    rtlName: "",
+    icon: DashboardIcon,
+    component: WizardView,
+    layout: "/admin",
+    permissions: [
+      1,2,3
+    ]
+  }, 
   {
     render: true,
     path: "/userProfile",

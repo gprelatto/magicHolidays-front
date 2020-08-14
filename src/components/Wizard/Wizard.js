@@ -14,6 +14,7 @@ class Wizard extends React.Component {
   constructor(props) {
     super(props);
     var width;
+
     if (this.props.steps.length === 1) {
       width = "100%";
     } else {
@@ -31,7 +32,9 @@ class Wizard extends React.Component {
         }
       }
     }
+
     this.state = {
+      filteredSteps: [this.props.steps[0]],
       currentStep: 0,
       color: this.props.color,
       nextButton: this.props.steps.length > 1 ? true : false,
@@ -41,44 +44,70 @@ class Wizard extends React.Component {
       movingTabStyle: {
         transition: "transform 0s"
       },
-      allStates: {}
+      allStates: {},
+      selected: ""
     };
+
     this.navigationStepChange = this.navigationStepChange.bind(this);
     this.refreshAnimation = this.refreshAnimation.bind(this);
     this.previousButtonClick = this.previousButtonClick.bind(this);
-    this.previousButtonClick = this.previousButtonClick.bind(this);
     this.finishButtonClick = this.finishButtonClick.bind(this);
+    this.addAnotherButtonClick = this.addAnotherButtonClick.bind(this);
     this.updateWidth = this.updateWidth.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
   }
+
   wizard = React.createRef();
+
   componentDidMount() {
     this.refreshAnimation(0);
     window.addEventListener("resize", this.updateWidth);
   }
+
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateWidth);
   }
+
   updateWidth() {
     this.refreshAnimation(this.state.currentStep);
   }
+
+  getChildState = (childData) => {
+    let steps = [];
+    steps.push(this.props.steps[0]);
+
+    this.props.steps.forEach(e => {
+      if (e.condition == childData) {
+        steps.push(e)
+      }
+    });
+
+    steps.push(this.props.steps[this.props.steps.length - 1]);
+
+    this.setState({
+      filteredSteps: steps
+    });
+  }
+
   navigationStepChange(key) {
-    if (this.props.steps) {
+    if (this.state.filteredSteps) {
       var validationState = true;
       if (key > this.state.currentStep) {
         for (var i = this.state.currentStep; i < key; i++) {
-          if (this[this.props.steps[i].stepId].sendState !== undefined) {
+          if (this[this.state.filteredSteps[i].stepId].sendState !== undefined) {
             this.setState({
               allStates: {
                 ...this.state.allStates,
-                [this.props.steps[i].stepId]: this[
-                  this.props.steps[i].stepId
+                [this.state.filteredSteps[i].stepId]: this[
+                  this.state.filteredSteps[i].stepId
                 ].sendState()
               }
             });
           }
+
           if (
-            this[this.props.steps[i].stepId].isValidated !== undefined &&
-            this[this.props.steps[i].stepId].isValidated() === false
+            this[this.state.filteredSteps[i].stepId].isValidated !== undefined &&
+            this[this.state.filteredSteps[i].stepId].isValidated() === false
           ) {
             validationState = false;
             break;
@@ -88,59 +117,63 @@ class Wizard extends React.Component {
       if (validationState) {
         this.setState({
           currentStep: key,
-          nextButton: this.props.steps.length > key + 1 ? true : false,
+          nextButton: this.state.filteredSteps.length > key + 1 ? true : false,
           previousButton: key > 0 ? true : false,
-          finishButton: this.props.steps.length === key + 1 ? true : false
+          finishButton: this.state.filteredSteps.length === key + 1 ? true : false
         });
         this.refreshAnimation(key);
       }
     }
   }
+
   nextButtonClick() {
     if (
       (this.props.validate &&
-        ((this[this.props.steps[this.state.currentStep].stepId].isValidated !==
+        ((this[this.state.filteredSteps[this.state.currentStep].stepId].isValidated !==
           undefined &&
           this[
-            this.props.steps[this.state.currentStep].stepId
+            this.state.filteredSteps[this.state.currentStep].stepId
           ].isValidated()) ||
-          this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined)) ||
+          this[this.state.filteredSteps[this.state.currentStep].stepId].isValidated ===
+          undefined)) ||
       this.props.validate === undefined
     ) {
       if (
-        this[this.props.steps[this.state.currentStep].stepId].sendState !==
+        this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !==
         undefined
       ) {
         this.setState({
           allStates: {
             ...this.state.allStates,
-            [this.props.steps[this.state.currentStep].stepId]: this[
-              this.props.steps[this.state.currentStep].stepId
+            [this.state.filteredSteps[this.state.currentStep].stepId]: this[
+              this.state.filteredSteps[this.state.currentStep].stepId
             ].sendState()
           }
         });
       }
+
       var key = this.state.currentStep + 1;
+
       this.setState({
         currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
+        nextButton: this.state.filteredSteps.length > key + 1 ? true : false,
         previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false
+        finishButton: this.state.filteredSteps.length === key + 1 ? true : false
       });
       this.refreshAnimation(key);
     }
   }
+
   previousButtonClick() {
     if (
-      this[this.props.steps[this.state.currentStep].stepId].sendState !==
+      this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !==
       undefined
     ) {
       this.setState({
         allStates: {
           ...this.state.allStates,
-          [this.props.steps[this.state.currentStep].stepId]: this[
-            this.props.steps[this.state.currentStep].stepId
+          [this.state.filteredSteps[this.state.currentStep].stepId]: this[
+            this.state.filteredSteps[this.state.currentStep].stepId
           ].sendState()
         }
       });
@@ -149,33 +182,34 @@ class Wizard extends React.Component {
     if (key >= 0) {
       this.setState({
         currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
+        nextButton: this.state.filteredSteps.length > key + 1 ? true : false,
         previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false
+        finishButton: this.state.filteredSteps.length === key + 1 ? true : false
       });
       this.refreshAnimation(key);
     }
   }
+
   finishButtonClick() {
     if (
       (this.props.validate === false &&
         this.props.finishButtonClick !== undefined) ||
       (this.props.validate &&
-        ((this[this.props.steps[this.state.currentStep].stepId].isValidated !==
+        ((this[this.state.filteredSteps[this.state.currentStep].stepId].isValidated !==
           undefined &&
           this[
-            this.props.steps[this.state.currentStep].stepId
+            this.state.filteredSteps[this.state.currentStep].stepId
           ].isValidated()) ||
-          this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined) &&
+          this[this.state.filteredSteps[this.state.currentStep].stepId].isValidated ===
+          undefined) &&
         this.props.finishButtonClick !== undefined)
     ) {
       this.setState(
         {
           allStates: {
             ...this.state.allStates,
-            [this.props.steps[this.state.currentStep].stepId]: this[
-              this.props.steps[this.state.currentStep].stepId
+            [this.state.filteredSteps[this.state.currentStep].stepId]: this[
+              this.state.filteredSteps[this.state.currentStep].stepId
             ].sendState()
           }
         },
@@ -185,10 +219,49 @@ class Wizard extends React.Component {
       );
     }
   }
+
+  addAnotherButtonClick() {
+    if (
+      (this.props.validate &&
+        ((this[this.state.filteredSteps[this.state.currentStep].stepId].isValidated !==
+          undefined &&
+          this[
+            this.state.filteredSteps[this.state.currentStep].stepId
+          ].isValidated()) ||
+          this[this.state.filteredSteps[this.state.currentStep].stepId].isValidated ===
+          undefined)) ||
+      this.props.validate === undefined
+    ) {
+      if (
+        this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !==
+        undefined
+      ) {
+        this.setState({
+          allStates: {
+            ...this.state.allStates,
+            [this.state.filteredSteps[this.state.currentStep].stepId]: this[
+              this.state.filteredSteps[this.state.currentStep].stepId
+            ].sendState()
+          }
+        });
+      }
+
+      var key = 0;
+
+      this.setState({
+        currentStep: key,
+        nextButton: this.state.filteredSteps.length > key + 1 ? true : false,
+        previousButton: key > 0 ? true : false,
+        finishButton: this.state.filteredSteps.length === key + 1 ? true : false
+      });
+      this.refreshAnimation(key);
+    }
+  }
+
   refreshAnimation(index) {
-    var total = this.props.steps.length;
+    var total = this.state.filteredSteps.length;
     var li_width = 100 / total;
-    var total_steps = this.props.steps.length;
+    var total_steps = this.state.filteredSteps.length;
     var move_distance =
       this.wizard.current.children[0].offsetWidth / total_steps;
     var index_temp = index;
@@ -230,8 +303,17 @@ class Wizard extends React.Component {
     };
     this.setState({ movingTabStyle: movingTabStyle });
   }
+
+  deleteCard(card) {
+    const state = this.state;
+    delete state.allStates[card];
+    this.setState(state);
+  }
+
   render() {
-    const { classes, title, subtitle, color, steps } = this.props;
+    const { classes, title, subtitle, color } = this.props;
+    const steps = this.state.filteredSteps;
+
     return (
       <div className={classes.wizardContainer} ref={this.wizard}>
         <Card className={classes.card}>
@@ -280,6 +362,8 @@ class Wizard extends React.Component {
                   <prop.stepComponent
                     innerRef={node => (this[prop.stepId] = node)}
                     allStates={this.state.allStates}
+                    childStateCallback={this.getChildState}
+                    deleteCard={this.deleteCard}
                   />
                 </div>
               );
@@ -298,13 +382,24 @@ class Wizard extends React.Component {
             </div>
             <div className={classes.right}>
               {this.state.nextButton ? (
-                <Button
-                  color="rose"
-                  className={this.props.nextButtonClasses}
-                  onClick={() => this.nextButtonClick()}
-                >
-                  {this.props.nextButtonText}
-                </Button>
+                <>
+                  {this.state.currentStep != 0 ?
+                    <Button
+                      color="rose"
+                      className={this.finishButtonClasses}
+                      onClick={() => this.addAnotherButtonClick()}
+                    >
+                      {this.props.addAnotherButtonText}
+                    </Button>
+                    : <></>}
+                  <Button
+                    color="rose"
+                    className={this.props.nextButtonClasses}
+                    onClick={() => this.nextButtonClick()}
+                  >
+                    {this.props.nextButtonText}
+                  </Button>
+                </>
               ) : null}
               {this.state.finishButton ? (
                 <Button
@@ -328,12 +423,13 @@ Wizard.defaultProps = {
   color: "rose",
   title: "Here should go your title",
   subtitle: "And this would be your subtitle",
-  previousButtonText: "Previous",
+  previousButtonText: "Anterior",
   previousButtonClasses: "",
   nextButtonClasses: "",
-  nextButtonText: "Next",
+  nextButtonText: "Siguiente",
   finishButtonClasses: "",
-  finishButtonText: "Finish"
+  finishButtonText: "Finalizar",
+  addAnotherButtonText: "Agregar Otra"
 };
 
 Wizard.propTypes = {
@@ -342,7 +438,8 @@ Wizard.propTypes = {
     PropTypes.shape({
       stepName: PropTypes.string.isRequired,
       stepComponent: PropTypes.object.isRequired,
-      stepId: PropTypes.string.isRequired
+      stepId: PropTypes.string.isRequired,
+      conditional: PropTypes.string
     })
   ).isRequired,
   color: PropTypes.oneOf([
@@ -362,6 +459,7 @@ Wizard.propTypes = {
   finishButtonClasses: PropTypes.string,
   finishButtonText: PropTypes.string,
   finishButtonClick: PropTypes.func,
+  addAnotherButtonClick: PropTypes.func,
   validate: PropTypes.bool
 };
 
