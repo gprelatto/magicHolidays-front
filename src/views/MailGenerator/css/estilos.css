@@ -10,16 +10,31 @@
 	font-family: "Garden Grown US B";
 	src:url("../font/GardenGrownUS-B.ttf");
 }
-
+@font-face {
+	font-family: "Garden Grown US B";
+	src:url("../font/GardenGrownUS-B.ttf");
+}
 @font-face {
     font-family: "DejaVu Sans";
     src: url("../font/DejaVuSans.ttf") format("truetype");
   }
 
   @font-face {
-    font-family: "DejaVu Sans";
-    font-weight: bold;
-    src: url("../font/DejaVuSans-Bold.ttf") format("truetype");
+    font-family: "Helvetica Neue";
+    src: url("../font/comic.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "Helvetica";
+    src: url("../font/comic.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "sans-serif";
+    src: url("../font/comic.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "Comic Sans MS";
+    src: url("../font/comic.ttf") format("truetype");
   }
 
   @font-face {

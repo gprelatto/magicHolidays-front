@@ -167,12 +167,12 @@ class Template extends React.Component {
                     this.state.cards.final !== undefined ?
                       <h1 className="h1">{this.state.cards.final.nombreAgente}</h1> : <></>
                   }
-                  <h2 className="h2">¡HOLA VIAJEROS!</h2>
+                  <h2 className="h2">¡HOLA, VIAJEROS!</h2>
                   <h3 className="h3">
                     Este es el momento de presentarnos y contarles que somos una agencia
-              especialista en crear <b>Vacaciones mágicas</b>.<br />
+              especialista en crear <b>vacaciones mágicas</b>.<br />
                     <br />
-              Magic Holidays ubicada en la ciudad de Orlando es una agencia autorizada
+              Magic Holidays, ubicada en la ciudad de Orlando, es una agencia autorizada
               por Disney y Universal. Te garantizamos una atención personalizada y un
               acompañamiento completo desde el inicio hasta el final de tu viaje SIN
               NINGÚN COSTO EXTRA. <br />
@@ -185,7 +185,7 @@ class Template extends React.Component {
               <br />
                     <br />
                     <br />
-                    <b>A continuación, te datallamos la cotización solicitada:</b>
+                    <b>A continuación, te detallamos la cotización solicitada:</b>
                   </h3>
                 </div>
 
@@ -587,12 +587,12 @@ class Template extends React.Component {
                                 </th>
                                 <th className="th">
                                   <h2 className="h2">
-                                    <strong className="strong">SALIDA</strong>
+                                    <strong className="strong">EMBARQUE</strong>
                                   </h2>
                                 </th>
                                 <th className="th">
                                   <h2 className="h2">
-                                    <strong className="strong">LLEGADA</strong>
+                                    <strong className="strong">DESEMBARQUE</strong>
                                   </h2>
                                 </th>
                               </tr>
