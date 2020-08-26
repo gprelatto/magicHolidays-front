@@ -124,6 +124,40 @@ class Template extends React.Component {
     )
   }
 
+
+
+  beneficioUniversalTicket = () => {
+    return (
+      <div>
+        <h3 className="beneficios">
+          FORMA DE PAGO TICKETS UNIVERSAL:
+          <br />
+          El pago se realiza con tarjeta de crédito en un pago. Los mismos no son reembolsables ni transferibles.
+        </h3>
+      </div>
+    )
+  }
+
+  beneficiosDisneyTicket = () => {
+    return (
+      <div>
+        <h3 className="beneficios">
+        PLANIFICACIÓN TOTAL:
+        <br />
+        La planificación incluye la preparación de una guía de viaje, la
+        vinculación del paquete a la cuenta My Disney Experience, la selección y
+        reserva de Fast Pass.
+        <br />
+          <br />
+          CONDICIONES DE PAGO:
+          <br />
+        El pago se realiza con tarjeta de crédito o débito en un pago. 
+        Los mismos no son reembolsables ni transferibles. 
+      </h3>
+      </div>
+    )
+  }
+
   getFileName = () => {
     if (this.props.cards !== undefined) {
       if (this.props.cards.final.fileName !== "") {
@@ -170,7 +204,7 @@ class Template extends React.Component {
                   <h2 className="h2">¡HOLA, VIAJEROS!</h2>
                   <h3 className="h3">
                     Este es el momento de presentarnos y contarles que somos una agencia
-              especialista en crear vacaciones mógicas.<br />
+              especialista en crear vacaciones mágicas.<br />
                     <br />
               Magic Holidays, ubicada en la ciudad de Orlando, es una agencia autorizada
               por Disney y Universal. Te garantizamos una atención personalizada y un
@@ -264,7 +298,7 @@ class Template extends React.Component {
                           </div>
                         }
                       </div>
-                      {this.beneficiosDisney()}
+                      {this.beneficiosDisneyTicket()}
                     </section>
                     : <></>
                 }
@@ -413,14 +447,14 @@ class Template extends React.Component {
                               <br />
                               Paquete de fotografías: {this.state.cards.universalTicket.fotoPrecio} USD
                               <br />
-                              (Precio por persona, por día)
+                              (Precio por día)
                               <br />
                               <br />
                             </h3>
                           </article>
                         </div>
                       </div>
-                      {this.beneficioUniversal()}
+                      {this.beneficioUniversalTicket()}
                     </section>
                     : <></>
                 }
@@ -600,7 +634,7 @@ class Template extends React.Component {
                                 this.state.cards.crucero.tablaDias.map((row, index) => {
                                   return (
                                     <tr className="tr">
-                                      <td className="td">{index}</td>
+                                      <td className="td">{index + 1}</td>
                                       <td className="td">{row.puerto}</td>
                                       <td className="td">{row.salida}</td>
                                       <td className="td">{row.llegada}</td>
