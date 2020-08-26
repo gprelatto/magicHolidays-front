@@ -8,6 +8,14 @@
 	font-size: 14pt;
 }	
 
+#presentacion h3 {
+	font-family: "Comic Sans MS";
+}	
+
+#presentacion h3 b{
+	font-family: "DejaVu Sans";
+}	
+
 #logo img {
 	width: 20%;
 	padding-right: 10px;

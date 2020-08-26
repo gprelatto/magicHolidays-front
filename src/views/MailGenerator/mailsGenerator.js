@@ -34,7 +34,7 @@ class Template extends React.Component {
     return (
       <div>
         <h3 className="beneficios">
-          <b>Además, alojándose en Disney tienen los siguientes beneficios:</b>
+          Además, alojándose en Disney tienen los siguientes beneficios:
           <br />
           <br />
           <img
@@ -75,7 +75,7 @@ class Template extends React.Component {
         populares) 60 días antes del viaje.
         <br />
           <br />
-          <strong className="strong">PLANIFICACIÓN TOTAL:</strong>
+          PLANIFICACIÓN TOTAL:
           <br />
         La planificación incluye la preparación de una guía de viaje, la
         vinculación del paquete a la cuenta My Disney Experience, la
@@ -86,7 +86,7 @@ class Template extends React.Component {
         y evitando multitudes.
         <br />
           <br />
-          <strong className="strong">CONDICIONES DE PAGO:</strong>
+          CONDICIONES DE PAGO:
           <br />
         Para reservar los paquetes Disney se necesita un pago mínimo de USD
         200 por habitación. El saldo tiene que estar cancelado 30 días antes
@@ -107,7 +107,7 @@ class Template extends React.Component {
     return (
       <div>
         <h3 className="beneficios">
-          <strong className="strong">FORMA DE PAGO HOTELES UNIVERSAL:</strong>
+          FORMA DE PAGO HOTELES UNIVERSAL:
           <br />
           El pago se realiza con tarjeta de crédito y para reservar los paquetes
           Universal es necesario un depósito de 50 USD por persona y el resto
@@ -170,7 +170,7 @@ class Template extends React.Component {
                   <h2 className="h2">¡HOLA, VIAJEROS!</h2>
                   <h3 className="h3">
                     Este es el momento de presentarnos y contarles que somos una agencia
-              especialista en crear <b>vacaciones mágicas</b>.<br />
+              especialista en crear vacaciones mógicas.<br />
                     <br />
               Magic Holidays, ubicada en la ciudad de Orlando, es una agencia autorizada
               por Disney y Universal. Te garantizamos una atención personalizada y un
@@ -185,7 +185,7 @@ class Template extends React.Component {
               <br />
                     <br />
                     <br />
-                    <b>A continuación, te detallamos la cotización solicitada:</b>
+                    A continuación, te detallamos la cotización solicitada:
                   </h3>
                 </div>
 
@@ -210,12 +210,12 @@ class Template extends React.Component {
                           <div id="plan-disney">
                             <article className="articulo">
                               <h3 className="h3">
-                                <b>Precio Total: {this.state.cards.disneyTicket.precioTotalConPlan}</b>
+                                Precio Total: {this.state.cards.disneyTicket.precioTotalConPlan}
                                 <br />
                                 {
                                   this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
                                     <>
-                                      <strong className="strong">SERVICIO OPCIONALES DISNEY:</strong>
+                                      SERVICIO OPCIONALES DISNEY:
                                       <br />
                                     </>
                                     : <></>
@@ -224,7 +224,7 @@ class Template extends React.Component {
                                   this.state.cards.disneyTicket.serviciosOpcionales.map((servicio) => {
                                     return (
                                       <>
-                                        <b>{servicio.servicioOpcional}: {servicio.importeServicio}</b>
+                                        {servicio.servicioOpcional}: {servicio.importeServicio}
                                         <br />
                                       </>
                                     );
@@ -237,7 +237,7 @@ class Template extends React.Component {
                                 {
                                   this.state.cards.disneyTicket.planDeComida.length > 0 ?
                                     <>
-                                      <strong className="strong">INFORMACIÓN PLAN DE COMIDAS:</strong>
+                                      INFORMACIÓN PLAN DE COMIDAS:
                                       <br />
                                       Todas las comidas se pueden utilizar tanto en los hoteles Disney,
                                       como en todos los parques y en Disney Springs (centro comercial de
@@ -248,9 +248,9 @@ class Template extends React.Component {
                                         this.state.cards.disneyTicket.planDeComida.map(plan => {
                                           return (
                                             <>
-                                              El servicio de comidas <b>{plan.nombrePlanComida}</b> incluye:
+                                              El servicio de comidas {plan.nombrePlanComida} incluye:
                                           <br />
-                                              <b>{plan.incluye}</b>
+                                              {plan.incluye}
                                               <br />
                                             </>
                                           );
@@ -303,11 +303,11 @@ class Template extends React.Component {
                                     this.state.cards.disneyHotel.planDeComida.map(plan => {
                                       return (
                                         <>
-                                          <strong className="strong">PLAN DE COMIDAS:   {plan.nombrePlanComida}</strong>
+                                          PLAN DE COMIDAS:   {plan.nombrePlanComida}
                                           <br />
-                                          <b>Precio Total con Plan de Comidas:   {plan.precioTotalConPlan}</b>
+                                          Precio Total con Plan de Comidas:   {plan.precioTotalConPlan}
                                           <br />
-                                          <b>Precio Total sin Plan de Comidas:   {plan.precioTotalSinPlan}</b>
+                                          Precio Total sin Plan de Comidas:   {plan.precioTotalSinPlan}
                                           <br />
                                           <br />
                                         </>
@@ -318,7 +318,7 @@ class Template extends React.Component {
                                   {
                                     this.state.cards.disneyHotel.serviciosOpcionales.length > 0 ?
                                       <>
-                                        <strong className="strong">SERVICIO OPCIONALES DISNEY:</strong>
+                                        SERVICIO OPCIONALES DISNEY:
                                         <br />
                                       </>
                                       : <></>
@@ -327,7 +327,7 @@ class Template extends React.Component {
                                     this.state.cards.disneyHotel.serviciosOpcionales.map((servicio) => {
                                       return (
                                         <>
-                                          <b>{servicio.servicioOpcional}: {servicio.importeServicio}</b>
+                                          {servicio.servicioOpcional}: {servicio.importeServicio}
                                           <br />
                                         </>
                                       );
@@ -340,7 +340,7 @@ class Template extends React.Component {
                                   {
                                     this.state.cards.disneyHotel.planDeComida.length > 0 ?
                                       <>
-                                        <strong className="strong">INFORMACIÓN PLAN DE COMIDAS:</strong>
+                                        INFORMACIÓN PLAN DE COMIDAS:
                                         <br />
                                       Todas las comidas se pueden utilizar tanto en los hoteles Disney,
                                       como en todos los parques y en Disney Springs (centro comercial de
@@ -351,9 +351,9 @@ class Template extends React.Component {
                                           this.state.cards.disneyHotel.planDeComida.map(plan => {
                                             return (
                                               <>
-                                                El servicio de comidas <b>{plan.nombrePlanComida}</b> incluye:
+                                                El servicio de comidas {plan.nombrePlanComida} incluye:
                                           <br />
-                                                <b>{plan.incluye}</b>
+                                                {plan.incluye}
                                                 <br />
                                               </>
                                             );
@@ -399,19 +399,19 @@ class Template extends React.Component {
                         <div id="plan-universal">
                           <article className="articulo-u">
                             <h3 className="h3">
-                              <strong className="strong">SERVICIOS EXTRAS UNIVERSAL:</strong>
+                              SERVICIOS EXTRAS UNIVERSAL:
                               <br />
-                              <b>Plan de comidas Quick Service CON VASO REFILL:</b> {this.state.cards.universalTicket.vasoRefillPrecio} USD
-                              <br />
-                              (Precio por persona, por día)
-                              <br />
-                              <br />
-                              <b>Plan de comidas Universal Dining Plan:</b> {this.state.cards.universalTicket.diningPrecio} USD
+                              Plan de comidas Quick Service CON VASO REFILL: {this.state.cards.universalTicket.vasoRefillPrecio} USD
                               <br />
                               (Precio por persona, por día)
                               <br />
                               <br />
-                              <b>Paquete de fotografías:</b> {this.state.cards.universalTicket.fotoPrecio} USD
+                              Plan de comidas Universal Dining Plan: {this.state.cards.universalTicket.diningPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                              <br />
+                              Paquete de fotografías: {this.state.cards.universalTicket.fotoPrecio} USD
                               <br />
                               (Precio por persona, por día)
                               <br />
@@ -459,19 +459,19 @@ class Template extends React.Component {
                         <div id="plan-universal">
                           <article className="articulo-u">
                             <h3 className="h3">
-                              <strong className="strong">SERVICIOS EXTRAS UNIVERSAL:</strong>
+                              SERVICIOS EXTRAS UNIVERSAL:
                               <br />
-                              <b>Plan de comidas Quick Service CON VASO REFILL:</b> {this.state.cards.universalHotel.vasoRefillPrecio} USD
-                              <br />
-                              (Precio por persona, por día)
-                              <br />
-                              <br />
-                              <b>Plan de comidas Universal Dining Plan:</b> {this.state.cards.universalHotel.diningPrecio} USD
+                              Plan de comidas Quick Service CON VASO REFILL: {this.state.cards.universalHotel.vasoRefillPrecio} USD
                               <br />
                               (Precio por persona, por día)
                               <br />
                               <br />
-                              <b>Paquete de fotografías:</b> {this.state.cards.universalHotel.fotoPrecio} USD
+                              Plan de comidas Universal Dining Plan: {this.state.cards.universalHotel.diningPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                              <br />
+                              Paquete de fotografías: {this.state.cards.universalHotel.fotoPrecio} USD
                               <br />
                               (Precio por persona, por día)
                               <br />
@@ -515,13 +515,13 @@ class Template extends React.Component {
                               {
                                 this.state.cards.otrosDestinos.actividadesExtra.length > 0 ?
                                   <>
-                                    <strong className="strong">ACTIVIDADES EXTRAS:</strong>
+                                    ACTIVIDADES EXTRAS:
                                     <br />
                                     {
                                       this.state.cards.otrosDestinos.actividadesExtra.map(act => {
                                         return (
                                           <>
-                                            <b>{act.actividad}:</b> {act.precio} USD
+                                            {act.actividad}: {act.precio} USD
                                             <br />
                                             <br />
                                           </>
@@ -531,7 +531,7 @@ class Template extends React.Component {
                                   </>
                                   : <></>
                               }
-                              <strong className="strong">FORMA DE PAGO:</strong>
+                              FORMA DE PAGO:
                               <br />
                               El pago se realiza con tarjeta de crédito {this.state.cards.otrosDestinos.formaDePago}
                             </h3>
@@ -577,22 +577,22 @@ class Template extends React.Component {
                               <tr className="tr">
                                 <th className="th">
                                   <h2 className="h2">
-                                    <strong className="strong">DÍA</strong>
+                                    DÍA
                                   </h2>
                                 </th>
                                 <th className="th">
                                   <h2 className="h2">
-                                    <strong className="strong">PUERTO</strong>
+                                    PUERTO
                                   </h2>
                                 </th>
                                 <th className="th">
                                   <h2 className="h2">
-                                    <strong className="strong">EMBARQUE</strong>
+                                    EMBARQUE
                                   </h2>
                                 </th>
                                 <th className="th">
                                   <h2 className="h2">
-                                    <strong className="strong">DESEMBARQUE</strong>
+                                    DESEMBARQUE
                                   </h2>
                                 </th>
                               </tr>
@@ -615,14 +615,14 @@ class Template extends React.Component {
                           <article className="precios">
                             <div>
                               <h3 className="h3">
-                                <strong className="strong">TIPO DE CABINA PRECIO</strong>
+                                TIPO DE CABINA PRECIO
                                 <br />
                                 <br />
                                 {
                                   this.state.cards.crucero.cabinas.map(cabina => {
                                     return (
                                       <>
-                                        <b>{cabina.tipoCabina}</b>: {cabina.tipoCabinaPrecio} USD
+                                        {cabina.tipoCabina}: {cabina.tipoCabinaPrecio} USD
                                         <br />
                                       </>
                                     );
@@ -633,7 +633,7 @@ class Template extends React.Component {
                           </article>
                           <article className="inc">
                             <h3 className="h3">
-                              <strong className="strong">¿QUÉ INCLUYE?</strong>
+                              ¿QUÉ INCLUYE?
                             </h3>
                             <p>
                               <img
@@ -694,7 +694,7 @@ class Template extends React.Component {
                         <div id="plan-crucero">
                           <article className="articulo-u">
                             <h3 className="h3">
-                              <strong className="strong">FORMA DE PAGO:</strong>
+                              FORMA DE PAGO:
                               <br />
                   El pago se realiza con tarjeta de débito o crédito directamente a
                   Disney Cruise Line a través de nosotros; y para realizar la
@@ -725,12 +725,12 @@ class Template extends React.Component {
                           </article>
                         </div>
                         <h2 className="info">
-                          <b>
+                          
                             Para más información visitanos en{" "}
                             <a className="footera" href="http://mhtravelagency.com/website/index.php?lang=es">
                               www.mhtravelagency.com
                   </a>
-                          </b>
+                          
                         </h2>
                       </div>
                     </footer> : <></>
