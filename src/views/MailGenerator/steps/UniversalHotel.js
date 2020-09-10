@@ -46,12 +46,30 @@ class UniversalHotel extends React.Component {
             checkOut: "",
             hotel: "",
             habitacion: "",
-            tickets: ""
+            tickets: "",
+            tarjeta: "universalHotel"
         };
     }
 
     sendState() {
-        return this.state;
+        let state = this.state;
+
+        this.setState({
+            grupoViajero: "",
+            image: "",
+            vasoRefillPrecio: "",
+            diningPrecio: "",
+            fotoPrecio: "",
+            precioTotal: "",
+            checkIn: "",
+            checkOut: "",
+            hotel: "",
+            habitacion: "",
+            tickets: "",
+            tarjeta: "universalHotel"
+        });
+
+        return state;
     }
 
     getImageBase64 = (base64) => {

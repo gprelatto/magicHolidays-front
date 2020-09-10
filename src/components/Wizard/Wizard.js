@@ -139,15 +139,24 @@ class Wizard extends React.Component {
       this.props.validate === undefined
     ) {
       if (
-        this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !==
-        undefined
+        this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !== undefined
+          && this.state.currentStep !== 0
       ) {
+        let stepArray = [];
+        let data = this[this.state.filteredSteps[this.state.currentStep].stepId].sendState();
+
+        if(this.state.allStates[data.tarjeta] !== undefined){
+          this.state.allStates[data.tarjeta].forEach(st => {
+            stepArray.push(st);
+          })
+        }
+
+        stepArray.push(this[this.state.filteredSteps[this.state.currentStep].stepId].sendState())
+
         this.setState({
           allStates: {
             ...this.state.allStates,
-            [this.state.filteredSteps[this.state.currentStep].stepId]: this[
-              this.state.filteredSteps[this.state.currentStep].stepId
-            ].sendState()
+            [data.tarjeta]: stepArray
           }
         });
       }
@@ -236,12 +245,21 @@ class Wizard extends React.Component {
         this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !==
         undefined
       ) {
+        let stepArray = [];
+        let data = this[this.state.filteredSteps[this.state.currentStep].stepId].sendState();
+
+        if(this.state.allStates[data.tarjeta] !== undefined){
+          this.state.allStates[data.tarjeta].forEach(st => {
+            stepArray.push(st);
+          })
+        }
+
+        stepArray.push(this[this.state.filteredSteps[this.state.currentStep].stepId].sendState())
+
         this.setState({
           allStates: {
             ...this.state.allStates,
-            [this.state.filteredSteps[this.state.currentStep].stepId]: this[
-              this.state.filteredSteps[this.state.currentStep].stepId
-            ].sendState()
+            [data.tarjeta]: stepArray
           }
         });
       }

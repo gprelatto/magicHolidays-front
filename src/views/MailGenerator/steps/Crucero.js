@@ -48,12 +48,36 @@ class Crucero extends React.Component {
             tipoCabinaPrecio: "",
             cabinas: [],
             fechaPago1: "",
-            fechaPago2: ""
+            fechaPago2: "",
+            tarjeta: "crucero"
         };
     }
 
     sendState() {
-        return this.state;
+        let state = this.state;
+
+        this.setState({
+            nombreBarco: "",
+            destino: "",
+            image: "",
+            fecha: "",
+            numeroNoches: "",
+            viajeros: "",
+            razonViaje: "",
+            dia: "",
+            puerto: "",
+            salida: "",
+            llegada: "",
+            tablaDias: [],
+            tipoCabina: "",
+            tipoCabinaPrecio: "",
+            cabinas: [],
+            fechaPago1: "",
+            fechaPago2: "",
+            tarjeta: "crucero"
+        });
+
+        return state;
     }
 
     getImageBase64 = (base64) => {

@@ -142,7 +142,7 @@ class Template extends React.Component {
     return (
       <div>
         <h3 className="beneficios">
-        PLANIFICACIÓN TOTAL:
+          PLANIFICACIÓN TOTAL:
         <br />
         La planificación incluye la preparación de una guía de viaje, la
         vinculación del paquete a la cuenta My Disney Experience, la selección y
@@ -151,8 +151,8 @@ class Template extends React.Component {
           <br />
           CONDICIONES DE PAGO:
           <br />
-        El pago se realiza con tarjeta de crédito o débito en un pago. 
-        Los mismos no son reembolsables ni transferibles. 
+        El pago se realiza con tarjeta de crédito o débito en un pago.
+        Los mismos no son reembolsables ni transferibles.
       </h3>
       </div>
     )
@@ -226,522 +226,540 @@ class Template extends React.Component {
                 {/* DISNEY TICKET */}
                 {
                   this.state.cards.disneyTicket !== undefined ?
-                    <section id="walt">
-                      <div className="bordes-plan">
-                        <div>
-                          <h1 className="h1 titular">Walt Disney World - Tickets</h1>
-                        </div>
-                        <div className="lugar">
-                          <img src={this.state.cards.disneyTicket.image} alt="disney" className="foto" />
-                          <h4 className="datos">
-                            GRUPO VIAJERO: <span className="span">{this.state.cards.disneyTicket.grupoViajero}</span>
-                            <br />
-          TICKETS: <span className="span">  {this.state.cards.disneyTicket.tickets}</span>
-                            <br />
-                          </h4>
-                        </div>
-                        {
-                          <div id="plan-disney">
-                            <article className="articulo">
-                              <h3 className="h3">
-                                Precio Total: {this.state.cards.disneyTicket.precioTotalConPlan}
-                                <br />
-                                {
-                                  this.state.cards.disneyTicket.serviciosOpcionales.length > 0 ?
-                                    <>
-                                      SERVICIO OPCIONALES DISNEY:
-                                      <br />
-                                    </>
-                                    : <></>
-                                }
-                                {
-                                  this.state.cards.disneyTicket.serviciosOpcionales.map((servicio) => {
-                                    return (
-                                      <>
-                                        {servicio.servicioOpcional}: {servicio.importeServicio}
-                                        <br />
-                                      </>
-                                    );
-                                  })
-                                }
-                              </h3>
-                            </article>
-                            <article className="articulo1">
-                              <h3 className="h3">
-                                {
-                                  this.state.cards.disneyTicket.planDeComida.length > 0 ?
-                                    <>
-                                      INFORMACIÓN PLAN DE COMIDAS:
-                                      <br />
-                                      Todas las comidas se pueden utilizar tanto en los hoteles Disney,
-                                      como en todos los parques y en Disney Springs (centro comercial de
-                                      Disney).
-                                    <br />
-                                      <br />
-                                      {
-                                        this.state.cards.disneyTicket.planDeComida.map(plan => {
-                                          return (
-                                            <>
-                                              El servicio de comidas {plan.nombrePlanComida} incluye:
-                                          <br />
-                                              {plan.incluye}
-                                              <br />
-                                            </>
-                                          );
-                                        })
-                                      }
-                                    </> : <></>
-                                }
-                                <br />
-                              </h3>
-                            </article>
-                          </div>
-                        }
-                      </div>
-                      {this.beneficiosDisneyTicket()}
-                    </section>
-                    : <></>
-                }
-
-                {/* DISNEY HOTEL */}
-                {
-                  this.state.cards.disneyHotel !== undefined ?
-                    <section id="walt">
-                      <div className="bordes-plan">
-                        <div>
-                          <h1 className="h1 titular">Walt Disney World - Hotel</h1>
-                        </div>
-                        <div className="lugar">
-                          <img src={this.state.cards.disneyHotel.image} alt="disney" className="foto" />
-                          <h4 className="datos">
-                            CHECK IN : <span className="span"> {this.state.cards.disneyHotel.checkIn} </span>
-                            <br />
-                  CHECK OUT: <span className="span"> {this.state.cards.disneyHotel.checkOut} </span>
-                            <br />
-                  GRUPO VIAJERO: <span className="span"> {this.state.cards.disneyHotel.grupoViajero} </span>
-                            <br />
-                  HOTEL: <span className="span"> {this.state.cards.disneyHotel.hotel} </span>
-                            <br />
-                  HABITACIÓN: <span className="span"> {this.state.cards.disneyHotel.habitacion} </span>
-                            <br />
-                            TICKETS: <span className="span">{this.state.cards.disneyHotel.tickets}</span>
-                            <br />
-                          </h4>
-                        </div>
-                        {
-                          this.state.cards.disneyHotel.planDeComida.length > 0 || this.state.cards.disneyHotel.serviciosOpcionales.length > 0 ?
-                            <div id="plan-disney">
-                              <article className="articulo">
-                                <h3 className="h3">
-                                  {
-                                    this.state.cards.disneyHotel.planDeComida.map(plan => {
-                                      return (
-                                        <>
-                                          PLAN DE COMIDAS:   {plan.nombrePlanComida}
-                                          <br />
-                                          Precio Total con Plan de Comidas:   {plan.precioTotalConPlan}
-                                          <br />
-                                          Precio Total sin Plan de Comidas:   {plan.precioTotalSinPlan}
-                                          <br />
-                                          <br />
-                                        </>
-                                      );
-                                    })
-                                  }
-                                  <h3 className="h3"></h3>
-                                  {
-                                    this.state.cards.disneyHotel.serviciosOpcionales.length > 0 ?
-                                      <>
-                                        SERVICIO OPCIONALES DISNEY:
-                                        <br />
-                                      </>
-                                      : <></>
-                                  }
-                                  {
-                                    this.state.cards.disneyHotel.serviciosOpcionales.map((servicio) => {
-                                      return (
-                                        <>
-                                          {servicio.servicioOpcional}: {servicio.importeServicio}
-                                          <br />
-                                        </>
-                                      );
-                                    })
-                                  }
-                                </h3>
-                              </article>
-                              <article className="articulo1">
-                                <h3 className="h3">
-                                  {
-                                    this.state.cards.disneyHotel.planDeComida.length > 0 ?
-                                      <>
-                                        INFORMACIÓN PLAN DE COMIDAS:
-                                        <br />
-                                      Todas las comidas se pueden utilizar tanto en los hoteles Disney,
-                                      como en todos los parques y en Disney Springs (centro comercial de
-                                      Disney).
-                                    <br />
-                                        <br />
-                                        {
-                                          this.state.cards.disneyHotel.planDeComida.map(plan => {
-                                            return (
-                                              <>
-                                                El servicio de comidas {plan.nombrePlanComida} incluye:
-                                          <br />
-                                                {plan.incluye}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        }
-                                      </> : <></>
-                                  }
-                                  <br />
-                                </h3>
-                              </article>
+                    this.state.cards.disneyTicket.map(card => {
+                      return (
+                        <section id="walt">
+                          <div className="bordes-plan">
+                            <div>
+                              <h1 className="h1 titular">Walt Disney World - Tickets</h1>
                             </div>
-                            : <></>
-                        }
-                      </div>
-                      {this.beneficiosDisney()}
-                    </section>
-                    : <></>
-                }
-
-                {/* UNIVERSAL TICKET */}
-                {
-                  this.state.cards.universalTicket !== undefined ?
-                    <section id="universal">
-                      <div className="bordes-plan">
-                        <div>
-                          <h1 className="h1 titular">Universal - Ticket</h1>
-                        </div>
-                        <div className="lugar">
-                          <img
-                            src={this.state.cards.universalTicket.image}
-                            alt="disney"
-                            width={506}
-                            className="foto"
-                          />
-                          <h4 className="datos">
-                            GRUPO VIAJERO: <span className="span">{this.state.cards.universalTicket.grupoViajero}</span>
-                            <br />
-                            TICKETS: <span className="span">{this.state.cards.universalTicket.tickets}</span>
-                            <br />
-                            PRECIO TOTAL: <span className="span">{this.state.cards.universalTicket.precioTotal}</span>
-                          </h4>
-                        </div>
-                        <div id="plan-universal">
-                          <article className="articulo-u">
-                            <h3 className="h3">
-                              SERVICIOS EXTRAS UNIVERSAL:
-                              <br />
-                              Plan de comidas Quick Service CON VASO REFILL: {this.state.cards.universalTicket.vasoRefillPrecio} USD
-                              <br />
-                              (Precio por persona, por día)
-                              <br />
-                              <br />
-                              Plan de comidas Universal Dining Plan: {this.state.cards.universalTicket.diningPrecio} USD
-                              <br />
-                              (Precio por persona, por día)
-                              <br />
-                              <br />
-                              Paquete de fotografías: {this.state.cards.universalTicket.fotoPrecio} USD
-                              <br />
-                              (Precio por día)
-                              <br />
-                              <br />
-                            </h3>
-                          </article>
-                        </div>
-                      </div>
-                      {this.beneficioUniversalTicket()}
-                    </section>
-                    : <></>
-                }
-
-                {/* UNIVERSAL TICKET */}
-                {
-                  this.state.cards.universalHotel !== undefined ?
-                    <section id="universal">
-                      <div className="bordes-plan">
-                        <div>
-                          <h1 className="h1 titular">Universal - Hotel</h1>
-                        </div>
-                        <div className="lugar">
-                          <img
-                            src={this.state.cards.universalHotel.image}
-                            alt="disney"
-                            width={506}
-                            className="foto"
-                          />
-                          <h4 className="datos">
-                            CHECK IN : <span className="span">{this.state.cards.universalHotel.checkIn}</span>
-                            <br />
-                            CHECK OUT: <span className="span">{this.state.cards.universalHotel.checkOut}</span>
-                            <br />
-                            GRUPO VIAJERO: <span className="span">{this.state.cards.universalHotel.grupoViajero}</span>
-                            <br />
-                            HOTEL: <span className="span">{this.state.cards.universalHotel.hotel}</span>
-                            <br />
-                            HABITACIÓN: <span className="span">{this.state.cards.universalHotel.habitacion}</span>
-                            <br />
-                            TICKETS: <span className="span">{this.state.cards.universalHotel.tickets}</span>
-                            <br />
-                            PRECIO TOTAL: <span className="span">{this.state.cards.universalHotel.precioTotal}</span>
-                          </h4>
-                        </div>
-                        <div id="plan-universal">
-                          <article className="articulo-u">
-                            <h3 className="h3">
-                              SERVICIOS EXTRAS UNIVERSAL:
-                              <br />
-                              Plan de comidas Quick Service CON VASO REFILL: {this.state.cards.universalHotel.vasoRefillPrecio} USD
-                              <br />
-                              (Precio por persona, por día)
-                              <br />
-                              <br />
-                              Plan de comidas Universal Dining Plan: {this.state.cards.universalHotel.diningPrecio} USD
-                              <br />
-                              (Precio por persona, por día)
-                              <br />
-                              <br />
-                              Paquete de fotografías: {this.state.cards.universalHotel.fotoPrecio} USD
-                              <br />
-                              (Precio por persona, por día)
-                              <br />
-                              <br />
-                            </h3>
-                          </article>
-                        </div>
-                      </div>
-                      {this.beneficioUniversal()}
-                    </section>
-                    : <></>
-                }
-
-                {/* OTROS DESTINOS */}
-                {
-                  this.state.cards.otrosDestinos !== undefined ?
-                    <section id="miami">
-                      <div className="bordes-plan">
-                        <div>
-                          <h1 className="h1 titular">{this.state.cards.otrosDestinos.destino}</h1>
-                        </div>
-                        <div className="lugar">
-                          <img src={this.state.cards.otrosDestinos.image} alt="disney" width={506} className="foto" />
-                          <h4 className="datos">
-                            CHECK IN : <span className="span">{this.state.cards.otrosDestinos.checkIn}</span>
-                            <br />
-                            CHECK OUT: <span className="span">{this.state.cards.otrosDestinos.checkOut}</span>
-                            <br />
-                            GRUPO VIAJERO: <span className="span">{this.state.cards.otrosDestinos.grupoViajero}</span>
-                            <br />
-                            HOTEL: <span className="span">{this.state.cards.otrosDestinos.hotel}</span>
-                            <br />
-                            HABITACIÓN: <span className="span">{this.state.cards.otrosDestinos.habitacion}</span>
-                            <br />
-                            PRECIO TOTAL: <span className="span">{this.state.cards.otrosDestinos.precioTotal}</span>
-                          </h4>
-                        </div>
-                        <div id="plan-miami">
-                          <article className="articulo-u">
-                            <h3 className="h3">
-                              {
-                                this.state.cards.otrosDestinos.actividadesExtra.length > 0 ?
-                                  <>
-                                    ACTIVIDADES EXTRAS:
+                            <div className="lugar">
+                              <img src={card.image} alt="disney" className="foto" />
+                              <h4 className="datos">
+                                GRUPO VIAJERO: <span className="span">{card.grupoViajero}</span>
+                                <br />
+                                TICKETS: <span className="span">  {card.tickets}</span>
+                                <br />
+                              </h4>
+                            </div>
+                            {
+                              <div id="plan-disney">
+                                <article className="articulo">
+                                  <h3 className="h3">
+                                    Precio Total: {card.precioTotalConPlan}
                                     <br />
                                     {
-                                      this.state.cards.otrosDestinos.actividadesExtra.map(act => {
+                                      card.serviciosOpcionales.length > 0 ?
+                                        <>
+                                          SERVICIO OPCIONALES DISNEY:
+                                      <br />
+                                        </>
+                                        : <></>
+                                    }
+                                    {
+                                      card.serviciosOpcionales.map((servicio) => {
                                         return (
                                           <>
-                                            {act.actividad}: {act.precio} USD
-                                            <br />
+                                            {servicio.servicioOpcional}: {servicio.importeServicio}
                                             <br />
                                           </>
                                         );
                                       })
                                     }
-                                  </>
-                                  : <></>
-                              }
+                                  </h3>
+                                </article>
+                                <article className="articulo1">
+                                  <h3 className="h3">
+                                    {
+                                      card.planDeComida.length > 0 ?
+                                        <>
+                                          INFORMACIÓN PLAN DE COMIDAS:
+                                      <br />
+                                      Todas las comidas se pueden utilizar tanto en los hoteles Disney,
+                                      como en todos los parques y en Disney Springs (centro comercial de
+                                      Disney).
+                                    <br />
+                                          <br />
+                                          {
+                                            card.planDeComida.map(plan => {
+                                              return (
+                                                <>
+                                                  El servicio de comidas {plan.nombrePlanComida} incluye:
+                                          <br />
+                                                  {plan.incluye}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          }
+                                        </> : <></>
+                                    }
+                                    <br />
+                                  </h3>
+                                </article>
+                              </div>
+                            }
+                          </div>
+                          {this.beneficiosDisneyTicket()}
+                        </section>
+                      )
+                    }) : <></>
+                }
+
+                {/* DISNEY HOTEL */}
+                {
+                  this.state.cards.disneyHotel !== undefined ?
+                    this.state.cards.disneyHotel.map(card => {
+                      return (
+                        <section id="walt">
+                          <div className="bordes-plan">
+                            <div>
+                              <h1 className="h1 titular">Walt Disney World - Hotel</h1>
+                            </div>
+                            <div className="lugar">
+                              <img src={card.image} alt="disney" className="foto" />
+                              <h4 className="datos">
+                                CHECK IN : <span className="span"> {card.checkIn} </span>
+                                <br />
+                                CHECK OUT: <span className="span"> {card.checkOut} </span>
+                                <br />
+                                GRUPO VIAJERO: <span className="span"> {card.grupoViajero} </span>
+                                <br />
+                                HOTEL: <span className="span"> {card.hotel} </span>
+                                <br />
+                                HABITACIÓN: <span className="span"> {card.habitacion} </span>
+                                <br />
+                                TICKETS: <span className="span">{card.tickets}</span>
+                                <br />
+                              </h4>
+                            </div>
+                            {
+                              card.length > 0 || card.serviciosOpcionales.length > 0 ?
+                                <div id="plan-disney">
+                                  <article className="articulo">
+                                    <h3 className="h3">
+                                      {
+                                        card.planDeComida.map(plan => {
+                                          return (
+                                            <>
+                                              PLAN DE COMIDAS:   {plan.nombrePlanComida}
+                                              <br />
+                                          Precio Total con Plan de Comidas:   {plan.precioTotalConPlan}
+                                              <br />
+                                          Precio Total sin Plan de Comidas:   {plan.precioTotalSinPlan}
+                                              <br />
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      }
+                                      <h3 className="h3"></h3>
+                                      {
+                                        card.serviciosOpcionales.length > 0 ?
+                                          <>
+                                            SERVICIO OPCIONALES DISNEY:
+                                        <br />
+                                          </>
+                                          : <></>
+                                      }
+                                      {
+                                        card.serviciosOpcionales.map((servicio) => {
+                                          return (
+                                            <>
+                                              {servicio.servicioOpcional}: {servicio.importeServicio}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      }
+                                    </h3>
+                                  </article>
+                                  <article className="articulo1">
+                                    <h3 className="h3">
+                                      {
+                                        card.planDeComida.length > 0 ?
+                                          <>
+                                            INFORMACIÓN PLAN DE COMIDAS:
+                                        <br />
+                                      Todas las comidas se pueden utilizar tanto en los hoteles Disney,
+                                      como en todos los parques y en Disney Springs (centro comercial de
+                                      Disney).
+                                    <br />
+                                            <br />
+                                            {
+                                              card.planDeComida.map(plan => {
+                                                return (
+                                                  <>
+                                                    El servicio de comidas {plan.nombrePlanComida} incluye:
+                                          <br />
+                                                    {plan.incluye}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                            }
+                                          </> : <></>
+                                      }
+                                      <br />
+                                    </h3>
+                                  </article>
+                                </div>
+                                : <></>
+                            }
+                          </div>
+                          {this.beneficiosDisney()}
+                        </section>
+                      )
+                    }) : <></>
+                }
+
+                {/* UNIVERSAL TICKET */}
+                {
+                  this.state.cards.universalTicket !== undefined ?
+                    this.state.cards.universalTicket.map(card => {
+                      return (
+                        <section id="universal">
+                          <div className="bordes-plan">
+                            <div>
+                              <h1 className="h1 titular">Universal - Ticket</h1>
+                            </div>
+                            <div className="lugar">
+                              <img
+                                src={card.image}
+                                alt="disney"
+                                width={506}
+                                className="foto"
+                              />
+                              <h4 className="datos">
+                                GRUPO VIAJERO: <span className="span">{card.grupoViajero}</span>
+                                <br />
+                            TICKETS: <span className="span">{card.tickets}</span>
+                                <br />
+                            PRECIO TOTAL: <span className="span">{card.precioTotal}</span>
+                              </h4>
+                            </div>
+                            <div id="plan-universal">
+                              <article className="articulo-u">
+                                <h3 className="h3">
+                                  SERVICIOS EXTRAS UNIVERSAL:
+                              <br />
+                              Plan de comidas Quick Service CON VASO REFILL: {card.vasoRefillPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                                  <br />
+                              Plan de comidas Universal Dining Plan: {card.diningPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                                  <br />
+                              Paquete de fotografías: {card.fotoPrecio} USD
+                              <br />
+                              (Precio por día)
+                              <br />
+                                  <br />
+                                </h3>
+                              </article>
+                            </div>
+                          </div>
+                          {this.beneficioUniversalTicket()}
+                        </section>
+                      );
+                    }) : <></>
+                }
+
+                {/* UNIVERSAL HOTEL */}
+                {
+                  this.state.cards.universalHotel !== undefined ?
+                    this.state.cards.universalHotel.map(card => {
+                      return (
+                        <section id="universal">
+                          <div className="bordes-plan">
+                            <div>
+                              <h1 className="h1 titular">Universal - Hotel</h1>
+                            </div>
+                            <div className="lugar">
+                              <img
+                                src={card.image}
+                                alt="disney"
+                                width={506}
+                                className="foto"
+                              />
+                              <h4 className="datos">
+                                CHECK IN : <span className="span">{card.checkIn}</span>
+                                <br />
+                            CHECK OUT: <span className="span">{card.checkOut}</span>
+                                <br />
+                            GRUPO VIAJERO: <span className="span">{card.grupoViajero}</span>
+                                <br />
+                            HOTEL: <span className="span">{card.hotel}</span>
+                                <br />
+                            HABITACIÓN: <span className="span">{card.habitacion}</span>
+                                <br />
+                            TICKETS: <span className="span">{card.tickets}</span>
+                                <br />
+                            PRECIO TOTAL: <span className="span">{card.precioTotal}</span>
+                              </h4>
+                            </div>
+                            <div id="plan-universal">
+                              <article className="articulo-u">
+                                <h3 className="h3">
+                                  SERVICIOS EXTRAS UNIVERSAL:
+                              <br />
+                              Plan de comidas Quick Service CON VASO REFILL: {card.vasoRefillPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                                  <br />
+                              Plan de comidas Universal Dining Plan: {card.diningPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                                  <br />
+                              Paquete de fotografías: {card.fotoPrecio} USD
+                              <br />
+                              (Precio por persona, por día)
+                              <br />
+                                  <br />
+                                </h3>
+                              </article>
+                            </div>
+                          </div>
+                          {this.beneficioUniversal()}
+                        </section>
+                      );
+                    }) : <></>
+                }
+
+                {/* OTROS DESTINOS */}
+                {
+                  this.state.cards.otrosDestinos !== undefined ?
+                    this.state.cards.otrosDestinos.map(card => {
+                      return (
+                        <section id="miami">
+                          <div className="bordes-plan">
+                            <div>
+                              <h1 className="h1 titular">{card.destino}</h1>
+                            </div>
+                            <div className="lugar">
+                              <img src={card.image} alt="disney" width={506} className="foto" />
+                              <h4 className="datos">
+                                CHECK IN : <span className="span">{card.checkIn}</span>
+                                <br />
+                            CHECK OUT: <span className="span">{card.checkOut}</span>
+                                <br />
+                            GRUPO VIAJERO: <span className="span">{card.grupoViajero}</span>
+                                <br />
+                            HOTEL: <span className="span">{card.hotel}</span>
+                                <br />
+                            HABITACIÓN: <span className="span">{card.habitacion}</span>
+                                <br />
+                            PRECIO TOTAL: <span className="span">{card.precioTotal}</span>
+                              </h4>
+                            </div>
+                            <div id="plan-miami">
+                              <article className="articulo-u">
+                                <h3 className="h3">
+                                  {
+                                    card.actividadesExtra.length > 0 ?
+                                      <>
+                                        ACTIVIDADES EXTRAS:
+                                    <br />
+                                        {
+                                          card.actividadesExtra.map(act => {
+                                            return (
+                                              <>
+                                                {act.actividad}: {act.precio} USD
+                                            <br />
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        }
+                                      </>
+                                      : <></>
+                                  }
                               FORMA DE PAGO:
                               <br />
-                              El pago se realiza con tarjeta de crédito {this.state.cards.otrosDestinos.formaDePago}
-                            </h3>
-                          </article>
-                        </div>
-                      </div>
-                    </section>
-                    : <></>
+                              El pago se realiza con tarjeta de crédito {card.formaDePago}
+                                </h3>
+                              </article>
+                            </div>
+                          </div>
+                        </section>
+                      );
+                    }) : <></>
                 }
 
                 {/* CRUCERO */}
                 {
                   this.state.cards.crucero !== undefined ?
-                    <section id="crucero">
-                      <div className="bordes-plan">
-                        <div>
-                          <h1 className="h1 titular">Crucero</h1>
-                        </div>
-                        <div className="lugar">
-                          <img
-                            src={this.state.cards.crucero.image}
-                            alt="disney"
-                            width={506}
-                            className="foto"
-                          />
-                          <h4 className="datos">
-                            NOMBRE DEL BARCO:<span className="span">{this.state.cards.crucero.nombreBarco}</span>
-                            <br />
-                            DESTINO:<span className="span">{this.state.cards.crucero.destino}</span>
-                            <br />
-                            FECHA:<span className="span">{this.state.cards.crucero.fecha}</span>
-                            <br />
-                            NÚMERO DE NOCHES:<span className="span">{this.state.cards.crucero.numeroNoches}</span>
-                            <br />
-                            VIAJEROS:<span className="span">{this.state.cards.crucero.viajeros}</span>
-                            <br />
-                            RAZÓN DEL VIAJE:<span className="span">{this.state.cards.crucero.razonViaje}</span>
-                          </h4>
-                        </div>
-                        <div id="tabla">
-                          <table className="table">
-                            <tbody>
-                              <tr className="tr">
-                                <th className="th">
-                                  <h2 className="h2">
-                                    DÍA
-                                  </h2>
-                                </th>
-                                <th className="th">
-                                  <h2 className="h2">
-                                    PUERTO
-                                  </h2>
-                                </th>
-                                <th className="th">
-                                  <h2 className="h2">
-                                    EMBARQUE
-                                  </h2>
-                                </th>
-                                <th className="th">
-                                  <h2 className="h2">
-                                    DESEMBARQUE
-                                  </h2>
-                                </th>
-                              </tr>
-                              {
-                                this.state.cards.crucero.tablaDias.map((row, index) => {
-                                  return (
-                                    <tr className="tr">
-                                      <td className="td">{index + 1}</td>
-                                      <td className="td">{row.puerto}</td>
-                                      <td className="td">{row.salida}</td>
-                                      <td className="td">{row.llegada}</td>
-                                    </tr>
-                                  )
-                                })
-                              }
-                            </tbody>
-                          </table>
-                        </div>
-                        <div id="cabina">
-                          <article className="precios">
+                    this.state.cards.crucero.map(card => {
+                      return (
+                        <section id="crucero">
+                          <div className="bordes-plan">
                             <div>
-                              <h3 className="h3">
-                                TIPO DE CABINA PRECIO
-                                <br />
-                                <br />
-                                {
-                                  this.state.cards.crucero.cabinas.map(cabina => {
-                                    return (
-                                      <>
-                                        {cabina.tipoCabina}: {cabina.tipoCabinaPrecio} USD
-                                        <br />
-                                      </>
-                                    );
-                                  })
-                                }
-                              </h3>
+                              <h1 className="h1 titular">Crucero</h1>
                             </div>
-                          </article>
-                          <article className="inc">
-                            <h3 className="h3">
-                              ¿QUÉ INCLUYE?
-                            </h3>
-                            <p>
+                            <div className="lugar">
                               <img
-                                src={require("./img/estrella.png")}
-                                alt="estrella"
-                                className="estrella"
-                                width="19px"
+                                src={card.image}
+                                alt="disney"
+                                width={506}
+                                className="foto"
                               />
+                              <h4 className="datos">
+                                NOMBRE DEL BARCO:<span className="span">{card.nombreBarco}</span>
+                                <br />
+                            DESTINO:<span className="span">{card.destino}</span>
+                                <br />
+                            FECHA:<span className="span">{card.fecha}</span>
+                                <br />
+                            NÚMERO DE NOCHES:<span className="span">{card.numeroNoches}</span>
+                                <br />
+                            VIAJEROS:<span className="span">{card.viajeros}</span>
+                                <br />
+                            RAZÓN DEL VIAJE:<span className="span">{card.razonViaje}</span>
+                              </h4>
+                            </div>
+                            <div id="tabla">
+                              <table className="table">
+                                <tbody>
+                                  <tr className="tr">
+                                    <th className="th">
+                                      <h2 className="h2">
+                                        DÍA
+                                  </h2>
+                                    </th>
+                                    <th className="th">
+                                      <h2 className="h2">
+                                        PUERTO
+                                  </h2>
+                                    </th>
+                                    <th className="th">
+                                      <h2 className="h2">
+                                        EMBARQUE
+                                  </h2>
+                                    </th>
+                                    <th className="th">
+                                      <h2 className="h2">
+                                        DESEMBARQUE
+                                  </h2>
+                                    </th>
+                                  </tr>
+                                  {
+                                    card.tablaDias.map((row, index) => {
+                                      return (
+                                        <tr className="tr">
+                                          <td className="td">{index + 1}</td>
+                                          <td className="td">{row.puerto}</td>
+                                          <td className="td">{row.salida}</td>
+                                          <td className="td">{row.llegada}</td>
+                                        </tr>
+                                      )
+                                    })
+                                  }
+                                </tbody>
+                              </table>
+                            </div>
+                            <div id="cabina">
+                              <article className="precios">
+                                <div>
+                                  <h3 className="h3">
+                                    TIPO DE CABINA PRECIO
+                                <br />
+                                    <br />
+                                    {
+                                      card.cabinas.map(cabina => {
+                                        return (
+                                          <>
+                                            {cabina.tipoCabina}: {cabina.tipoCabinaPrecio} USD
+                                        <br />
+                                          </>
+                                        );
+                                      })
+                                    }
+                                  </h3>
+                                </div>
+                              </article>
+                              <article className="inc">
+                                <h3 className="h3">
+                                  ¿QUÉ INCLUYE?
+                            </h3>
+                                <p>
+                                  <img
+                                    src={require("./img/estrella.png")}
+                                    alt="estrella"
+                                    className="estrella"
+                                    width="19px"
+                                  />
                   Alojamiento
                 </p>
-                            <p>
-                              <img
-                                src={require("./img/estrella.png")}
-                                alt="estrella"
-                                className="estrella"
-                                width="19px"
-                              />
+                                <p>
+                                  <img
+                                    src={require("./img/estrella.png")}
+                                    alt="estrella"
+                                    className="estrella"
+                                    width="19px"
+                                  />
                   Comida
                 </p>
-                            <p>
-                              <img
-                                src={require("./img/estrella.png")}
-                                alt="estrella"
-                                className="estrella"
-                                width="19px"
-                              />
+                                <p>
+                                  <img
+                                    src={require("./img/estrella.png")}
+                                    alt="estrella"
+                                    className="estrella"
+                                    width="19px"
+                                  />
                   Bebidas no alcoholicas complementarias
                 </p>
-                            <p>
-                              <img
-                                src={require("./img/estrella.png")}
-                                alt="estrella"
-                                className="estrella"
-                                width="19px"
-                              />
+                                <p>
+                                  <img
+                                    src={require("./img/estrella.png")}
+                                    alt="estrella"
+                                    className="estrella"
+                                    width="19px"
+                                  />
                   Entretenimiento
                 </p>
-                            <p>
-                              <img
-                                src={require("./img/estrella.png")}
-                                alt="estrella"
-                                className="estrella"
-                                width="19px"
-                              />
+                                <p>
+                                  <img
+                                    src={require("./img/estrella.png")}
+                                    alt="estrella"
+                                    className="estrella"
+                                    width="19px"
+                                  />
                   Experiencia con Personajes
                 </p>
-                            <p>
-                              <img
-                                src={require("./img/estrella.png")}
-                                alt="estrella"
-                                className="estrella"
-                                width="19px"
-                              />
+                                <p>
+                                  <img
+                                    src={require("./img/estrella.png")}
+                                    alt="estrella"
+                                    className="estrella"
+                                    width="19px"
+                                  />
                   Actividades seleccionadas a bordo
                 </p>
-                          </article>
-                        </div>
-                        <div id="plan-crucero">
-                          <article className="articulo-u">
-                            <h3 className="h3">
-                              FORMA DE PAGO:
+                              </article>
+                            </div>
+                            <div id="plan-crucero">
+                              <article className="articulo-u">
+                                <h3 className="h3">
+                                  FORMA DE PAGO:
                               <br />
                   El pago se realiza con tarjeta de débito o crédito directamente a
                   Disney Cruise Line a través de nosotros; y para realizar la
-                  reservación es necesario un depósito del 20% del total para el {this.state.cards.crucero.fechaPago1} y liquidar el restante máximo el {this.state.cards.crucero.fechaPago2}
-                              <br />
+                  reservación es necesario un depósito del 20% del total para el {card.fechaPago1} y liquidar el restante máximo el {card.fechaPago2}
+                                  <br />
                   La cantidad exacta de depósito y del restante por pagar depende
                   del tipo de habitación que elijan.
                 </h3>
-                          </article>
-                        </div>
-                      </div>
-                    </section>
-                    : <></>
+                              </article>
+                            </div>
+                          </div>
+                        </section>
+                      );
+                    }) : <></>
                 }
 
                 {/* FOOTER */}
@@ -759,12 +777,12 @@ class Template extends React.Component {
                           </article>
                         </div>
                         <h2 className="info">
-                          
-                            Para más información visitanos en{" "}
-                            <a className="footera" href="http://mhtravelagency.com/website/index.php?lang=es">
-                              www.mhtravelagency.com
+
+                          Para más información visitanos en{" "}
+                          <a className="footera" href="http://mhtravelagency.com/website/index.php?lang=es">
+                            www.mhtravelagency.com
                   </a>
-                          
+
                         </h2>
                       </div>
                     </footer> : <></>
