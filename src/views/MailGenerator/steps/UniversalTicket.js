@@ -42,12 +42,26 @@ class UniversalTicket extends React.Component {
       diningPrecio: "",
       fotoPrecio: "",
       precioTotal: "",
-      tickets: ""
+      tickets: "",
+      tarjeta: "universalTicket"
     };
   }
 
   sendState() {
-    return this.state;
+    let state = this.state;
+
+    this.setState({
+      grupoViajero: "",
+      image: "",
+      vasoRefillPrecio: "",
+      diningPrecio: "",
+      fotoPrecio: "",
+      precioTotal: "",
+      tickets: "",
+      tarjeta: "universalTicket"
+    });
+
+    return state;
   }
 
   getImageBase64 = (base64) => {

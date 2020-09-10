@@ -35,11 +35,28 @@ class DisneyTicket extends React.Component {
       planDeComida: [],
       servicioOpcional: "",
       importeServicio: "",
-      serviciosOpcionales: []
+      serviciosOpcionales: [],
+      tarjeta: "disneyTicket"
     };
   }
   sendState() {
-    return this.state;
+    let state = this.state;
+    this.setState({
+      grupoViajero: "",
+      tickets: "",
+      image: "",
+      nombrePlanComida: "",
+      precioTotalConPlan: "",
+      precioTotalSinPlan: "",
+      incluye: "",
+      planDeComida: [],
+      servicioOpcional: "",
+      importeServicio: "",
+      serviciosOpcionales: [],
+      tarjeta: "disneyTicket"
+    });
+
+    return state;
   }
 
   handleSimple = event => {

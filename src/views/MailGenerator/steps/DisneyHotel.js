@@ -50,12 +50,33 @@ class DisneyHotel extends React.Component {
       servicioOpcional: "",
       importeServicio: "",
       serviciosOpcionales: [],
-      tickets: ""
+      tickets: "",
+      tarjeta: "disneyHotel"
     };
   }
 
   sendState() {
-    return this.state;
+    let state = this.state;
+    this.setState({
+      checkIn: "",
+      checkOut: "",
+      grupoViajero: "",
+      hotel: "",
+      habitacion: "",
+      image: "",
+      nombrePlanComida: "",
+      precioTotalConPlan: "",
+      precioTotalSinPlan: "",
+      incluye: "",
+      planDeComida: [],
+      servicioOpcional: "",
+      importeServicio: "",
+      serviciosOpcionales: [],
+      tickets: "",
+      tarjeta: "disneyHotel"
+    });
+
+    return state;
   }
 
   getImageBase64 = (base64) => {

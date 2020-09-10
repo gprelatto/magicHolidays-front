@@ -36,11 +36,13 @@ export default function ImageUpload(props) {
     fileInput.current.click();
   };
   const handleRemove = () => {
+    console.log("REMOVE!!!!")
     setFile(null);
     setImagePreviewUrl(props.avatar ? defaultAvatar : defaultImage);
     fileInput.current.value = null;
   };
   let { avatar, addButtonProps, changeButtonProps, removeButtonProps } = props;
+
   return (
     <div className="fileinput text-center">
       <input type="file" onChange={handleImageChange} ref={fileInput} />

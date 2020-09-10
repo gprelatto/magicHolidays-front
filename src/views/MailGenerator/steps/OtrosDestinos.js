@@ -43,12 +43,31 @@ class OtrosDestinos extends React.Component {
             formaDePago: "",
             actividad: "",
             precio: "",
-            actividadesExtra: []
+            actividadesExtra: [],
+            tarjeta: "otrosDestinos"
         };
     }
 
     sendState() {
-        return this.state;
+        let state = this.state;
+
+        this.setState({
+            destino: "",
+            grupoViajero: "",
+            image: "",
+            precioTotal: "",
+            checkIn: "",
+            checkOut: "",
+            hotel: "",
+            habitacion: "",
+            formaDePago: "",
+            actividad: "",
+            precio: "",
+            actividadesExtra: [],
+            tarjeta: "otrosDestinos"
+        });
+
+        return state;
     }
 
     getImageBase64 = (base64) => {
