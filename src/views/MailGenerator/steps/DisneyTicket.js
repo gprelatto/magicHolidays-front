@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -21,6 +24,17 @@ const style = {
   ...customSelectStyle
 };
 
+const titulos = [
+  {
+    "id": 0,
+    "descripcion": "Disneyland California - Ticket"
+  },
+  {
+    "id": 1,
+    "descripcion": "Walt Disney Orlando - Ticket"
+  }
+]
+
 class DisneyTicket extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +50,9 @@ class DisneyTicket extends React.Component {
       servicioOpcional: "",
       importeServicio: "",
       serviciosOpcionales: [],
-      tarjeta: "disneyTicket"
+      tarjeta: "disneyTicket",
+      tituloId: 0,
+      titulo: titulos.find(f => f.id === 0).descripcion
     };
   }
   sendState() {
@@ -53,7 +69,9 @@ class DisneyTicket extends React.Component {
       servicioOpcional: "",
       importeServicio: "",
       serviciosOpcionales: [],
-      tarjeta: "disneyTicket"
+      tarjeta: "disneyTicket",
+      tituloId: 0,
+      titulo: ""
     });
 
     return state;
@@ -131,9 +149,44 @@ class DisneyTicket extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer justify="center">
-        <GridItem xs={12} sm={12}>
-          <h4 className={classes.infoText}>Walt Disney World - Ticket</h4>
+        <GridItem xs={4} sm={4}></GridItem>
+        <GridItem xs={4} sm={4}>
+          <Select
+            MenuProps={{
+              className: classes.infoText
+            }}
+            classes={{
+              select: classes.select
+            }}
+            value={this.state.tituloId}
+            onChange={e => {
+              this.setState({
+                tituloId: e.target.value,
+                titulo: titulos.find(f => f.id === e.target.value).descripcion
+              }
+            )}}
+            inputProps={{
+              name: "tituloSelect",
+              id: "tituloSelect"
+            }}
+          >
+            {titulos.map((t, i) => {
+              return (
+                <MenuItem
+                  key={i}
+                  classes={{
+                    root: classes.selectMenuItem,
+                    selected: classes.selectMenuItemSelected
+                  }}
+                  value={t.id}
+                >
+                  {t.descripcion}
+                </MenuItem>
+              )
+            })}
+          </Select>
         </GridItem>
+        <GridItem xs={2} sm={2}></GridItem>
         <GridItem xs={4} sm={5}>
           <CustomInput
             labelText="Tickets"

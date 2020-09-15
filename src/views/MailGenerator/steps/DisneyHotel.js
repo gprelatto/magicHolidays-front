@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-// @material-ui/icons
-import Face from "@material-ui/icons/Face";
-import RecordVoiceOver from "@material-ui/icons/RecordVoiceOver";
-import Email from "@material-ui/icons/Email";
+
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -31,6 +30,17 @@ const style = {
   }
 };
 
+const titulos = [
+  {
+    "id": 0,
+    "descripcion": "Disneyland California - Hotel"
+  },
+  {
+    "id": 1,
+    "descripcion": "Walt Disney Orlando - Hotel"
+  }
+]
+
 class DisneyHotel extends React.Component {
   constructor(props) {
     super(props);
@@ -51,7 +61,9 @@ class DisneyHotel extends React.Component {
       importeServicio: "",
       serviciosOpcionales: [],
       tickets: "",
-      tarjeta: "disneyHotel"
+      tarjeta: "disneyHotel",
+      tituloId: 0,
+      titulo: titulos.find(f => f.id === 0).descripcion
     };
   }
 
@@ -73,7 +85,9 @@ class DisneyHotel extends React.Component {
       importeServicio: "",
       serviciosOpcionales: [],
       tickets: "",
-      tarjeta: "disneyHotel"
+      tarjeta: "disneyHotel",
+      tituloId: 0,
+      titulo: ""
     });
 
     return state;
@@ -85,7 +99,7 @@ class DisneyHotel extends React.Component {
     })
   }
 
-  change(event, stateName, type, stateNameEqualTo) { 
+  change(event, stateName, type, stateNameEqualTo) {
     this.setState({ [stateName]: event.target.value });
   }
 
@@ -151,9 +165,44 @@ class DisneyHotel extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer justify="center">
-        <GridItem xs={12} sm={12}>
-          <h4 className={classes.infoText}>Walt Disney World - Hotel</h4>
+        <GridItem xs={4} sm={4}></GridItem>
+        <GridItem xs={4} sm={4}>
+          <Select
+            MenuProps={{
+              className: classes.infoText
+            }}
+            classes={{
+              select: classes.select
+            }}
+            value={this.state.tituloId}
+            onChange={e => {
+              this.setState({
+                tituloId: e.target.value,
+                titulo: titulos.find(f => f.id === e.target.value).descripcion
+              }
+            )}}
+            inputProps={{
+              name: "tituloSelect",
+              id: "tituloSelect"
+            }}
+          >
+            {titulos.map((t, i) => {
+              return (
+                <MenuItem
+                  key={i}
+                  classes={{
+                    root: classes.selectMenuItem,
+                    selected: classes.selectMenuItemSelected
+                  }}
+                  value={t.id}
+                >
+                  {t.descripcion}
+                </MenuItem>
+              )
+            })}
+          </Select>
         </GridItem>
+        <GridItem xs={2} sm={2}></GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
             labelText="Check In"
