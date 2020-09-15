@@ -11,6 +11,8 @@ class Template extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log('PROPS!', props)
+
     this.state = {
       cards: {},
       fileName: ""
@@ -231,7 +233,7 @@ class Template extends React.Component {
                         <section id="walt">
                           <div className="bordes-plan">
                             <div>
-                              <h1 className="h1 titular">Walt Disney World - Tickets</h1>
+                              <h1 className="h1 titular">{card.titulo}</h1>
                             </div>
                             <div className="lugar">
                               <img src={card.image} alt="disney" className="foto" />
@@ -314,7 +316,7 @@ class Template extends React.Component {
                         <section id="walt">
                           <div className="bordes-plan">
                             <div>
-                              <h1 className="h1 titular">Walt Disney World - Hotel</h1>
+                              <h1 className="h1 titular">{card.titulo}</h1>
                             </div>
                             <div className="lugar">
                               <img src={card.image} alt="disney" className="foto" />
@@ -334,7 +336,7 @@ class Template extends React.Component {
                               </h4>
                             </div>
                             {
-                              card.length > 0 || card.serviciosOpcionales.length > 0 ?
+                              card.planDeComida.length > 0 || card.serviciosOpcionales.length > 0 ?
                                 <div id="plan-disney">
                                   <article className="articulo">
                                     <h3 className="h3">
