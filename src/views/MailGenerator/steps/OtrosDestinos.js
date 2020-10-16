@@ -11,6 +11,8 @@ import GridItem from "components/Grid/GridItem.js";
 import ImageUpload from "components/CustomUpload/ImageUpload";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
+import { withTranslation } from 'react-i18next' 
+
 import { Button } from "@material-ui/core";
 
 const style = {
@@ -110,12 +112,12 @@ class OtrosDestinos extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, t } = this.props;
         return (
             <GridContainer justify="center">
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Destino"
+                        labelText={t('wizard.step.other.destiny')}
                         id="destino"
                         formControlProps={{
                             fullWidth: true
@@ -172,7 +174,7 @@ class OtrosDestinos extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Grupo Viajero"
+                        labelText={t('wizard.step.disneyHotel.travelerGroup')}
                         id="grupoViajero"
                         formControlProps={{
                             fullWidth: true
@@ -210,7 +212,7 @@ class OtrosDestinos extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Habitacion"
+                        labelText={t('wizard.step.disneyHotel.room')}
                         id="habitacion"
                         formControlProps={{
                             fullWidth: true
@@ -229,7 +231,7 @@ class OtrosDestinos extends React.Component {
                 </GridItem>
                 <GridItem xs={12} sm={3}>
                     <CustomInput
-                        labelText="Precio Total"
+                        labelText={t('wizard.step.other.price')}
                         id="precio"
                         formControlProps={{
                             fullWidth: true
@@ -249,7 +251,7 @@ class OtrosDestinos extends React.Component {
                 <GridItem xs={12} sm={4}></GridItem>
                 <GridItem xs={12} sm={3}>
                     <CustomInput
-                        labelText="Forma de Pago"
+                        labelText={t('wizard.step.other.payment')}
                         id="formaPago"
                         formControlProps={{
                             fullWidth: true
@@ -268,7 +270,7 @@ class OtrosDestinos extends React.Component {
                 </GridItem>
                 <GridItem xs={12} sm={5}>
                     <CustomInput
-                        labelText="Actividad Extra"
+                        labelText={t('wizard.step.other.extra')}
                         id="actividadExtra"
                         formControlProps={{
                             fullWidth: true
@@ -285,7 +287,7 @@ class OtrosDestinos extends React.Component {
                         }}
                     />
                     <CustomInput
-                        labelText="Importe de la Actividad"
+                        labelText={t('wizard.step.other.extraPrice')}
                         id="importe"
                         formControlProps={{
                             fullWidth: true
@@ -301,14 +303,14 @@ class OtrosDestinos extends React.Component {
                             value: this.state.precio
                         }}
                     />
-                    <Button onClick={this.agregarActividadExtra}>Agregar Actividad</Button>
+                    <Button onClick={this.agregarActividadExtra}>{t('wizard.step.other.add')}</Button>
                 </GridItem>
                 <GridItem xs={12} sm={5}>
-                    <h3 >Actividades extra:</h3>
+                    <h3 >{t('wizard.step.other.extras')}:</h3>
                     <ul>
                         {
                             this.state.actividadesExtra.map((p) => {
-                                return (<li><h4>{p.actividad} <Button onClick={() => this.deleteActividad(p.actividad)}>Eliminar</Button></h4></li>)
+                            return (<li><h4>{p.actividad} <Button onClick={() => this.deleteActividad(p.actividad)}>{t('wizard.step.disneyHotel.delete')}</Button></h4></li>)
                             })
                         }
                     </ul>
@@ -325,4 +327,4 @@ OtrosDestinos.propTypes = {
     classes: PropTypes.object
 };
 
-export default withStyles(style)(OtrosDestinos);
+export default withTranslation()(withStyles(style)(OtrosDestinos));
