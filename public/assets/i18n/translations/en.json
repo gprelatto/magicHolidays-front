@@ -160,7 +160,7 @@
     "wizard.step.cruice.destination": "Destination",
     "wizard.step.cruice.date": "Date",
     "wizard.step.cruice.nights": "Number of Nights",
-    "wizard.step.cruice.travelers": "Travelers",
+    "wizard.step.cruice.travelers": "Travellers",
     "wizard.step.cruice.reason": "Reason for the trip",
     "wizard.step.cruice.firstDate": "First Date For Payment",
     "wizard.step.cruice.limitDate": "Limit Date For Payment",
@@ -210,6 +210,67 @@
     "image.remove": "Remove",
     "image.change": "Change",
     "image.addPhoto": "Add Photo",
-    "image.addImage": "Select Image"
+    "image.addImage": "Select Image",
 
+    "pdf.disneyBenefit.1": "Also staying at Disney Resorts have the following benefits",
+    "pdf.disneyBenefit.2": "Courtesy transportation from the Orlando airport to the hotel roundtrip in the case of arriving there.",
+    "pdf.disneyBenefit.3": "Free transportation within Disney World with exclusive buses to all parks from hotels including Disney Spring area.",
+    "pdf.disneyBenefit.4": "Extra magic hours (you can enjoy the parks for more hours than the rest of the visitors)",
+    "pdf.disneyBenefit.5": "Fast pass selection (fast passes to the most popular attractions) 60 days before your trip.",
+    "pdf.disneyBenefit.6": "Total planning",
+    "pdf.disneyBenefit.7": "The planning includes a travel guide, the linking of the package for my Disney experience account, the completion of the online check-in, the preparation of a day-by-day plan so you can visit the parks on the appropriate dates. Suggestions of the best restaurants and route strategies for each park.",
+    "pdf.disneyBenefit.8": "PAYMENT CONDITIONS",
+    "pdf.disneyBenefit.9": "To reserve the Disney Package you need a minimum payment of 200 dollars per room. The balance must be paid 30 days before check in. While you can make partial payments of the amounts that you define and modify the date of the reservation if necessary. If you decide to cancel it can also be done free of charge and your money will be refund as long as it is 30 days before your trip. You can make a reservation for 72 hours at no cost. The reservation is made directly with Disney with a credit card. When you make the reservation through me, you will get the same price that you see on Disney.com",
+
+    "pdf.universal.1": "UNIVERSAL HOTELS PAYMENT METHOD",
+    "pdf.universal.2": "Payment is made by credit card and to reserve the Universal packages a deposit of $ 50 dollars per person is necessary and the rest of the total will have to be paid 45 days before the arrival date.",
+    "pdf.universal.3": "Until then you can make partial payments of the amounts that you define and modify the reservation dates as well. Even if you want to cancel it can also be done 45 days before your trip and you get all your money back.",
+
+    "pdf.universal.4": "PAYMENT METHOD UNIVERSAL TICKETS",
+    "pdf.universal.5": "Payment is made by credit card in one payment. They are non-refundable and non-transferable.",
+
+    "pdf.disney.1": "TOTAL PLANNING",
+    "pdf.disney.2": "Planning includes the preparation of a travel guide, the linking the package to the My Disney Experience account, the selection and Fast Pass reservation.",
+    "pdf.disney.3": "PAYMENT CONDITIONS",
+    "pdf.disney.4": "Payment is made by credit or debit card in one payment. They are non-refundable and non-transferable.",
+
+    "pdf.budget": "Budget",
+    "pdf.download": "Download",
+    "pdf.goBack": "Go Back to the Wizard",
+    "pdf.welcome.1": "Welcome travelers!",
+    "pdf.welcome.2": "This is the time to introduce ourselves and tell you that we are an agency specialized in creating magical vacations.",
+    "pdf.welcome.3": "MAGIC HOLIDAYS located in the city of Orlando is an agency authorized by Walt Disney World and Universal Studios. We guarantee personalized attention and support from the beginning to the end of your trip.",
+    "pdf.welcome.4": "We will do everything possible for you to make the most of your experience, time, and investment, looking for options that fit your group and budget. We share tips, recommendations, support with restaurant reservations and fast pass, explanation of how to use the APPS for the parks and everything you need.",
+    "pdf.welcome.5": "The requested quote is detailed below:",
+
+    "pdf.meal.1": "MEAL PLAN INFORMATION",
+    "pdf.meal.2": "All meals can be used in Disney hotels, parks and Disney spring (disney mall).",
+    "pdf.meal.3": "Meal service",
+    "pdf.meal.4": "includes",
+
+    "pdf.universal.extra": "UNIVERSAL EXTRA SERVICES",
+    "pdf.universal.mug": "Quick service meal plan with refillable mug",
+    "pdf.universal.per": "(Price per person, per day)",
+    "pdf.universal.perF": "(price per family or group per day)",
+    "pdf.universal.dining": "Universal Dining plan",
+    "pdf.universal.photo": "Photo package",
+
+    "pdf.other.payment": "PAYMENT METHOD",
+    "pdf.other.paymentDesc": "Payment is made by credit card",
+
+    "pdf.cruice.cabinprice": "Cabin Prices",
+    "pdf.cruice.1": "WHAT INCLUDES?",
+    "pdf.cruice.2": "Accommodation",
+    "pdf.cruice.3": "Food",
+    "pdf.cruice.4": "Non-alcoholic beverages",
+    "pdf.cruice.5": "Entertainment",
+    "pdf.cruice.6": "Character experience",
+    "pdf.cruice.7": "Selected activities on board",
+    "pdf.cruice.8": "PAYMENT METHOD",
+    "pdf.cruice.9": "Payment is made by credit or debit card directly to Disney Cruise Line through us. And to make the reservation a deposit of 20% of the total on",
+    "pdf.cruice.10": "is necessary and pay the remaining maximum on",
+    "pdf.cruice.11": "The exact amount of deposit and the remaining amount to be paid depends on the type of room you choose.",,
+
+    "pdf.final.1": "It will be a pleasure to help you on your next trip,",
+    "pdf.final.2": "For more information visit us on"
 }
