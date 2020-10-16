@@ -172,5 +172,19 @@
     "wizard.step.cruice.add": "Add Cabin",
     "wizard.step.cruice.cabins": "Cabins",
     "wizard.step.cruice.days": "Days",
-    "wizard.step.cruice.addday": "Add Day"
+    "wizard.step.cruice.addday": "Add Day",
+
+    "wizard.step.disneyHotel.travelerGroup": "Traveler Group",
+    "wizard.step.disneyHotel.room": "Room",
+    "wizard.step.disneyHotel.foodPlanName": "Food Plan Name",
+    "wizard.step.disneyHotel.totalPriceFoodPlan": "Total Price With Food Plan",
+    "wizard.step.disneyHotel.totalPriceWithoutFoodPlan": "Total Price Without Food Plan",
+    "wizard.step.disneyHotel.what": "What does the plan includes?",
+    "wizard.step.disneyHotel.addFoodPlan": "Add Plan",
+    "wizard.step.disneyHotel.foodPlans": "Food Plans",
+    "wizard.step.disneyHotel.optional": "Optional Services",
+    "wizard.step.disneyHotel.optionalPrice": "Service Price",
+    "wizard.step.disneyHotel.addService": "Add Service",
+    "wizard.step.disneyHotel.optionalServices": "Optional Services",
+    "wizard.step.disneyHotel.delete": "Delete"
 }

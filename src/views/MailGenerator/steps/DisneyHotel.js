@@ -14,6 +14,8 @@ import GridItem from "components/Grid/GridItem.js";
 import ImageUpload from "components/CustomUpload/ImageUpload";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
+import { withTranslation } from 'react-i18next' 
+
 import { Button } from "@material-ui/core";
 
 const style = {
@@ -162,7 +164,7 @@ class DisneyHotel extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, t } = this.props;
     return (
       <GridContainer justify="center">
         <GridItem xs={4} sm={4}></GridItem>
@@ -259,7 +261,7 @@ class DisneyHotel extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={3}>
           <CustomInput
-            labelText="Grupo Viajero"
+            labelText={t('wizard.step.disneyHotel.travelerGroup')}
             id="grupoViajero"
             formControlProps={{
               fullWidth: true
@@ -295,7 +297,7 @@ class DisneyHotel extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Habitacion"
+            labelText={t('wizard.step.disneyHotel.room')}
             id="habitacion"
             formControlProps={{
               fullWidth: true
@@ -313,7 +315,7 @@ class DisneyHotel extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={5}>
           <CustomInput
-            labelText="Nombre Plan de Comida"
+            labelText={t('wizard.step.disneyHotel.foodPlanName')}
             id="nombrePlanComida"
             formControlProps={{
               fullWidth: true
@@ -329,7 +331,7 @@ class DisneyHotel extends React.Component {
             }}
           />
           <CustomInput
-            labelText="Precio Total Con Plan de Comida"
+            labelText={t('wizard.step.disneyHotel.totalPriceFoodPlan')}
             id="precioCon"
             formControlProps={{
               fullWidth: true
@@ -345,7 +347,7 @@ class DisneyHotel extends React.Component {
             }}
           />
           <CustomInput
-            labelText="Precio Total Sin Plan de Comida"
+            labelText={t('wizard.step.disneyHotel.totalPriceWithoutFoodPlan')}
             id="precioCon"
             formControlProps={{
               fullWidth: true
@@ -361,7 +363,7 @@ class DisneyHotel extends React.Component {
             }}
           />
           <CustomInput
-            labelText="Que incluye el plan?"
+            labelText={t('wizard.step.disneyHotel.what')}
             id="incluye"
             formControlProps={{
               fullWidth: true
@@ -376,21 +378,21 @@ class DisneyHotel extends React.Component {
               value: this.state.incluye
             }}
           />
-          <Button onClick={this.agregarPlanDeComida}>Agregar Plan</Button>
+          <Button onClick={this.agregarPlanDeComida}>{t('wizard.step.disneyHotel.addFoodPlan')}</Button>
         </GridItem>
         <GridItem xs={12} sm={5}>
-          <h3 >Planes de comida:</h3>
+          <h3 >{t('wizard.step.disneyHotel.foodPlans')}:</h3>
           <ul>
             {
               this.state.planDeComida.map((p) => {
-                return (<li><h4>{p.nombrePlanComida} <Button onClick={() => this.deletePlan(p.nombrePlanComida)}>Eliminar</Button></h4></li>)
+                return (<li><h4>{p.nombrePlanComida} <Button onClick={() => this.deletePlan(p.nombrePlanComida)}>{t('wizard.step.disneyHotel.delete')}</Button></h4></li>)
               })
             }
           </ul>
         </GridItem>
         <GridItem xs={12} sm={5}>
           <CustomInput
-            labelText="Servicio Opcional"
+            labelText={t('wizard.step.disneyHotel.optional')}
             id="servicioOpcional"
             formControlProps={{
               fullWidth: true
@@ -406,7 +408,7 @@ class DisneyHotel extends React.Component {
             }}
           />
           <CustomInput
-            labelText="Importe del Servicio"
+            labelText={t('wizard.step.disneyHotel.optionalPrice')}
             id="importeServicio"
             formControlProps={{
               fullWidth: true
@@ -421,14 +423,14 @@ class DisneyHotel extends React.Component {
               value: this.state.importeServicio
             }}
           />
-          <Button onClick={this.agregarServicioOpcional}>Agregar Servicio</Button>
+          <Button onClick={this.agregarServicioOpcional}>{t('wizard.step.disneyHotel.addService')}</Button>
         </GridItem>
         <GridItem xs={12} sm={5}>
-          <h3 >Servicios Opcionales:</h3>
+          <h3 >{t('wizard.step.disneyHotel.optionalServices')}:</h3>
           <ul>
             {
               this.state.serviciosOpcionales.map((p) => {
-                return (<li><h4>{p.servicioOpcional} <Button onClick={() => this.deleteServicio(p.servicioOpcional)}>Eliminar</Button></h4></li>)
+              return (<li><h4>{p.servicioOpcional} <Button onClick={() => this.deleteServicio(p.servicioOpcional)}>{t('wizard.step.disneyHotel.delete')}</Button></h4></li>)
               })
             }
           </ul>
@@ -445,4 +447,4 @@ DisneyHotel.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(style)(DisneyHotel);
+export default withTranslation()(withStyles(style)(DisneyHotel));
