@@ -4,11 +4,13 @@ import PropTypes from "prop-types";
 
 // core components
 import Button from "components/CustomButtons/Button.js";
+import { useTranslation } from 'react-i18next';
 
 import defaultImage from "assets/img/image_placeholder.jpg";
 import defaultAvatar from "assets/img/placeholder.jpg";
 
 export default function ImageUpload(props) {
+  const { t, i18n } = useTranslation();
   const [file, setFile] = React.useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState(
     props.avatar ? defaultAvatar : defaultImage
@@ -36,7 +38,6 @@ export default function ImageUpload(props) {
     fileInput.current.click();
   };
   const handleRemove = () => {
-    console.log("REMOVE!!!!")
     setFile(null);
     setImagePreviewUrl(props.avatar ? defaultAvatar : defaultImage);
     fileInput.current.value = null;
@@ -52,16 +53,16 @@ export default function ImageUpload(props) {
       <div>
         {file === null ? (
           <Button {...addButtonProps} onClick={() => handleClick()}>
-            {avatar ? "Agegar Foto" : "Seleccionar Imagen"}
+            {avatar ? t('image.addPhoto') : t('image.addImage')}
           </Button>
         ) : (
           <span>
             <Button {...changeButtonProps} onClick={() => handleClick()}>
-              Cambiar
+            {t('image.change')}
             </Button>
             {avatar ? <br /> : null}
             <Button {...removeButtonProps} onClick={() => handleRemove()}>
-              <i className="fas fa-times" /> Remover
+              <i className="fas fa-times" /> {t('image.remove')}
             </Button>
           </span>
         )}

@@ -205,5 +205,11 @@
 
     "wizard.step.universal.quickService": "Food Price With Quick Service WITH GLASS REFILL",
     "wizard.step.universal.dinning": "Food Price Universal Dining Plan",
-    "wizard.step.universal.photos": "Photos Package Price"
+    "wizard.step.universal.photos": "Photos Package Price",
+
+    "image.remove": "Remove",
+    "image.change": "Change",
+    "image.addPhoto": "Add Photo",
+    "image.addImage": "Select Image"
+
 }
