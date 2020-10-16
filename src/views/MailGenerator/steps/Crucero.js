@@ -314,22 +314,6 @@ class Crucero extends React.Component {
                         }}
                     />
                     <CustomInput
-                        labelText={t('wizard.step.cruice.departure')}
-                        id="salida"
-                        formControlProps={{
-                            fullWidth: true
-                        }}
-                        inputProps={{
-                            type: "text",
-                            onChange: event => {
-                                this.setState({
-                                    salida: event.target.value
-                                })
-                            },
-                            value: this.state.salida
-                        }}
-                    />
-                    <CustomInput
                         labelText={t('wizard.step.cruice.arrival')}
                         id="llegada"
                         formControlProps={{
@@ -343,6 +327,22 @@ class Crucero extends React.Component {
                                 })
                             },
                             value: this.state.llegada
+                        }}
+                    />
+                    <CustomInput
+                        labelText={t('wizard.step.cruice.departure')}
+                        id="salida"
+                        formControlProps={{
+                            fullWidth: true
+                        }}
+                        inputProps={{
+                            type: "text",
+                            onChange: event => {
+                                this.setState({
+                                    salida: event.target.value
+                                })
+                            },
+                            value: this.state.salida
                         }}
                     />
                     <Button onClick={this.agregarDias}>{t('wizard.step.cruice.addday')}</Button>

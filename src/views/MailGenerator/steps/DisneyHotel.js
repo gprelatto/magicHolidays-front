@@ -64,7 +64,7 @@ class DisneyHotel extends React.Component {
       serviciosOpcionales: [],
       tickets: "",
       tarjeta: "disneyHotel",
-      tituloId: 0,
+      tituloId: 1,
       titulo: titulos.find(f => f.id === 0).descripcion
     };
   }

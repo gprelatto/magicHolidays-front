@@ -211,7 +211,7 @@ class Template extends React.Component {
                               <div className="lugar">
                                 <img src={card.image} alt="disney" className="foto" />
                                 <h4 className="datos">
-                                  {t('wizard.step.disneyHotel.travelerGroup')}: <span className="span">{card.grupoViajero}</span>
+                                  {t('wizard.step.disneyHotel.travelerGroup').toUpperCase()}: <span className="span">{card.grupoViajero}</span>
                                   <br />
                                 TICKETS: <span className="span">  {card.tickets}</span>
                                   <br />
@@ -296,11 +296,11 @@ class Template extends React.Component {
                                   <br />
                                 CHECK OUT: <span className="span"> {card.checkOut} </span>
                                   <br />
-                                  {t('wizard.step.disneyHotel.travelerGroup')}: <span className="span"> {card.grupoViajero} </span>
+                                  {t('wizard.step.disneyHotel.travelerGroup').toUpperCase()}: <span className="span"> {card.grupoViajero} </span>
                                   <br />
                                 HOTEL: <span className="span"> {card.hotel} </span>
                                   <br />
-                                  {t('wizard.step.disneyHotel.room')}: <span className="span"> {card.habitacion} </span>
+                                  {t('wizard.step.disneyHotel.room').toUpperCase()}: <span className="span"> {card.habitacion} </span>
                                   <br />
                                 TICKETS: <span className="span">{card.tickets}</span>
                                   <br />
@@ -402,11 +402,11 @@ class Template extends React.Component {
                                   className="foto"
                                 />
                                 <h4 className="datos">
-                                  {t('wizard.step.disneyHotel.travelerGroup')}: <span className="span">{card.grupoViajero}</span>
+                                  {t('wizard.step.disneyHotel.travelerGroup').toUpperCase()}: <span className="span">{card.grupoViajero}</span>
                                   <br />
                             TICKETS: <span className="span">{card.tickets}</span>
                                   <br />
-                                  {t('wizard.step.disney.totalPrice')}: <span className="span">{card.precioTotal}</span>
+                                  {t('wizard.step.disney.totalPrice').toUpperCase()}: <span className="span">{card.precioTotal}</span>
                                 </h4>
                               </div>
                               <div id="plan-universal">
@@ -461,15 +461,15 @@ class Template extends React.Component {
                                   <br />
                             CHECK OUT: <span className="span">{card.checkOut}</span>
                                   <br />
-                                  {t('wizard.step.disneyHotel.travelerGroup')}: <span className="span">{card.grupoViajero}</span>
+                                  {t('wizard.step.disneyHotel.travelerGroup').toUpperCase()}: <span className="span">{card.grupoViajero}</span>
                                   <br />
                             HOTEL: <span className="span">{card.hotel}</span>
                                   <br />
-                                  {t('wizard.step.disneyHotel.room')}: <span className="span">{card.habitacion}</span>
+                                  {t('wizard.step.disneyHotel.room').toUpperCase()}: <span className="span">{card.habitacion}</span>
                                   <br />
                             TICKETS: <span className="span">{card.tickets}</span>
                                   <br />
-                                  {t('wizard.step.disney.totalPrice')}: <span className="span">{card.precioTotal}</span>
+                                  {t('wizard.step.disney.totalPrice').toUpperCase()}: <span className="span">{card.precioTotal}</span>
                                 </h4>
                               </div>
                               <div id="plan-universal">
@@ -519,13 +519,13 @@ class Template extends React.Component {
                                   <br />
                             CHECK OUT: <span className="span">{card.checkOut}</span>
                                   <br />
-                                  {t('wizard.step.disneyHotel.travelerGroup')}: <span className="span">{card.grupoViajero}</span>
+                                  {t('wizard.step.disneyHotel.travelerGroup').toUpperCase()}: <span className="span">{card.grupoViajero}</span>
                                   <br />
                             HOTEL: <span className="span">{card.hotel}</span>
                                   <br />
-                                  {t('wizard.step.disneyHotel.room')}: <span className="span">{card.habitacion}</span>
+                                  {t('wizard.step.disneyHotel.room').toUpperCase()}: <span className="span">{card.habitacion}</span>
                                   <br />
-                                  {t('wizard.step.disney.totalPrice')}: <span className="span">{card.precioTotal}</span>
+                                  {t('wizard.step.disney.totalPrice').toUpperCase()}: <span className="span">{card.precioTotal}</span>
                                 </h4>
                               </div>
                               <div id="plan-miami">
@@ -570,7 +570,7 @@ class Template extends React.Component {
                           <section id="crucero">
                             <div className="bordes-plan">
                               <div>
-                                <h1 className="h1 titular">Crucero</h1>
+                                <h1 className="h1 titular">{t('wizard.option.cruice')}</h1>
                               </div>
                               <div className="lugar">
                                 <img
@@ -580,17 +580,17 @@ class Template extends React.Component {
                                   className="foto"
                                 />
                                 <h4 className="datos">
-                                  {t('wizard.step.cruice.shipname')}:<span className="span">{card.nombreBarco}</span>
+                                  {t('wizard.step.cruice.shipname').toUpperCase()}:<span className="span">{card.nombreBarco}</span>
                                   <br />
-                                  {t('wizard.step.cruice.destination')}:<span className="span">{card.destino}</span>
+                                  {t('wizard.step.cruice.destination').toUpperCase()}:<span className="span">{card.destino}</span>
                                   <br />
-                                  {t('wizard.step.cruice.date')}:<span className="span">{card.fecha}</span>
+                                  {t('wizard.step.cruice.date').toUpperCase()}:<span className="span">{card.fecha}</span>
                                   <br />
-                                  {t('wizard.step.cruice.nights')}:<span className="span">{card.numeroNoches}</span>
+                                  {t('wizard.step.cruice.nights').toUpperCase()}:<span className="span">{card.numeroNoches}</span>
                                   <br />
-                                  {t('wizard.step.cruice.travelers')}:<span className="span">{card.viajeros}</span>
+                                  {t('wizard.step.cruice.travelers').toUpperCase()}:<span className="span">{card.viajeros}</span>
                                   <br />
-                                  {t('wizard.step.cruice.reason')}:<span className="span">{card.razonViaje}</span>
+                                  {t('wizard.step.cruice.reason').toUpperCase()}:<span className="span">{card.razonViaje}</span>
                                 </h4>
                               </div>
                               <div id="tabla">
@@ -609,12 +609,13 @@ class Template extends React.Component {
                                       </th>
                                       <th className="th">
                                         <h2 className="h2">
-                                          {t('wizard.step.cruice.departure')}
+                                          {t('wizard.step.cruice.arrival')}
+
                                         </h2>
                                       </th>
                                       <th className="th">
                                         <h2 className="h2">
-                                          {t('wizard.step.cruice.arrival')}
+                                          {t('wizard.step.cruice.departure')}
                                         </h2>
                                       </th>
                                     </tr>
@@ -624,8 +625,8 @@ class Template extends React.Component {
                                           <tr className="tr">
                                             <td className="td">{index + 1}</td>
                                             <td className="td">{row.puerto}</td>
-                                            <td className="td">{row.salida}</td>
                                             <td className="td">{row.llegada}</td>
+                                            <td className="td">{row.salida}</td>
                                           </tr>
                                         )
                                       })
