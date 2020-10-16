@@ -11,6 +11,8 @@ import GridItem from "components/Grid/GridItem.js";
 import ImageUpload from "components/CustomUpload/ImageUpload";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
+import { withTranslation } from 'react-i18next' 
+
 import { Button } from "@material-ui/core";
 
 const style = {
@@ -147,12 +149,12 @@ class Crucero extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, t } = this.props;
         return (
             <GridContainer justify="center">
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Nombre del Barco"
+                        labelText={t('wizard.step.cruice.shipname')}
                         id="nombreBarco"
                         formControlProps={{
                             fullWidth: true
@@ -170,7 +172,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Destino"
+                        labelText={t('wizard.step.cruice.destination')}
                         id="destino"
                         formControlProps={{
                             fullWidth: true
@@ -188,7 +190,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Fecha"
+                        labelText={t('wizard.step.cruice.date')}
                         id="fecha"
                         formControlProps={{
                             fullWidth: true
@@ -206,7 +208,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Numero de Noches"
+                        labelText={t('wizard.step.cruice.nights')}
                         id="numeroNoches"
                         formControlProps={{
                             fullWidth: true
@@ -224,7 +226,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Viajeros"
+                        labelText={t('wizard.step.cruice.travelers')}
                         id="viajeros"
                         formControlProps={{
                             fullWidth: true
@@ -242,7 +244,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Razon del Viaje"
+                        labelText={t('wizard.step.cruice.reason')}
                         id="razonDelViaje"
                         formControlProps={{
                             fullWidth: true
@@ -260,7 +262,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Primer Fecha de Pago"
+                        labelText={t('wizard.step.cruice.firstDate')}
                         id="pago1"
                         formControlProps={{
                             fullWidth: true
@@ -278,7 +280,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={4} sm={4}>
                     <CustomInput
-                        labelText="Fecha Limite de Pago"
+                        labelText={t('wizard.step.cruice.limitDate')}
                         id="pago2"
                         formControlProps={{
                             fullWidth: true
@@ -296,7 +298,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={12} sm={5}>
                     <CustomInput
-                        labelText="Puerto"
+                        labelText={t('wizard.step.cruice.port')}
                         id="puerto"
                         formControlProps={{
                             fullWidth: true
@@ -312,7 +314,7 @@ class Crucero extends React.Component {
                         }}
                     />
                     <CustomInput
-                        labelText="Salida"
+                        labelText={t('wizard.step.cruice.departure')}
                         id="salida"
                         formControlProps={{
                             fullWidth: true
@@ -328,7 +330,7 @@ class Crucero extends React.Component {
                         }}
                     />
                     <CustomInput
-                        labelText="Llegada"
+                        labelText={t('wizard.step.cruice.arrival')}
                         id="llegada"
                         formControlProps={{
                             fullWidth: true
@@ -343,10 +345,10 @@ class Crucero extends React.Component {
                             value: this.state.llegada
                         }}
                     />
-                    <Button onClick={this.agregarDias}>Agregar Dia</Button>
+                    <Button onClick={this.agregarDias}>{t('wizard.step.cruice.addday')}</Button>
                 </GridItem>
                 <GridItem xs={12} sm={5}>
-                    <h3 >Dias:</h3>
+                    <h3 >{t('wizard.step.cruice.days')}:</h3>
                     <ul>
                         {
                             this.state.tablaDias.map((p) => {
@@ -357,7 +359,7 @@ class Crucero extends React.Component {
                 </GridItem>
                 <GridItem xs={12} sm={5}>
                     <CustomInput
-                        labelText="Tipo de Cabina"
+                        labelText={t('wizard.step.cruice.cabintype')}
                         id="tipoCabina"
                         formControlProps={{
                             fullWidth: true
@@ -373,7 +375,7 @@ class Crucero extends React.Component {
                         }}
                     />
                     <CustomInput
-                        labelText="Precio Cabina"
+                        labelText={t('wizard.step.cruice.cabinprice')}
                         id="precioCabina"
                         formControlProps={{
                             fullWidth: true
@@ -388,10 +390,10 @@ class Crucero extends React.Component {
                             value: this.state.tipoCabinaPrecio
                         }}
                     />
-                    <Button onClick={this.agregarCabinas}>Agregar Cabina</Button>
+                    <Button onClick={this.agregarCabinas}>{t('wizard.step.cruice.add')}</Button>
                 </GridItem>
                 <GridItem xs={12} sm={5}>
-                    <h3 >Cabinas:</h3>
+                    <h3 >{t('wizard.step.cruice.cabins')}:</h3>
                     <ul>
                         {
                             this.state.cabinas.map((p) => {
@@ -412,4 +414,4 @@ Crucero.propTypes = {
     classes: PropTypes.object
 };
 
-export default withStyles(style)(Crucero);
+export default withTranslation()(withStyles(style)(Crucero));

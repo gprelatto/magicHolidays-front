@@ -148,5 +148,29 @@
     "common.table.header.country": "country",
     "common.table.header.actions": "actions",
     "common.table.header.description": "description",
-    "common.table.header.feePercentage": "Percentage"
+    "common.table.header.feePercentage": "Percentage",
+
+    "wizard.choose.option": "Choose Option",
+    "wizard.option.cruice": "Cruice",
+    "wizard.option.other": "Other",
+    "wizard.title": "Create Email Template",
+    "wizard.subtitle": "Tool to generate PDF to be sent as email",
+
+    "wizard.step.cruice.shipname": "Ship Name",
+    "wizard.step.cruice.destination": "Destination",
+    "wizard.step.cruice.date": "Date",
+    "wizard.step.cruice.nights": "Number of Nights",
+    "wizard.step.cruice.travelers": "Travelers",
+    "wizard.step.cruice.reason": "Reason for the trip",
+    "wizard.step.cruice.firstDate": "First Date For Payment",
+    "wizard.step.cruice.limitDate": "Limit Date For Payment",
+    "wizard.step.cruice.port": "Port",
+    "wizard.step.cruice.departure": "Departure",
+    "wizard.step.cruice.arrival": "Arrival",
+    "wizard.step.cruice.cabintype": "Type of Cabin",
+    "wizard.step.cruice.cabinprice": "Cabin Price",
+    "wizard.step.cruice.add": "Add Cabin",
+    "wizard.step.cruice.cabins": "Cabins",
+    "wizard.step.cruice.days": "Days",
+    "wizard.step.cruice.addday": "Add Day"
 }

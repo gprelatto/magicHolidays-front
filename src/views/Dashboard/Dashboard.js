@@ -43,6 +43,8 @@ import alertStyles from "assets/jss/material-dashboard-pro-react/views/sweetAler
 import { getRequest, redirectToUnforbidden, notificationsDone } from 'common/Request/Requests.js'
 import { blackColor } from "assets/jss/material-dashboard-pro-react";
 
+import { useTranslation } from 'react-i18next'
+
 const us_flag = require("assets/img/flags/US.png");
 const de_flag = require("assets/img/flags/DE.png");
 const au_flag = require("assets/img/flags/AU.png");
@@ -63,6 +65,8 @@ export default function Dashboard(props) {
   const classes = useStyles();
   const classesChart = useChartStyles();
   const alertClasses = useAlertStyles();
+
+  const { t, i18n } = useTranslation();
 
   const [widgets, setWidgets] = React.useState([]);
 
@@ -193,6 +197,7 @@ export default function Dashboard(props) {
     var sum = function (a, b) { return a + b };
 
     let permissionData = JSON.parse(localStorage.getItem("auth"))
+    i18n.changeLanguage(permissionData.lang.toLowerCase())
     setPermissions(permissionData)
 
     getTravelAlerts();

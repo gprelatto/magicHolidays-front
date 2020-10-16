@@ -109,7 +109,7 @@ export default function LoginPage(props) {
   };
   
   const changeLanguage = (lang) => {
-      i18n.changeLanguage(lang)
+      i18n.changeLanguage(lang.toLowerCase())
   }
   
   return (

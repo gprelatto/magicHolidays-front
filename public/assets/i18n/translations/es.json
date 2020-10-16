@@ -178,5 +178,11 @@
     "common.table.header.date_from": "Fecha Desde",
     "common.table.header.date_to": "Fecha Hasta",
     "common.table.header.message": "Mensaje",
-    "common.download": "Descargar datos"
+    "common.download": "Descargar datos",
+
+    "wizard.choose.option": "Elegir Opcion",
+    "wizard.option.cruice": "Crucero",
+    "wizard.option.other": "Otro destino",
+    "wizard.title": "Crear Template de Email",
+    "wizard.subtitle": "Herramienta para generar PDF a ser enviado."
 }
