@@ -15,6 +15,8 @@ import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSel
 import ImageUpload from "components/CustomUpload/ImageUpload";
 import { Button } from "@material-ui/core";
 
+import { withTranslation } from 'react-i18next' 
+
 const style = {
   infoText: {
     fontWeight: "300",
@@ -38,6 +40,7 @@ const titulos = [
 class DisneyTicket extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       grupoViajero: "",
       tickets: "",
@@ -51,7 +54,7 @@ class DisneyTicket extends React.Component {
       importeServicio: "",
       serviciosOpcionales: [],
       tarjeta: "disneyTicket",
-      tituloId: 0,
+      tituloId: 1,
       titulo: titulos.find(f => f.id === 0).descripcion
     };
   }
@@ -60,7 +63,7 @@ class DisneyTicket extends React.Component {
     this.setState({
       grupoViajero: "",
       tickets: "",
-      image: "",
+      image: state.image,
       nombrePlanComida: "",
       precioTotalConPlan: "",
       precioTotalSinPlan: "",
@@ -146,7 +149,7 @@ class DisneyTicket extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, t } = this.props;
     return (
       <GridContainer justify="center">
         <GridItem xs={4} sm={4}></GridItem>
@@ -207,7 +210,7 @@ class DisneyTicket extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={5}>
           <CustomInput
-            labelText="Grupo Viajero"
+            labelText={t('wizard.step.disneyHotel.travelerGroup')}
             id="grupoViajero"
             formControlProps={{
               fullWidth: true
@@ -225,7 +228,7 @@ class DisneyTicket extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={5}>
           <CustomInput
-            labelText="Precio Total"
+            labelText={t('wizard.step.disney.totalPrice')}
             id="precioCon"
             formControlProps={{
               fullWidth: true
@@ -243,7 +246,7 @@ class DisneyTicket extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={5}>
           <CustomInput
-            labelText="Servicio Opcional"
+            labelText={t('wizard.step.disneyHotel.optional')}
             id="servicioOpcional"
             formControlProps={{
               fullWidth: true
@@ -259,7 +262,7 @@ class DisneyTicket extends React.Component {
             }}
           />
           <CustomInput
-            labelText="Importe del Servicio"
+            labelText={t('wizard.step.disneyHotel.optionalPrice')}
             id="importeServicio"
             formControlProps={{
               fullWidth: true
@@ -274,14 +277,14 @@ class DisneyTicket extends React.Component {
               value: this.state.importeServicio
             }}
           />
-          <Button onClick={this.agregarServicioOpcional}>Agregar Servicio</Button>
+          <Button onClick={this.agregarServicioOpcional}>{t('wizard.step.disneyHotel.addService')}</Button>
         </GridItem>
         <GridItem xs={12} sm={5}>
-          <h3 >Servicios Opcionales:</h3>
+          <h3 >{t('wizard.step.disneyHotel.optionalServices')}:</h3>
           <ul>
             {
               this.state.serviciosOpcionales.map((p) => {
-                return (<li><h4>{p.servicioOpcional} <Button onClick={() => this.deleteServicio(p.servicioOpcional)}>Eliminar</Button></h4></li>)
+              return (<li><h4>{p.servicioOpcional} <Button onClick={() => this.deleteServicio(p.servicioOpcional)}>{t('wizard.step.disneyHotel.delete')}</Button></h4></li>)
               })
             }
           </ul>
@@ -302,4 +305,4 @@ DisneyTicket.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(style)(DisneyTicket);
+export default withTranslation()(withStyles(style)(DisneyTicket));

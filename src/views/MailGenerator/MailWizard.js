@@ -16,7 +16,11 @@ import UniversalHotel from "./steps/UniversalHotel.js";
 import OtrosDestinos from "./steps/OtrosDestinos.js";
 import Crucero from "./steps/Crucero.js";
 
+import { useTranslation } from 'react-i18next';
+
 export default function WizardView() {
+  const { t, i18n } = useTranslation();
+
   const [renderTemplate, setRenderTemplate] = React.useState(false);
   const [cards, setCards] = React.useState([])
 
@@ -37,19 +41,19 @@ export default function WizardView() {
           <Wizard
             validate
             steps={[
-              { stepName: "Elegir Opcion", stepComponent: SelectOptionWizard, stepId: "cardSelect", condition: "none" },
+              { stepName: t('wizard.choose.option') , stepComponent: SelectOptionWizard, stepId: "cardSelect", condition: "none" },
               { stepName: "Disney Hotel", stepComponent: DisneyHotel, stepId: "disneyHotel", condition: "disneyHotel" },
               { stepName: "Disney Ticket", stepComponent: DisneyTicket, stepId: "disneyTicket", condition: "disneyTicket" },
               { stepName: "Universal Ticket", stepComponent: UniversalTicket, stepId: "universalTicket", condition: "universalTicket" },
               { stepName: "Universal Hotel", stepComponent: UniversalHotel, stepId: "universalHotel", condition: "universalHotel" },
-              { stepName: "Otro Destino", stepComponent: OtrosDestinos, stepId: "otrosDestinos", condition: "otrosDestinos" },
-              { stepName: "Crucero", stepComponent: Crucero, stepId: "crucero", condition: "crucero" },
+              { stepName: t('wizard.option.other'), stepComponent: OtrosDestinos, stepId: "otrosDestinos", condition: "otrosDestinos" },
+              { stepName: t('wizard.option.cruice'), stepComponent: Crucero, stepId: "crucero", condition: "crucero" },
               
               //ALWAYS THE LAST STEP
               { stepName: "Final", stepComponent:Final, stepId: "final", condition: "final" }
             ]}
-            title="Crear Template de Email"
-            subtitle="Herramienta para generar PDF a ser enviado."
+            title={t('wizard.title')}
+            subtitle={t('wizard.subtitle')}
             finishButtonClick={e => {
               setCards(e);
               setRenderTemplate(true);

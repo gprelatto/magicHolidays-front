@@ -12,6 +12,8 @@ import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSel
 import PictureUpload from "components/CustomUpload/PictureUpload";
 import { Button } from "@material-ui/core";
 
+import { withTranslation } from 'react-i18next' 
+
 const style = {
   infoText: {
     fontWeight: "300",
@@ -51,20 +53,20 @@ class Final extends React.Component {
   }
 
   render() {
-    const { classes, allStates } = this.props;
+    const { classes, allStates, t } = this.props;
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
           <h4 className={classes.infoText}>Final</h4>
         </GridItem>
         <GridItem xs={4} sm={4}>
-          <h3 >Tarjetas seleccionadas:</h3>
+          <h3 >{t('wizard.step.final.selectedCards')}:</h3>
           {
             allStates !== undefined ?
               <ul>
                 {
                   allStates.crucero !== undefined ?
-                    <li><h4>Crucero <Button onClick={() => this.props.deleteCard('crucero')}>Eliminar</Button></h4></li> : <></>
+                    <li><h4>{t('wizard.option.cruice')} <Button onClick={() => this.props.deleteCard('crucero')}>Eliminar</Button></h4></li> : <></>
                 }
                 {
                   allStates.disneyHotel !== undefined ?
@@ -84,7 +86,7 @@ class Final extends React.Component {
                 }
                 {
                   allStates.otrosDestinos !== undefined ?
-                    <li><h4>Otro Destino <Button onClick={() => this.props.deleteCard('otroDestinos')}>Eliminar</Button></h4></li> : <></>
+                    <li><h4>{t('wizard.option.other')} <Button onClick={() => this.props.deleteCard('otroDestinos')}>Eliminar</Button></h4></li> : <></>
                 }
               </ul>
               : <></>
@@ -92,7 +94,7 @@ class Final extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Nombre del Agente"
+            labelText={t('wizard.step.final.agentName')}
             id="agente"
             formControlProps={{
               fullWidth: true
@@ -110,7 +112,7 @@ class Final extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Nombre del Archivo"
+            labelText={t('wizard.step.final.fileName')}
             id="filename"
             formControlProps={{
               fullWidth: true
@@ -139,4 +141,4 @@ Final.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(style)(Final);
+export default withTranslation()(withStyles(style)(Final));
