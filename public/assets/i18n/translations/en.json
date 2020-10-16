@@ -152,7 +152,7 @@
 
     "wizard.choose.option": "Choose Option",
     "wizard.option.cruice": "Cruice",
-    "wizard.option.other": "Other",
+    "wizard.option.other": "Other Destiny",
     "wizard.title": "Create Email Template",
     "wizard.subtitle": "Tool to generate PDF to be sent as email",
 
@@ -199,5 +199,7 @@
     "wizard.step.other.extraPrice": "Price of Activity",
     "wizard.step.other.add": "Add Activity",
     "wizard.step.other.extras": "Extra Activities",
-    "wizard.step.other.price": "Price"
+    "wizard.step.other.price": "Price",
+
+    "wizard.step.select.card": "Selected Card"
 }

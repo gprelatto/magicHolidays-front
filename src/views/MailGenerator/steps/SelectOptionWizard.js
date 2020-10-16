@@ -11,6 +11,8 @@ import GridItem from "components/Grid/GridItem.js";
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
 import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.js";
 
+import { withTranslation } from 'react-i18next' 
+
 const style = {
   infoText: {
     fontWeight: "300",
@@ -92,18 +94,18 @@ class SelectOptionWizard extends React.Component {
     else if (state.selected === 'universalHotel')
       return 'Universal Hotel'
     else if (state.selected === 'otrosDestinos')
-      return 'Otros Destinos'
+      return this.props.t('wizard.option.other')
     else if (state.selected === 'crucero')
-      return 'Crucero'
+      return this.props.t('wizard.option.cruice')
     
     return ''
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, t } = this.props;
     return (
       <div>
-        <h4 className={classes.infoText}>Tarjeta seleccionada: {this.tarjetaSeleccionada()}</h4>
+        <h4 className={classes.infoText}>{t('wizard.step.select.card')}: {this.tarjetaSeleccionada()}</h4>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12} lg={10}>
             <GridContainer>
@@ -185,7 +187,7 @@ class SelectOptionWizard extends React.Component {
                       root: classes.iconCheckbox
                     }}
                   />
-                  <h6>Otros Destinos</h6>
+                  <h6>{t('wizard.option.other')}</h6>
                 </div>
               </GridItem>
               <GridItem xs={12} sm={4}>
@@ -254,7 +256,7 @@ class SelectOptionWizard extends React.Component {
                       root: classes.iconCheckbox
                     }}
                   />
-                  <h6>Crucero</h6>
+                  <h6>{t('wizard.option.cruice')}</h6>
                 </div>
               </GridItem>
             </GridContainer>
@@ -269,4 +271,4 @@ SelectOptionWizard.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(style)(SelectOptionWizard);
+export default withTranslation()(withStyles(style)(SelectOptionWizard));
