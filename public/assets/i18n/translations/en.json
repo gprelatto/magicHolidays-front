@@ -201,5 +201,9 @@
     "wizard.step.other.extras": "Extra Activities",
     "wizard.step.other.price": "Price",
 
-    "wizard.step.select.card": "Selected Card"
+    "wizard.step.select.card": "Selected Card",
+
+    "wizard.step.universal.quickService": "Food Price With Quick Service WITH GLASS REFILL",
+    "wizard.step.universal.dinning": "Food Price Universal Dining Plan",
+    "wizard.step.universal.photos": "Photos Package Price"
 }
