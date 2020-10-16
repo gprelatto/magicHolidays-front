@@ -182,9 +182,11 @@
     "wizard.step.disneyHotel.what": "What does the plan includes?",
     "wizard.step.disneyHotel.addFoodPlan": "Add Plan",
     "wizard.step.disneyHotel.foodPlans": "Food Plans",
-    "wizard.step.disneyHotel.optional": "Optional Services",
+    "wizard.step.disneyHotel.optional": "Optional Service",
     "wizard.step.disneyHotel.optionalPrice": "Service Price",
     "wizard.step.disneyHotel.addService": "Add Service",
     "wizard.step.disneyHotel.optionalServices": "Optional Services",
-    "wizard.step.disneyHotel.delete": "Delete"
+    "wizard.step.disneyHotel.delete": "Delete",
+
+    "wizard.step.disney.totalPrice": "Total Price"
 }
