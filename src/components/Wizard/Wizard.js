@@ -7,6 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
+import { withTranslation } from 'react-i18next' 
 
 import wizardStyle from "assets/jss/material-dashboard-pro-react/components/wizardStyle.js";
 
@@ -329,7 +330,7 @@ class Wizard extends React.Component {
   }
 
   render() {
-    const { classes, title, subtitle, color } = this.props;
+    const { classes, title, subtitle, color, t } = this.props;
     const steps = this.state.filteredSteps;
 
     return (
@@ -394,7 +395,7 @@ class Wizard extends React.Component {
                   className={this.props.previousButtonClasses}
                   onClick={() => this.previousButtonClick()}
                 >
-                  {this.props.previousButtonText}
+                  {t('wizard.button.previous')}
                 </Button>
               ) : null}
             </div>
@@ -407,7 +408,7 @@ class Wizard extends React.Component {
                       className={this.finishButtonClasses}
                       onClick={() => this.addAnotherButtonClick()}
                     >
-                      {this.props.addAnotherButtonText}
+                      {t('wizard.button.addAnother')}
                     </Button>
                     : <></>}
                   <Button
@@ -415,7 +416,7 @@ class Wizard extends React.Component {
                     className={this.props.nextButtonClasses}
                     onClick={() => this.nextButtonClick()}
                   >
-                    {this.props.nextButtonText}
+                    {t('wizard.button.next')}
                   </Button>
                 </>
               ) : null}
@@ -425,7 +426,7 @@ class Wizard extends React.Component {
                   className={this.finishButtonClasses}
                   onClick={() => this.finishButtonClick()}
                 >
-                  {this.props.finishButtonText}
+                  {t('wizard.button.finish')}
                 </Button>
               ) : null}
             </div>
@@ -481,4 +482,4 @@ Wizard.propTypes = {
   validate: PropTypes.bool
 };
 
-export default withStyles(wizardStyle)(Wizard);
+export default withTranslation()(withStyles(wizardStyle)(Wizard));

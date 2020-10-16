@@ -272,5 +272,13 @@
     "pdf.cruice.11": "The exact amount of deposit and the remaining amount to be paid depends on the type of room you choose.",
 
     "pdf.final.1": "It will be a pleasure to help you on your next trip,",
-    "pdf.final.2": "For more information visit us on"
+    "pdf.final.2": "For more information visit us on",
+
+    "wizard.button.next": "Next",
+    "wizard.button.finish": "Finish",
+    "wizard.button.addAnother": "Add Another",
+    "wizard.button.previous": "Previous",
+
+    "menu.label.quote": "Quote"
+
 }
