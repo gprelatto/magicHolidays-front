@@ -1,13 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 // @material-ui/icons
-import Face from "@material-ui/icons/Face";
-import RecordVoiceOver from "@material-ui/icons/RecordVoiceOver";
-import Email from "@material-ui/icons/Email";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -15,7 +11,8 @@ import GridItem from "components/Grid/GridItem.js";
 import ImageUpload from "components/CustomUpload/ImageUpload";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
-import { Button } from "@material-ui/core";
+import { withTranslation } from 'react-i18next' 
+
 
 const style = {
   infoText: {
@@ -52,7 +49,7 @@ class UniversalTicket extends React.Component {
 
     this.setState({
       grupoViajero: "",
-      image: "",
+      image: state.image,
       vasoRefillPrecio: "",
       diningPrecio: "",
       fotoPrecio: "",
@@ -79,7 +76,7 @@ class UniversalTicket extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, t } = this.props;
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
@@ -105,7 +102,7 @@ class UniversalTicket extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Grupo Viajero"
+            labelText={t('wizard.step.disneyHotel.travelerGroup')}
             id="grupoViajero"
             formControlProps={{
               fullWidth: true
@@ -123,7 +120,7 @@ class UniversalTicket extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={3}>
           <CustomInput
-            labelText="Precio Total"
+            labelText={t('wizard.step.disney.totalPrice')}
             id="precio"
             formControlProps={{
               fullWidth: true
@@ -141,7 +138,7 @@ class UniversalTicket extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Precio de comidas Quick Service CON VASO REFILL"
+            labelText={t('wizard.step.universal.quickService')}
             id="vasoRefill"
             formControlProps={{
               fullWidth: true
@@ -159,7 +156,7 @@ class UniversalTicket extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Precio de comidas Universal Dining Plan"
+            labelText={t('wizard.step.universal.dinning')}
             id="dinningPlan"
             formControlProps={{
               fullWidth: true
@@ -177,7 +174,7 @@ class UniversalTicket extends React.Component {
         </GridItem>
         <GridItem xs={4} sm={4}>
           <CustomInput
-            labelText="Precio Paquete de Fotos"
+            labelText={t('wizard.step.universal.photos')}
             id="precioFoto"
             formControlProps={{
               fullWidth: true
@@ -205,4 +202,4 @@ UniversalTicket.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(style)(UniversalTicket);
+export default withTranslation()(withStyles(style)(UniversalTicket));
