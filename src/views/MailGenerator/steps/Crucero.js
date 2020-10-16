@@ -61,7 +61,7 @@ class Crucero extends React.Component {
         this.setState({
             nombreBarco: "",
             destino: "",
-            image: "",
+            image: state.image,
             fecha: "",
             numeroNoches: "",
             viajeros: "",

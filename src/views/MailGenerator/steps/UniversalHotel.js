@@ -58,7 +58,7 @@ class UniversalHotel extends React.Component {
 
         this.setState({
             grupoViajero: "",
-            image: "",
+            image: state.image,
             vasoRefillPrecio: "",
             diningPrecio: "",
             fotoPrecio: "",

@@ -56,7 +56,7 @@ class OtrosDestinos extends React.Component {
         this.setState({
             destino: "",
             grupoViajero: "",
-            image: "",
+            image: state.image,
             precioTotal: "",
             checkIn: "",
             checkOut: "",

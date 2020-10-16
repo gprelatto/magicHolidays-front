@@ -40,6 +40,7 @@ const titulos = [
 class DisneyTicket extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       grupoViajero: "",
       tickets: "",
@@ -62,7 +63,7 @@ class DisneyTicket extends React.Component {
     this.setState({
       grupoViajero: "",
       tickets: "",
-      image: "",
+      image: state.image,
       nombrePlanComida: "",
       precioTotalConPlan: "",
       precioTotalSinPlan: "",

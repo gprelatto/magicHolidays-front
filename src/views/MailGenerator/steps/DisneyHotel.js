@@ -77,7 +77,7 @@ class DisneyHotel extends React.Component {
       grupoViajero: "",
       hotel: "",
       habitacion: "",
-      image: "",
+      image: state.image,
       nombrePlanComida: "",
       precioTotalConPlan: "",
       precioTotalSinPlan: "",
