@@ -187,6 +187,9 @@
     "wizard.step.disneyHotel.addService": "Add Service",
     "wizard.step.disneyHotel.optionalServices": "Optional Services",
     "wizard.step.disneyHotel.delete": "Delete",
+    "wizard.step.disney.totalPrice": "Total Price",
 
-    "wizard.step.disney.totalPrice": "Total Price"
+    "wizard.step.final.selectedCards": "Selected Cards",
+    "wizard.step.final.agentName": "Agent Name",
+    "wizard.step.final.fileName": "Filename"
 }
