@@ -55,7 +55,7 @@ class DisneyTicket extends React.Component {
       serviciosOpcionales: [],
       tarjeta: "disneyTicket",
       tituloId: 1,
-      titulo: titulos.find(f => f.id === 0).descripcion
+      titulo: titulos.find(f => f.id === 1).descripcion
     };
   }
   sendState() {
@@ -73,8 +73,8 @@ class DisneyTicket extends React.Component {
       importeServicio: "",
       serviciosOpcionales: [],
       tarjeta: "disneyTicket",
-      tituloId: 0,
-      titulo: ""
+      tituloId: 1,
+      titulo: titulos.find(f => f.id === 1).descripcion
     });
 
     return state;
