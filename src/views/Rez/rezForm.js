@@ -365,7 +365,6 @@ export default function RezForm(props) {
         setBar(null);
     };
 
-
     return (
         <GridItem xs={12} sm={12} md={12} lg={12}>
             {bar}
@@ -723,6 +722,11 @@ export default function RezForm(props) {
                                             }
 
                                             if (!isNaN(input)) {
+                                                let nums = input.split(".");
+
+                                                if(nums.length > 1)
+                                                    input = nums[0].toString() + '.' + nums[1].substr(0,2)
+
                                                 setTotal(input)
                                             }
                                         },
@@ -756,6 +760,11 @@ export default function RezForm(props) {
                                             }
 
                                             if (!isNaN(input)) {
+                                                let nums = input.split(".");
+
+                                                if(nums.length > 1)
+                                                    input = nums[0].toString() + '.' + nums[1].substr(0,2)
+                                                
                                                 setFeeTotal(input)
                                             }
                                         },
