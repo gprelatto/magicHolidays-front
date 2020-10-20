@@ -749,8 +749,7 @@ export default function RezTable(props) {
                       options={customers}
                       getOptionLabel={(option) => option.mail}
                       onChange={(event, newValue) => {
-                        if (newValue !== null)
-                        {
+                        if (newValue !== null) {
                           setSelectedCustomer(newValue);
                           setSelectedCustomerId(newValue.id);
                         }
@@ -1093,6 +1092,11 @@ export default function RezTable(props) {
                           }
 
                           if (!isNaN(input)) {
+                            let nums = input.split(".");
+
+                            if (nums.length > 1)
+                              input = nums[0].toString() + '.' + nums[1].substr(0, 2)
+
                             setTotal(input)
                           }
                         },
@@ -1127,6 +1131,11 @@ export default function RezTable(props) {
                           }
 
                           if (!isNaN(input)) {
+                            let nums = input.split(".");
+
+                            if (nums.length > 1)
+                              input = nums[0].toString() + '.' + nums[1].substr(0, 2)
+
                             setFeeTotal(input)
                           }
                         },
