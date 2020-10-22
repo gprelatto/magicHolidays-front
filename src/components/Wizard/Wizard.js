@@ -179,14 +179,14 @@ class Wizard extends React.Component {
       this[this.state.filteredSteps[this.state.currentStep].stepId].sendState !==
       undefined
     ) {
-      this.setState({
-        allStates: {
-          ...this.state.allStates,
-          [this.state.filteredSteps[this.state.currentStep].stepId]: this[
-            this.state.filteredSteps[this.state.currentStep].stepId
-          ].sendState()
-        }
-      });
+      // this.setState({
+      //   allStates: {
+      //     ...this.state.allStates,
+      //     [this.state.filteredSteps[this.state.currentStep].stepId]: this[
+      //       this.state.filteredSteps[this.state.currentStep].stepId
+      //     ].sendState()
+      //   }
+      // });
     }
     var key = this.state.currentStep - 1;
     if (key >= 0) {
