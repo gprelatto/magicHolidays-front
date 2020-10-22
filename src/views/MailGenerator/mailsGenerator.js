@@ -200,7 +200,7 @@ class Template extends React.Component {
 
                   {/* DISNEY TICKET */}
                   {
-                    this.state.cards.disneyTicket !== undefined ?
+                    this.state.cards.disneyTicket !== undefined && Array.isArray(this.state.cards.disneyTicket) ?
                       this.state.cards.disneyTicket.map(card => {
                         return (
                           <section id="walt">
@@ -281,7 +281,7 @@ class Template extends React.Component {
 
                   {/* DISNEY HOTEL */}
                   {
-                    this.state.cards.disneyHotel !== undefined ?
+                    this.state.cards.disneyHotel !== undefined && Array.isArray(this.state.cards.disneyHotel) ?
                       this.state.cards.disneyHotel.map(card => {
                         return (
                           <section id="walt">
@@ -386,7 +386,7 @@ class Template extends React.Component {
 
                   {/* UNIVERSAL TICKET */}
                   {
-                    this.state.cards.universalTicket !== undefined ?
+                    this.state.cards.universalTicket !== undefined && Array.isArray(this.state.cards.universalTicket) ?
                       this.state.cards.universalTicket.map(card => {
                         return (
                           <section id="universal">
@@ -441,7 +441,7 @@ class Template extends React.Component {
 
                   {/* UNIVERSAL HOTEL */}
                   {
-                    this.state.cards.universalHotel !== undefined ?
+                    this.state.cards.universalHotel !== undefined && Array.isArray(this.state.cards.universalHotel) ?
                       this.state.cards.universalHotel.map(card => {
                         return (
                           <section id="universal">
@@ -504,7 +504,7 @@ class Template extends React.Component {
 
                   {/* OTROS DESTINOS */}
                   {
-                    this.state.cards.otrosDestinos !== undefined ?
+                    this.state.cards.otrosDestinos !== undefined && Array.isArray(this.state.cards.otrosDestinos) ?
                       this.state.cards.otrosDestinos.map(card => {
                         return (
                           <section id="miami">
@@ -564,7 +564,7 @@ class Template extends React.Component {
 
                   {/* CRUCERO */}
                   {
-                    this.state.cards.crucero !== undefined ?
+                    this.state.cards.crucero !== undefined && Array.isArray(this.state.cards.crucero) ?
                       this.state.cards.crucero.map(card => {
                         return (
                           <section id="crucero">
