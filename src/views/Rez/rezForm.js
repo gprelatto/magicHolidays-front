@@ -56,6 +56,8 @@ export default function RezForm(props) {
     const [open, setOpen] = React.useState(false);
     const loading = open && customers.length === 0;
 
+    const [disabledButton, setDisabledButton] = React.useState(false);
+
     const [tripDateTime, setTripDateTime] = React.useState(null);
 
     const [suppliers, setSuppliers] = React.useState([]);
@@ -274,7 +276,9 @@ export default function RezForm(props) {
             && confirmationNumberState !== "error"
             && totalState !== "error"
             && totalFeeState !== "error"
-            && arrivalDateState !== "error") {
+            && arrivalDateState !== "error"
+            && !disabledButton) {
+            setDisabledButton(true);
             progressBar();
 
             let rez = {
@@ -299,7 +303,7 @@ export default function RezForm(props) {
                 successAlert()
             }).catch(e => {
                 props.history.push('/auth/forbidden')
-            });
+            }).finally(() => setDisabledButton(false));;
         }
         else {
             if (!tr) {
@@ -861,6 +865,7 @@ export default function RezForm(props) {
                                     <Button
                                         color="rose"
                                         onClick={submitClick}
+                                        disabled={disabledButton}
                                     >
                                         Enviar
                                 </Button>

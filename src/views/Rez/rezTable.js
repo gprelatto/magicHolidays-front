@@ -130,6 +130,8 @@ export default function RezTable(props) {
 
   const [permissions, setPermissions] = React.useState({})
 
+  const [disabledButton, setDisabledButton] = React.useState(false);
+
   const [suppliers, setSuppliers] = React.useState([]);
   const [supplierId, setSupplierId] = React.useState(0);
 
@@ -326,7 +328,9 @@ export default function RezTable(props) {
       && confirmationNumberState !== "error"
       && totalState !== "error"
       && totalFeeState !== "error"
-      && arrivalDateState !== "error") {
+      && arrivalDateState !== "error"
+      && !disabledButton) {
+      setDisabledButton(true);
       editProgressBar();
 
       let rez = {
@@ -349,7 +353,7 @@ export default function RezTable(props) {
         populateProductsTable();
         setShowEdit(false);
         removeEditProgressBar();
-      });
+      }).finally(() => setDisabledButton(false));
     }
     else {
       if (!tr) {
@@ -1231,6 +1235,7 @@ export default function RezTable(props) {
                       <Button
                         color="rose"
                         onClick={submitEditButton}
+                        disabled={disabledButton}
                       >
                         Enviar
                                 </Button>
